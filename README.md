@@ -27,11 +27,11 @@ Api folders
 * Arcmage.DAL : The database orm layer for use with Entity Framework Core
 * Arcmage.Seed : A database seeder to populate an empty database with some basic data (Sets, Factions, ...)
 * Arcmage.InputConvertor : A library to convert our card layout xml field to markdown or vise versa
-* Arcmage.Server.API : The Rest API for Authentication, Card Creation, Deck Creation, Card Searching, ...
+* Arcmage.Server.Api : The Rest API for Authentication, Card Creation, Deck Creation, Card Searching, ...
 * Arcmage.Web : Holds the angular webapp for card and deck creation, and the vue app for the online game
 
 Game folders
-* Arcmage.Game.API : The singalR hub backend for the browser to browser communication
+* Arcmage.Game.Api : The singalR hub backend for the browser to browser communication
 
 
 tools
@@ -63,10 +63,10 @@ Building and run the api
 Before you starts, make sure you've installed inkscape, and add it to your system variables! 
 * Check if you can run 'inkscape' in a command prompt
 * In case you need to run the inkscape export process with elevated permissions or under a certain system user 
-   * Edit Arcmage.Server.API\appsettings.json and enable ForceInkscapeUserImpersonate and fill in InkscapeUser and InkscapePassword
+   * Edit Arcmage.Server.Api\appsettings.json and enable ForceInkscapeUserImpersonate and fill in InkscapeUser and InkscapePassword
 
 1. Clone the repository and open the Arcmage.sln solution in Visual Studio
-2. Edit ***both*** the Acrmage.Game.API\appsettings.json and Arcmage.Server.API\appsettings.json files
+2. Edit ***both*** the Acrmage.Game.Api\appsettings.json and Arcmage.Server.Api\appsettings.json files
    * Update the HangFire and Arcmage connection strings to point to your database provider
    * Update the TokenEncryptionKey with your own custom generated 20 char key
 3. Build the solution
