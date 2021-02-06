@@ -1,0 +1,58 @@
+body {
+
+  .btn-primary {
+    background-color: $colorPrimary !important;
+    border: 1px solid $colorPrimary !important;
+    color: white;
+    box-shadow: none !important;
+    
+  
+  }
+
+  .btn-primary:hover {
+    background-color: $colorSecondary !important;
+    border: 1px solid $colorSecondary !important;
+  }
+
+ .btn-primary .p-progress-spinner {
+    width: 15px;
+    height: 15px;
+    margin: 0px 0px 0px 5px;
+    .p-progress-spinner-svg {
+
+      .p-progress-spinner-circle {
+        stroke-width: 10;
+      }
+      
+    }
+    
+ }
+
+ @keyframes p-progress-spinner-color {
+  100%,
+  0% {
+      stroke: #d62d20;
+  }
+  66% {
+      stroke: #008744;
+  }
+  80%,
+  90% {
+      stroke: #ffa700;
+  }
+}
+
+
+  .p-button {
+    background-color: $colorPrimary !important;
+    border: 1px solid $colorPrimary !important;
+    color: white;
+    box-shadow: none !important;
+  }
+
+  .p-button:hover {
+    background-color: $colorSecondary !important;
+    border: 1px solid $colorSecondary !important;
+  }
+
+}

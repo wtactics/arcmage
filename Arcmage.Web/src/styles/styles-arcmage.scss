@@ -1,0 +1,29 @@
+
+/* Variables and brand */
+
+
+@import 'normalize';
+@import 'mixins';
+@import 'variables';
+/* Libraries */
+
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+
+
+/* Custom styling */
+@import 'base/app';
+@import 'base/fonts';
+@import 'base/navbar';
+@import 'base/dropdowns';
+@import 'base/buttons';
+@import 'base/fields';
+@import 'base/forms';
+@import 'base/table';
+@import 'base/progressbar';
+@import 'base/slick-carousel';
+@import 'base/alerts';
+@import 'base/pop-up';
+@import 'base/tabs';
+
+

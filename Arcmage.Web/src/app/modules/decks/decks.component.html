@@ -1,0 +1,90 @@
+<div class="d-flex flex-column">
+ 
+  <div class="p-my-2 p-d-flex p-jc-end">
+    <button *ngIf="isAuthenticated" type="button" (click)="createDeck()" class="btn btn-primary">Create your own deck!</button>
+    <h1 *ngIf="!isAuthenticated" >Log in to create your own Deck!</h1>
+  </div>
+
+  <div class="p-my-2">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="deckSearchOptions.search" (keydown.enter)="searchClick()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+    <div class="p-d-flex p-jc-end">
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">advanced</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">clear</a>
+    </div>
+  </div>
+  
+  <p-panel class="p-my-2" [toggleable]="true" [collapsed]="hideAvancedSearch" [showHeader]="false">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field-checkbox p-col">
+        <p-checkbox [(ngModel)]="deckSearchOptions.excludeDrafts" binary="true" inputId="search_deck_exclude_drafts" [disabled]="loading" (onChange)="searchClick()"></p-checkbox>
+        <label for="search_deck_exclude_drafts">Exclude draft versions</label>
+      </div>
+      <div class="p-field-checkbox p-col" *ngIf="isAuthenticated">
+          <p-checkbox [(ngModel)]="deckSearchOptions.myDecks" binary="true" inputId="search_deck_myown" [disabled]="loading" (onChange)="searchClick()"></p-checkbox>
+          <label for="search_deck_myown">Show my decks only</label>
+      </div>
+    </div>
+  </p-panel>
+
+    <p-table #decksTable
+            [value]="deckSearchResult.items"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="true"
+            (onLazyLoad)="loadData($event)"
+            [paginator]="true"
+            paginatorPosition="both"
+            [rows]="30"
+            [totalRecords]="deckSearchResult.totalItems"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="{{'grids.total' | translate}}: {{deckSearchResult.totalItems}}"
+            [loading]="loading">
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th pSortableColumn="creator.name">Creator <p-sortIcon [field]="'creator.name'"></p-sortIcon></th>
+          <th pSortableColumn="status.name">Status <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
+          <th pSortableColumn="castModifiedTime">Last Edit <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-deck>
+        <tr>
+          <td><a [title]="deck.name" [routerLink]="['/decks', deck.guid]">{{ deck.name }}</a></td>
+          <td>{{deck.creator.name}}</td>
+          <td>{{deck.status?.name ? deck.status?.name : ""}}</td>
+          <td>{{deck.lastModifiedTime | date:'yyyy-MM-dd'}}</td>
+          <td style="text-align: right"><a role="button" *ngIf="deck.isGenerated" href="{{deck.zip}}"  target="_blank" >download pdf/zip <i class="pi pi-file-pdf"></i></a></td>
+        </tr>
+      </ng-template>
+      
+    </p-table>
+  
+    <p-sidebar [(visible)]="showDeckCreation" position="right" styleClass="p-sidebar-md">
+      <h1>Create a new deck</h1>
+  
+      <div class="p-fluid">
+        <div class="p-field">
+            <label for="deck_name">Name*</label>
+            <input id="deck_name" #deck_name="ngModel" [(ngModel)]="newDeck.name" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="deck_name.invalid && (deck_name.dirty || deck_name.touched)" class="requried-input-field">
+              <div *ngIf="deck_name.errors.required">*The deck name is required.</div>
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+          <button type="button" (click)="saveDeck()" [disabled]="newDeck?.name == null || newDeck.name == '' " class="btn btn-primary float-right">Save</button>
+        </div>
+      </div>
+  
+    </p-sidebar>
+  
+  </div>
+  

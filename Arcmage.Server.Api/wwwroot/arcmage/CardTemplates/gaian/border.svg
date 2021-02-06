@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   version="1.0"
+   style="display:inline;enable-background:new"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="border.svg"
+   width="68mm"
+   height="94mm"
+   inkscape:export-filename="C:\git\WTactics\WTacticsService\WTactics\CardTemplates\gaian\border.png"
+   inkscape:export-xdpi="599"
+   inkscape:export-ydpi="599">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview12"
+     showgrid="false"
+     inkscape:document-units="mm"
+     units="mm"
+     inkscape:zoom="2.36"
+     inkscape:cx="-6.1440678"
+     inkscape:cy="117.79661"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <defs
+     d="defs4"
+     id="defs3">
+    <linearGradient
+       id="frameGradient">
+      <stop
+         id="stop6193"
+         offset="0"
+         style="stop-color:#1d1808;stop-opacity:1" />
+      <stop
+         style="stop-color:#4a3f14;stop-opacity:1;"
+         offset="0.05197738"
+         id="stop4147" />
+      <stop
+         id="stop6195"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#frameGradient"
+       id="linearGradient"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.83091415,0,0,0.82047724,-0.18982815,-0.21662965)"
+       x1="1.2524567"
+       y1="400.53091"
+       x2="0.23254675"
+       y2="0.26402891" />
+  </defs>
+  <rect
+     style="display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient);fill-opacity:1;fill-rule:nonzero;stroke:none"
+     id="rect4155"
+     width="240.94489"
+     height="333.07086"
+     x="-1.6820712e-006"
+     y="2.1626631e-006" />
+</svg>

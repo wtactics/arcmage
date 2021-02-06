@@ -1,0 +1,9 @@
+:host ::ng-deep { 
+    .p-inputtext {
+        font-size: 0.875rem;
+        padding: 0.2rem 0.3rem;
+    }
+    .p-field > label {
+        margin: 0px;
+    }
+}

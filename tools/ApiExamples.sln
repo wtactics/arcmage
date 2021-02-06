@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30001.183
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiExamples", "ApiExamples\ApiExamples.csproj", "{1D98ACE1-2B79-42AC-9BB8-893240F58FEB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Model", "..\Arcmage.Model\Arcmage.Model.csproj", "{16C98B40-7275-43E7-9A47-680990D134B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Client", "..\Arcmage.Client\Arcmage.Client.csproj", "{CA0583A2-3CD2-4296-BD08-4615F14466A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{62A62703-8083-4A81-8850-F5DFE512FDFE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeckAutoCompleter", "DeckAutoCompleter\DeckAutoCompleter.csproj", "{078A38AB-CC90-4A5A-956D-2B79FE083C6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeckTranslator", "DeckTranslator\DeckTranslator.csproj", "{0FE9E117-7B1B-47A3-A63F-046742CBBD28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsGenerator", "ProductsGenerator\ProductsGenerator.csproj", "{7FB419C3-FA5A-4469-9CE5-9CF6D7A511E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D98ACE1-2B79-42AC-9BB8-893240F58FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D98ACE1-2B79-42AC-9BB8-893240F58FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D98ACE1-2B79-42AC-9BB8-893240F58FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D98ACE1-2B79-42AC-9BB8-893240F58FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C98B40-7275-43E7-9A47-680990D134B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C98B40-7275-43E7-9A47-680990D134B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C98B40-7275-43E7-9A47-680990D134B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C98B40-7275-43E7-9A47-680990D134B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA0583A2-3CD2-4296-BD08-4615F14466A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA0583A2-3CD2-4296-BD08-4615F14466A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA0583A2-3CD2-4296-BD08-4615F14466A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA0583A2-3CD2-4296-BD08-4615F14466A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{078A38AB-CC90-4A5A-956D-2B79FE083C6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{078A38AB-CC90-4A5A-956D-2B79FE083C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{078A38AB-CC90-4A5A-956D-2B79FE083C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{078A38AB-CC90-4A5A-956D-2B79FE083C6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FE9E117-7B1B-47A3-A63F-046742CBBD28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FE9E117-7B1B-47A3-A63F-046742CBBD28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FE9E117-7B1B-47A3-A63F-046742CBBD28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FE9E117-7B1B-47A3-A63F-046742CBBD28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB419C3-FA5A-4469-9CE5-9CF6D7A511E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB419C3-FA5A-4469-9CE5-9CF6D7A511E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB419C3-FA5A-4469-9CE5-9CF6D7A511E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB419C3-FA5A-4469-9CE5-9CF6D7A511E4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{16C98B40-7275-43E7-9A47-680990D134B3} = {62A62703-8083-4A81-8850-F5DFE512FDFE}
+		{CA0583A2-3CD2-4296-BD08-4615F14466A9} = {62A62703-8083-4A81-8850-F5DFE512FDFE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4B8C1911-BE85-449A-AE2F-8603A9871D8F}
+	EndGlobalSection
+EndGlobal

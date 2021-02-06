@@ -1,0 +1,1249 @@
+* {
+   margin: 0px;
+   padding: 0px;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */ 
+}
+
+html {
+	margin: 0 !important;
+    padding: 0 !important;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	touch-action: none;
+	-ms-content-zooming: none;
+	
+}
+
+body {
+	margin: 0 !important;
+    padding: 0 !important;
+	background: black;
+	font-size: 100%;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	overflow: hidden;
+	touch-action: none;
+	-ms-content-zooming: none;
+	
+}
+
+#helper1 {
+    border: 2px solid red;
+    position: fixed;
+    /*display: none;*/
+    z-index: 6000;
+    pointer-events: none;
+}
+
+
+
+#helper2 {
+    border: 2px solid green;
+    position: fixed;
+    /*display: none;*/
+    z-index: 6000;
+    pointer-events: none;
+}
+
+#helper3{
+	border: 1px solid yellow;
+	position: fixed;
+	display: none;
+}
+
+#helper4{
+	border: 1px solid blue;
+	position: fixed;
+	display: none;
+}
+
+
+#content {
+	overflow: hidden;
+	position: absolute;
+	backface-visibility: hidden;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+}
+
+#preview{
+	position: absolute;
+	top: 0px;
+	right:0px;
+	width: 15%;
+	z-index: 9999;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+.preview-enter {
+    animation: fadein 0.5s;
+}
+
+.preview-leave {
+    animation: fadeout 0.5s;
+}
+
+
+
+
+#battleField {  
+	width: 1920px;  
+	height: 1200px;  
+	position: absolute;
+}
+
+#battleFieldDrop {
+    width: 100%;
+    height: 100%;
+}
+
+
+#turnStructure {
+    position: absolute;
+    top: 600px;
+    width: 50px;
+    height: 180px;
+    right: -50px;
+    background-color: rgb(0, 0, 0);
+}
+
+.turn{
+    width: 50px;
+    height: 50px;
+    margin: 6px 0px 0px 0px;
+    background-size: 50px 50px;
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+}
+
+.turn:hover {
+    box-shadow: 0px 0px 5px 5px rgba(120,220,245,1);
+    background-color: rgba(120,220,245,1);
+}
+
+.unmark{
+ 	background-image: url("turn_unmark.svg");
+}
+
+.dice{
+    background-image: url("turn_dice.svg");
+}
+
+.coin {
+    background-image: url("turn_coin.svg");
+}
+
+.draw2 {
+    background-image: url("turn_draw2.svg");
+}
+
+.draw7 {
+    background-image: url("turn_draw7.svg");
+    margin-left: 56px;
+    margin-top: -50px;
+}
+
+.blinds {
+    background-image: url("turn_blinds.svg");
+}
+
+.open_blinds {
+    background-image: url("turn_open_blinds.svg");
+}
+
+
+.video {
+    background-image: url("turn_headset.svg");
+}
+
+.rules {
+    background-image: url("turn_rules.svg");
+}
+
+
+.draw {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 30px 30px;
+    background-image: url("turn_draw.svg");
+}
+
+.play {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 30px 30px;
+    background-image: url("turn_play.svg");
+}
+
+.attack {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 30px 30px;
+    background-image: url("turn_attack.svg");
+}
+
+.end {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 30px 30px;
+    background-image: url("turn_end.svg");
+}
+
+
+
+
+#playerField{
+	width : 1920px;
+	height: 600px;
+    top: 600px;
+	background: red;
+	position: absolute;
+	background-image: url("playerField2.jpg");
+    background-repeat: no-repeat;
+    background-position: right top;
+}
+
+#playerDeck{
+	width : 106px;
+	height: 150px;
+    background: green;
+	position: absolute;
+	top: 640px;
+	right: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("deck2.png");
+}
+
+#playerDeckActions{
+	width : 136px;
+	height: 180px;
+    background: black;
+	position: absolute;
+	top: 640px;
+	right: 40px;
+}
+
+.actions {
+    display: none;
+    width: 25%;
+    height: 25%;
+    background-color: rgba(255,255,255,0.3);
+  
+    position: absolute;
+    top: 30%;
+    -ms-transform: translateY(-25%);
+    transform: translateY(-25%);
+}
+
+.actionsText {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column-reverse;
+    overflow: auto;
+}
+
+.actions:hover {
+    z-index: 555555 !important;
+}
+
+.action_item {
+    color: whitesmoke;
+  
+}
+
+.cardlistaction {
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+    float: left;
+}
+
+.cardsearch {
+    height: 30px;
+    float: right;
+    margin-right: 100px;
+    margin-top: 3px;
+}
+
+.cardlistaction:hover {
+    box-shadow: 0px 0px 5px 5px rgba(120,220,245,1);
+    background-color: rgba(120,220,245,1);
+}
+
+#cardsearch_input {
+    border-width: 2px;
+    border-color: #cccccc;
+    border-style: solid;
+    padding: 5px;
+    font-size: 20px;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.action{
+	width: 30px;
+	height: 30px;
+	margin: 6px 0px 0px 0px;
+}
+
+.action:hover {
+	box-shadow: 0px 0px 5px 5px rgba(120,220,245,1);
+    background-color: rgba(120,220,245,1);
+}
+
+.action:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transition: .25s all ease;
+    transition-delay: 3s;
+    top: 60px;
+}
+
+.turn:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transition: .25s all ease;
+    transition-delay: 3s;
+    top: 60px;
+}
+
+.tooltip-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    background: #000000;
+    left: -300px;
+    top: 0px;
+    padding: 15px;
+    font-size: 15px;
+    width: 250px;
+    transition: .25s all ease;
+    transition-delay: .25s;
+    z-index: 2000;
+    color: #FFFFFF;
+    transform: scale(3);
+    transform-origin: 100% 50%;
+}
+
+#opponentGraveyardActions .tooltip-content {
+    transform: scale(3);
+}
+
+#opponentDeckActions .tooltip-content {
+    transform: scale(2.7);
+}
+
+#playerDeckActions .tooltip-content {
+    transform: scale(2.4);
+}
+
+#playerGraveyardActions .tooltip-content {
+    transform: scale(2.1);
+}
+
+#turnStructure .tooltip-content {
+    transform: scale(2.3);
+}
+
+#opponentHand .tooltip-content {
+    left: 0px;
+    top: 60px;
+    padding: 15px;
+    font-size: 15px;
+    width: 250px;
+    transition: .25s all ease;
+    transition-delay: .25s;
+    z-index: 2000;
+    color: #FFFFFF;
+    transform: scale(3.3);
+    transform-origin: 50% 0%;
+}
+
+#opponentHand .action:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transition: .25s all ease;
+    transition-delay: 3s;
+    top: 150px;
+}
+
+#opponentHand .action {
+    width: 30px;
+    height: 30px;
+    margin: 6px;
+    display: inline-block;
+}
+
+.up_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_up.svg");
+}
+
+.down_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_down.svg");
+}
+
+.draw_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_draw.svg");
+}
+
+.graveyard_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_graveyard.svg");
+}
+
+.deck_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_deck.svg");
+}
+
+.play_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_play.svg");
+}
+
+.view_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_view.svg");
+}
+
+.shuffle_action{
+	background-repeat: no-repeat;
+    background-position: center center;
+	background-size: 30px 30px;
+	background-image: url("action_shuffle.svg");
+}
+
+.count_action{
+	font-family: verdana;
+    font-size:150%;
+    text-align: center;
+	color: white;
+	left: 36px;
+	top: -36px;
+	position: relative;
+	cursor: pointer;
+}
+
+.count_action:hover {
+	box-shadow: unset;
+    background-color: unset;
+}
+
+#opponentHand .count_action{
+	font-family: verdana;
+    font-size:150%;
+    text-align: center;
+	color: white;
+	cursor: pointer;
+	left: 0px;
+	top: -12px;
+	position: relative;
+}
+
+
+#playerGraveyard{
+	width : 106px;
+	height: 150px;
+    background: purple;
+	position: absolute;
+	top: 850px;
+	right: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("graveyard.png");
+}
+
+#playerGraveyardActions{
+	width : 136px;
+	height: 180px;
+    background: black;
+	position: absolute;
+	top: 850px;
+	right: 40px;
+}
+
+
+#playerHand{
+	position: fixed;
+	top:1105px;
+	left: 380px;
+	width: 1160px;
+	height: 95px;
+	overflow-x: auto;
+	overflow-Y: hidden;
+	white-space: nowrap;
+}
+
+#opponentHand{
+	position: fixed;
+	background-color:black;
+	border-radius: 0px 0px 25px 25px;
+	top:0px;
+	left: 800px;
+	width: 320px;
+	height: 50px;
+}
+
+#playerHandDecoration {
+	position: fixed;
+	background-color:rgba(255,255,255,0.5);
+	border-radius: 25px 25px 0px 0px;
+	top:1095px;
+	left: 370px;
+	width: 1180px;
+	height: 105px;
+}
+
+
+
+#playerResources{
+	position: absolute;
+	top:620px;
+	width: 100px;
+	height: 280px;
+	padding: 10px 0px;
+	background-color:rgba(255,255,255,0.5);
+	border-radius: 0px 10px 10px 0px;
+}
+
+.resource {
+	width: 100px;
+	height:50px;
+	margin: 5px 0px;
+	position: relative;
+	font-family: verdana;
+    font-size:200%;
+    text-align: center;
+	color : white;
+}
+
+.resource:hover {
+	box-shadow: 0px 0px 5px 5px rgba(120,220,245,1);
+}
+
+.usedResources {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+    width: 50px;
+    height: 50px;
+}
+
+.availableResources {
+	position: absolute;
+	top: 0px;
+	left: 50px;
+    width: 50px;
+    height: 50px;
+}
+
+.resourceCounter{
+	width: 100px;
+	height:50px;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+	pointer-events:none;
+}
+
+.spinbutton {
+	position: relative;
+	width: 50px;
+	height:25px;
+	pointer-events:auto;
+}
+
+
+.blackResources {
+	background: black;
+}
+
+.yellowResources {
+	background: yellow;
+	color : black;
+}
+
+.greenResources {
+	background-color:rgba(112,173,71,1);
+}
+
+.blueResources {
+	background-color:rgba(0,176,240,1);
+}
+
+.redResources{
+	background-color:rgba(192,0,0,1);
+}
+
+
+#opponentField{
+	width : 1920px;
+	height: 600px;
+    background: blue;
+	position: absolute;
+	background-image: url("opponentField2.jpg");
+    background-repeat: no-repeat;
+    background-position: right top;
+	transform : scaleY(-1);
+}
+
+#opponentDeck{
+	width : 106px;
+	height: 150px;
+    background: green;
+	position: absolute;
+	top: 410px;
+	right: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("deck2.png");
+}
+
+#opponentDeckActions{
+	width : 136px;
+	height: 180px;
+    background: black;
+	position: absolute;
+	top: 410px;
+	right: 40px;
+}
+
+#opponentGraveyardActions{
+	width : 136px;
+	height: 180px;
+    background: black;
+	position: absolute;
+	top: 200px;
+	right: 40px;
+}
+
+#opponentGraveyard{
+	width : 106px;
+	height: 150px;
+    background: purple;
+	position: absolute;
+	top: 200px;
+	right: 40px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("graveyard.png");
+}
+
+#opponentResources{
+	position: absolute;
+	top:280px;
+	width: 100px;
+	height: 280px;
+	padding: 10px 0px;
+	background-color:rgba(255,255,255,0.5);
+	border-radius: 0px 10px 10px 0px;
+}
+
+.card {
+	width : 106px !important;
+	height: 150px !important;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	display: inline-block;
+}
+
+
+.card img{
+    width: 106px !important;
+    height: 150px !important;
+    pointer-events: none;
+}
+
+.cardcounters {
+    position: absolute;
+    top: 0px;
+    perspective: 1000px;
+    width: 15px;
+}
+
+.counterA:hover, .counterB:hover {
+    color: white;
+    box-shadow: -4px 0px 0px 0px rgba(120,220,245,1);
+}
+
+.counter {
+    pointer-events: none;
+    position: absolute;
+    text-shadow: 2px 2px rgba(0, 0, 0, 1);
+    top: 0;
+}
+
+.counterA {
+    top: 30px;
+}
+
+.counterB {
+    top: 60px;
+}
+
+.counterspinbutton {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    pointer-events: auto;
+}
+
+.counterA, .counterB {
+    cursor: pointer;
+    font-size: 150%;
+    pointer-events: auto;
+    background: transparent;
+    position: absolute;
+    color: #e6daa6;
+}
+
+
+
+#battleField .card {
+    animation: glow 1s alternate;
+    position: fixed;
+}
+
+#playerDeck .card {
+	position: absolute;
+}
+
+#playerDeck .card:hover{
+	box-shadow: none;
+}
+
+#opponentDeck .card {
+	position: absolute;
+}
+
+#opponentDeck .card:hover{
+	box-shadow: none;
+}
+
+#opponentGraveyard .card{
+	position: absolute;
+}
+
+#opponentGraveyard .card:hover{
+	box-shadow: none;
+}
+
+#playerHand .card {
+	position: relative;
+	margin: 6px 0px 0px 13px;
+}
+
+#playerHand .card:hover{
+	Z-index:9999;
+}
+
+#playerGraveyard .card{
+	position: absolute;
+}
+
+#playerGraveyard .card:hover{
+	box-shadow: none;
+}
+
+.listcard{
+	margin: 3px 3px 3px 0; 
+	padding: 1px; 
+	float: left; 
+	width: 106px; 
+	height: 150px; 
+}
+
+.listcard img{
+    width: 106px; 
+    height: 150px; 
+}
+
+.droptarget {
+	box-shadow: 0px 0px 13px 13px rgba(255,256,0,0.6);
+}
+
+.selected {
+	box-shadow: 0px 0px 6px 6px rgba(255,256,0,0.6);
+}
+
+.card:hover {
+    animation: glow 1s alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 0px 0px 0px 0px rgba(120,220,245,1);
+    }
+
+    to {
+        box-shadow: 0px 0px 13px 13px rgba(120,220,245,1);
+    }
+}
+
+.rotate-reset {
+    transform: rotateZ(0deg);
+}
+
+.rotate {
+    transform: rotateZ(90deg);
+}
+
+
+.animatecardmove {
+    transition-property: top, left, transform;
+    transition-duration: 0.5s, 0.5s, 0.2s;
+    transition-timing-function: ease-out, ease-out, ease-in-out;
+}
+
+.ui-draggable-dragging, .ui-sortable-helper {
+    transition-property: transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+#playerHand .ui-sortable-helper {
+    position: fixed !important;
+}
+    /* avatar */
+#opponent {
+    left: -1.5%;
+    top: -1.5%;
+    position: absolute;
+    border-radius: 0% 50% 50% 50%;
+    border-color: red;
+    border-width: thick;
+    border-style: solid;
+    width: 10%;
+    padding-top: 10%;
+    background: url('placeholder.jpg');
+    background-size: 100%;
+    overflow: hidden;
+}
+
+#player {
+    position: fixed;
+    bottom: -1.5%;
+    right: -1.5%;
+    border-radius: 50% 50% 0% 50%;
+    border-color: red;
+    border-width: thick;
+    border-style: solid;
+    width: 10%;
+    padding-top: 10%;
+    background: url('placeholder.jpg');
+    background-size: 100%;
+    overflow: hidden;
+}
+
+.playerName {
+    width: 100%;
+    height: 20%;
+    padding: 5%;
+    margin-top: -33%;
+	background: rgba(0,0,0,0.6);
+}
+
+.playerName-text {
+    font-family: verdana;
+    font-size: 60%;
+    text-align: center;
+    color: white;
+}
+
+.overlay {
+    position:relative;
+}
+.selection-rect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: yellow;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* card flip */
+
+.card {
+    perspective: 1000px;
+}
+
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card-hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-inner:hover {
+    box-shadow: 0px 0px 13px 13px rgba(120,220,245,1);
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.flip-card-front {
+   
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+.flip-card-resources {
+    perspective: 1000px;
+    position: absolute;
+    top: 20px;
+    left: -5px;
+
+}
+
+.flip-card-resource {
+    width: 10px;
+    height: 10px;
+  
+}
+
+.flip-card-resource:hover {
+    width: 20px;
+    transition: width 0.15s;
+}
+
+
+.flip-card-resource-black{
+    background-color: black;
+}
+
+.flip-card-resource-yellow {
+    background-color: yellow;
+}
+
+.flip-card-resource-green {
+    background-color: rgba(112,173,71,1);
+}
+
+.flip-card-resource-blue {
+    background-color: rgba(0,176,240,1);
+}
+
+.flip-card-resource-red {
+    background-color: rgba(192,0,0,1);
+}
+
+.flip-card-resource .tooltip-content {
+    visibility: collapse;
+    opacity: 0;
+    position: absolute;
+    background: #000000;
+    left: 0px;
+    top: 0px;
+    padding: 5px;
+    font-size: 18px;
+    transition: .25s all ease;
+    transition-delay: .25s;
+    z-index: 2000;
+    color: #FFFFFF;
+    transform: scale(1) translateY(-50%);
+    transform-origin: 50% 50%;
+    width: 50px;
+    overflow: hidden;
+}
+
+.flip-card-resource:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transition: .25s all ease;
+    transition-delay: 3s;
+    top: 0px;
+    left: 0px;
+    width: 310px;
+}
+
+.peek {
+    visibility: collapse;
+    position: absolute;
+    top: 25px;
+    left: 3px;
+    opacity: 1;
+    width: 100px;
+    height: 100px;
+    margin: 0px 0px 0px 0px;
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: .25s all ease;
+    transition-delay: 2s;
+    background-image: url("turn_blinds.svg");
+    z-index: 3000;
+    pointer-events: none;
+}
+
+.peeking {
+    visibility: visible;
+    opacity: 1;
+    transition: .25s all ease;
+    transition-delay: 0s;
+}
+
+/* scrollbar */
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+    background: #000000;
+}
+::-webkit-scrollbar-track {
+    background: #666666;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-track:hover {
+    background: #666666;
+}
+::-webkit-scrollbar-track:active {
+    background: #333333;
+}
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/*coin flip */
+
+.coin-flip-conainer {
+    visibility: collapse;
+}
+
+.coin-flip {
+    visibility: visible;
+    width: 100px;
+    height: 100px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    transform-style: preserve-3d;
+    position: absolute;
+    animation: fly 1s ease-in-out 0s 2 alternate forwards;
+}
+
+.coin-heads {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: flip-head 0.5s linear 0s 4 alternate forwards;
+}
+.coin-tails {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: flip-tail 0.5s linear 0s 4 alternate forwards;
+}
+
+@keyframes fly {
+    0% { top: 80%; }
+    100% { top: 10%; }
+}
+
+@keyframes flip-head {
+    0%, 100% { transform: rotateX(0deg); }
+    50% { transform: rotateX(180deg); }
+}
+
+@keyframes flip-tail {
+    0%, 100% { transform: rotateX(180deg); }
+    50% { transform: rotateX(0deg); }
+}
+
+.coin-heads-img {
+    width: 100px;
+    height: 100px;
+    margin: 6px 0px 0px 0px;
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("coin_heads.svg");
+}
+
+.coin-tails-img {
+    width: 100px;
+    height: 100px;
+    margin: 6px 0px 0px 0px;
+    background-size: 100px 100px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("coin_tails.svg");
+}
+
+/*dice container */
+.dice-container {
+    width: 300px;
+    height: 300px;
+    top: 30%;
+    left: 50%;
+    position: fixed;
+    visibility: collapse;
+}
+
+.dice-rolling {
+    visibility: visible;
+}
+
+/* curtain overlay */
+
+.curtain {
+    margin: 0 auto;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+.curtain__wrapper {
+    width: 100%;
+    height: 100%;
+}
+.curtain_opener {
+    position: absolute;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    opacity: 0;
+    top: 0;
+    left: 0;
+}
+
+.curtain__panel {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    background: #b8cd3f;
+    color: #fff;
+    float: left;
+    position: relative;
+    width: 50%;
+    height: 100vh;
+    -webkit-transition: all 1s ease-out;
+    transition: all 1s ease-out;
+    z-index: 2;
+}
+.curtain__panel--left {
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    background-position: 0 center;
+    background-image: url("curtain.png");
+}
+.curtain__panel--right {
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    background-position: 100% center;
+    background-image: url("curtain.jpg");
+}
+
+.curtain__closed {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.curtain__opener_hide {
+    display: none;
+}
+
+.curtain__text {
+    text-shadow: 3px 2px rgba(0, 0, 0, 1);
+    color: #e6daa6;
+    font-size: 3.5vw;
+}
+
+.logo_fade {
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
+    display: block;
+    max-width:80%;
+    max-height:40%;
+    width: auto;
+    height: auto;
+}
+

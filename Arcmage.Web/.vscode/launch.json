@@ -1,0 +1,18 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "Launch localhost",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:5000/",
+            "webRoot": "${workspaceFolder}/../Arcmage.Server.api/wwwroot",
+            "sourceMapPathOverrides": {
+                "webpack:///./~/*": "${workspaceFolder}/node_modules/*", 
+                "webpack:///./*":   "${workspaceFolder}/*", 
+                "webpack:///*":     "*",     
+                "webpack:///src/*": "${workspaceFolder}/*", 
+            }
+        },
+    ]
+}

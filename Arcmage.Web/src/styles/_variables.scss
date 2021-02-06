@@ -1,0 +1,98 @@
+// default colors
+$colorPrimary: #cd8822;
+$colorSecondary: #999;
+
+$body-bg: #FFFFFF;
+$body-color: #333;
+
+$font-size-default: 14px;
+
+$h1-font-size: 2rem;
+$h2-font-size: 0.875rem;
+$h3-font-size: 1.125rem;
+$h4-font-size: 0.875rem;
+
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-bold: 700 !default;
+
+
+
+$border-color: #E6E6E6;
+$body-color-light: #A0A4AE;
+
+$danger-color: #DC3545;
+$alert-color: #D73333;
+$warning-color: #FD7E14;
+$inactive-color: #A0A4AE;
+$success-color: #28A745;
+
+$navbar-default-bg: #f7f7f7;
+$navbar-default-height: 70px;
+$navbar-collapsed-default-height: 120px;
+
+$badge-font-size: 0.6875rem;
+$badge-font-weight: $font-weight-normal;
+$badge-padding-y: .6em;
+$badge-padding-x: 1.1em;
+$badge-border-radius: 32px;
+
+$dropdown-link-active-bg: #eee;
+$dropdown-divider-bg: $border-color;
+
+$table-color-odd: #F9F9F9;
+
+
+
+$border-radius-xl: 18px;
+
+$sidebar-default-width: 130px;
+$sidebar-medium-width: 98px;
+
+$input-disabled-bg: #FFF;
+$input-background-color: #EFEFEF;
+$input-border-color: $border-color;
+$input-focus-border-color: darken($border-color, 10);
+$input-btn-focus-box-shadow: 0 0 3px rgba(#000, 0.1);
+
+$input-placeholder-color: #B7BAC3;
+
+$padding-xs: 4px;
+$padding-s: 8px;
+$padding-m: 16px;
+$padding-l: 24px;
+$padding-xl: 32px;
+$padding-xxl: 48px;
+$padding-xxxl: 64px;
+
+$action-button-color: black;
+$action-button-background-color: $body-bg;
+$action-button-focus-background-color: darken($body-bg, 10%);
+
+$action-button-required-color: white;
+$action-button-required-background-color: $danger-color;
+$action-button-required-focus-background-color: darken($danger-color, 10%);
+
+$action-button-initiated-color: white;
+$action-button-initiated-background-color: var(--primary);
+
+$grid-breakpoints: ( // Extra small screen / phone
+  xs: 0,
+  // Small screen / phone
+  sm: 576px,
+  // Medium screen / tablet
+  md: 770px,
+  // Large screen / desktop
+  lg: 1200px,
+  // Extra large screen / wide desktop
+  xl: 1400px,
+  // Extra extra large screen / extra wide desktop
+  xxl: 2000px) !default;
+
+  $container-max-widths: (
+        sm: 540px,
+        md: 755px,
+        lg: 1050px,
+        xl: 1250px,
+        xxl: 1700px,
+) !default;

@@ -1,0 +1,43 @@
+{
+    "production": true,
+    
+    "apiUri": "https://aminduna.arcmage.org",
+    "gameApiUri": "https://aminduna.arcmage.org:9090",
+
+    "slideConfig": {
+      "infinite": true,
+      "touchThreshold": 7,
+      "arrows": true,
+      "swipeToSlide": true,
+      "slidesToShow": 5,
+      "slidesToScroll": 5,
+      "centerMode": true,
+      "focusOnSelect": false,
+      "responsive": [
+        {
+          "breakpoint": 1024,
+          "settings": {
+            "slidesToShow": 3,
+            "slidesToScroll": 3,
+            "infinite": true,
+            "dots": true
+          }
+        },
+        {
+          "breakpoint": 600,
+          "settings": {
+            "slidesToShow": 2,
+            "slidesToScroll": 2
+          }
+        },
+        {
+          "breakpoint": 480,
+          "settings": {
+            "slidesToShow": 1,
+            "slidesToScroll": 1
+          }
+        }
+      ]
+    }
+  
+  }

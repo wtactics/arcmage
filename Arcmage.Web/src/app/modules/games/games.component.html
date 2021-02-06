@@ -1,0 +1,77 @@
+<div class="d-flex flex-column">
+
+    <div class="row">
+      <div class="col">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="gameSearchOptions.search"
+          (keydown.enter)="searchClick()">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col">
+        <button type="button" (click)="createGame()"  class="btn btn-primary float-right">Create a new game!</button>
+      </div>
+    </div>
+
+    <p-table #gamesTable
+            [value]="gameSearchResult.items"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="true"
+            (onLazyLoad)="loadData($event)"
+            [paginator]="true"
+            paginatorPosition="both"
+            [rows]="30"
+            [totalRecords]="gameSearchResult.totalItems"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="{{'grids.total' | translate}}: {{gameSearchResult.totalItems}}"
+            [loading]="loading">
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th>State</th>
+          <th></th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-game>
+        <tr>
+          <td><span>{{ game.name }}</span></td>
+          <td><span *ngIf="!game.canJoin">Full</span><span *ngIf="game.canJoin">Open</span></td>
+          <td>
+              <a *ngIf="game.canJoin"  [routerLink]="['/invite', game.guid]">Join Game</a>
+          </td>
+        </tr>
+      </ng-template>
+      
+    </p-table>
+  
+    <p-sidebar [(visible)]="showGameCreation" position="right" styleClass="p-sidebar-md">
+      <h1 style="font-weight:normal">Create a new game</h1>
+  
+      <form class="form-horizontal">
+  
+        <div class="form-group form-inline">
+          <label for="game_name" class="col-md-4 control-label">Name*</label>
+          <input type="text" class="form-control input-flex-flox" id="game_name" name="game_name" #name="ngModel" placeholder="Game Name" [(ngModel)]="newGame.name" [disabled]="loading" required>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="requried-input-field offset-md-4">
+            <div *ngIf="name.errors.required">*The game name is required.</div>
+          </div>
+        </div>
+  
+      </form>
+  
+      <button type="button" (click)="saveGame()" [disabled]="newGame?.name == null || newGame.name == '' " class="btn btn-primary float-right">Create</button>
+      
+    </p-sidebar>
+  
+  </div>
+  
+

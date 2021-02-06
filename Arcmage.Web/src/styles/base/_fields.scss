@@ -1,0 +1,18 @@
+label {
+  justify-content: flex-end !important;
+  
+}
+
+form label{
+  font-weight:bold;
+}
+
+.input-flex-flox {
+  flex-grow: 4;
+}
+
+.requried-input-field {
+  color: $danger-color;
+  margin-top: $padding-xs;
+  font-size: $h4-font-size;
+}

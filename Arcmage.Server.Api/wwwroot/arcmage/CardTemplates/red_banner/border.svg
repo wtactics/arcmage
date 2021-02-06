@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   version="1.0"
+   style="display:inline;enable-background:new"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="border.svg"
+   width="68mm"
+   height="94mm"
+   inkscape:export-filename="C:\git\WTactics\WTacticsService\WTactics\CardTemplates\red_banner\border.png"
+   inkscape:export-xdpi="599"
+   inkscape:export-ydpi="599">
+  <metadata
+     id="metadata14">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1536"
+     inkscape:window-height="801"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="1.668772"
+     inkscape:cx="-12.485741"
+     inkscape:cy="172.73236"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     units="mm"
+     inkscape:document-units="mm" />
+  <defs
+     d="defs4"
+     id="defs3">
+    <linearGradient
+       id="frameGradient">
+      <stop
+         id="stop6193"
+         offset="0"
+         style="stop-color:#1d1808;stop-opacity:1" />
+      <stop
+         style="stop-color:#4a3f14;stop-opacity:1;"
+         offset="0.06493054"
+         id="stop4147" />
+      <stop
+         id="stop6195"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#Border"
+       id="linearGradient"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.84313348,0,0,0.83793418,-7.2792322,-7.3078569)"
+       x1="0.23254675"
+       y1="406.21176"
+       x2="0.23254675"
+       y2="0.26402891" />
+    <linearGradient
+       id="Border">
+      <stop
+         id="stop6193-0"
+         offset="0"
+         style="stop-color:#3c180c;stop-opacity:1;" />
+      <stop
+         id="stop6195-6"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="Border-Bottom">
+      <stop
+         id="stop6193-9-8"
+         offset="0"
+         style="stop-color:#3c180c;stop-opacity:1;" />
+      <stop
+         id="stop6195-3-2"
+         offset="1"
+         style="stop-color:#230e07;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#Border-Bottom"
+       id="linearGradient4178"
+       x1="-25.774521"
+       y1="88.22773"
+       x2="-25.755575"
+       y2="95.253372"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(21.870383,0,0,2.2088843,646.381,115.92633)" />
+  </defs>
+  <g
+     style="display:inline"
+     id="layer3"
+     transform="matrix(0.98550724,0,0,0.97916669,6.9839079,6.9389814)">
+    <rect
+       y="-7.0866184"
+       x="-7.0866141"
+       height="340.15747"
+       width="244.48819"
+       id="rect4155"
+       style="display:inline;overflow:visible;visibility:visible;fill:url(#linearGradient);fill-opacity:1;fill-rule:nonzero;stroke:none" />
+  </g>
+  <rect
+     style="opacity:1;fill:url(#linearGradient4178);fill-opacity:1;stroke:none;stroke-width:1.02047241;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="rect4170"
+     width="240.94489"
+     height="24.80315"
+     x="-1.6820712e-006"
+     y="308.2677"
+     inkscape:export-xdpi="599"
+     inkscape:export-ydpi="599" />
+</svg>

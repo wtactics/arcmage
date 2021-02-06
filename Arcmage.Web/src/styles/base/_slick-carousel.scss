@@ -1,0 +1,15 @@
+.slide:focus{
+    outline: unset;
+}
+
+.overlaycontainer {
+    position: relative;
+    width: 100%;
+}
+
+.overlaynumber{
+    position: absolute;
+    top: 55%;
+    left: 5%;
+    transform: translate(-50%, -50%);
+}

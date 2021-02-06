@@ -1,0 +1,256 @@
+<div class="p-d-flex p-flex-column">
+    <div class="p-my-2 p-d-flex p-jc-end">
+        <h1>{{deck.name}}</h1>
+    </div>
+
+    <div class="p-my-2">
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+            <div ngxSlickItem *ngFor="let deckCard of deck.deckCards" class="slide">
+                <div class="overlaycontainer">
+                    <img  severity="success" src="{{apiUri + deckCard.card.jpeg}}"  style="max-width: 95%" draggable="false" *ngIf="deck.deckCards"/>
+                    <p-badge [value]="deckCard.quantity" size="xlarge" severity="info" class="overlaynumber" ></p-badge>
+                </div> 
+            </div>
+        </ngx-slick-carousel>
+    </div>
+
+    <div *ngIf="!deck.isEditable" class="p-my-2 p-d-flex p-flex-column p-ai-end" >
+        <h1 >Download</h1>
+        <div>
+            <a role="button" href="{{apiUri + deck.zip}}" *ngIf="deck.isGenerated" target="_blank" >download pdf/zip</a>
+            <span *ngIf="!deck.isGenerated">deck pdf not available</span>
+        </div>
+    </div>
+
+    <div class="p-my-2" *ngIf="!deck.isEditable" >
+        <p-table #deckCardsTableReadOnly
+            [value]="deck.deckCards"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="false"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="100"
+            [totalRecords]="deck.totalCards"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="Unique cards: {{deck?.deckCards?.length}}, total: {{deck?.totalCards}}"
+            [loading]="loading">
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 2.25em"></th>
+                    <th pSortableColumn="card.name">Card Name <p-sortIcon [field]="'card.name'"></p-sortIcon></th>
+                    <th pSortableColumn="quantity">Amount <p-sortIcon [field]="'quantity'"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-deckCard>
+                <tr>
+                    <td><a (mouseenter)="selectCard($event,deckCard.card,cardOverlayPanel)" ><i class="fas fa-info-circle"></i></a></td>
+                    <td><a [title]="deckCard.card.name" [routerLink]="['/cards', deckCard.card.guid]">{{ deckCard.card.name }}</a></td>
+                    <td>{{deckCard.quantity}}</td>
+                </tr>
+            </ng-template>
+
+        </p-table>
+    </div>
+
+    <div class="p-grid p-my-2" *ngIf="deck.isEditable" >
+    
+        <div class="p-col-8 p-d-flex p-flex-column">
+
+            <div>
+                <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="cardSearchOptions.search" (keydown.enter)="searchClick()">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
+                </div>
+                </div>
+                <div class="p-d-flex p-jc-end">
+                <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">advanced</a>
+                <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">clear</a>
+                </div>
+            </div>
+            
+            <p-panel [toggleable]="true" [collapsed]="hideAvancedSearch" [showHeader]="false">
+                <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="search_card_type">Type</label>
+                    <p-dropdown dataKey="guid" inputId="search_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="cardSearchOptions.cardType" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+                </div>
+                <div class="p-field p-col">
+                    <label for="search_card_faction">Faction</label>
+                    <p-dropdown dataKey="guid" inputId="search_card_faction" [options]="cardOptions?.factions" [(ngModel)]="cardSearchOptions.faction" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+                </div>
+                <div class="p-field p-col">
+                    <label for="search_card_cost">Cost</label>
+                    <input id="search_card_cost" type="text" pInputText [(ngModel)]="cardSearchOptions.cost"> 
+                </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col">
+                    <label for="search_card_loyalty">Loyalty</label>
+                    <p-dropdown optionLabel="label" optionValue="value" inputId="search_card_loyalty" [options]="loyalties" [(ngModel)]="cardSearchOptions.loyalty" showClear="true" placeholder="Select" [disabled]="loading"></p-dropdown> 
+                </div>
+                <div class="p-field p-col">
+                    <label for="search_card_serie">Serie</label>
+                    <p-dropdown dataKey="guid" inputId="search_card_serie" [options]="cardOptions?.series" [(ngModel)]="cardSearchOptions.serie" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+                </div>
+                <div class="p-field p-col">
+                    <label for="search_card_status">Status</label>
+                    <p-dropdown dataKey="guid" inputId="search_card_status" [options]="cardOptions?.statuses" [(ngModel)]="cardSearchOptions.status" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+                </div>
+                </div>
+            </p-panel>
+
+            <p-table #cardsTable
+                [value]="cardSearchResult.items"
+                [resizableColumns]="true"
+                [autoLayout]="true"
+                [rowHover]="true"
+                [lazy]="true"
+                (onLazyLoad)="loadData($event)"
+                [paginator]="true"
+                paginatorPosition="both"
+                [rows]="17"
+                [totalRecords]="cardSearchResult.totalItems"
+                [showCurrentPageReport]="false"
+                currentPageReportTemplate="{{'grids.total' | translate}}: {{cardSearchResult.totalItems}}"
+                [loading]="loading">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+                        <th pSortableColumn="type.name">Type <p-sortIcon [field]="'type.name'"></p-sortIcon></th>
+                        <th pSortableColumn="faction.name">Faction <p-sortIcon [field]="'faction.name'"></p-sortIcon></th>
+                        <th pSortableColumn="cost">C <p-sortIcon [field]="'cost'"></p-sortIcon></th>
+                        <th pSortableColumn="loyalty">L <p-sortIcon [field]="'loyalty'"></p-sortIcon></th>
+                        <th pSortableColumn="attack">A <p-sortIcon [field]="'attack'"></p-sortIcon></th>
+                        <th pSortableColumn="defense">D <p-sortIcon [field]="'defense'"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-card>
+                    <tr>
+                        <td><a (mouseenter)="selectCard($event,card,cardOverlayPanel)" ><i class="fas fa-info-circle"></i></a></td>
+                        <td><a [title]="card.name" [routerLink]="['/cards', card.guid]" target="_blank">{{ card.name }}</a></td>
+                        <td>{{card.type.name}}</td>
+                        <td>{{card.faction.name}}</td>
+                        <td style="text-align:center">{{card.cost}}</td>
+                        <td style="text-align:center">{{card.loyalty}}</td>
+                        <td style="text-align: center">{{card.attack}}</td>
+                        <td style="text-align:center">{{card.defense}}</td>
+                        <td><a (click)="increaseDeckCard(card)" ><i class="fas fa-plus-circle"></i></a></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    
+        <div class="p-col-4 p-d-flex p-flex-column">
+
+            <div class="p-d-flex p-flex-column p-ai-end">
+                <button type="button" (click)="editDeckSettings()"  class="btn btn-primary">Deck Export & Settings</button>
+                <div>
+                    <a class="searchlink" role="button" href="{{deck.zip}}" *ngIf="deck.isGenerated" target="_blank" >download pdf/zip</a>
+                    <span *ngIf="!deck.isGenerated">deck pdf not available</span>
+                </div>
+            </div>
+
+            <p-table #deckCardsTable
+                    [value]="deck.deckCards"
+                    [resizableColumns]="true"
+                    [autoLayout]="true"
+                    [rowHover]="true"
+                    [lazy]="false"
+                    [paginator]="true"
+                    paginatorPosition="both"
+                    [rows]="100"
+                    [totalRecords]="deck.totalCards"
+                    [showCurrentPageReport]="true"
+                    currentPageReportTemplate="Unique cards: {{deck.deckCards.length}}, total: {{deck.totalCards}}"
+                    [loading]="loading">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th pSortableColumn="card.name">Name<p-sortIcon [field]="'card.name'"></p-sortIcon></th>
+                        <th pSortableColumn="quantity">Amount <p-sortIcon [field]="'quantity'"></p-sortIcon></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-deckCard>
+                    <tr>
+                        <td><a (mouseenter)="selectCard($event,deckCard.card,cardOverlayPanel)" ><i class="fas fa-info-circle"></i></a></td>
+                        <td><a [title]="deckCard.card.name" [routerLink]="['/cards', deckCard.card.guid]">{{ deckCard.card.name }}</a></td>
+                        <td>{{deckCard.quantity}}</td>
+                        <td><a (click)="decreaseDeckCard(deckCard.card)" ><i class="fas fa-minus-circle"></i></a></td>
+                        <td><a (click)="increaseDeckCard(deckCard.card)" ><i class="fas fa-plus-circle"></i></a></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <p-overlayPanel #cardOverlayPanel>
+        <img src="{{apiUri + selectedCard.jpeg}}" *ngIf="selectedCard" height="150px"/>
+    </p-overlayPanel>
+
+    <p-sidebar [(visible)]="showDeckSettings" position="right" styleClass="p-sidebar-md">
+        <h1>Deck Export & Settings</h1>
+
+        <div class="p-fluid">
+            <div class="p-field">
+                <label for="deck_name">Name*</label>
+                <input id="deck_name" #deck_name="ngModel" [(ngModel)]="deck.name" [disabled]="loading" type="text" pInputText required> 
+                <div *ngIf="deck_name.invalid && (deck_name.dirty || deck_name.touched)" class="requried-input-field">
+                    <div *ngIf="deck_name.errors.required">*The deck name is required.</div>
+                </div>
+            </div>
+
+            <div class="p-field">
+                <label for="deck_status">Status</label>
+                <p-dropdown dataKey="guid" inputId="deck_status" [options]="deckOptions?.statuses" [(ngModel)]="deck.status" placeholder="Select" optionLabel="name" [disabled]="loading || !deckOptions.isStatusChangedAllowed"></p-dropdown> 
+            </div>
+
+            <div class="p-field">
+                <label for="deck_creator">Creator</label>
+                <input id="deck_creator" [ngModel]="deck?.creator?.name" [disabled]="true" type="text" pInputText> 
+            </div>
+            <div class="p-field">
+                <label for="deck_created_on">Create data</label>
+                <input id="deck_created_on" [ngModel]="deck?.createTime | date:'yyyy-MM-dd HH:MM:ss'" [disabled]="true" type="text" pInputText> 
+            </div>
+            <div class="p-field">
+                <label for="deck_last_modified_by">Last edit by</label>
+                <input id="deck_last_modified_by" [ngModel]="deck?.lastModifiedBy?.name" [disabled]="true" type="text" pInputText> 
+            </div>
+            <div class="p-field">
+                <label for="deck_last_modified_on">Last edit date</label>
+                <input id="deck_last_modified_on" [ngModel]="deck?.lastModifiedTime | date:'yyyy-MM-dd HH:MM:ss'" [disabled]="true" type="text" pInputText> 
+            </div>
+            
+            <div class="p-mb-2">When an export option is checked, the deck will be re-exported when saved.</div>
+            
+            <div class="p-field-checkbox">
+                <p-checkbox name="deck_export_tiles" [(ngModel)]="deck.exportTiles" inputId="deck_export_tiles"></p-checkbox>
+                <label for="deck_export_tiles">Export to table top simulator integration</label>
+            </div>
+            <div class="p-field-checkbox">
+                <p-checkbox name="deck_export_pdf" [(ngModel)]="deck.generatePdf" inputId="deck_export_pdf"></p-checkbox>
+                <label for="deck_export_pdf">Export pdf/zip, the download link will become available when ready.</label>
+            </div>
+            <div class="p-d-flex p-jc-end">
+                <button type="button" (click)="saveDeck()" [disabled]="deck?.name == null || deck.name == '' " class="btn btn-primary">Save<p-progressSpinner *ngIf="saving"></p-progressSpinner></button>
+            </div>
+        </div>
+
+       
+
+    </p-sidebar>
+
+</div>

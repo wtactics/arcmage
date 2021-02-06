@@ -1,0 +1,44 @@
+body {
+  color: $body-color;
+  background-color: $body-bg;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: $font-size-default;
+  line-height: 1.42857143;
+}
+
+.container {
+  margin-top: 30px;
+}
+
+body a {
+  color: $colorPrimary;
+}
+
+body a:hover {
+  color: $colorSecondary !important;
+}
+
+.searchlink {
+  margin-left: 10px;
+}
+
+.card-info-icon {
+  color: $colorPrimary !important;
+  :hover {
+    cursor: pointer;
+    color: $colorSecondary !important;
+  }
+}
+
+.p-link:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem  rgba(0, 0, 0, 0.1);
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

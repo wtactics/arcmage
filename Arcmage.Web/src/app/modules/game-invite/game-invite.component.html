@@ -1,0 +1,62 @@
+<div class="p-d-flex p-flex-column">
+
+    <h1>You've been invited to play a game of Arcmage!</h1>
+    <h2 *ngIf="invitedBy">Invited by : {{invitedBy}}</h2>
+    <h2 *ngIf="game">Created at {{ game.createTime | date:'yyyy-MM-dd HH:MM:ss'}}</h2>
+    <h2 *ngIf="game">Game '{{game.name}}'</h2>
+    
+    <h1 *ngIf="gameExpired">... but the game expired.</h1>
+
+    <p-steps  *ngIf="game?.canJoin && !started" [model]="gameSetupSteps" [activeIndex]="activeIndex" class="gamesetupsteps"></p-steps>
+
+    <div class="p-mt-3" *ngIf="game && !started">
+        <div class="p-fluid p-grid" *ngIf="game.canJoin">
+            <div class="p-col p-px-3">
+                <input class="p-mx-auto" type="text"  inputId="player_name" name="player_name" [ngModel]="userName" [disabled]="isAuthenticated" (focus)="onNameFocus()" pInputText/>
+            </div>
+            <div class="p-col p-px-3" *ngIf="!invitedBy">
+                <p-button class="p-button-outlined" label="Copy Invite Link" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
+            </div>
+            <div class="p-col  p-px-3">
+                <p-autoComplete [(ngModel)]="game.selectedDeck" [suggestions]="deckSearchResult.items" (completeMethod)="autoSearchClick($event)" (onShow)="onDeckSelectFocus()" (onClear)="deckCleared($event)" (onSelect)="deckSelected($event)" [forceSelection]=true [dropdown]="true" field="name" dataKey="guid"></p-autoComplete>
+                <div class="p-fluid p-m-3">
+                    <div class="p-field-checkbox">
+                        <p-checkbox [(ngModel)]="deckSearchOptions.excludeDrafts" binary="true" inputId="search_deck_exclude_drafts" [disabled]="loading"></p-checkbox>
+                        <label for="search_deck_exclude_drafts">Exclude draft versions</label>
+                    </div>
+                    <div class="p-field-checkbox" *ngIf="isAuthenticated">
+                        <p-checkbox [(ngModel)]="deckSearchOptions.myDecks" binary="true" inputId="search_deck_myown" [disabled]="loading"></p-checkbox>
+                        <label for="search_deck_myown">Show my decks only</label>
+                    </div>
+                </div>
+            </div>
+         
+            <div class="p-col p-px-3">
+                <p-button  [disabled]="!game.selectedDeck"  label="Start" icon="pi pi-play" iconPos="right" (onClick)="joinGame(game, game.selectedDeck)"></p-button>
+            </div>
+            
+        </div>
+        <h1 *ngIf="!game.canJoin">... but the game is full.</h1>
+    </div>
+
+    <div class="p-mt-2" *ngIf="showCarousel && !started">
+        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+        <div ngxSlickItem *ngFor="let deckCard of deck.deckCards; trackBy:trackByGuid" class="slide">
+            <div class="overlaycontainer">
+                <img  severity="success" src="{{apiUri + deckCard.card.jpeg}}"  style="max-width: 95%" draggable="false" *ngIf="deck.deckCards"/>
+                <p-badge [value]="deckCard.quantity" size="xlarge" severity="info" class="overlaynumber" ></p-badge>
+            </div> 
+        </div>
+        </ngx-slick-carousel>
+    </div>
+
+    <div class="p-mt-2" *ngIf="started">
+        <h1>... the game has started in a new tab, have fun.</h1>
+        <div *ngIf="!invitedBy" class="p-mt-2">
+            <h2>If you haven't done yet, invite a friend to join you.</h2>
+            <p-button class="p-button-outlined" label="Copy Invite Link" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
+        </div>
+    </div>
+
+
+</div>

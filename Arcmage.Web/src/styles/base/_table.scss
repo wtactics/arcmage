@@ -1,0 +1,105 @@
+.p-datatable {
+  .p-sortable-column.p-highlight {
+
+    color: $colorPrimary;
+   
+    .p-sortable-column-icon {
+      color: $colorPrimary;
+      display: unset;
+    }
+  }
+
+  .p-sortable-column.p-highlight:hover {
+
+    color:$colorPrimary;
+   
+    .p-sortable-column-icon {
+      color: $colorPrimary;
+   }
+  }
+
+  .p-sortable-column.p-highlight:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0  rgba(0, 0, 0, 0.1);
+  }
+
+
+  .p-sortable-column {
+    color: $colorPrimary;
+
+    .p-sortable-column-icon {
+      display: none;
+    }
+  }
+}
+
+p-table {
+  
+  border: 0px solid $border-color;
+  border-radius: 3px;
+
+  
+
+  .p-datatable-wrapper {
+    .p-datatable-thead {
+      th {
+        background-color: $body-bg !important;
+        color: $colorPrimary;
+        border: none;
+        border-bottom: 1px solid $border-color;
+        padding: 8px;
+
+      }
+    }
+
+    .p-datatable-tbody {
+      tr:nth-child(even) {
+        background-color: $table-color-odd;
+      }
+
+      td {
+        border: none;
+        color: $body-color-light;
+        padding: 8px;
+
+        a {
+          color: $colorPrimary;
+        }
+
+        &.word-break {
+          word-break: break-all;
+        }
+      }
+    }
+  }
+
+  span.p-paginator-current {
+    float: left;
+    font-size: smaller;
+    padding-top: 6px;
+  }
+
+  .p-table-summary {
+    border: 0px !important;
+  }
+
+
+  .p-paginator {
+    border: 0px;
+    justify-content: flex-end;
+    background-color: unset;
+
+    .p-paginator-pages {
+      padding: 5px;
+      .p-paginator-page {
+        min-width: 1.357rem;
+        height: 1.357rem;
+        border-radius: 50%;
+        &.p-highlight {
+          background-color: $colorPrimary;
+        }
+      }
+    }
+  }
+}

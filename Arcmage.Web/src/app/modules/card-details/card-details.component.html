@@ -1,0 +1,370 @@
+<div class="p-d-flex p-jc-stretch p-grid">
+ 
+    <div class="p-col-5 p-d-flex p-flex-column">
+        <div class="p-d-flex p-jc-end">
+            <div>
+                <div style="position: relative; left: 0; top: 0;">
+                    <img [src]="apiUri + card.backgroundPng" *ngIf="card.backgroundPng" style="max-width: 100%; width: 300px; position: relative; top: 0; left: 0;"/>
+                    <img src="{{apiUri + card.overlaySvg}}" *ngIf="card.overlaySvg" style="max-width: 100%; width: 300px;  position: absolute; top: 0; left: 0;" />
+                </div>
+            </div>
+        </div>
+
+        <div class="p-d-flex p-jc-end p-my-2" *ngIf="card.isGenerated">
+            <a class="searchlink" href="{{apiUri + card.svg}}" target="_blank">Svg</a>
+            <a class="searchlink" href="{{apiUri + card.png}}" target="_blank">Png</a>
+            <a class="searchlink" href="{{apiUri + card.jpeg}}" target="_blank">Jpeg</a>
+            <a class="searchlink" href="{{apiUri + card.pdf}}" target="_blank">Pdf (CMYK)</a>
+        </div>
+   
+        <div class="p-fluid">
+            <div class="p-field p-grid">
+                <label for="card_creator" class="p-col-4">Creator</label>
+                <div class="p-col-8">
+                    <input type="text" inputId="card_creator" name="card_creator" [ngModel]="card?.creator?.name" [disabled]="true" pInputText/>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_created_on" class="p-col-4">Creation date</label>
+                <div class="p-col-8">
+                    <input type="text" inputId="card_created_on" name="card_created_on" [ngModel]="card?.createTime | date:'yyyy-MM-dd HH:MM:ss'" [disabled]="true" pInputText/>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_last_modified_by" class="p-col-4">Last edit by</label>
+                <div class="p-col-8">
+                    <input type="text" inputId="card_last_modified_by" name="card_last_modified_by" [ngModel]="card?.lastModifiedBy?.name" [disabled]="true" pInputText/>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_last_modified_on" class="p-col-4">Last edit</label>
+                <div class="p-col-8">
+                    <input type="text" inputId="card_last_modified_on" name="card_last_modified_on" [ngModel]="card?.lastModifiedTime | date:'yyyy-MM-dd HH:MM:ss'" [disabled]="true" pInputText/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="p-col-7">
+        <div class="p-fluid" >
+
+            <div class="p-field p-grid">
+                <label for="card_name" class="p-col-3">Name*</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_name" name="card_name" placeholder="Name" [(ngModel)]="card.name" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_name', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="requried-input-field offset-md-3">
+                    <div *ngIf="name.errors.required">*The card name is required.</div>
+                  </div>
+            </div>
+        
+            <div class="p-field p-grid">
+                <label for="card_status" class="p-col-3">Status</label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_status" dataKey="guid" [options]="cardOptions?.statuses" [(ngModel)]="card.status" placeholder="Select" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_status', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_serie" class="p-col-3">Serie</label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_serie" dataKey="guid" [options]="cardOptions?.series" [(ngModel)]="card.serie"  placeholder="Select" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_serie', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>        
+            
+            <div class="p-field p-grid">
+                <label for="card_faction" class="p-col-3">Faction</label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_faction" dataKey="guid" [options]="cardOptions?.factions" [(ngModel)]="card.faction" placeholder="Select" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_faction', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+        
+            <div class="p-field p-grid">
+                <label for="card_type" class="p-col-3">Type</label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_type" dataKey="guid" [options]="cardOptions?.cardTypes" [(ngModel)]="card.type" placeholder="Select" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_type', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+            
+            <div class="p-field p-grid">
+                <label for="card_subtype" class="p-col-3">Subtype</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_subtype" name="card_subtype" placeholder="Subtype" [(ngModel)]="card.subType" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_subtype', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_cost" class="p-col-3">Subtype</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_cost" name="card_cost" placeholder="Cost" [(ngModel)]="card.cost" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_cost', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_loyalty" class="p-col-3">Loyalty</label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_loyalty" optionLabel="label" optionValue="value"  [options]="loyalties" [(ngModel)]="card.loyalty" placeholder="Select" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_loyalty', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_attack" class="p-col-3">Attack</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_attack" name="card_attack" placeholder="Attack" [(ngModel)]="card.attack" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_attack', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_defense" class="p-col-3">Defense</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_defense" name="card_defense" placeholder="Defense" [(ngModel)]="card.defense" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_defense', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_ruletext" class="p-col-3">Rule Text</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_ruletext" name="card_ruletext" placeholder="Rule Text" [(ngModel)]="card.ruleText" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_ruletext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_flavortext" class="p-col-3">Flavor Text</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_flavortext" name="card_flavortext" placeholder="Flavor Text" [(ngModel)]="card.flavorText" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_flavortext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_infotext" class="p-col-3">Info Text</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_infotext" name="card_infotext" placeholder="Info Text" [(ngModel)]="card.info" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_infotext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <hr/>
+            
+            <div class="p-field p-grid">
+                <label for="card_firstname" class="p-col-3">Name Line 1</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_firstname" name="card_firstname" placeholder="Name Line 1" [(ngModel)]="card.firstName" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_firstname', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_lastname" class="p-col-3">Name Line 2</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_lastname" name="card_lastname" placeholder="Name Line 2" [(ngModel)]="card.lastName" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_lastname', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_layouttext" class="p-col-3">Layout Text</label>
+                <div class="p-col-8">
+                    <textarea  rows="4" class="form-control input-flex-flox" id="card_layouttext" name="card_layouttext" placeholder="<p><c>E</c><n>xample</n></p>" [(ngModel)]="card.layoutText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_layouttext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_markdowntext" class="p-col-3">Markdown Text</label>
+                <div class="p-col-8">
+                    <textarea  rows="4" class="form-control input-flex-flox" id="card_markdowntext" name="card_markdowntext" placeholder=":E:xample" [(ngModel)]="card.markdownText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_markdowntext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_artist" class="p-col-3">Artist</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_artist" name="card_artist" placeholder="Artist" [(ngModel)]="card.artist" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artist', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+
+            <div class="p-field p-grid">
+                <label for="card_artwork" class="p-col-3"> <a class="searchlink" href="{{apiUri + card.artwork}}" target="_blank">Artwork</a></label>
+                <div class="p-col-8">
+                    <p-fileUpload *ngIf="!showUploadProgress && cardOptions?.isEditable"
+                    #fileUpload
+                    mode="basic" 
+                    [showUploadButton]="true"
+                    [auto]="false"
+                    customUpload="true"
+                    [chooseLabel]="'select png file'"
+                    (uploadHandler)="upload($event)"
+                    accept=".png">
+                  
+                    </p-fileUpload>
+                    <p-progressBar class="input-flex-flox" [value]="uploadProgressValue | number:'1.0-0'" *ngIf="showUploadProgress"></p-progressBar>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon " (click)="selectCardInfo($event, 'card_artwork', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <button type="button" (click)="saveCard()" [disabled]="card?.name == null || card.name == '' || saving"  *ngIf="cardOptions?.isEditable" class="btn btn-primary offset-md-3">Save<p-progressSpinner *ngIf="saving"></p-progressSpinner></button>
+
+    </div>
+
+    <p-overlayPanel #infoOverlay>
+        <div *ngIf="selectedCardInfo === 'card_name'">
+           <p>Shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_status'">
+            <p>Promotion to the release candidate and final states is reserved for developers.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_serie'">
+            <p>Series are not shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_faction'">
+            <p>The chosen faction defines the look and feel of the card's template.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_type'">
+            <p>The layout type of the card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_subtype'">
+            <p>The card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ...</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_cost'">
+            <p>The card's cost, shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_loyalty'">
+            <p>The card's loyalty, shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_attack'">
+            <p>The card's attack strength, shown on creature cards.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_defense'">
+            <p>The card's defense strength, shown on creature and city cards.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_ruletext'">
+            <p>The card's offical rules, not shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_flavortext'">
+            <p>The card's optional flavor text, not shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_infotext'">
+            <p>The card's footer info, shown on card. For official cards, please use 'arcmage.org - join us!'</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_firstname'">
+            <p>First line of the card's name. Leave empty if you don't wish to split the name.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_lastname'">
+            <p>Second line of the card's name. Leave empty if you don't wish to split the name; or fill in if you like it closer to the subtype.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_layouttext'">
+            <p>
+                The layout text, shown on the card. <br/><br/>
+                All xml-tags must be in a <b>p</b> tag.<br>
+                All text must be in a xml-tag.<br/>
+                Tags are not nestable.<br/><br/>
+                
+                <b>Xml markup options :</b><br/>
+                <b>p</b> - new paragraph <br />
+                <b>n</b> - normal text <br />
+                <b>b</b> - bold text <br />
+                <b>i</b> - italic text <br />
+                <b>bi</b> - bold italic text <br />
+                <b>br</b> - force line break <br />
+                <b>mis</b> - mark arrow small<br />
+                <b>g0-g9,gx,gt</b> - cypher symbol 0-9, x<br /><br />
+                
+                <b>Only valid on start of paragraph</b><br />
+                <b>c</b> - capital<br />
+                <b>m</b> - mark<br />
+                <b>mi</b> - mark arrow<br />
+                <b>m0-m9,mx,ma,mt</b> - mark 0-9, x, t, a<br />
+                <b>mc</b> - mark, align column<br />
+                <b>mic</b> - mark arrow, align column<br />
+                </p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_markdowntext'">
+            <p>
+                The markdown layout text, shown on the card. <br/><br/>
+                
+                Leave a blank line to start a new paragraph <br/><br/>
+
+                Surround ***bold italic*** text with three stars <br />
+                Surround **bold** text with two stars  <br />
+                Surround *italic* text with one one  <br /><br />
+                
+                <b>:br:</b> - force a line break <br />
+                <b>:mis:</b> - mark arrow small<br />
+                <b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br />
+                
+                <b>Only valid on start of paragraph</b><br />
+                <b>:capital letter A-Z:</b> - star paragraph with a capital letter e.g. :C:apital <br />
+                <b>:m:</b> - mark<br />
+                <b>:mi:</b> - mark arrow<br />
+                <b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br />
+                <b>:mc:</b> - mark, align column<br />
+                <b>:mic:</b> - mark arrow, align column<br />
+                </p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_artist'">
+            <p>The artist's name, not shown on card.</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_artwork'">
+            <p>Transparent png (all types 1535x1214 @ 600dpi) (creatures 1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box.</p>
+        </div>
+    </p-overlayPanel>
+
+</div>

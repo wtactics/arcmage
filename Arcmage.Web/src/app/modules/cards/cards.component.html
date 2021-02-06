@@ -1,0 +1,151 @@
+<div class="p-d-flex p-flex-column">
+  
+  <div class="p-my-2 p-d-flex p-jc-end">
+    <button *ngIf="isAuthenticated" type="button" (click)="createCard()"  class="btn btn-primary">Create your own card!</button>
+    <h1 *ngIf="!isAuthenticated" >Log in to create your own Cards!</h1>
+  </div>
+
+  <div class="p-my-2">
+    <ngx-slick-carousel *ngIf="showCarousel" class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+      <div ngxSlickItem *ngFor="let card of cardSearchResult.items" class="slide">
+        <img src="{{apiUri + card.jpeg}}"  style="max-width: 95%" draggable="false" *ngIf="card"/>
+      </div>
+    </ngx-slick-carousel>
+  </div>
+
+  <div class="p-my-2">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="cardSearchOptions.search" (keydown.enter)="searchClick()">
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
+      </div>
+    </div>
+    <div class="p-d-flex p-jc-end">
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">advanced</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">clear</a>
+    </div>
+  </div>
+
+  <p-panel class="p-my-2" [toggleable]="true" [collapsed]="hideAvancedSearch" [showHeader]="false">
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+          <label for="search_card_type">Type</label>
+          <p-dropdown dataKey="guid" inputId="search_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="cardSearchOptions.cardType" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field p-col">
+        <label for="search_card_faction">Faction</label>
+        <p-dropdown dataKey="guid" inputId="search_card_faction" [options]="cardOptions?.factions" [(ngModel)]="cardSearchOptions.faction" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field p-col">
+        <label for="search_card_cost">Cost</label>
+        <input id="search_card_cost" type="text" pInputText [(ngModel)]="cardSearchOptions.cost"> 
+      </div>
+    </div>
+    <div class="p-fluid p-formgrid p-grid">
+      <div class="p-field p-col">
+        <label for="search_card_loyalty">Loyalty</label>
+        <p-dropdown optionLabel="label" optionValue="value" inputId="search_card_loyalty" [options]="loyalties" [(ngModel)]="cardSearchOptions.loyalty" showClear="true" placeholder="Select" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field p-col">
+        <label for="search_card_serie">Serie</label>
+        <p-dropdown dataKey="guid" inputId="search_card_serie" [options]="cardOptions?.series" [(ngModel)]="cardSearchOptions.serie" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field p-col">
+        <label for="search_card_status">Status</label>
+        <p-dropdown dataKey="guid" inputId="search_card_status" [options]="cardOptions?.statuses" [(ngModel)]="cardSearchOptions.status" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+    </div>
+  </p-panel>
+
+
+  <p-table #cardsTable
+          [value]="cardSearchResult.items"
+          [resizableColumns]="true"
+          [autoLayout]="true"
+          [rowHover]="true"
+          [lazy]="true"
+          (onLazyLoad)="loadData($event)"
+          [paginator]="true"
+          paginatorPosition="both"
+          [rows]="30"
+          [totalRecords]="cardSearchResult.totalItems"
+          [showCurrentPageReport]="false"
+          currentPageReportTemplate="{{'grids.total' | translate}}: {{cardSearchResult.totalItems}}"
+          [loading]="loading">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+        <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
+        <th pSortableColumn="type.name">Type <p-sortIcon [field]="'type.name'"></p-sortIcon></th>
+        <th pSortableColumn="faction.name">Faction <p-sortIcon [field]="'faction.name'"></p-sortIcon></th>
+        <th pSortableColumn="cost">C <p-sortIcon [field]="'cost'"></p-sortIcon></th>
+        <th pSortableColumn="loyalty">L <p-sortIcon [field]="'loyalty'"></p-sortIcon></th>
+        <th pSortableColumn="attack">A <p-sortIcon [field]="'attack'"></p-sortIcon></th>
+        <th pSortableColumn="defense">D <p-sortIcon [field]="'defense'"></p-sortIcon></th>
+        <th pSortableColumn="serie.name">Serie <p-sortIcon [field]="'serie.name'"></p-sortIcon></th>
+        <th pSortableColumn="artist">Artist <p-sortIcon [field]="'artist'"></p-sortIcon></th>
+        <!-- <th pSortableColumn="creator.name">Creator <p-sortIcon [field]="'creator.name'"></p-sortIcon></th> -->
+        <th *ngIf="isAuthenticated" pSortableColumn="castModifiedTime">Last Edit <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
+        <th *ngIf="isAuthenticated" pSortableColumn="status.name">Status <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-card>
+      <tr>
+        <td><a (mouseenter)="selectCard($event,card,cardOverlayPanel)" ><i class="fas fa-info-circle"></i></a></td>
+        <td><a [title]="card.name" [routerLink]="['/cards', card.guid]">{{ card.name }}</a></td>
+        <td>{{card.type.name}}</td>
+        <td>{{card.faction.name}}</td>
+        <td style="text-align:center">{{card.cost}}</td>
+        <td style="text-align:center">{{card.loyalty}}</td>
+        <td style="text-align: center">{{card.attack}}</td>
+        <td style="text-align:center">{{card.defense}}</td>
+        <td>{{card.serie.name}}</td>
+        <td>{{card.artist}}</td>
+        <!-- <td>{{card.creator.name}}</td> -->
+        <td *ngIf="isAuthenticated">{{card.lastModifiedTime | date:'yyyy-MM-dd'}}</td>
+        <td *ngIf="isAuthenticated">{{card.status.name}}</td>
+
+      
+        
+      </tr>
+    </ng-template>
+    
+  </p-table>
+
+  <p-overlayPanel #cardOverlayPanel>
+    <img src="{{apiUri + selectedCard.jpeg}}" *ngIf="selectedCard" height="150px"/>
+  </p-overlayPanel>
+
+  <p-sidebar [(visible)]="showCardCreation" position="right" styleClass="p-sidebar-md">
+    <h1>Create a new card</h1>
+
+    <div class="p-fluid">
+      <div class="p-field">
+          <label for="card_name">Name*</label>
+          <input id="card_name" #card_name="ngModel" [(ngModel)]="newCard.name" [disabled]="loading" type="text" pInputText required> 
+          <div *ngIf="card_name.invalid && (card_name.dirty || card_name.touched)" class="requried-input-field">
+            <div *ngIf="card_name.errors.required">*The card name is required.</div>
+          </div>
+      </div>
+      <div class="p-field">
+        <label for="new_card_serie">Serie</label>
+        <p-dropdown dataKey="guid" inputId="new_card_serie" [options]="cardOptions?.series" [(ngModel)]="newCard.serie" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field">
+        <label for="new_card_faction">Faction</label>
+        <p-dropdown dataKey="guid" inputId="new_card_faction" [options]="cardOptions?.factions" [(ngModel)]="newCard.faction" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field">
+        <label for="new_card_type">Type</label>
+        <p-dropdown dataKey="guid" inputId="new_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="newCard.type" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-d-flex p-jc-end">
+        <button type="button" (click)="saveCard()" [disabled]="newCard?.name == null || newCard.name == '' " class="btn btn-primary float-right">Save</button>
+      </div>
+    </div>
+
+  </p-sidebar>
+
+</div>
