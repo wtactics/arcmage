@@ -7,7 +7,7 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         public IRenderContext Clone()
         {
-            return new RenderContext() { Parent = Parent, SetBoldRun = SetBoldRun, SetItalicRun = SetItalicRun };
+            return new RenderContext() { Parent = Parent, SetBoldRun = SetBoldRun, SetItalicRun = SetItalicRun, TrimLeadingWhitespace = TrimLeadingWhitespace};
         }
 
         public bool TrimLeadingWhitespace { get; set; }

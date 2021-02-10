@@ -1,6 +1,5 @@
 ﻿using System;
 using Arcmage.DAL;
-using Arcmage.Server.Api;
 
 namespace Arcmage.Seed
 {

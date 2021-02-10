@@ -150,6 +150,7 @@ export class CardsComponent implements OnInit, AfterViewInit {
     this.newCard.status = this.cardOptions.statuses[0];
     this.newCard.faction = this.cardOptions.factions[1];
     this.newCard.type = this.cardOptions.cardTypes[1];
+    this.newCard.language = { name: "English", languageCode : "en"};
     this.newCard.info = "arcmage.org - join us!";
     this.showCardCreation = true;
   }

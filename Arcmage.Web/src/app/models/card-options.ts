@@ -3,6 +3,7 @@ import { Faction } from "./faction";
 import { Serie } from "./serie";
 import { RuleSet } from "./rule-set";
 import { Status } from "./status";
+import { Language } from "./language";
 
 export class CardOptions {
     isEditable: boolean;
@@ -13,4 +14,5 @@ export class CardOptions {
     ruleSets: RuleSet[];
     statuses: Status[];
     loyalties: number[];
+    languages: Language[];
 }

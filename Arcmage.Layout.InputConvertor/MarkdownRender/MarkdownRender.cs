@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
@@ -83,6 +85,14 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         public static string ToXml(string markdownLayout, bool removeRoot = false)
         {
+            // Fixing space endings in enclosed bold, italic and bold-italic
+            markdownLayout = markdownLayout.Replace(" *", " @@*");
+            // Normalizing input to newline endings only
+            markdownLayout = markdownLayout.Replace("\r\n", "\n");
+            // Added support for backslash line breaking
+            markdownLayout = markdownLayout.Replace("\\", ":br:");
+            
+
             var document = new MarkdownDocument();
             document.Parse(markdownLayout);
             var layoutRender = new MarkdownRender(document);
@@ -93,9 +103,10 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
             layoutRender.Render(renderContext);
             if (removeRoot)
             {
-                return layoutDocument.Root.Value;
+                var paragraphs = layoutDocument.Root.Elements().ToList().Select(x => x.ToString());
+                return string.Join(Environment.NewLine, paragraphs).Replace(" @@", " ");
             }
-            return layoutDocument.ToString();
+            return layoutDocument.ToString().Replace(" @@", " "); ;
         }
 
         public MarkdownRender(MarkdownDocument document) : base(document)
@@ -145,6 +156,10 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
             if (0 <= element.Code && element.Code < 65)
             {
                 paragraph.Add(new XElement(element.Text));
+                if (element.Code == 50)
+                {
+                    context.TrimLeadingWhitespace = true;
+                }
                 return;
             }
 
@@ -160,23 +175,38 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
         {
             var renderContext = context as RenderContext;
             var paragraph = context.Parent as XElement;
+            var text = element.Text;
+            if (renderContext.TrimLeadingWhitespace)
+            {
+                text = text.TrimStart();
+                renderContext.TrimLeadingWhitespace = false;
+            }
+
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return;
+            }
+
             if (renderContext.SetBoldRun && renderContext.SetItalicRun)
             {
-                paragraph.Add(new XElement("bi", element.Text));
+                paragraph.Add(new XElement("bi", text));
                 return;
             }
             if (renderContext.SetBoldRun)
             {
-                paragraph.Add(new XElement("b", element.Text));
+                paragraph.Add(new XElement("b", text));
                 return;
             }
             if (renderContext.SetItalicRun)
             {
-                paragraph.Add(new XElement("i", element.Text));
+                paragraph.Add(new XElement("i", text));
+
                 return;
             }
-            paragraph.Add(new XElement("n", element.Text));
+            paragraph.Add(new XElement("n", text));
         }
+
+       
 
         protected override void RenderBoldRun(BoldTextInline element, IRenderContext context)
         {

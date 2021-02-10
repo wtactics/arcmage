@@ -66,6 +66,16 @@
             </div>
         
             <div class="p-field p-grid">
+                <label for="card_language" class="p-col-3">Language</label>
+                <div class="p-col-8">
+                    <p-autoComplete [(ngModel)]="card.language" [suggestions]="languages" (completeMethod)="searchLanguages($event)" [forceSelection]=true [dropdown]="true" field="name" dataKey="languageCode" [disabled]="loading || !cardOptions.isEditable"></p-autoComplete>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_language', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
                 <label for="card_status" class="p-col-3">Status</label>
                 <div class="p-col-8">
                     <p-dropdown inputId="card_status" dataKey="guid" [options]="cardOptions?.statuses" [(ngModel)]="card.status" placeholder="Select" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
@@ -207,7 +217,7 @@
                 </div>
             </div>
 
-            <div class="p-field p-grid">
+            <div class="p-field p-grid" *ngIf="false">
                 <label for="card_layouttext" class="p-col-3">Layout Text</label>
                 <div class="p-col-8">
                     <textarea  rows="4" class="form-control input-flex-flox" id="card_layouttext" name="card_layouttext" placeholder="<p><c>E</c><n>xample</n></p>" [(ngModel)]="card.layoutText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
@@ -268,9 +278,15 @@
         <div *ngIf="selectedCardInfo === 'card_name'">
            <p>Shown on card.</p>
         </div>
+
+        <div *ngIf="selectedCardInfo === 'card_language'">
+            <p>The card's language.</p>
+        </div>
+
         <div *ngIf="selectedCardInfo === 'card_status'">
             <p>Promotion to the release candidate and final states is reserved for developers.</p>
         </div>
+
         <div *ngIf="selectedCardInfo === 'card_serie'">
             <p>Series are not shown on card.</p>
         </div>

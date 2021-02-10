@@ -11,6 +11,7 @@ import { HttpEvent, HttpEventType, HttpParams } from "@angular/common/http";
 import { OverlayPanel } from "primeng/overlaypanel/overlaypanel";
 import { SelectItem } from "primeng/api";
 import { ConfigurationService } from "src/app/services/global/config.service";
+import { Language } from "src/app/models/language";
 
 
 @Component({
@@ -26,6 +27,8 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   cardOptions: CardOptions;
   loyalties: SelectItem[];
   selectedCardInfo: string;
+
+  languages: Language[];
 
   loading: boolean;
   saving: boolean;
@@ -76,6 +79,10 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
       );
 
     });
+  }
+
+  searchLanguages(event) {
+    this.languages = this.cardOptions.languages.filter(x => x.name.startsWith(event.query));
   }
 
   saveCard(forceGeneration: boolean = false) {

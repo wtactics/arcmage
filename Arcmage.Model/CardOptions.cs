@@ -20,9 +20,12 @@ namespace Arcmage.Model
 
         public List<int> Loyalties { get; set; }
 
+        public List<Language> Languages { get; set; }
+
         public CardOptions()
         {
             Loyalties = new List<int> {0,1,2,3};
+            Languages = new List<Language>();
         }
 
     }

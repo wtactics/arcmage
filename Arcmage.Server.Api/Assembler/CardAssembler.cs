@@ -3,6 +3,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Model;
 using Arcmage.Layout.InputConvertor;
 using Arcmage.Model;
+using Arcmage.Server.Api.Utils;
 
 namespace Arcmage.Server.Api.Assembler
 {
@@ -26,6 +27,9 @@ namespace Arcmage.Server.Api.Assembler
             result.Defense = cardModel.Defense;
             result.Info = cardModel.Info;
             result.LayoutText = cardModel.LayoutText;
+
+            result.Language = Languages.GetLanguage(cardModel.LanguageCode);
+
             // Convert to markdown if need be
             if (string.IsNullOrEmpty(cardModel.MarkdownText) && !string.IsNullOrEmpty(cardModel.LayoutText))
             {
@@ -79,6 +83,7 @@ namespace Arcmage.Server.Api.Assembler
             cardModel.Info = card.Info;
             cardModel.LayoutText = card.LayoutText;
             cardModel.MarkdownText = card.MarkdownText;
+            cardModel.LanguageCode = card.Language?.LanguageCode?? "en";
             // always convert markdown to xml
             if (!string.IsNullOrEmpty(card.MarkdownText))
             {

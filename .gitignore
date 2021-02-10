@@ -247,3 +247,4 @@ _Pvt_Extensions
 /Arcmage.Server.Api/wwwroot/arcmage/Cards
 /Arcmage.Server.Api/wwwroot/arcmage/Decks
 
+/Arcmage.DAL/appsettings_development.json

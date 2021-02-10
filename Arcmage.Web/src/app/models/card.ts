@@ -4,6 +4,7 @@ import { Faction } from "./faction";
 import { Status } from "./status";
 import { RuleSet } from "./rule-set";
 import { Serie } from "./serie";
+import { Language } from "./language";
 
 export class Card extends Base {
     id: number;
@@ -38,4 +39,5 @@ export class Card extends Base {
     isGenerated: boolean;
     backgroundPng: string;
     overlaySvg: string;
+    language: Language;
 }

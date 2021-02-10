@@ -52,5 +52,7 @@ namespace Arcmage.DAL.Model
 
         public string PngCreationJobId { get; set; }
 
+        public string LanguageCode { get; set; }
+
     }
 }

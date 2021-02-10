@@ -76,7 +76,7 @@
 
         public string OverlaySvg { get; set; }
 
-      
+        public Language Language { get; set; }
 
     }
 }

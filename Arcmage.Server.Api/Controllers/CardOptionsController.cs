@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -52,9 +53,13 @@ namespace Arcmage.Server.Api.Controllers
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
 
+                cardOptions.Languages = Languages.All;
+                
                 return Ok(cardOptions);
             }
         }
+
+       
 
         [AllowAnonymous]
         [HttpGet]
@@ -70,6 +75,9 @@ namespace Arcmage.Server.Api.Controllers
                 cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
+
+                cardOptions.Languages = Languages.All;
+
 
                 return Ok(cardOptions);
             }

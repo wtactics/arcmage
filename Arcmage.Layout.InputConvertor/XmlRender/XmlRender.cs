@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 
 namespace Arcmage.Layout.InputConvertor.XmlRender
@@ -8,22 +9,10 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
     {
         public static string ToMarkdown(string xmlLayout, bool hasXmlRoot = true)
         {
-            var result = string.Empty;
             if (!hasXmlRoot) xmlLayout = $"<layout>{xmlLayout}</layout>";
-            var document = XDocument.Parse(xmlLayout);
-            var paragraphs = document.Root.Elements("p").ToList();
-            var counter = 0;
-            foreach (var xElement in paragraphs)
-            {
-                result += ParseParagraph(xElement);
-                if (counter != paragraphs.Count - 1)
-                {
-                    result += Environment.NewLine + Environment.NewLine;
-                }
-                counter++;
-            }
-
-            return result;
+            var document = XDocument.Parse(xmlLayout, LoadOptions.PreserveWhitespace);
+            var paragraphs = document.Root.Elements("p").Select(ParseParagraph).ToList();
+            return string.Join("\n\n", paragraphs).Replace("\n", "\r\n");
         }
 
         private static string ParseParagraph(XElement paragraph)
@@ -38,7 +27,7 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
                 {
                     // Capital letter, should only occurr as the first item of a paragraph
                     case "c":
-                        var capitalLetter = xElement.Value.ToUpper();
+                        var capitalLetter = ShallowValue(xElement).ToUpper().First();
                         paragraphLine += $":{capitalLetter}:";
                         break;
                     // Larrge symbol, should only occurr as the first item of a paragraph
@@ -76,33 +65,53 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
                         break;
                     // normal text
                     case "n":
-                        paragraphLine += xElement.Value;
+                        paragraphLine += ShallowValue(xElement);
                         break;
                     case "b":
-                        paragraphLine += $"**{xElement.Value}**";
+                        paragraphLine += $"**{ShallowValue(xElement)}**";
                         break;
                     case "i":
-                        paragraphLine += $"*{xElement.Value}*";
+                        paragraphLine += $"*{ShallowValue(xElement)}*";
                         break;
                     case "bi":
-                        paragraphLine += $"***{xElement.Value}***";
+                        paragraphLine += $"***{ShallowValue(xElement)}***";
                         break;
                     case "br":
                         paragraphLine += $":{tagName}:";
                         break;
                 }
             }
-
-            return InlineBreaks(paragraphLine);
+            paragraphLine = InlineBreaks(paragraphLine);
+            return RemoveNullChars(paragraphLine);
         }
 
-        private static string InlineBreaks(string paragraphLine)
+        public static string ShallowValue(XElement xe)
         {
-            paragraphLine = paragraphLine.Replace("***:br:***", ":br:");
-            paragraphLine = paragraphLine.Replace("**:br:**", ":br:");
-            paragraphLine = paragraphLine.Replace("*:br:*", ":br:");
-            return paragraphLine;
+
+            
+            return xe
+                .Nodes()
+                .OfType<XText>()
+                .Aggregate(new StringBuilder(),
+                    (s, c) => s.Append(c),
+                    s => s.ToString());
         }
+
+       private static string InlineBreaks(string paragraphLine)
+       {
+           paragraphLine = paragraphLine.Replace("***:br:***", ":br:");
+           paragraphLine = paragraphLine.Replace("**:br:**", ":br:");
+           paragraphLine = paragraphLine.Replace("*:br:*", ":br:");
+           paragraphLine = paragraphLine.Replace(":br:", "\\\n");
+           paragraphLine = paragraphLine.TrimEnd('\r', '\n');
+
+           return paragraphLine;
+       }
+
+       private static string RemoveNullChars(string text)
+       {
+           return text.Replace("\0", string.Empty);
+       }
 
     }
 }

@@ -59,7 +59,7 @@ namespace Arcmage.Server.Api.Controllers
                 {
                     System.IO.File.Delete(artFile);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return Conflict();
                 }

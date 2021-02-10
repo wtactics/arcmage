@@ -54,21 +54,21 @@
     </p-table>
   
     <p-sidebar [(visible)]="showGameCreation" position="right" styleClass="p-sidebar-md">
-      <h1 style="font-weight:normal">Create a new game</h1>
+
+      <h1>Create a new game</h1>
   
-      <form class="form-horizontal">
-  
-        <div class="form-group form-inline">
-          <label for="game_name" class="col-md-4 control-label">Name*</label>
-          <input type="text" class="form-control input-flex-flox" id="game_name" name="game_name" #name="ngModel" placeholder="Game Name" [(ngModel)]="newGame.name" [disabled]="loading" required>
-          <div *ngIf="name.invalid && (name.dirty || name.touched)" class="requried-input-field offset-md-4">
-            <div *ngIf="name.errors.required">*The game name is required.</div>
-          </div>
+      <div class="p-fluid">
+        <div class="p-field">
+            <label for="game_name">Name*</label>
+            <input id="game_name" #game_name="ngModel" [(ngModel)]="newGame.name" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="game_name.invalid && (game_name.dirty || game_name.touched)" class="requried-input-field">
+              <div *ngIf="game_name.errors.required">*The game name is required.</div>
+            </div>
         </div>
-  
-      </form>
-  
-      <button type="button" (click)="saveGame()" [disabled]="newGame?.name == null || newGame.name == '' " class="btn btn-primary float-right">Create</button>
+        <div class="p-d-flex p-jc-end">
+          <button type="button" (click)="saveGame()" [disabled]="newGame?.name == null || newGame.name == '' " class="btn btn-primary float-right">Create</button>
+        </div>
+      </div>
       
     </p-sidebar>
   
