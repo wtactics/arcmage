@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Arcmage.Client\Arcmage.Client.csproj" />
+    <ProjectReference Include="..\..\..\..\arcmage\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj" />
   </ItemGroup>
 
 </Project>
