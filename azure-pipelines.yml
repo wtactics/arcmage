@@ -21,23 +21,23 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    echo '$(Build.SourcesDirectory)'
-  workingDirectory: '$(Build.SourcesDirectory)'
+    echo '$(Build.SourcesDirectory)\Arcmage.Web'
+  workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'show source dir'
 
 - script: |
     npm install -g @angular/cli
-  workingDirectory: '$(Build.SourcesDirectory)'
+  workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'install angular cli'
 
 - script: |
     npm install
-  workingDirectory: '$(Build.SourcesDirectory)'
+  workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'npm install'
 
 - script: |
     npm build
-  workingDirectory: '$(Build.SourcesDirectory)'
+  workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'npm build'
 
 - task: NuGetToolInstaller@1
