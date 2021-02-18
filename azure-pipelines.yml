@@ -21,10 +21,24 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    echo '$(Build.SourcesDirectory)'
+  workingDirectory: '$(Build.SourcesDirectory)'
+  displayName: 'show source dir'
+
+- script: |
     npm install -g @angular/cli
+  workingDirectory: '$(Build.SourcesDirectory)'
+  displayName: 'install angular cli'
+
+- script: |
     npm install
+  workingDirectory: '$(Build.SourcesDirectory)'
+  displayName: 'npm install'
+
+- script: |
     npm build
-  displayName: 'npm install and build'
+  workingDirectory: '$(Build.SourcesDirectory)'
+  displayName: 'npm build'
 
 - task: NuGetToolInstaller@1
 
