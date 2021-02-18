@@ -26,16 +26,9 @@ namespace Arcmage.Server.Api.Assembler
             result.Attack = cardModel.Attack;
             result.Defense = cardModel.Defense;
             result.Info = cardModel.Info;
-            result.LayoutText = cardModel.LayoutText;
-
-            result.Language = Languages.GetLanguage(cardModel.LanguageCode);
-
-            // Convert to markdown if need be
-            if (string.IsNullOrEmpty(cardModel.MarkdownText) && !string.IsNullOrEmpty(cardModel.LayoutText))
-            {
-                cardModel.MarkdownText = LayoutInputConvertor.ToMarkdown(result.LayoutText, false);
-            }
             result.MarkdownText = cardModel.MarkdownText;
+            result.Language = Languages.GetLanguage(cardModel.LanguageCode);
+            
             if (cardModel.Type != null) result.Type = cardModel.Type.FromDal();
             if (cardModel.Faction != null) result.Faction = cardModel.Faction.FromDal();
             if (cardModel.Serie != null) result.Serie = cardModel.Serie.FromDal();
@@ -81,14 +74,10 @@ namespace Arcmage.Server.Api.Assembler
             cardModel.Attack = card.Attack;
             cardModel.Defense = card.Defense;
             cardModel.Info = card.Info;
-            cardModel.LayoutText = card.LayoutText;
             cardModel.MarkdownText = card.MarkdownText;
             cardModel.LanguageCode = card.Language?.LanguageCode?? "en";
-            // always convert markdown to xml
-            if (!string.IsNullOrEmpty(card.MarkdownText))
-            {
-                cardModel.LayoutText = LayoutInputConvertor.ToXml(card.MarkdownText, true);
-            }
+           
+            
             if (serieModel != null) cardModel.Serie = serieModel;
             if (factionModel != null) cardModel.Faction = factionModel;
             if (cardTypeModel != null) cardModel.Type = cardTypeModel;

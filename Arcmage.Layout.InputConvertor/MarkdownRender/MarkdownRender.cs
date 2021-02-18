@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
@@ -14,6 +13,7 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         static MarkdownRender()
         {
+            // Overwrite emoji codes with our own.
             EmojiInline.SetCodesDictionary(new Dictionary<string, int>()
             {
                 { "g0", 0 },
@@ -50,6 +50,7 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
                 { "mis", 34 },
 
                 { "br", 50 },
+                { "pa", 51 },
 
                 {"A", 65},
                 {"B", 66},
@@ -80,33 +81,70 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
             });
         }
 
-
-
-
-        public static string ToXml(string markdownLayout, bool removeRoot = false)
+        public static string ToXml(string markdownLayout)
         {
-            // Fixing space endings in enclosed bold, italic and bold-italic
-            markdownLayout = markdownLayout.Replace(" *", " @@*");
             // Normalizing input to newline endings only
             markdownLayout = markdownLayout.Replace("\r\n", "\n");
+            
+            // Normalize markdown ends.
+            if (!markdownLayout.EndsWith("\n\n"))
+            {
+                markdownLayout = markdownLayout + "\n\n";
+            }
+        
+            // Adding support for a empty paragraphs
+            markdownLayout = SupportEmptyParagraphs(markdownLayout);
+
+            // The markdown parser doesn't support spaces at the start or end of bold,
+            // italic or bold-italic textrun, nor at the beginning of a line.
+            // - We'll replace it by a placeholder before parsing, and change it back afterwards.
+
+            // Adding support for space ends in enclosed bold, italic and bold-italic
+            markdownLayout = markdownLayout.Replace(" *", "@@*");
+            // Adding support for space starts in enclosed bold, italic and bold-italic
+            markdownLayout = markdownLayout.Replace("* ", "*@@");
+            // Adding support for a space at start of a line
+            markdownLayout = markdownLayout.Replace("\n ", "\n@@");
+
             // Added support for backslash line breaking
             markdownLayout = markdownLayout.Replace("\\", ":br:");
-            
-
+          
+            // Parse the markdown document to structured information
             var document = new MarkdownDocument();
             document.Parse(markdownLayout);
-            var layoutRender = new MarkdownRender(document);
-            var renderContext = new RenderContext();
+
+            // Create the output xml document
             var layoutDocument = new XDocument();
-            layoutDocument.Add(new XElement("layout"));
-            renderContext.Parent = layoutDocument;
+            layoutDocument.Add(new XElement("layout") { Value = string.Empty });
+
+            // Create a new layout render
+            var layoutRender = new MarkdownRender(document);
+            // Setup the render context with the output xml document
+            var renderContext = new RenderContext {Parent = layoutDocument};
+
+            // Render the markdown in xml
             layoutRender.Render(renderContext);
-            if (removeRoot)
+
+            // Pretty print the xml document
+            var xml = layoutDocument.ToString();
+
+            // Replace the pre-render space support placeholder with a space
+            return xml.Replace("@@", " ");
+        }
+
+        private static string SupportEmptyParagraphs(string markdownLayout)
+        {
+            // To support empty paragraphs at the start, we'll add a dummy empty line
+            markdownLayout = "\n" + markdownLayout;
+
+            // Replace all empty paragraph markup, backslash + enter (+ blank line) with empty paragraph emoji code.
+            int pos = markdownLayout.IndexOf("\n\\\n\n"); 
+            while (pos >= 0)
             {
-                var paragraphs = layoutDocument.Root.Elements().ToList().Select(x => x.ToString());
-                return string.Join(Environment.NewLine, paragraphs).Replace(" @@", " ");
+                markdownLayout = markdownLayout.Substring(0, pos) + "\n:pa:\n\n" + markdownLayout.Substring(pos + "\n\\\n\n".Length);
+                pos = markdownLayout.IndexOf("\n\\\n\n");
             }
-            return layoutDocument.ToString().Replace(" @@", " "); ;
+            return markdownLayout;
         }
 
         public MarkdownRender(MarkdownDocument document) : base(document)
@@ -115,10 +153,12 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         protected override void RenderParagraph(ParagraphBlock element, IRenderContext context)
         {
+            // Adding new paragraphs to the root of the xml document
             var doc = context.Parent as XDocument;
             var paragraph = new XElement("p");
             doc.Root.Add(paragraph);
 
+            // Render the paragraph's children
             RenderInlineChildren(element.Inlines, new RenderContext(){ Parent = paragraph });
         }
 
@@ -152,17 +192,32 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         protected override void RenderEmoji(EmojiInline element, IRenderContext context)
         {
+            // Fetch the paragraph 
             var paragraph = context.Parent as XElement;
-            if (0 <= element.Code && element.Code < 65)
+
+            // Custom tags support
+            if (0 <= element.Code && element.Code < 50)
             {
                 paragraph.Add(new XElement(element.Text));
-                if (element.Code == 50)
-                {
-                    context.TrimLeadingWhitespace = true;
-                }
                 return;
             }
 
+            // Break line support support
+            if (element.Code == 50)
+            {
+                paragraph.Add(new XElement(element.Text));
+                context.TrimLeadingWhitespace = true;
+                return;
+            }
+
+            // Empty paragraph support
+            if (element.Code == 51)
+            {
+                paragraph.Value = String.Empty;
+                return;
+            }
+
+            // Drop cap support
             if (65 <= element.Code && element.Code < 91)
             {
                 paragraph.Add(new XElement("c", element.Text));
@@ -173,36 +228,42 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         protected override void RenderTextRun(TextRunInline element, IRenderContext context)
         {
+            // Fetch the paragraph to add the text content to
             var renderContext = context as RenderContext;
             var paragraph = context.Parent as XElement;
+
+            // Fetch the content of the inline element
             var text = element.Text;
+            
+            // Check if we need to trim leading white space
             if (renderContext.TrimLeadingWhitespace)
             {
                 text = text.TrimStart();
                 renderContext.TrimLeadingWhitespace = false;
             }
 
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return;
-            }
+            // No content, nothing to do
+            if (string.IsNullOrWhiteSpace(text)) return;
 
+            // Add a bold italic xml tag
             if (renderContext.SetBoldRun && renderContext.SetItalicRun)
             {
                 paragraph.Add(new XElement("bi", text));
                 return;
             }
+            // Add a bold xml tag
             if (renderContext.SetBoldRun)
             {
                 paragraph.Add(new XElement("b", text));
                 return;
             }
+            // Add a italic xml tag
             if (renderContext.SetItalicRun)
             {
                 paragraph.Add(new XElement("i", text));
-
                 return;
             }
+            // Add a normal xml tag
             paragraph.Add(new XElement("n", text));
         }
 
@@ -210,6 +271,7 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         protected override void RenderBoldRun(BoldTextInline element, IRenderContext context)
         {
+            // We've detected a bold content element, mark it as such
             var renderContext = context.Clone() as RenderContext;
             renderContext.SetBoldRun = true;
             RenderInlineChildren(element.Inlines, renderContext);
@@ -229,6 +291,7 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
         protected override void RenderItalicRun(ItalicTextInline element, IRenderContext context)
         {
+            // We've detected an italic content element, mark it as such
             var renderContext = context.Clone() as RenderContext;
             renderContext.SetItalicRun = true;
             RenderInlineChildren(element.Inlines, renderContext);

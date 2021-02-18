@@ -2,14 +2,14 @@
 {
     public class LayoutInputConvertor
     {
-        public static string ToXml(string markdownLayout, bool removeRoot)
+        public static string ToXml(string markdownLayout)
         {
-            return MarkdownRender.MarkdownRender.ToXml(markdownLayout, removeRoot);
+            return MarkdownRender.MarkdownRender.ToXml(markdownLayout);
         }
 
-        public static string ToMarkdown(string xmlLayout, bool hasXmlRoot)
+        public static string ToMarkdown(string xmlLayout)
         {
-            return XmlRender.XmlRender.ToMarkdown(xmlLayout, hasXmlRoot);
+            return XmlRender.XmlRender.ToMarkdown(xmlLayout);
         }
     }
 }

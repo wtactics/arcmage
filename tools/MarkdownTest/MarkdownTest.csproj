@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\arcmage\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj" />
+    <None Remove="appsettings_development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Arcmage.DAL\Arcmage.DAL.csproj" />
+    <ProjectReference Include="..\..\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj" />
   </ItemGroup>
 
 </Project>

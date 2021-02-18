@@ -34,8 +34,6 @@ namespace Arcmage.Configuration
 
         public string ArcmageConnectionString { get; set; }
 
-        public string HangFireConnectionString { get; set; }
-
         public string TokenEncryptionKey { get; set; }
 
         public string RepositoryRootPah { get; set; }

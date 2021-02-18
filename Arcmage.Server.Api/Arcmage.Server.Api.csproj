@@ -5,6 +5,7 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>.*</FileVersion>
     <LangVersion>8</LangVersion>
+    <UserSecretsId>d427f7b6-8e6d-4862-b76e-1f89a3a515e4</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,6 +20,10 @@
 
   <ItemGroup>
     <Compile Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings_development.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +58,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Arcmage.Configuration\Arcmage.Configuration.csproj" />
     <ProjectReference Include="..\Arcmage.DAL\Arcmage.DAL.csproj" />
+    <ProjectReference Include="..\Arcmage.Game.Api\Arcmage.Game.Api.csproj" />
     <ProjectReference Include="..\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj" />
     <ProjectReference Include="..\Arcmage.Model\Arcmage.Model.csproj" />
   </ItemGroup>

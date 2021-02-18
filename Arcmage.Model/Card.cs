@@ -45,8 +45,6 @@
         // generation input
         public string Artwork { get; set; }
 
-        public string LayoutText { get; set; }
-
         public string MarkdownText { get; set; }
 
         // generation results

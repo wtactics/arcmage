@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Arcmage.DAL;
 using Arcmage.DAL.Utils;
+using Arcmage.Layout.InputConvertor;
 using Arcmage.Model;
 using ImageMagick;
 using iText.Kernel.Font;
@@ -298,7 +299,9 @@ namespace Arcmage.Server.Api.Layout
                 CardTextBox = FindById("cardtext");
                 CardTextBox?.RemoveNodes();
 
-                var document = XDocument.Parse($"<root>{Card.LayoutText}</root>");
+                var layoutXml = LayoutInputConvertor.ToXml(Card.MarkdownText);
+
+                var document = XDocument.Parse(layoutXml);
                 foreach (var xElement in document.Root.Elements("p"))
                 {
                     ParseParagraph(xElement);

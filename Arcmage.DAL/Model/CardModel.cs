@@ -44,11 +44,14 @@ namespace Arcmage.DAL.Model
 
         public StatusModel Status { get; set; }
 
-        // generation input in xml format
+        // generation input in rootless xml format
         public string LayoutText { get; set; }
 
         // generation input in markdown format
         public string MarkdownText { get; set; }
+
+        // generation input in pretty print rooted xml
+        public string LayoutXml { get; set; }
 
         public string PngCreationJobId { get; set; }
 

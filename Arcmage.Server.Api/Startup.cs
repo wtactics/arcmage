@@ -47,14 +47,15 @@ namespace Arcmage.Server.Api
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
-                .UseSqlServerStorage(Settings.Current.HangFireConnectionString, new SqlServerStorageOptions
+                .UseSqlServerStorage(Settings.Current.ArcmageConnectionString, new SqlServerStorageOptions
                 {
                     CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                     SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
                     QueuePollInterval = TimeSpan.Zero,
                     UseRecommendedIsolationLevel = true,
                     UsePageLocksOnDequeue = true,
-                    DisableGlobalLocks = true
+                    DisableGlobalLocks = true,
+                    SchemaName = "hfo"
                 }));
 
             // add the processing server as IHostedService
@@ -104,8 +105,8 @@ namespace Arcmage.Server.Api
             // Remark:
             // - Uncomment/Comment the next lines to host the static (wwwroot) files using Kerstel instead of IIS / IIS Express
             // - Also change the web.config to remove hosting the static (wwwroot) files form IIS / IIS Express 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            // app.UseDefaultFiles();
+            // app.UseStaticFiles();
 
             // use url routing
             app.UseRouting();

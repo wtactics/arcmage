@@ -1,18 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Arcmage.Layout.InputConvertor.XmlRender
 {
     public static class XmlRender
     {
-        public static string ToMarkdown(string xmlLayout, bool hasXmlRoot = true)
+        public static string ToMarkdown(string xmlLayout)
         {
-            if (!hasXmlRoot) xmlLayout = $"<layout>{xmlLayout}</layout>";
             var document = XDocument.Parse(xmlLayout, LoadOptions.PreserveWhitespace);
             var paragraphs = document.Root.Elements("p").Select(ParseParagraph).ToList();
-            return string.Join("\n\n", paragraphs).Replace("\n", "\r\n");
+            // Separate paragraphs with blank lines, using window's style line endings.
+            return string.Join("\r\n\r\n", paragraphs); ;
         }
 
         private static string ParseParagraph(XElement paragraph)
@@ -25,12 +25,12 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
                 var tagName = xElement.Name.LocalName;
                 switch (tagName)
                 {
-                    // Capital letter, should only occurr as the first item of a paragraph
+                    // Capital letter, should only occur as the first item of a paragraph
                     case "c":
-                        var capitalLetter = ShallowValue(xElement).ToUpper().First();
+                        var capitalLetter = TextValue(xElement).ToUpper().First();
                         paragraphLine += $":{capitalLetter}:";
                         break;
-                    // Larrge symbol, should only occurr as the first item of a paragraph
+                    // Large symbol, should only occur as the first item of a paragraph
                     case "m":
                     case "m0":
                     case "m1":
@@ -65,16 +65,16 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
                         break;
                     // normal text
                     case "n":
-                        paragraphLine += ShallowValue(xElement);
+                        paragraphLine += TextValue(xElement);
                         break;
                     case "b":
-                        paragraphLine += $"**{ShallowValue(xElement)}**";
+                        paragraphLine += $"**{TextValue(xElement)}**";
                         break;
                     case "i":
-                        paragraphLine += $"*{ShallowValue(xElement)}*";
+                        paragraphLine += $"*{TextValue(xElement)}*";
                         break;
                     case "bi":
-                        paragraphLine += $"***{ShallowValue(xElement)}***";
+                        paragraphLine += $"***{TextValue(xElement)}***";
                         break;
                     case "br":
                         paragraphLine += $":{tagName}:";
@@ -82,36 +82,28 @@ namespace Arcmage.Layout.InputConvertor.XmlRender
                 }
             }
             paragraphLine = InlineBreaks(paragraphLine);
-            return RemoveNullChars(paragraphLine);
+          
+            // Support empty paragraph
+            if (string.IsNullOrEmpty(paragraphLine))
+            {
+                paragraphLine = "\\";
+            }
+
+            return paragraphLine;
         }
 
-        public static string ShallowValue(XElement xe)
+        public static string TextValue(XElement xe)
         {
-
-            
-            return xe
-                .Nodes()
-                .OfType<XText>()
-                .Aggregate(new StringBuilder(),
-                    (s, c) => s.Append(c),
-                    s => s.ToString());
+            var text = xe.Nodes().OfType<XText>().Aggregate(new StringBuilder(), (s, c) => s.Append(c), s => s.ToString());
+            return text;
         }
 
        private static string InlineBreaks(string paragraphLine)
-       {
-           paragraphLine = paragraphLine.Replace("***:br:***", ":br:");
-           paragraphLine = paragraphLine.Replace("**:br:**", ":br:");
-           paragraphLine = paragraphLine.Replace("*:br:*", ":br:");
-           paragraphLine = paragraphLine.Replace(":br:", "\\\n");
-           paragraphLine = paragraphLine.TrimEnd('\r', '\n');
-
-           return paragraphLine;
+       { 
+           // Support breaks within bold, italic of bold-italic 
+           Regex.Replace(paragraphLine, @"^(\*{1,3}):br:\1$", ":br:");
+           // Translate break :br: syntax to backslash + enter syntax 
+           return paragraphLine.Replace(":br:", "\\\r\n");
        }
-
-       private static string RemoveNullChars(string text)
-       {
-           return text.Replace("\0", string.Empty);
-       }
-
     }
 }
