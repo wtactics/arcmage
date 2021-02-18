@@ -1,8 +1,8 @@
 {
     "production": true,
     
-    "apiUri": "https://aminduna.arcmage.org:5000",
-    "gameApiUri": "https://aminduna.arcmage.org:5090",
+    "apiUri": "http://aminduna.arcmage.org:5000",
+    "gameApiUri": "http://aminduna.arcmage.org:5090",
 
     "slideConfig": {
       "infinite": true,
