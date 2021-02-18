@@ -49,16 +49,8 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:PublishProfile="AmindunaPublishProfile" /p:AllowUntrustedCertificate=True /p:Password="$(deploymentPassword)" /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
+    msbuildArgs: '/p:DeployOnBuild=true /p:DeployTarget=MSDeployPublish /p:PublishProfile="AmindunaPublishProfile" /p:AllowUntrustedCertificate=True /p:Password="$(deploymentPassword)" /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: arcmagebuildartifact
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
