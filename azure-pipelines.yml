@@ -36,7 +36,7 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    npm run build
+    npm run buildprod
   workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'npm run build'
 
