@@ -53,6 +53,11 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: $(Build.ArtifactStagingDirectory)
+    artifactName: arcmagebuildartifact
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
