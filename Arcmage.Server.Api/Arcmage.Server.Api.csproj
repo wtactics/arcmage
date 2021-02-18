@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\AmindunaPublishProfile.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="logs\" />
   </ItemGroup>
 
