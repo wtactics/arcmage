@@ -36,9 +36,9 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    npm build
+    npm run build
   workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
-  displayName: 'npm build'
+  displayName: 'npm run build'
 
 - task: NuGetToolInstaller@1
 
