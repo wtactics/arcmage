@@ -250,3 +250,4 @@ _Pvt_Extensions
 /Arcmage.DAL/appsettings_development.json
 /tools/MarkdownTest/appsettings_development.json
 /Arcmage.Server.Api/.config/dotnet-tools.json
+/Arcmage.Server.Api/gamelogs

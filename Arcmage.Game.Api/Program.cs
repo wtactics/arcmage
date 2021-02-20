@@ -38,7 +38,7 @@ namespace Arcmage.Game.Api
 
             // .WriteTo.Logger(lc => lc.Filter.ByIncludingOnly(Matching.FromSource("Microsoft.EntityFrameworkCore.Database")).WriteTo.File("logs\\log_queries.txt", rollOnFileSizeLimit: true, retainedFileCountLimit: 10));
 
-            loggerConfiguration.WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Day);
+            loggerConfiguration.WriteTo.File("gamelogs\\log.txt", rollingInterval: RollingInterval.Day);
 
         }
 
