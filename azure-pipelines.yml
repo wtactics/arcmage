@@ -40,6 +40,16 @@ steps:
   workingDirectory: '$(Build.SourcesDirectory)\Arcmage.Web'
   displayName: 'npm run build'
 
+- task: CmdLine@2
+  inputs:
+    script: del $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.js
+  displayName: 'Cleaning game config settings'
+
+- task: CmdLine@2
+  inputs:
+    script: ren $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.prod.js $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.js
+  displayName: 'Copying game config settings'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
