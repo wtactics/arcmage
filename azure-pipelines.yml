@@ -47,7 +47,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: ren $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.prod.js $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.js
+    script: rename $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.prod.js $(Build.SourcesDirectory)\Arcmage.Server.Api\wwwroot\arcmage\Game\config.js
   displayName: 'Copying game config settings'
 
 - task: NuGetToolInstaller@1
