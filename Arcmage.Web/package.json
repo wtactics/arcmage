@@ -10,7 +10,7 @@
     "postbuild": "cpx ./dist/*.* ../Arcmage.Server.Api/wwwroot/ -C && cpx ./dist/assets/**/*.* ../Arcmage.Server.Api/wwwroot/assets && cpx ./dist/arcmage/Game/**/*.* ../Arcmage.Server.Api/wwwroot/arcmage/Game",
     "prebuildprod": "del-cli --force ../Arcmage.Server.Api/wwwroot/assets && del-cli --force ../Arcmage.Server.Api/wwwroot/arcmage/Game",
     "buildprod": "ng build --configuration=production",
-    "postbuildprod": "cpx ./dist/*.* ../Arcmage.Server.Api/wwwroot/ -C && cpx ./dist/assets/**/*.* ../Arcmage.Server.Api/wwwroot/assets && cpx ./dist/arcmage/Game/**/*.* ../Arcmage.Server.Api/wwwroot/arcmage/Game && fileutils move -f ../Arcmage.Server.Api/wwwroot/arcmage/Game/config.prod.js ../Arcmage.Server.Api/wwwroot/arcmage/Game/config.js",
+    "postbuildprod": "cpx ./dist/*.* ../Arcmage.Server.Api/wwwroot/ -C && cpx ./dist/assets/**/*.* ../Arcmage.Server.Api/wwwroot/assets && cpx ./dist/arcmage/Game/**/*.* ../Arcmage.Server.Api/wwwroot/arcmage/Game",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -40,7 +40,6 @@
     "chart.js": "2.9.4",
     "core-js": "3.8.3",
     "file-saver": "1.3.3",
-    "fileutils-cli": "1.0.0",
     "guid-typescript": "1.0.9",
     "jquery": "3.4.1",
     "lodash": "4.17.20",
