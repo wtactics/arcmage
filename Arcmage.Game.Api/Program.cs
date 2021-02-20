@@ -1,3 +1,4 @@
+using Arcmage.Configuration;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -14,7 +15,7 @@ namespace Arcmage.Game.Api
             webHostBuilder.UseStartup<Startup>();
             webHostBuilder.UseSerilog(ConfigureSerilog);
             webHostBuilder.ConfigureKestrel(ConfigureKerstrel);
-            webHostBuilder.UseUrls("http://*:9090");
+            webHostBuilder.UseUrls(Settings.Current.GameApiListenUrls);
 
             var webHost = webHostBuilder.Build();
             webHost.Run();

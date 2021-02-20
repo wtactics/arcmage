@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore;
+﻿using Arcmage.Configuration;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 
@@ -20,7 +21,7 @@ namespace Arcmage.Server.Api
             webHostBuilder.UseStartup<Startup>();
             webHostBuilder.UseSerilog(ConfigureSerilog);
             webHostBuilder.ConfigureKestrel(ConfigureKerstrel);
-            webHostBuilder.UseUrls("http://*:5000");
+            webHostBuilder.UseUrls(Settings.Current.ApiListenUrls);
 
 
             var webHost = webHostBuilder.Build();

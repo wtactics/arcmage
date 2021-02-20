@@ -42,7 +42,11 @@ namespace Arcmage.Configuration
 
         public string ApiUrl { get; set; }
 
+        public string ApiListenUrls { get; set; }
+
         public string GameApiUrl { get; set; }
+
+        public string GameApiListenUrls { get; set; }
 
         public string ServiceUserName { get; set; }
 
