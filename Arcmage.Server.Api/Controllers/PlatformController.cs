@@ -36,11 +36,11 @@ namespace Arcmage.Server.Api.Controllers
                 if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
                     repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
                 {
-                    return Forbid();
+                    StartRuntime();
+                    return Ok();
                 }
 
-                StartRuntime();
-                return Ok();
+                return Forbid();
             }
         }
 
@@ -62,11 +62,10 @@ namespace Arcmage.Server.Api.Controllers
                 if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
                     repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
                 {
-                    return Forbid();
+                    StopRuntime();
+                    return Ok();
                 }
-
-                StopRuntime();
-                return Ok();
+                return Forbid();
             }
         }
 
@@ -88,12 +87,12 @@ namespace Arcmage.Server.Api.Controllers
                 if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
                     repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
                 {
-                    return Forbid();
+                    StopRuntime();
+                    StartRuntime();
+                    return Ok();
                 }
+                return Forbid();
 
-                StopRuntime();
-                StartRuntime();
-                return Ok();
             }
         }
 

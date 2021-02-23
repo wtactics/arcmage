@@ -16,7 +16,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\\net5.0\Arcmage.Server.Api.xml</DocumentationFile>
     <RuntimeFrameworkName>Microsoft.AspNetCore.App</RuntimeFrameworkName>
-    <NoWarn>1701;1702;CS1591</NoWarn>
+    <NoWarn>1701;1702;CS1591;CS1998</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
