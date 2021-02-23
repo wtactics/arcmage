@@ -30,6 +30,8 @@ namespace Arcmage.Model
         public const string FileUpload = Root + "FileUpload";
         public const string Login = Root + "Login";
 
+        public const string Platform = Root + "Platform";
+
 
         public static Dictionary<Type, string> RouteMapping { get; }
         static Routes()

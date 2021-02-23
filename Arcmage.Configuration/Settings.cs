@@ -28,6 +28,10 @@ namespace Arcmage.Configuration
             {
                 Current.RepositoryRootPah = Path.Combine(configurationDirectory, Current.RepositoryRootPah);
             }
+            if (string.IsNullOrWhiteSpace(Current.GameRuntimePath))
+            {
+                Current.GameRuntimePath = configurationDirectory;
+            }
             
         }
       
@@ -60,7 +64,12 @@ namespace Arcmage.Configuration
         public string InkscapeUser { get; set; }
 
         public string InkscapePassword { get; set; }
+        
+        public string GameRuntimePath { get; set; }
 
+        public string GameRuntimeUser { get; set; }
+
+        public string GameRuntimeUserPassword { get; set; }
 
     }
 }
