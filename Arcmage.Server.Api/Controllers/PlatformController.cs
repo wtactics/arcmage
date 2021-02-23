@@ -101,7 +101,7 @@ namespace Arcmage.Server.Api.Controllers
             var process = GetArcmageGameRuntimeProcess();
             if (process == null)
             {
-                var processStartInfo = new ProcessStartInfo(GameRuntimeName);
+                var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, GameRuntimeName));
                 processStartInfo.RedirectStandardInput = false;
                 processStartInfo.UseShellExecute = true;
                 processStartInfo.CreateNoWindow = false;
@@ -116,7 +116,7 @@ namespace Arcmage.Server.Api.Controllers
             }
         }
 
-        private static string GameRuntimeName = $"{typeof(Arcmage.Game.Api.Program).Namespace}.exe";
+        private static string GameRuntimeName = $"Arcmage.Game.Api.exe";
 
         private static Process GetArcmageGameRuntimeProcess()
         {
