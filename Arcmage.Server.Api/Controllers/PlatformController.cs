@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -101,6 +102,10 @@ namespace Arcmage.Server.Api.Controllers
             var process = GetArcmageGameRuntimeProcess();
             if (process == null)
             {
+                // N.G. Somehow the msbuild publish doesn't copy the correct version of Microsoft.Data.SqlClient to the game runtime folder
+                // Here's a hack that fixes this for windows-64 bit
+                CopyGameRuntimeRequirements();
+
                 var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, GameRuntimeName));
                 processStartInfo.RedirectStandardInput = false;
                 processStartInfo.UseShellExecute = true;
@@ -113,6 +118,33 @@ namespace Arcmage.Server.Api.Controllers
                 process.StartInfo = processStartInfo;
                 process.Start();
                
+            }
+        }
+
+        private static void CopyGameRuntimeRequirements()
+        {
+            var copyPaths = new Dictionary<string, string>
+            {
+                {
+                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll"),
+                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.dll")
+                },
+                {
+                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll"),
+                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.SNI.dll")
+                },
+                {
+                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.pdb"),
+                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.SNI.pdb")
+                }
+            };
+
+            foreach (var copyPath in copyPaths)
+            {
+                if (System.IO.File.Exists(copyPath.Key))
+                {
+                    System.IO.File.Copy(copyPath.Key, copyPath.Value, true);
+                }
             }
         }
 
