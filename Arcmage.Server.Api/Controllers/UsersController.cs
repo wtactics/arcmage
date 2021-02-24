@@ -69,7 +69,7 @@ namespace Arcmage.Server.Api.Controllers
             {
                 var passwordHash = Hasher.HashPassword(user.Password);
                 var newUser = repository.Context.Users.FirstOrDefault(x => x.Email == user.Email);
-                if (newUser != null) BadRequest("Email is already taken");
+                if (newUser != null) return BadRequest("Email is already taken");
                 var userModel = repository.CreateUser(user.Name, user.Email, passwordHash, Guid.NewGuid());
                 return Ok(userModel.FromDal());
             }

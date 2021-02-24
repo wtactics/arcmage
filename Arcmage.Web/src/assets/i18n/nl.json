@@ -6,7 +6,5 @@
   "menu.help": "Help (nl)",
   "menu.language.dutch": "NL (nl)",
   "menu.language.french": "FR (nl)",
-  "menu.language.english": "EN (nl)",
-
-  "about.version.api": "Api version: (nl)"
+  "menu.language.english": "EN (nl)"
 }

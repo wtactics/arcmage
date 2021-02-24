@@ -8,7 +8,7 @@ export class User {
     name: string;
     email: string;
     password: string;
-    passowrd2: string;
+    password2: string;
     token: string;
     role: Role;
     createTime: any;

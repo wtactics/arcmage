@@ -9,19 +9,23 @@
     <ul class="navbar-nav ml-auto">
 
       <li class="nav-item" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/cards']">Cards</a>
+        <a class="btn btn-tertiary" [routerLink]="['/cards']">{{ "menu.cards" | translate }}</a>
       </li>
 
       <li class="nav-item" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/decks']">Decks</a>
+        <a class="btn btn-tertiary" [routerLink]="['/decks']">{{ "menu.decks" | translate }}</a>
       </li>
 
       <li class="nav-item" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/games']">Games</a>
+        <a class="btn btn-tertiary" [routerLink]="['/games']">{{ "menu.games" | translate }}</a>
       </li>
 
       <li class="nav-item" *ngIf="!isAuthenticated" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/login']" [queryParams]="{ page: 99 }" >{{ "menu.login" | translate }}</a>
+        <a class="btn btn-tertiary" [routerLink]="['/login']" >{{ "menu.login" | translate }}</a>
+      </li>
+
+      <li class="nav-item" *ngIf="!isAuthenticated" [routerLinkActive]="['link-active']">
+        <a class="btn btn-primary" [routerLink]="['/register']" >{{ "menu.register" | translate }}</a>
       </li>
 
       <li class="nav-item dropdown dropdown-user" *ngIf="isAuthenticated">
@@ -32,6 +36,28 @@
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item danger" (click)="logout()">{{ "menu.logout" | translate }}</a>
         </div>
+      </li>
+
+      <li class="nav-item dropdown dropdown-language">
+        <p-dropdown id="navMenuLanguage"
+        *ngIf="languages"
+        [options]="languages"
+        [ngModel]="translate.currentLang"
+        (ngModelChange)="translate.use($event)"
+        [style]="{'font-size':'12px'}"
+        [autoDisplayFirst]="false"
+        #languageDropdown>
+
+        <ng-template let-language pTemplate="selectedItem">
+        <span style="font-size: 12px;">{{language.label}}</span>
+        </ng-template>
+
+        <ng-template let-language
+                  pTemplate="item">
+        <span style="font-size: 12px;">{{language.label}}</span>
+        </ng-template>
+
+        </p-dropdown>
       </li>
 
     </ul>

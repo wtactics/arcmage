@@ -1,12 +1,63 @@
 {
-  "menu.login": "Log in",
-  "menu.logout": "Log out",
+  "menu.cards": "Cards",
+  "menu.decks": "Decks",
+  "menu.games": "Games",
+ 
+  "menu.login": "Sign in",
+  "menu.logout": "Sign out",
+  "menu.register": "Sign up",
   "menu.changePassword": "Change password",
-  "menu.new": "New",
   "menu.help": "Help",
   "menu.language.dutch": "NL",
   "menu.language.french": "FR",
   "menu.language.english": "EN",
 
-  "about.version.api": "Api version: "
+  "global.save": "Save",
+  "global.search": "Search",
+  "global.search.advanced": "advanced",
+  "global.search.clear": "clear",
+  "global.unauthorized": "Unauthorized",
+  "global.last-edit": "Last Edit",
+
+  "grids.total": "total",
+
+  "login.username": "Login (e-mail address)",
+  "login.username.required": "The login email adress is required.",
+  "login.password": "Password",
+  "login.password.required": "The password is required.",
+  "login.login": "Sign in",
+
+  "register.name": "Name",
+  "register.name.required": "Your name is required.",
+  "register.email": "Email",
+  "register.email.required": "Your email is required.",
+  "register.password": "Password",
+  "register.password.required": "Your password is required.",
+  "register.password2": "Retype your password",
+  "register.password2.required": "You must retype your password.",
+  "register.register": "Sign up",
+
+  "cards.create-your-own": "Create your own card!",
+  "cards.login-to-create-your-own": "Log in to create your own Cards!",
+  "cards.create-new-card": "Create a new card",
+
+  "card.field.name": "Name",
+  "card.field.name.required": "The card name is required.",
+  "card.field.type": "Type",
+  "card.field.faction": "Faction",
+  "card.field.cost": "Cost",
+  "card.field.loyalty": "Loyalty",
+  "card.field.attack": "Attack",
+  "card.field.defense": "Defense",
+  "card.field.cost.short": "C",
+  "card.field.loyalty.short": "L",
+  "card.field.attack.short": "A",
+  "card.field.defense.short": "D",
+  "card.field.serie": "Serie",
+  "card.field.status": "Status",
+  "card.field.language": "Language",
+  "card.field.artist": "Artist",
+  "card.field.creator": "Creator"
+
+
 }

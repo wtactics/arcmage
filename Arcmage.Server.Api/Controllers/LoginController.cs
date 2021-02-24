@@ -28,28 +28,36 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository())
             {
-              
-                var user = repository.Context.Users.SingleOrDefault(x => x.Email == login.Email);
-              
-                if (user  != null)
-                {
-                   
-                    if (Hasher.VerifyHashedPassword(user.Password, login.Password))
-                    {
-                        user.Token = CreateToken(user);
-                        return Ok(user.Token);
-                    }
-                    if (user.Password == login.Password)
-                    {
-                        // simple password hash is not sufficient we'll  update it
-                        user.Password = Hasher.HashPassword(user.Password);
-                        repository.Context.SaveChanges();
-                        user.Token = CreateToken(user);
-                        return Ok(user.Token);
-                    }
 
+                try
+                {
+                    var user = repository.Context.Users.SingleOrDefault(x => x.Email == login.Email);
+
+                    if (user != null)
+                    {
+
+                        if (Hasher.VerifyHashedPassword(user.Password, login.Password))
+                        {
+                            user.Token = CreateToken(user);
+                            return Ok(user.Token);
+                        }
+                        if (user.Password == login.Password)
+                        {
+                            // simple password hash is not sufficient we'll  update it
+                            user.Password = Hasher.HashPassword(user.Password);
+                            repository.Context.SaveChanges();
+                            user.Token = CreateToken(user);
+                            return Ok(user.Token);
+                        }
+
+                    }
                 }
-                return BadRequest(new { message = "Username or password is incorrect" }); ;
+                catch (Exception)
+                {
+                    return BadRequest(new { message = "Login failed" });
+                }
+               
+                return BadRequest(new { message = "Username or password is incorrect" });
             }
         }
 

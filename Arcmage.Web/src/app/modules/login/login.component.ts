@@ -1,6 +1,5 @@
 ﻿﻿import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { localStorageKeys } from "../../global/localStorage.keys";
 
@@ -17,14 +16,16 @@ import { md5 } from "src/app/services/global/md5";
   styleUrls: ["./login.component.sass"]
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  loading = false;
-  submitted = false;
+
+  username: string;
+  password: string;
+
   returnUrl: string;
   loginErrorMessage: string;
 
+  loading = false;
+
   constructor(
-      private formBuilder: FormBuilder,
       private route: ActivatedRoute,
       private router: Router,
       private globalEventsService: GlobalEventsService,
@@ -38,28 +39,19 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.loginForm = this.formBuilder.group({
-          username: ["", Validators.required],
-          password: ["", Validators.required]
-      });
-
       // get return url from route parameters or default to '/'
       // tslint:disable-next-line:no-string-literal
       this.returnUrl = this.globalEventsService.getPreviousUrl() || "/";
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
 
-  onSubmit() {
-      this.submitted = true;
-      // stop here if form is invalid
-      if (this.loginForm.invalid) { return; }
-
-      this.loading = true;
-      const pass = md5(this.f.password.value);
-
-      this.login(this.f.username.value, pass);
+  submitLogin() {
+    if (this.username == null || this.username === "" || this.password == null || this.username === "") {
+      return;
+    }
+    this.loading = true;
+    const pass = md5(this.password);
+    this.login(this.username, pass);
   }
 
   login(email: string, password: string) {

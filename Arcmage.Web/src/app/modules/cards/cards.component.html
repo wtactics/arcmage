@@ -1,8 +1,8 @@
 <div class="p-d-flex p-flex-column">
   
   <div class="p-my-2 p-d-flex p-jc-end">
-    <button *ngIf="isAuthenticated" type="button" (click)="createCard()"  class="btn btn-primary">Create your own card!</button>
-    <h1 *ngIf="!isAuthenticated" >Log in to create your own Cards!</h1>
+    <button *ngIf="isAuthenticated" type="button" (click)="createCard()"  class="btn btn-primary">{{ "cards.create-your-own" | translate}}</button>
+    <h1 *ngIf="!isAuthenticated" >{{ "cards.login-to-create-your-own" | translate}}</h1>
   </div>
 
   <div class="p-my-2">
@@ -15,43 +15,43 @@
 
   <div class="p-my-2">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="cardSearchOptions.search" (keydown.enter)="searchClick()">
+      <input type="text" class="form-control" placeholder="{{'global.search' | translate}}" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="cardSearchOptions.search" (keydown.enter)="searchClick()">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
       </div>
     </div>
     <div class="p-d-flex p-jc-end">
-      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">advanced</a>
-      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">clear</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">{{ "global.search.advanced" | translate}}</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">{{ "global.search.clear" | translate}}</a>
     </div>
   </div>
 
   <p-panel class="p-my-2" [toggleable]="true" [collapsed]="hideAvancedSearch" [showHeader]="false">
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col">
-          <label for="search_card_type">Type</label>
+          <label for="search_card_type">{{ "card.field.type" | translate }}</label>
           <p-dropdown dataKey="guid" inputId="search_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="cardSearchOptions.cardType" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
-        <label for="search_card_faction">Faction</label>
+        <label for="search_card_faction">{{ "card.field.faction" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="search_card_faction" [options]="cardOptions?.factions" [(ngModel)]="cardSearchOptions.faction" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
-        <label for="search_card_cost">Cost</label>
+        <label for="search_card_cost">{{ "card.field.cost" | translate }}</label>
         <input id="search_card_cost" type="text" pInputText [(ngModel)]="cardSearchOptions.cost"> 
       </div>
     </div>
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col">
-        <label for="search_card_loyalty">Loyalty</label>
+        <label for="search_card_loyalty">{{ "card.field.loyalty" | translate }}</label>
         <p-dropdown optionLabel="label" optionValue="value" inputId="search_card_loyalty" [options]="loyalties" [(ngModel)]="cardSearchOptions.loyalty" showClear="true" placeholder="Select" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
-        <label for="search_card_serie">Serie</label>
+        <label for="search_card_serie">{{ "card.field.serie" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="search_card_serie" [options]="cardOptions?.series" [(ngModel)]="cardSearchOptions.serie" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
-        <label for="search_card_status">Status</label>
+        <label for="search_card_status">{{ "card.field.status" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="search_card_status" [options]="cardOptions?.statuses" [(ngModel)]="cardSearchOptions.status" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
     </div>
@@ -76,18 +76,18 @@
     <ng-template pTemplate="header">
       <tr>
         <th></th>
-        <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
-        <th pSortableColumn="type.name">Type <p-sortIcon [field]="'type.name'"></p-sortIcon></th>
-        <th pSortableColumn="faction.name">Faction <p-sortIcon [field]="'faction.name'"></p-sortIcon></th>
-        <th pSortableColumn="cost">C <p-sortIcon [field]="'cost'"></p-sortIcon></th>
-        <th pSortableColumn="loyalty">L <p-sortIcon [field]="'loyalty'"></p-sortIcon></th>
-        <th pSortableColumn="attack">A <p-sortIcon [field]="'attack'"></p-sortIcon></th>
-        <th pSortableColumn="defense">D <p-sortIcon [field]="'defense'"></p-sortIcon></th>
-        <th pSortableColumn="serie.name">Serie <p-sortIcon [field]="'serie.name'"></p-sortIcon></th>
-        <th pSortableColumn="artist">Artist <p-sortIcon [field]="'artist'"></p-sortIcon></th>
-        <!-- <th pSortableColumn="creator.name">Creator <p-sortIcon [field]="'creator.name'"></p-sortIcon></th> -->
-        <th *ngIf="isAuthenticated" pSortableColumn="castModifiedTime">Last Edit <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
-        <th *ngIf="isAuthenticated" pSortableColumn="status.name">Status <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
+        <th pSortableColumn="name">{{ "card.field.name" | translate }} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+        <th pSortableColumn="type.name">{{ "card.field.type" | translate }} <p-sortIcon [field]="'type.name'"></p-sortIcon></th>
+        <th pSortableColumn="faction.name">{{ "card.field.faction" | translate }} <p-sortIcon [field]="'faction.name'"></p-sortIcon></th>
+        <th pSortableColumn="cost">{{ "card.field.cost.short" | translate }} <p-sortIcon [field]="'cost'"></p-sortIcon></th>
+        <th pSortableColumn="loyalty">{{ "card.field.loyalty.short" | translate }} <p-sortIcon [field]="'loyalty'"></p-sortIcon></th>
+        <th pSortableColumn="attack">{{ "card.field.attack.short" | translate }} <p-sortIcon [field]="'attack'"></p-sortIcon></th>
+        <th pSortableColumn="defense">{{ "card.field.defense.short" | translate }} <p-sortIcon [field]="'defense'"></p-sortIcon></th>
+        <th pSortableColumn="serie.name">{{ "card.field.serie" | translate }} <p-sortIcon [field]="'serie.name'"></p-sortIcon></th>
+        <th pSortableColumn="artist">{{ "card.field.artist" | translate }} <p-sortIcon [field]="'artist'"></p-sortIcon></th>
+        <!-- <th pSortableColumn="creator.name">{{ "card.field.creator" | translate }} <p-sortIcon [field]="'creator.name'"></p-sortIcon></th> -->
+        <th *ngIf="isAuthenticated" pSortableColumn="castModifiedTime">{{ "global.last-edit" | translate }} <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
+        <th *ngIf="isAuthenticated" pSortableColumn="status.name">{{ "card.field.status" | translate }} <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
       </tr>
     </ng-template>
 
@@ -119,30 +119,30 @@
   </p-overlayPanel>
 
   <p-sidebar [(visible)]="showCardCreation" position="right" styleClass="p-sidebar-md">
-    <h1>Create a new card</h1>
+    <h1>{{ "cards.create-new-card" | translate }}</h1>
 
     <div class="p-fluid">
       <div class="p-field">
-          <label for="card_name">Name*</label>
+          <label for="card_name">{{ "card.field.name" | translate }}*</label>
           <input id="card_name" #card_name="ngModel" [(ngModel)]="newCard.name" [disabled]="loading" type="text" pInputText required> 
           <div *ngIf="card_name.invalid && (card_name.dirty || card_name.touched)" class="requried-input-field">
-            <div *ngIf="card_name.errors.required">*The card name is required.</div>
+            <div *ngIf="card_name.errors.required">*{{ "card.field.name.required" | translate }}</div>
           </div>
       </div>
       <div class="p-field">
-        <label for="new_card_serie">Serie</label>
+        <label for="new_card_serie">{{ "card.field.serie" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="new_card_serie" [options]="cardOptions?.series" [(ngModel)]="newCard.serie" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field">
-        <label for="new_card_faction">Faction</label>
+        <label for="new_card_faction">{{ "card.field.faction" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="new_card_faction" [options]="cardOptions?.factions" [(ngModel)]="newCard.faction" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field">
-        <label for="new_card_type">Type</label>
+        <label for="new_card_type">{{ "card.field.type" | translate }}</label>
         <p-dropdown dataKey="guid" inputId="new_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="newCard.type" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-d-flex p-jc-end">
-        <button type="button" (click)="saveCard()" [disabled]="newCard?.name == null || newCard.name == '' " class="btn btn-primary float-right">Save</button>
+        <button type="button" (click)="saveCard()" [disabled]="newCard?.name == null || newCard.name == '' " class="btn btn-primary float-right">{{ "global.save" | translate }}</button>
       </div>
     </div>
 

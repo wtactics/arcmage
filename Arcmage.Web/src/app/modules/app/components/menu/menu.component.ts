@@ -2,11 +2,10 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from "@angular/co
 import { TranslateService } from "@ngx-translate/core";
 import { Subscription } from "rxjs";
 
-
-
 import { GlobalEventsService } from "./../../../../services/global/global-events.service";
 import { Configuration } from "../../../../services/global/configuration";
 import { Router, ActivatedRoute } from "@angular/router";
+import { SelectItem } from "primeng/api";
 
 
 @Component({
@@ -25,11 +24,14 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
   returnUrl: string;
+  languages: SelectItem[];
 
-  constructor(  private router: Router, private route: ActivatedRoute, private globalEventsService: GlobalEventsService) {
+  constructor(    public translate: TranslateService,  private router: Router, private route: ActivatedRoute, private globalEventsService: GlobalEventsService) {
   }
 
   ngOnInit() {
+
+    this.languages = [{ label: "En", value : "en"}, {label: "Nl", value: "nl"}];
 
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {
@@ -48,6 +50,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line:no-string-literal
     this.returnUrl = this.globalEventsService.getPreviousUrl() || "/";
 
+  }
+
+  switchLang(lang: string) {
+    this.translate.use(lang);
   }
 
   ngOnDestroy() {

@@ -1,1 +1,35 @@
-<p>register works!</p>
+<div class="p-fluid">
+    <div class="p-field">
+        <label for="registration_name">{{'register.name' | translate }}</label>
+        <input id="registration_name" type="text"  #registration_name="ngModel" [(ngModel)]="user.name" [disabled]="loading" required pInputText> 
+        <div *ngIf="registration_name.invalid && (registration_name.dirty || registration_name.touched)" class="requried-input-field">
+            <div *ngIf="registration_name.errors.required">{{'register.name.required' | translate }}</div>
+        </div>
+    </div>
+    <div class="p-field">
+        <label for="registration_email">{{'register.email' | translate }}</label>
+        <input id="registration_email" type="text"  #registration_email="ngModel" [(ngModel)]="user.email" [disabled]="loading" required pInputText> 
+        <div *ngIf="registration_email.invalid && (registration_email.dirty || registration_email.touched)" class="requried-input-field">
+            <div *ngIf="registration_email.errors.required">{{'register.email.required' | translate }}</div>
+        </div>
+    </div>
+    <div class="p-field">
+        <label for="registration_password">{{'register.password' | translate }}</label>
+        <input id="registration_password" type="password"  #registration_password="ngModel" [(ngModel)]="user.password" [disabled]="loading" required pInputText> 
+        <div *ngIf="registration_password.invalid && (registration_password.dirty || registration_password.touched)" class="requried-input-field">
+            <div *ngIf="registration_password.errors.required">{{'register.password.required' | translate }}</div>
+        </div>
+    </div>
+    <div class="p-field">
+        <label for="registration_password2">{{'register.password2' | translate }}</label>
+        <input id="registration_password2" type="password"  #registration_password2="ngModel" [(ngModel)]="user.password2" [disabled]="loading" required pInputText> 
+        <div *ngIf="registration_password2.invalid && (registration_password2.dirty || registration_password2.touched)" class="requried-input-field">
+            <div *ngIf="registration_password2.errors.required">{{'register.password2.required' | translate }}</div>
+        </div>
+    </div>
+
+    <div *ngIf="registerErrorMessage">{{registerErrorMessage}}</div>
+    <div class="p-d-flex p-jc-end">
+        <button type="button" (click)="submitRegistration()" [disabled]="isRegistrationDisabled" class="btn btn-primary float-right">{{'register.register' | translate }}</button>
+      </div>
+</div>
