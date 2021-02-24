@@ -15,6 +15,8 @@
 
         public Status Status { get; set; }
 
+        public Language Language { get; set; }
+
         public int? Loyalty { get; set; }
 
     }

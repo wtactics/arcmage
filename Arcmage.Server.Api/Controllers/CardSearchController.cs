@@ -67,7 +67,12 @@ namespace Arcmage.Server.Api.Controllers
                 {
                     dbResult = dbResult.Where(x => x.Loyalty == searchOptionsBase.Loyalty.Value);
                 }
-                
+
+                if (searchOptionsBase.Language != null)
+                {
+                    dbResult = dbResult.Where(x => x.LanguageCode == searchOptionsBase.Language.LanguageCode);
+                }
+
 
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
                 {

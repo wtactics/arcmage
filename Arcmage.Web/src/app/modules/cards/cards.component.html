@@ -30,11 +30,11 @@
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col">
           <label for="search_card_type">{{ "card.field.type" | translate }}</label>
-          <p-dropdown dataKey="guid" inputId="search_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="cardSearchOptions.cardType" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+          <p-dropdown dataKey="guid" inputId="search_card_type" [options]="cardOptions?.cardTypes" [(ngModel)]="cardSearchOptions.cardType" showClear="true" placeholder="{{ 'global.select' | translate }}" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
         <label for="search_card_faction">{{ "card.field.faction" | translate }}</label>
-        <p-dropdown dataKey="guid" inputId="search_card_faction" [options]="cardOptions?.factions" [(ngModel)]="cardSearchOptions.faction" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+        <p-dropdown dataKey="guid" inputId="search_card_faction" [options]="cardOptions?.factions" [(ngModel)]="cardSearchOptions.faction" showClear="true" placeholder="{{ 'global.select' | translate }}" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
         <label for="search_card_cost">{{ "card.field.cost" | translate }}</label>
@@ -44,15 +44,20 @@
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field p-col">
         <label for="search_card_loyalty">{{ "card.field.loyalty" | translate }}</label>
-        <p-dropdown optionLabel="label" optionValue="value" inputId="search_card_loyalty" [options]="loyalties" [(ngModel)]="cardSearchOptions.loyalty" showClear="true" placeholder="Select" [disabled]="loading"></p-dropdown> 
+        <p-dropdown optionLabel="label" optionValue="value" inputId="search_card_loyalty" [options]="loyalties" [(ngModel)]="cardSearchOptions.loyalty" showClear="true" placeholder="{{ 'global.select' | translate }}" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
         <label for="search_card_serie">{{ "card.field.serie" | translate }}</label>
-        <p-dropdown dataKey="guid" inputId="search_card_serie" [options]="cardOptions?.series" [(ngModel)]="cardSearchOptions.serie" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+        <p-dropdown dataKey="guid" inputId="search_card_serie" [options]="cardOptions?.series" [(ngModel)]="cardSearchOptions.serie" showClear="true" placeholder="{{ 'global.select' | translate }}" optionLabel="name" [disabled]="loading"></p-dropdown> 
       </div>
       <div class="p-field p-col">
         <label for="search_card_status">{{ "card.field.status" | translate }}</label>
-        <p-dropdown dataKey="guid" inputId="search_card_status" [options]="cardOptions?.statuses" [(ngModel)]="cardSearchOptions.status" showClear="true" placeholder="Select" optionLabel="name" [disabled]="loading"></p-dropdown> 
+        <p-dropdown dataKey="guid" inputId="search_card_status" [options]="cardOptions?.statuses" [(ngModel)]="cardSearchOptions.status" showClear="true" placeholder="{{ 'global.select' | translate }}" optionLabel="name" [disabled]="loading"></p-dropdown> 
+      </div>
+      <div class="p-field p-col">
+        <label for="search_card_language">{{ "card.field.language" | translate }}</label>
+        <p-autoComplete [(ngModel)]="cardSearchOptions.language" inputId="search_card_language" [suggestions]="languages" placeholder="{{ 'global.select' | translate }}" (completeMethod)="searchLanguage($event)" [dropdown]="true" field="name" dataKey="languageCode"></p-autoComplete>
+           
       </div>
     </div>
   </p-panel>

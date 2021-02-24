@@ -13,9 +13,11 @@ namespace Arcmage.Server.Api.Utils
 
         static Languages()
         {
-            var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
-            All = cultures.Where(x => x.TwoLetterISOLanguageName.Length == 2).Select(x => new Language()
-                { Name = x.EnglishName, LanguageCode = x.TwoLetterISOLanguageName }).ToList();
+            var cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).ToList();
+            cultures.Remove(CultureInfo.InvariantCulture);
+            All = cultures.Select(x => new Language()
+                { Name = x.NativeName, LanguageCode = x.TwoLetterISOLanguageName }).ToList();
+            
         }
 
         public static Language GetLanguage(string code)

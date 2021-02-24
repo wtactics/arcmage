@@ -1,11 +1,11 @@
 <div class="p-d-flex p-flex-column">
 
-    <h1>You've been invited to play a game of Arcmage!</h1>
-    <h2 *ngIf="invitedBy">Invited by : {{invitedBy}}</h2>
-    <h2 *ngIf="game">Created at {{ game.createTime | date:'yyyy-MM-dd HH:MM:ss'}}</h2>
-    <h2 *ngIf="game">Game '{{game.name}}'</h2>
+    <h1>{{'invite.you-have-been-invited' | translate}}</h1>
+    <h2 *ngIf="invitedBy">{{'invite.invited-by' | translate}} {{invitedBy}}</h2>
+    <h2 *ngIf="game">{{'invite.created-at' | translate}} {{invitedBy}} {{ game.createTime | date:'yyyy-MM-dd HH:MM:ss'}}</h2>
+    <h2 *ngIf="game">{{'invite.game-name' | translate}} {{invitedBy}} '{{game.name}}'</h2>
     
-    <h1 *ngIf="gameExpired">... but the game expired.</h1>
+    <h1 *ngIf="gameExpired">{{'invite.expired' | translate}} {{invitedBy}}</h1>
 
     <p-steps  *ngIf="game?.canJoin && !started" [model]="gameSetupSteps" [activeIndex]="activeIndex" class="gamesetupsteps"></p-steps>
 
@@ -15,28 +15,28 @@
                 <input class="p-mx-auto" type="text"  inputId="player_name" name="player_name" [ngModel]="userName" [disabled]="isAuthenticated" (focus)="onNameFocus()" pInputText/>
             </div>
             <div class="p-col p-px-3" *ngIf="!invitedBy">
-                <p-button class="p-button-outlined" label="Copy Invite Link" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
+                <p-button class="p-button-outlined" label="{{'invite.link' | translate}}" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
             </div>
             <div class="p-col  p-px-3">
-                <p-autoComplete [(ngModel)]="game.selectedDeck" [suggestions]="deckSearchResult.items" (completeMethod)="autoSearchClick($event)" (onShow)="onDeckSelectFocus()" (onClear)="deckCleared($event)" (onSelect)="deckSelected($event)" [forceSelection]=true [dropdown]="true" field="name" dataKey="guid"></p-autoComplete>
+                <p-autoComplete [(ngModel)]="game.selectedDeck" placeholder="{{'global.select' | translate}}" [suggestions]="deckSearchResult.items" (completeMethod)="autoSearchClick($event)" (onShow)="onDeckSelectFocus()" (onClear)="deckCleared($event)" (onSelect)="deckSelected($event)" [forceSelection]=true [dropdown]="true" field="name" dataKey="guid"></p-autoComplete>
                 <div class="p-fluid p-m-3">
                     <div class="p-field-checkbox">
                         <p-checkbox [(ngModel)]="deckSearchOptions.excludeDrafts" binary="true" inputId="search_deck_exclude_drafts" [disabled]="loading"></p-checkbox>
-                        <label for="search_deck_exclude_drafts">Exclude draft versions</label>
+                        <label for="search_deck_exclude_drafts">{{'invite.exculed-draft-decks' | translate}}</label>
                     </div>
                     <div class="p-field-checkbox" *ngIf="isAuthenticated">
                         <p-checkbox [(ngModel)]="deckSearchOptions.myDecks" binary="true" inputId="search_deck_myown" [disabled]="loading"></p-checkbox>
-                        <label for="search_deck_myown">Show my decks only</label>
+                        <label for="search_deck_myown">{{'invite.only-my-decks' | translate}}</label>
                     </div>
                 </div>
             </div>
          
             <div class="p-col p-px-3">
-                <p-button  [disabled]="!game.selectedDeck"  label="Start" icon="pi pi-play" iconPos="right" (onClick)="joinGame(game, game.selectedDeck)"></p-button>
+                <p-button  [disabled]="!game.selectedDeck"  label="{{'invite.start' | translate}}" icon="pi pi-play" iconPos="right" (onClick)="joinGame(game, game.selectedDeck)"></p-button>
             </div>
             
         </div>
-        <h1 *ngIf="!game.canJoin">... but the game is full.</h1>
+        <h1 *ngIf="!game.canJoin">{{'invite.full' | translate}}</h1>
     </div>
 
     <div class="p-mt-2" *ngIf="showCarousel && !started">
@@ -51,10 +51,10 @@
     </div>
 
     <div class="p-mt-2" *ngIf="started">
-        <h1>... the game has started in a new tab, have fun.</h1>
+        <h1>{{'invite.started' | translate}}</h1>
         <div *ngIf="!invitedBy" class="p-mt-2">
-            <h2>If you haven't done yet, invite a friend to join you.</h2>
-            <p-button class="p-button-outlined" label="Copy Invite Link" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
+            <h2>{{'invite.invite-link-info' | translate}}</h2>
+            <p-button class="p-button-outlined" label="{{'invite.link' | translate}}" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>
         </div>
     </div>
 

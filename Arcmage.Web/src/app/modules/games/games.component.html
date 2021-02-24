@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="gameSearchOptions.search"
+          <input type="text" class="form-control" placeholder="{{'global.search' | translate}}" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="gameSearchOptions.search"
           (keydown.enter)="searchClick()">
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
@@ -14,7 +14,7 @@
   
     <div class="row">
       <div class="col">
-        <button type="button" (click)="createGame()"  class="btn btn-primary float-right">Create a new game!</button>
+        <button type="button" (click)="createGame()"  class="btn btn-primary float-right">{{ "games.create-new-game" | translate}}</button>
       </div>
     </div>
 
@@ -35,8 +35,8 @@
   
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
-          <th>State</th>
+          <th pSortableColumn="name">{{'game.field.name' | translate}} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th>{{'game.status' | translate}}</th>
           <th></th>
         </tr>
       </ng-template>
@@ -44,9 +44,9 @@
       <ng-template pTemplate="body" let-game>
         <tr>
           <td><span>{{ game.name }}</span></td>
-          <td><span *ngIf="!game.canJoin">Full</span><span *ngIf="game.canJoin">Open</span></td>
+          <td><span *ngIf="!game.canJoin">{{'game.field.status.full' | translate}}</span><span *ngIf="game.canJoin">{{'game.field.status.open' | translate}}</span></td>
           <td>
-              <a *ngIf="game.canJoin"  [routerLink]="['/invite', game.guid]">Join Game</a>
+              <a *ngIf="game.canJoin"  [routerLink]="['/invite', game.guid]">{{'game.join-game' | translate}}</a>
           </td>
         </tr>
       </ng-template>
@@ -55,18 +55,18 @@
   
     <p-sidebar [(visible)]="showGameCreation" position="right" styleClass="p-sidebar-md">
 
-      <h1>Create a new game</h1>
+      <h1>{{ "games.create-new-game" | translate}}</h1>
   
       <div class="p-fluid">
         <div class="p-field">
-            <label for="game_name">Name*</label>
+            <label for="game_name">{{ "game.field.name" | translate}}*</label>
             <input id="game_name" #game_name="ngModel" [(ngModel)]="newGame.name" [disabled]="loading" type="text" pInputText required> 
             <div *ngIf="game_name.invalid && (game_name.dirty || game_name.touched)" class="requried-input-field">
-              <div *ngIf="game_name.errors.required">*The game name is required.</div>
+              <div *ngIf="game_name.errors.required">*{{ "game.field.name.required" | translate}}</div>
             </div>
         </div>
         <div class="p-d-flex p-jc-end">
-          <button type="button" (click)="saveGame()" [disabled]="newGame?.name == null || newGame.name == '' " class="btn btn-primary float-right">Create</button>
+          <button type="button" (click)="saveGame()" [disabled]="newGame?.name == null || newGame.name == '' " class="btn btn-primary float-right">{{ "global.create" | translate}}</button>
         </div>
       </div>
       

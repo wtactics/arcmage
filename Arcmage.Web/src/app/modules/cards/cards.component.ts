@@ -16,6 +16,7 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { SlickCarouselComponent } from "ngx-slick-carousel";
 import { ConfigurationService } from "src/app/services/global/config.service";
+import { Language } from "src/app/models/language";
 
 @Component({
   selector: "app-cards",
@@ -43,6 +44,8 @@ export class CardsComponent implements OnInit, AfterViewInit {
   cardOptions: CardOptions;
   loyalties: SelectItem[];
 
+  languages: Language[];
+
   selectedCard: Card;
 
   @ViewChild("cardsTable") table: Table;
@@ -65,6 +68,7 @@ export class CardsComponent implements OnInit, AfterViewInit {
     this.cardApiService.getOptions().subscribe(cardOptions => {
       this.cardOptions = cardOptions;
       this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
+      this.languages = cardOptions.languages;
     });
 
     this.cardSearchOptions = new CardSearchOptions();
@@ -82,6 +86,20 @@ export class CardsComponent implements OnInit, AfterViewInit {
         }
       }));
 
+  }
+
+  searchLanguage($event): void {
+    if ($event) {
+      this.languages = this.cardOptions.languages.filter( language => {
+        if (language && language.name) {
+          return language.name.contains($event.query);
+        }
+        return false;
+      });
+    }
+    else {
+      this.languages = this.cardOptions.languages;
+    }
   }
 
   searchCards(): void {
