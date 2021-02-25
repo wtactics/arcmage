@@ -8,9 +8,6 @@
   "menu.register": "Sign up",
   "menu.changePassword": "Change password",
   "menu.help": "Help",
-  "menu.language.dutch": "NL",
-  "menu.language.french": "FR",
-  "menu.language.english": "EN",
 
   "global.create": "Create",
   "global.save": "Save",
@@ -75,8 +72,8 @@
   "card.field.last-modified-on": "Last edit",
 
   "card.field.name.info": "Shown on card.",
-  "card.field.type.info": "he layout type of the card.",
-  "card.field.subtype.info": "he card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ...",
+  "card.field.type.info": "The layout type of the card.",
+  "card.field.subtype.info": "The card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ...",
   "card.field.faction.info": "The chosen faction defines the look and feel of the card's template.",
   "card.field.cost.info": "The card's cost, shown on card.",
   "card.field.loyalty.info": "The card's loyalty, shown on card.",
@@ -90,7 +87,7 @@
   "card.field.info-text.info": "The card's footer info, shown on card. For official cards, please use 'arcmage.org - join us!'",
   "card.field.firstname.info": "First line of the card's name. Leave empty if you don't wish to split the name.",
   "card.field.lastname.info": "Second line of the card's name. Leave empty if you don't wish to split the name; or fill in if you like it closer to the subtype.",
-  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - star paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p>",
+  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break (or use \\ ) <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - start paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p>",
   "card.field.artist.info": "The artist's name, not shown on card.",
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box.",
 
