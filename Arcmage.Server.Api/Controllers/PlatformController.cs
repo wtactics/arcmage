@@ -102,13 +102,10 @@ namespace Arcmage.Server.Api.Controllers
             var process = GetArcmageGameRuntimeProcess();
             if (process == null)
             {
-                // N.G. Somehow the msbuild publish doesn't copy the correct version of Microsoft.Data.SqlClient to the game runtime folder
-                // Here's a hack that fixes this for windows-64 bit
-                CopyGameRuntimeRequirements();
 
-                var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, GameRuntimeName + ".exe"));
+                var processStartInfo = new ProcessStartInfo("powershell.exe", "-File " + "startgameruntime.ps1");
                 processStartInfo.RedirectStandardInput = false;
-                processStartInfo.UseShellExecute = true;
+                processStartInfo.UseShellExecute = false;
                 processStartInfo.CreateNoWindow = false;
                 processStartInfo.WorkingDirectory = Settings.Current.GameRuntimePath;
 
@@ -121,28 +118,10 @@ namespace Arcmage.Server.Api.Controllers
             }
         }
 
-        private static void CopyGameRuntimeRequirements()
-        {
-
-            var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, "copygameruntimerequirements.bat"));
-            processStartInfo.RedirectStandardInput = false;
-            processStartInfo.UseShellExecute = true;
-            processStartInfo.CreateNoWindow = false;
-            processStartInfo.WorkingDirectory = Settings.Current.GameRuntimePath;
-
-            var process = new Process();
-            ImpersonateUserProcess.Impersonate(process, Settings.Current.GameRuntimeUser, Settings.Current.GameRuntimeUserPassword);
-
-            process.StartInfo = processStartInfo;
-            process.Start();
-            process.WaitForExit();
-        }
-
-        private static string GameRuntimeName = $"Arcmage.Game.Api";
-
+      
         private static Process GetArcmageGameRuntimeProcess()
         {
-            return Process.GetProcessesByName(GameRuntimeName).FirstOrDefault();
+            return Process.GetProcessesByName("Arcmage.Game.Api").FirstOrDefault();
         }
 
         private void StopRuntime()
@@ -150,9 +129,18 @@ namespace Arcmage.Server.Api.Controllers
             var process = GetArcmageGameRuntimeProcess();
             if (process != null)
             {
-                ImpersonateUserProcess.Impersonate(process, Settings.Current.GameRuntimeUser, Settings.Current.GameRuntimeUserPassword);
-                process.Kill(true);
-                process.WaitForExit();
+                var processStartInfo = new ProcessStartInfo("powershell.exe", "-File " + "stopgameruntime.ps1");
+                processStartInfo.RedirectStandardInput = false;
+                processStartInfo.UseShellExecute = false;
+                processStartInfo.CreateNoWindow = false;
+                processStartInfo.WorkingDirectory = Settings.Current.GameRuntimePath;
+
+                var killProcess = new Process();
+                ImpersonateUserProcess.Impersonate(killProcess, Settings.Current.GameRuntimeUser, Settings.Current.GameRuntimeUserPassword);
+
+                killProcess.StartInfo = processStartInfo;
+                killProcess.Start();
+                killProcess.WaitForExit();
             }
         }
 
