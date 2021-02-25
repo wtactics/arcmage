@@ -123,29 +123,19 @@ namespace Arcmage.Server.Api.Controllers
 
         private static void CopyGameRuntimeRequirements()
         {
-            var copyPaths = new Dictionary<string, string>
-            {
-                {
-                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win/lib/netcoreapp3.1/Microsoft.Data.SqlClient.dll"),
-                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.dll")
-                },
-                {
-                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll"),
-                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.SNI.dll")
-                },
-                {
-                    Path.Combine(Settings.Current.GameRuntimePath, "runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.pdb"),
-                    Path.Combine(Settings.Current.GameRuntimePath, "Microsoft.Data.SqlClient.SNI.pdb")
-                }
-            };
 
-            foreach (var copyPath in copyPaths)
-            {
-                if (System.IO.File.Exists(copyPath.Key))
-                {
-                    System.IO.File.Copy(copyPath.Key, copyPath.Value, true);
-                }
-            }
+            var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, "copygameruntimerequirements.bat"));
+            processStartInfo.RedirectStandardInput = false;
+            processStartInfo.UseShellExecute = true;
+            processStartInfo.CreateNoWindow = false;
+            processStartInfo.WorkingDirectory = Settings.Current.GameRuntimePath;
+
+            var process = new Process();
+            ImpersonateUserProcess.Impersonate(process, Settings.Current.GameRuntimeUser, Settings.Current.GameRuntimeUserPassword);
+
+            process.StartInfo = processStartInfo;
+            process.Start();
+            process.WaitForExit();
         }
 
         private static string GameRuntimeName = $"Arcmage.Game.Api.exe";
