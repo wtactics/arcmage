@@ -98,7 +98,7 @@ Building the angular webapp
 2. open a new terminal
 3. run 'npm install'
     * This will fetch all required npm packages
-4. run 'npm run buil'
+4. run 'npm run build'
     * This will build the angular app (and game vue js app) and output it in the './dist' folder
 	* A post build script will copy the './dist' contents to Arcmage.Server.Api/wwwroot (this is done so we can host the web apps and the server api in a single Kestrel web server)
 	
