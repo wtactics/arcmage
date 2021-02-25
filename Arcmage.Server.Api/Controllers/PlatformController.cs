@@ -106,7 +106,7 @@ namespace Arcmage.Server.Api.Controllers
                 // Here's a hack that fixes this for windows-64 bit
                 CopyGameRuntimeRequirements();
 
-                var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, GameRuntimeName));
+                var processStartInfo = new ProcessStartInfo(Path.Combine(Settings.Current.GameRuntimePath, GameRuntimeName + ".exe"));
                 processStartInfo.RedirectStandardInput = false;
                 processStartInfo.UseShellExecute = true;
                 processStartInfo.CreateNoWindow = false;
@@ -138,7 +138,7 @@ namespace Arcmage.Server.Api.Controllers
             process.WaitForExit();
         }
 
-        private static string GameRuntimeName = $"Arcmage.Game.Api.exe";
+        private static string GameRuntimeName = $"Arcmage.Game.Api";
 
         private static Process GetArcmageGameRuntimeProcess()
         {
