@@ -12,7 +12,7 @@
     <div class="p-mt-3" *ngIf="game && !started">
         <div class="p-fluid p-grid" *ngIf="game.canJoin">
             <div class="p-col p-px-3">
-                <input class="p-mx-auto" type="text"  inputId="player_name" name="player_name" [ngModel]="userName" [disabled]="isAuthenticated" (focus)="onNameFocus()" pInputText/>
+                <input class="p-mx-auto" type="text"  inputId="player_name" name="player_name" [(ngModel)]="userName" [disabled]="isAuthenticated" (focus)="onNameFocus()" pInputText/>
             </div>
             <div class="p-col p-px-3" *ngIf="!invitedBy">
                 <p-button class="p-button-outlined" label="{{'invite.link' | translate}}" icon="pi pi-link" iconPos="right" (onClick)="copyInviteLink()"></p-button>

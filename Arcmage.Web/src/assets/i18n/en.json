@@ -111,6 +111,36 @@
   "invite.link": "Copy Invite Link",
   "invite.start": "Start",
   "invite.only-my-decks": "Show my decks only",
-  "invite.exculed-draft-decks": "Exclude draft versions"
+  "invite.exculed-draft-decks": "Exclude draft versions",
+  "invite.link.copied": "Invite link copied to clipboard",
+
+  "decks.create-your-own": "Create your own deck!",
+  "decks.login-to-create-your-own": "Log in to create your own deck!",
+  "decks.create-new-deck": "Create a new deck",
+  "decks.exculed-draft-decks": "Exclude draft versions",
+  "decks.only-my-decks": "Show my decks only",
+  "decks.download-zip-pdf": "download pdf/zip",
+  
+  "deck.download": "Download",
+  "deck.download-zip-pdf": "download pdf/zip",
+  "deck.download-no-pdf": "deck pdf not available",
+
+  "deck.unique-cards": "Unique cards",
+  "deck.total-cards": "total",
+  "deck.card-name": "Card name",
+  "deck.card-amount": "Amount",
+  "deck.settings": "Deck Export & Settings",
+  "deck.export.info": "When an export option is checked, the deck will be re-exported when saved.",
+  "deck.export.table-top-simulator": "Export to table top simulator integration.",
+  "deck.export.zip-pdf": "Export pdf/zip, the download link will become available when ready.",
+
+  "deck.field.name": "Name",
+  "deck.field.name.required": "The deck name is required.",
+  "deck.field.status": "Status",
+  "deck.field.language": "Language",
+  "deck.field.creator": "Creator",
+  "deck.field.create-date": "Creation date",
+  "deck.field.last-modified-by": "Last edit by",
+  "deck.field.last-modified-on": "Last edit"
 
 }

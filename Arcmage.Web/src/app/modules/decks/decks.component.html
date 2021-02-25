@@ -1,20 +1,20 @@
 <div class="d-flex flex-column">
  
   <div class="p-my-2 p-d-flex p-jc-end">
-    <button *ngIf="isAuthenticated" type="button" (click)="createDeck()" class="btn btn-primary">Create your own deck!</button>
-    <h1 *ngIf="!isAuthenticated" >Log in to create your own Deck!</h1>
+    <button *ngIf="isAuthenticated" type="button" (click)="createDeck()" class="btn btn-primary">{{ "decks.create-your-own" | translate }}</button>
+    <h1 *ngIf="!isAuthenticated" >{{ "decks.login-to-create-your-own" | translate }}</h1>
   </div>
 
   <div class="p-my-2">
     <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="deckSearchOptions.search" (keydown.enter)="searchClick()">
+      <input type="text" class="form-control"  placeholder="{{'global.search' | translate}}" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="deckSearchOptions.search" (keydown.enter)="searchClick()">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
       </div>
     </div>
     <div class="p-d-flex p-jc-end">
-      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">advanced</a>
-      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">clear</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">{{ "global.search.advanced" | translate}}</a>
+      <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">{{ "global.search.clear" | translate}}</a>
     </div>
   </div>
   
@@ -22,11 +22,11 @@
     <div class="p-fluid p-formgrid p-grid">
       <div class="p-field-checkbox p-col">
         <p-checkbox [(ngModel)]="deckSearchOptions.excludeDrafts" binary="true" inputId="search_deck_exclude_drafts" [disabled]="loading" (onChange)="searchClick()"></p-checkbox>
-        <label for="search_deck_exclude_drafts">Exclude draft versions</label>
+        <label for="search_deck_exclude_drafts">{{"decks.exculed-draft-decks" |translate}}</label>
       </div>
       <div class="p-field-checkbox p-col" *ngIf="isAuthenticated">
           <p-checkbox [(ngModel)]="deckSearchOptions.myDecks" binary="true" inputId="search_deck_myown" [disabled]="loading" (onChange)="searchClick()"></p-checkbox>
-          <label for="search_deck_myown">Show my decks only</label>
+          <label for="search_deck_myown">{{"decks.only-my-decks" |translate}}</label>
       </div>
     </div>
   </p-panel>
@@ -48,10 +48,10 @@
   
       <ng-template pTemplate="header">
         <tr>
-          <th pSortableColumn="name">Name <p-sortIcon [field]="'name'"></p-sortIcon></th>
-          <th pSortableColumn="creator.name">Creator <p-sortIcon [field]="'creator.name'"></p-sortIcon></th>
-          <th pSortableColumn="status.name">Status <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
-          <th pSortableColumn="castModifiedTime">Last Edit <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
+          <th pSortableColumn="name">{{"deck.field.name" |translate}} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th pSortableColumn="creator.name">{{"deck.field.creator" |translate}} <p-sortIcon [field]="'creator.name'"></p-sortIcon></th>
+          <th pSortableColumn="status.name">{{"deck.field.status" |translate}} <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
+          <th pSortableColumn="castModifiedTime">{{"deck.field.last-modified-on" |translate}} <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
           <th></th>
         </tr>
       </ng-template>
@@ -62,25 +62,25 @@
           <td>{{deck.creator.name}}</td>
           <td>{{deck.status?.name ? deck.status?.name : ""}}</td>
           <td>{{deck.lastModifiedTime | date:'yyyy-MM-dd'}}</td>
-          <td style="text-align: right"><a role="button" *ngIf="deck.isGenerated" href="{{deck.zip}}"  target="_blank" >download pdf/zip <i class="pi pi-file-pdf"></i></a></td>
+          <td style="text-align: right"><a role="button" *ngIf="deck.isGenerated" href="{{deck.zip}}"  target="_blank" >{{"decks.download-zip-pdf" |translate}} <i class="pi pi-file-pdf"></i></a></td>
         </tr>
       </ng-template>
       
     </p-table>
   
     <p-sidebar [(visible)]="showDeckCreation" position="right" styleClass="p-sidebar-md">
-      <h1>Create a new deck</h1>
+      <h1>{{ "decks.create-new-deck" |translate}}</h1>
   
       <div class="p-fluid">
         <div class="p-field">
-            <label for="deck_name">Name*</label>
+            <label for="deck_name">{{"deck.field.name" |translate}}*</label>
             <input id="deck_name" #deck_name="ngModel" [(ngModel)]="newDeck.name" [disabled]="loading" type="text" pInputText required> 
             <div *ngIf="deck_name.invalid && (deck_name.dirty || deck_name.touched)" class="requried-input-field">
-              <div *ngIf="deck_name.errors.required">*The deck name is required.</div>
+              <div *ngIf="deck_name.errors.required">*{{"deck.field.name.required" |translate}}</div>
             </div>
         </div>
         <div class="p-d-flex p-jc-end">
-          <button type="button" (click)="saveDeck()" [disabled]="newDeck?.name == null || newDeck.name == '' " class="btn btn-primary float-right">Save</button>
+          <button type="button" (click)="saveDeck()" [disabled]="newDeck?.name == null || newDeck.name == '' " class="btn btn-primary float-right">{{"global.save" |translate}}</button>
         </div>
       </div>
   

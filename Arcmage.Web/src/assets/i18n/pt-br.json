@@ -111,5 +111,35 @@
     "invite.link": "Copiar Link de Convite",
     "invite.start": "Começar",
     "invite.only-my-decks": "Mostrar apenas meus baralhos",
-    "invite.exculed-draft-decks": "Esconder rascunhos"
+    "invite.exculed-draft-decks": "Esconder rascunhos",
+    "invite.link.copied": "Invite link copied to clipboard (pt-br)",
+
+    "decks.create-your-own": "Create your own deck! (pt-br)",
+    "decks.login-to-create-your-own": "Log in to create your own deck! (pt-br)",
+    "decks.create-new-deck": "Create a new deck (pt-br)",
+    "decks.exculed-draft-decks": "Exclude draft versions (pt-br)",
+    "decks.only-my-decks": "Show my decks only (pt-br)",
+    "decks.download-zip-pdf": "download pdf/zip (pt-br)",
+    
+    "deck.download": "Download (pt-br)",
+    "deck.download-zip-pdf": "download pdf/zip (pt-br)",
+    "deck.download-no-pdf": "deck pdf not available (pt-br)",
+  
+    "deck.unique-cards": "Unique cards (pt-br)",
+    "deck.total-cards": "total (pt-br)",
+    "deck.card-name": "Card name (pt-br)",
+    "deck.card-amount": "Amount (pt-br)",
+    "deck.settings": "Deck Export & Settings (pt-br)",
+    "deck.export.info": "When an export option is checked, the deck will be re-exported when saved. (pt-br)",
+    "deck.export.table-top-simulator": "Export to table top simulator integration. (pt-br)",
+    "deck.export.zip-pdf": "Export pdf/zip, the download link will become available when ready. (pt-br)",
+  
+    "deck.field.name": "Name (pt-br)",
+    "deck.field.name.required": "The deck name is required. (pt-br)",
+    "deck.field.status": "Status (pt-br)",
+    "deck.field.language": "Language (pt-br)",
+    "deck.field.creator": "Creator (pt-br)",
+    "deck.field.create-date": "Creation date (pt-br)",
+    "deck.field.last-modified-by": "Last edit by (pt-br)",
+    "deck.field.last-modified-on": "Last edit (pt-br)"
 }

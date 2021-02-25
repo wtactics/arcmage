@@ -111,5 +111,35 @@
   "invite.link": "Copy Invite Link (nl)",
   "invite.start": "Start (nl)",
   "invite.only-my-decks": "Show my decks only (nl)",
-  "invite.exculed-draft-decks": "Exclude draft versions (nl)"
+  "invite.exculed-draft-decks": "Exclude draft versions (nl)",
+  "invite.link.copied": "Invite link copied to clipboard (nl)",
+
+  "decks.create-your-own": "Create your own deck! (nl)",
+  "decks.login-to-create-your-own": "Log in to create your own deck! (nl)",
+  "decks.create-new-deck": "Create a new deck (nl)",
+  "decks.exculed-draft-decks": "Exclude draft versions (nl)",
+  "decks.only-my-decks": "Show my decks only (nl)",
+  "decks.download-zip-pdf": "download pdf/zip (nl)",
+  
+  "deck.download": "Download (nl)",
+  "deck.download-zip-pdf": "download pdf/zip (nl)",
+  "deck.download-no-pdf": "deck pdf not available (nl)",
+
+  "deck.unique-cards": "Unique cards (nl)",
+  "deck.total-cards": "total (nl)",
+  "deck.card-name": "Card name (nl)",
+  "deck.card-amount": "Amount (nl)",
+  "deck.settings": "Deck Export & Settings (nl)",
+  "deck.export.info": "When an export option is checked, the deck will be re-exported when saved. (nl)",
+  "deck.export.table-top-simulator": "Export to table top simulator integration. (nl)",
+  "deck.export.zip-pdf": "Export pdf/zip, the download link will become available when ready. (nl)",
+
+  "deck.field.name": "Name (nl)",
+  "deck.field.name.required": "The deck name is required. (nl)",
+  "deck.field.status": "Status (nl)",
+  "deck.field.language": "Language (nl)",
+  "deck.field.creator": "Creator (nl)",
+  "deck.field.create-date": "Creation date (nl)",
+  "deck.field.last-modified-by": "Last edit by (nl)",
+  "deck.field.last-modified-on": "Last edit (nl)"
 }

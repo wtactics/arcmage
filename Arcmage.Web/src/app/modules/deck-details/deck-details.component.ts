@@ -18,6 +18,7 @@ import { Observable, interval, Subscription } from "rxjs";
 import { startWith, switchMap, delay } from "rxjs/operators";
 import { DeckOptions } from "src/app/models/deck-options ";
 import { ConfigurationService } from "src/app/services/global/config.service";
+import { Language } from "src/app/models/language";
 
 @Component({
   selector: "app-deck-details",
@@ -37,6 +38,7 @@ export class DeckDetailsComponent implements OnInit {
   cardSearchOptions: CardSearchOptions;
   cardOptions: CardOptions;
   loyalties: SelectItem[];
+  languages: Language[];
   hideAvancedSearch = true;
 
   selectedCard: Card;
@@ -78,6 +80,7 @@ export class DeckDetailsComponent implements OnInit {
     this.cardApiService.getOptions().subscribe(cardOptions => {
       this.cardOptions = cardOptions;
       this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
+      this.languages = cardOptions.languages;
     });
 
     this.cardSearchOptions = new CardSearchOptions();
@@ -88,6 +91,20 @@ export class DeckDetailsComponent implements OnInit {
     this.cardSearchResult.items = [];
     this.cardSearchResult.totalItems = 0;
 
+  }
+
+  searchLanguage($event): void {
+    if ($event) {
+      this.languages = this.cardOptions.languages.filter( language => {
+        if (language && language.name) {
+          return language.name.contains($event.query);
+        }
+        return false;
+      });
+    }
+    else {
+      this.languages = this.cardOptions.languages;
+    }
   }
 
   searchCards(): void {

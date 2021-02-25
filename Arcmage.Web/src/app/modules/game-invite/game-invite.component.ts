@@ -15,6 +15,7 @@ import { MessageService } from "primeng/api";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { SlickCarouselComponent } from "ngx-slick-carousel";
 import { ConfigurationService } from "src/app/services/global/config.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-game-invite",
@@ -59,6 +60,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
               private gameApiService: GameApiService,
               private deckApiService: DeckApiService,
               private messageService: MessageService,
+              private translateService: TranslateService, 
               private clipboard: Clipboard) {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.slideConfig = this.configurationService.configuration.slideConfig;
@@ -164,7 +166,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
     this.activeIndex = 1;
     this.messageService.add({
         severity: "success",
-        detail: "Invite Link Copied to clipboard"
+        detail: this.translateService.instant("invite.link.copied")
     });
   }
 

@@ -111,5 +111,35 @@
     "invite.link": "Copy Invite Link (es)",
     "invite.start": "Start (es)",
     "invite.only-my-decks": "Show my decks only (es)",
-    "invite.exculed-draft-decks": "Exclude draft versions (es)"
+    "invite.exculed-draft-decks": "Exclude draft versions (es)",
+    "invite.link.copied": "Invite link copied to clipboard (es)",
+
+    "decks.create-your-own": "Create your own deck! (es)",
+    "decks.login-to-create-your-own": "Log in to create your own deck! (es)",
+    "decks.create-new-deck": "Create a new deck (es)",
+    "decks.exculed-draft-decks": "Exclude draft versions (es)",
+    "decks.only-my-decks": "Show my decks only (es)",
+    "decks.download-zip-pdf": "download pdf/zip (es)",
+    
+    "deck.download": "Download (es)",
+    "deck.download-zip-pdf": "download pdf/zip (es)",
+    "deck.download-no-pdf": "deck pdf not available (es)",
+  
+    "deck.unique-cards": "Unique cards (es)",
+    "deck.total-cards": "total (es)",
+    "deck.card-name": "Card name (es)",
+    "deck.card-amount": "Amount (es)",
+    "deck.settings": "Deck Export & Settings (es)",
+    "deck.export.info": "When an export option is checked, the deck will be re-exported when saved. (es)",
+    "deck.export.table-top-simulator": "Export to table top simulator integration. (es)",
+    "deck.export.zip-pdf": "Export pdf/zip, the download link will become available when ready. (es)",
+  
+    "deck.field.name": "Name (es)",
+    "deck.field.name.required": "The deck name is required. (es)",
+    "deck.field.status": "Status (es)",
+    "deck.field.language": "Language (es)",
+    "deck.field.creator": "Creator (es)",
+    "deck.field.create-date": "Creation date (es)",
+    "deck.field.last-modified-by": "Last edit by (es)",
+    "deck.field.last-modified-on": "Last edit (es)"
 }

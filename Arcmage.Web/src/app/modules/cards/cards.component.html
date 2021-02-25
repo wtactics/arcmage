@@ -57,7 +57,6 @@
       <div class="p-field p-col">
         <label for="search_card_language">{{ "card.field.language" | translate }}</label>
         <p-autoComplete [(ngModel)]="cardSearchOptions.language" inputId="search_card_language" [suggestions]="languages" placeholder="{{ 'global.select' | translate }}" (completeMethod)="searchLanguage($event)" [dropdown]="true" field="name" dataKey="languageCode"></p-autoComplete>
-           
       </div>
     </div>
   </p-panel>
