@@ -220,7 +220,7 @@
             <div class="p-field p-grid">
                 <label for="card_markdowntext" class="p-col-3">{{"card.field.markdown-text" | translate}}</label>
                 <div class="p-col-8">
-                    <textarea  rows="4" class="form-control input-flex-flox" id="card_markdowntext" name="card_markdowntext" placeholder="{{'card.field.markdown-text.example' | translate}}" [(ngModel)]="card.markdownText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
+                    <textarea  rows="8" class="form-control input-flex-flox" id="card_markdowntext" name="card_markdowntext" placeholder="{{'card.field.markdown-text.example' | translate}}" [(ngModel)]="card.markdownText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
                 </div>
                 <div class="p-col-1 p-d-flex p-ai-center">
                     <a class="card-info-icon" (click)="selectCardInfo($event, 'card_markdowntext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
