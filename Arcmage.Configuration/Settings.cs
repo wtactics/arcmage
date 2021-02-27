@@ -71,5 +71,11 @@ namespace Arcmage.Configuration
 
         public string GameRuntimeUserPassword { get; set; }
 
+        public bool GameRuntimeUseHttps { get; set; }
+
+        public string GameRuntimeSslStore { get; set; }
+
+        public string GameRuntimeSslSubject { get; set; }
+
     }
 }
