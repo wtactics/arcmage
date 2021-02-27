@@ -117,7 +117,7 @@
   "invite.step.enter-name": "Enter your name (nl)",
   "invite.step.invite-friend": "Invite a friend (nl)",
   "invite.step.select-deck": "Select a deck (nl)",
-  "invite-step.start-game": "Start the game(nl)",
+  "invite.step.start-game": "Start the game(nl)",
 
   "decks.create-your-own": "Create your own deck! (nl)",
   "decks.login-to-create-your-own": "Log in to create your own deck! (nl)",
