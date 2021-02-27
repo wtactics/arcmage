@@ -1,8 +1,11 @@
-﻿using Arcmage.Configuration;
+﻿using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using Arcmage.Configuration;
 using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Serilog;
 using Serilog.Events;
 using Serilog.Filters;
@@ -23,7 +26,6 @@ namespace Arcmage.Server.Api
             webHostBuilder.ConfigureKestrel(ConfigureKerstrel);
             webHostBuilder.UseUrls(Settings.Current.ApiListenUrls);
 
-
             var webHost = webHostBuilder.Build();
             webHost.Run();
         }
@@ -31,6 +33,15 @@ namespace Arcmage.Server.Api
         private static void ConfigureKerstrel(KestrelServerOptions options)
         {
             options.Limits.MaxRequestBodySize = null;
+            options.ConfigureHttpsDefaults(httpsOptions =>
+            {
+                httpsOptions.ServerCertificateSelector = ServerCertificateSelector;
+            });
+        }
+
+        private static X509Certificate2 ServerCertificateSelector(ConnectionContext connection, string sni)
+        {
+            return CertificateLoader.LoadFromStoreCert("aminduna.arcmage.org", "Web Hosting", StoreLocation.LocalMachine,false); ;
         }
 
         private static void ConfigureSerilog(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
