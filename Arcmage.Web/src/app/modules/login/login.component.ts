@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
 
 
   submitLogin() {
-    if (this.username == null || this.username === "" || this.password == null || this.username === "") {
+    if (this.username == null || this.username === "" || this.password == null || this.password === "") {
       return;
     }
     this.loading = true;

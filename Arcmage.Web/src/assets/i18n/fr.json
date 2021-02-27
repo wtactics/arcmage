@@ -113,6 +113,11 @@
   "invite.only-my-decks": "Show my decks only (fr)",
   "invite.exculed-draft-decks": "Exclude draft versions (fr)",
   "invite.link.copied": "Invite link copied to clipboard (fr)",
+  "invite.guest": "Guest (fr)",
+  "invite.step.enter-name": "Enter your name (fr)",
+  "invite.step.invite-friend": "Invite a friend (fr)",
+  "invite.step.select-deck": "Select a deck (fr)",
+  "invite-step.start-game": "Start the game(fr)",
 
   "decks.create-your-own": "Create your own deck! (fr)",
   "decks.login-to-create-your-own": "Log in to create your own deck! (fr)",

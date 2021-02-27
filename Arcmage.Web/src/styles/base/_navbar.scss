@@ -36,7 +36,11 @@
     margin-left: 15px;
   }
 
-
+  a.btn-primary:hover {
+    color: white !important;
+    // background-color: $colorSecondary !important;
+    // border: 1px solid $colorSecondary !important;
+  }
 
   .dropdown-user {
     .dropdown-toggle {

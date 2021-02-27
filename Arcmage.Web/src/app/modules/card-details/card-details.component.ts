@@ -86,9 +86,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveCard(forceGeneration: boolean = false) {
-    // tslint:disable-next-line:object-literal-key-quotes
-    const data = { "forceGeneration": forceGeneration };
-
+   
     const params = new HttpParams().set("forceGeneration", forceGeneration ? "true" : "false" );
 
     this.saving = true;
@@ -154,13 +152,11 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   onUploadError(error: any): void {
     this.uploadProgressValue = 0;
     this.showUploadProgress = false;
-    this.fileUpload.clear();
   }
 
   onUploadComplete(): void {
     this.uploadProgressValue = 0;
     this.showUploadProgress = false;
-    this.fileUpload.clear();
     this.saveCard(true);
   }
 

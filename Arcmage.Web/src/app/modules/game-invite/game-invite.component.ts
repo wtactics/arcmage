@@ -68,10 +68,11 @@ export class GameInviteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.enterNameMenuItem =  {label: "Enter your name"};
-    this.copyInviteLinkMenuItem = {label: "Invite a friend", visible: true};
-    this.selectDeckMenuItem = {label: "Select a deck"};
-    this.startGameMenuItem =  {label: "Start the game"};
+    this.userName = this.translateService.instant("invite.guest");
+    this.enterNameMenuItem =  {label: this.translateService.instant("invite.step.enter-name")};
+    this.copyInviteLinkMenuItem = {label: this.translateService.instant("invite.step.invite-friend"), visible: true};
+    this.selectDeckMenuItem = {label: this.translateService.instant("invite.step.select-deck")};
+    this.startGameMenuItem =  {label: this.translateService.instant("invite.step.start-game")};
 
     this.gameSetupSteps = [
       this.enterNameMenuItem,

@@ -15,7 +15,7 @@
     </div>
     <div *ngIf="loginErrorMessage">{{loginErrorMessage}}</div>
     <div class="p-d-flex p-jc-end">
-        <button type="button" (click)="submitLogin()" [disabled]="username == null || username == '' || password == null || username == '' " class="btn btn-primary float-right">{{'login.login' | translate }}</button>
+        <button type="button" (click)="submitLogin()" [disabled]="username == null || username == '' || password == null || password == '' " class="btn btn-primary float-right">{{'login.login' | translate }}</button>
       </div>
 </div>
 
