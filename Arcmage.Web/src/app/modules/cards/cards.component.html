@@ -90,7 +90,7 @@
         <th pSortableColumn="serie.name">{{ "card.field.serie" | translate }} <p-sortIcon [field]="'serie.name'"></p-sortIcon></th>
         <th pSortableColumn="artist">{{ "card.field.artist" | translate }} <p-sortIcon [field]="'artist'"></p-sortIcon></th>
         <!-- <th pSortableColumn="creator.name">{{ "card.field.creator" | translate }} <p-sortIcon [field]="'creator.name'"></p-sortIcon></th> -->
-        <th *ngIf="isAuthenticated" pSortableColumn="castModifiedTime">{{ "global.last-edit" | translate }} <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
+        <th *ngIf="isAuthenticated" pSortableColumn="lastModifiedTime">{{ "global.last-edit" | translate }} <p-sortIcon [field]="'lastModifiedTime'"></p-sortIcon></th>
         <th *ngIf="isAuthenticated" pSortableColumn="status.name">{{ "card.field.status" | translate }} <p-sortIcon [field]="'status.name'"></p-sortIcon></th>
       </tr>
     </ng-template>

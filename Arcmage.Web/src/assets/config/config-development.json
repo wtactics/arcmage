@@ -11,7 +11,7 @@
       "swipeToSlide": true,
       "slidesToShow": 5,
       "slidesToScroll": 5,
-      "centerMode": true,
+      "centerMode": false,
       "focusOnSelect": false,
       "responsive": [
         {
