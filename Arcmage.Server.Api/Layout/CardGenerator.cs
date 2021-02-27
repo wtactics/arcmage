@@ -284,6 +284,11 @@ namespace Arcmage.Server.Api.Layout
 
         private void SetText()
         {
+            if (string.IsNullOrWhiteSpace(Card.MarkdownText)) return;
+            var layoutXml = LayoutInputConvertor.ToXml(Card.MarkdownText);
+            if (string.IsNullOrWhiteSpace(layoutXml)) return;
+            var document = XDocument.Parse(layoutXml);
+
             // reduce text height scale if it doesn't fit with 5% each time
             for (var heightScale = 1.0; heightScale > 0.5; heightScale -= 0.02)
             {
@@ -299,9 +304,7 @@ namespace Arcmage.Server.Api.Layout
                 CardTextBox = FindById("cardtext");
                 CardTextBox?.RemoveNodes();
 
-                var layoutXml = LayoutInputConvertor.ToXml(Card.MarkdownText);
-
-                var document = XDocument.Parse(layoutXml);
+             
                 foreach (var xElement in document.Root.Elements("p"))
                 {
                     ParseParagraph(xElement);
