@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Configuration", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Layout.InputConvertor", "..\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj", "{060CF9F5-CAA1-4C32-866A-7F4FA63D9410}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameSshUpdater", "GameSshUpdater\GameSshUpdater.csproj", "{0B122D59-3506-4631-9605-73E953188BEB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{060CF9F5-CAA1-4C32-866A-7F4FA63D9410}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{060CF9F5-CAA1-4C32-866A-7F4FA63D9410}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{060CF9F5-CAA1-4C32-866A-7F4FA63D9410}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B122D59-3506-4631-9605-73E953188BEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B122D59-3506-4631-9605-73E953188BEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B122D59-3506-4631-9605-73E953188BEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B122D59-3506-4631-9605-73E953188BEB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
