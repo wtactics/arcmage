@@ -17,7 +17,7 @@
             <a class="searchlink" href="{{apiUri + card.pdf}}" target="_blank">Pdf (CMYK)</a>
         </div>
    
-        <div class="p-fluid">
+        <div class="p-fluid" *ngIf="isEditMode">
             <div class="p-field p-grid">
                 <label for="card_creator" class="p-col-4">{{"card.field.creator" | translate}}</label>
                 <div class="p-col-8">
@@ -48,8 +48,57 @@
         </div>
     </div>
 
+    <div class="p-col-6 p-ml-3" *ngIf="!isEditMode">
+        <div class="p-d-flex p-jc-between p-ai-center">
+            <h1>{{card.name}}</h1>
+            <i *ngIf="cardOptions.isEditable" class="fas fa-pencil-alt fa-lg" (click)="isEditMode = true"></i>
+        </div>
+       
 
-    <div class="p-col-7">
+        <p-divider align="left">
+            <div *ngIf="card?.type?.name === 'Creature'"><b>{{card.type.name}} - {{card.subType}} - {{card.attack}}/{{card.defense}}</b></div>
+            <div *ngIf="card?.type?.name === 'City'"><b>{{card.subType}} - {{card.defense}}</b></div>
+            <div *ngIf="card?.type?.name !== 'Creature' && card?.type?.name !== 'City'"><b>{{card.subType}}</b></div>
+        </p-divider>
+        <div class="view-info">
+            <p class="text-style">{{card.ruleText}}</p>
+            <p><em>{{card.flavorText}}</em></p>
+        </div>
+        <p-divider align="left"><b>{{"card.creator-artist" | translate}}</b></p-divider>
+        <div class="view-info">
+            <p>{{card.creator.name}} - {{card.artist}}</p>
+        </div>
+        <p-divider align="left"><b>{{"card.rulings" | translate}}</b></p-divider>
+        
+        <div class="view-info">
+            <p>{{"card.no-rulings" | translate}}</p>
+        </div>
+    </div>
+
+   
+
+    <div class="p-col-7" *ngIf="isEditMode">
+       
+        
+        <div class="p-fluid" >
+
+            <div class="p-field p-grid">
+
+                <h1 class="p-offset-3 p-col-8">{{card.name}}</h1>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <i *ngIf="cardOptions.isEditable" class="fas fa-times fa-lg" (click)="isEditMode = false"></i>
+                </div>
+
+            </div>
+        </div>
+
+            <div class="p-field p-grid">
+        <div class="p-d-flex p-jc-between p-ai-center">
+          
+        </div>
+    </div>
+       
+        
         <div class="p-fluid" >
 
             <div class="p-field p-grid">
@@ -168,7 +217,8 @@
             <div class="p-field p-grid">
                 <label for="card_ruletext" class="p-col-3">{{"card.field.rule-text" | translate}}</label>
                 <div class="p-col-8">
-                    <input type="text" required #name="ngModel" inputId="card_ruletext" name="card_ruletext" placeholder="{{'card.field.rule-text' | translate}}" [(ngModel)]="card.ruleText" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                    <!-- <input type="text" required #name="ngModel" inputId="card_ruletext" name="card_ruletext" placeholder="{{'card.field.rule-text' | translate}}" [(ngModel)]="card.ruleText" [disabled]="loading || !cardOptions.isEditable" pInputText/> -->
+                    <textarea  rows="8" class="form-control input-flex-flox" id="card_ruletext" name="card_ruletext" placeholder="{{'card.field.rule-text' | translate}}" [(ngModel)]="card.ruleText" [disabled]="loading || !cardOptions.isEditable" ></textarea>
                 </div>
                 <div class="p-col-1 p-d-flex p-ai-center">
                     <a class="card-info-icon" (click)="selectCardInfo($event, 'card_ruletext', infoOverlay)" ><i class="fas fa-info-circle"></i></a>

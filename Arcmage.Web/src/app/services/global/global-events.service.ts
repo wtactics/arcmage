@@ -48,6 +48,7 @@ export class GlobalEventsService {
     localStorage.removeItem(localStorageKeys.token);
     this.isAuthenticated.next(false);
     this.currentUser.next(null);
+    window.location.reload();
   }
 
 }

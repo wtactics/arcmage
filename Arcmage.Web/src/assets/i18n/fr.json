@@ -41,6 +41,10 @@
   "cards.login-to-create-your-own": "Log in to create your own Cards! (fr)",
   "cards.create-new-card": "Create a new card (fr)",
 
+  "card.creator-artist": "Creator & Artist (fr)",
+  "card.rulings": "Official Rulings (fr)",
+  "card.no-rulings": "No rulings yet. (fr)",
+
   "card.field.name": "Name (fr)",
   "card.field.name.required": "The card name is required. (fr)",
   "card.field.type": "Type (fr)",

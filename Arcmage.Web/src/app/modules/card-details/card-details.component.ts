@@ -23,6 +23,8 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   apiUri: string;
 
+  isEditMode = false;
+
   card: Card;
   cardOptions: CardOptions;
   loyalties: SelectItem[];

@@ -40,6 +40,10 @@
     "cards.create-your-own": "Crie sua própria carta!",
     "cards.login-to-create-your-own": "Faça login para criar suas próprias cartas!",
     "cards.create-new-card": "Criar uma nova carta",
+
+    "card.creator-artist": "Creator & Artist (pt-br)",
+    "card.rulings": "Official Rulings (pt-br)",
+    "card.no-rulings": "No rulings yet. (pt-br)",
   
     "card.field.name": "Nome",
     "card.field.name.required": "O nome da carta é obrigatório.",

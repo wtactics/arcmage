@@ -40,6 +40,10 @@
     "cards.create-your-own": "Create your own card! (es)",
     "cards.login-to-create-your-own": "Log in to create your own Cards! (es)",
     "cards.create-new-card": "Create a new card (es)",
+
+    "card.creator-artist": "Creator & Artist (es)",
+    "card.rulings": "Official Rulings (es)",
+    "card.no-rulings": "No rulings yet. (es)",
   
     "card.field.name": "Name (es)",
     "card.field.name.required": "The card name is required. (es)",

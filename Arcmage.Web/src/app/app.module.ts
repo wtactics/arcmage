@@ -23,6 +23,7 @@ import { InputSwitchModule } from "primeng/inputswitch";
 import { CheckboxModule } from "primeng/checkbox";
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { BadgeModule } from "primeng/badge";
+import { DividerModule } from "primeng/divider";
 
 import { SlickCarouselModule } from "ngx-slick-carousel";
 
@@ -134,6 +135,7 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
     CheckboxModule,
     AutoCompleteModule,
     BadgeModule,
+    DividerModule,
     DropdownModule,
     FileUploadModule,
     ProgressBarModule,
