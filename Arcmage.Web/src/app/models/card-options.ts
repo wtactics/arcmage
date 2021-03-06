@@ -8,6 +8,7 @@ import { Language } from "./language";
 export class CardOptions {
     isEditable: boolean;
     isStatusChangedAllowed: boolean;
+    isRulingEditable: boolean;
     cardTypes: CardType[];
     factions: Faction[];
     series: Serie[];

@@ -8,6 +8,8 @@ namespace Arcmage.Model
 
         public bool IsStatusChangedAllowed { get; set; }
 
+        public bool IsRulingEditable { get; set; }
+
         public List<CardType> CardTypes { get; set; }
 
         public List<Faction> Factions { get; set; }

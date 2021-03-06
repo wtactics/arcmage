@@ -31,10 +31,12 @@
       <li class="nav-item dropdown dropdown-user" *ngIf="isAuthenticated">
         <a class="btn btn-user nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"
           aria-haspopup="true" aria-expanded="false">
-          <span class="avatar avatar-sm avatar-type-man"></span> {{userName}}
+          <span class="avatar avatar-sm avatar-type-man"></span> {{user?.name}}
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item danger" (click)="logout()">{{ "menu.logout" | translate }}</a>
+          <a class="dropdown-item danger" (click)="logout()"><i class="fas fa-sign-out-alt"></i> {{ "menu.logout" | translate }}</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" [routerLink]="['/settings', user?.guid]" ><i class="fas fa-cog"></i> {{ "menu.settings" | translate }}</a>
         </div>
       </li>
 

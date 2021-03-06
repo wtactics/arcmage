@@ -60,7 +60,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
               private gameApiService: GameApiService,
               private deckApiService: DeckApiService,
               private messageService: MessageService,
-              private translateService: TranslateService, 
+              private translateService: TranslateService,
               private clipboard: Clipboard) {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.slideConfig = this.configurationService.configuration.slideConfig;

@@ -77,5 +77,8 @@ namespace Arcmage.Configuration
 
         public string GameRuntimeSslSubject { get; set; }
 
+        // Send grid api key
+        public string SendGridApiKey { get; set; }
+
     }
 }

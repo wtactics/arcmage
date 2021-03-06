@@ -1,0 +1,9 @@
+<div class="p-fluid" *ngIf="!verificationFailed && !verificationSuccess">
+    <h1>{{ 'confirm.verifying' | translate}}</h1>
+</div>
+<div class="p-fluid" *ngIf="verificationSuccess">
+    <h1>{{ 'confirm.it-is-you' | translate}}</h1>
+</div>
+<div class="p-fluid" *ngIf="verificationFailed">
+    <h1>{{ 'confirm.failed' | translate}}</h1>
+</div>

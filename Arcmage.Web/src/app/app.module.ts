@@ -7,7 +7,7 @@ import { FileUploadModule} from "primeng/fileupload";
 import { DropdownModule } from "primeng/dropdown";
 import { ToastModule } from "primeng/toast";
 import { ChartModule } from "primeng/chart";
-import { MessageService, ConfirmationService } from "primeng/api";
+import { MessageService } from "primeng/api";
 import { MessagesModule } from "primeng/messages";
 import { ProgressBarModule } from "primeng/progressbar";
 import { InputTextModule } from "primeng/inputtext";
@@ -24,6 +24,8 @@ import { CheckboxModule } from "primeng/checkbox";
 import { AutoCompleteModule } from "primeng/autocomplete";
 import { BadgeModule } from "primeng/badge";
 import { DividerModule } from "primeng/divider";
+import { ConfirmPopupModule } from "primeng/confirmpopup";
+import { ConfirmationService } from "primeng/api";
 
 import { SlickCarouselModule } from "ngx-slick-carousel";
 
@@ -70,6 +72,7 @@ import { ApiService } from "./services/api/api.service";
 import { CardApiService } from "./services/api/card-api.service";
 import { DeckApiService } from "./services/api/deck-api.service";
 import { DeckCardApiService } from "./services/api/deck-card-api.service";
+import { RulingApiService } from "./services/api/ruling-api.service";
 import { GameApiService } from "./services/api/game-api.service";
 
 
@@ -82,10 +85,10 @@ import { FileUploadApiService } from "./services/api/file-upload-api.service";
 import { DeckDetailsComponent } from "./modules/deck-details/deck-details.component";
 import { GamesComponent } from "./modules/games/games.component";
 import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
-
-
-
-
+import { ConfirmComponent } from './modules/confirm/confirm.component';
+import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
+import { PasswordForgetComponent } from './modules/password-forget/password-forget.component';
+import { SettingsComponent } from './modules/settings/settings.component';
 
 
 registerLocaleData(localeNLBE);
@@ -108,6 +111,10 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
     DeckDetailsComponent,
     GamesComponent,
     GameInviteComponent,
+    ConfirmComponent,
+    PasswordResetComponent,
+    PasswordForgetComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,6 +143,7 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
     AutoCompleteModule,
     BadgeModule,
     DividerModule,
+    ConfirmPopupModule,
     DropdownModule,
     FileUploadModule,
     ProgressBarModule,
@@ -175,6 +183,7 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
     CardApiService,
     DeckApiService,
     DeckCardApiService,
+    RulingApiService,
     GameApiService,
     LoginApiService,
     UserApiService,

@@ -50,10 +50,10 @@
 
     <div class="p-col-6 p-ml-3" *ngIf="!isEditMode">
         <div class="p-d-flex p-jc-between p-ai-center">
-            <h1>{{card.name}}</h1>
-            <i *ngIf="cardOptions.isEditable" class="fas fa-pencil-alt fa-lg" (click)="isEditMode = true"></i>
+            <h1>{{card.name}}<span class="draft" *ngIf="card?.status?.name === 'Draft'" > [{{'card.field.status.draft' | translate}}]</span></h1>
+            <a role="button" [routerLink]="" queryParamsHandling="preserve" (click)="isEditMode = true">{{ "card.show-more" | translate}}</a>
         </div>
-       
+        
 
         <p-divider align="left">
             <div *ngIf="card?.type?.name === 'Creature'"><b>{{card.type.name}} - {{card.subType}} - {{card.attack}}/{{card.defense}}</b></div>
@@ -61,17 +61,32 @@
             <div *ngIf="card?.type?.name !== 'Creature' && card?.type?.name !== 'City'"><b>{{card.subType}}</b></div>
         </p-divider>
         <div class="view-info">
-            <p class="text-style">{{card.ruleText}}</p>
-            <p><em>{{card.flavorText}}</em></p>
+            <p class="text-style">{{card?.ruleText}}</p>
+            <p><em>{{card?.flavorText}}</em></p>
         </div>
+
         <p-divider align="left"><b>{{"card.creator-artist" | translate}}</b></p-divider>
         <div class="view-info">
-            <p>{{card.creator.name}} - {{card.artist}}</p>
+            <p>{{card?.creator?.name}} - {{card.artist}}</p>
         </div>
-        <p-divider align="left"><b>{{"card.rulings" | translate}}</b></p-divider>
-        
-        <div class="view-info">
+
+        <p-divider align="left"><b>{{"card.rulings" | translate}} </b><i *ngIf="cardOptions?.isEditable && cardOptions?.isRulingEditable" class="elegant-button fas fa-plus fa-sm" (click)="showAddRuling()"></i></p-divider>
+        <div *ngIf="!rulings || rulings.length == 0" class="view-info">
             <p>{{"card.no-rulings" | translate}}</p>
+        </div>
+        <div class="view-info p-mb-1" *ngFor="let ruling of rulings" >
+          
+            <div class="p-fluid" >
+
+                <div class="p-grid">
+                    <div class="p-col-10 p-pb-0"><em>{{ruling.lastModifiedTime | date:'yyyy-MM-dd'}}</em></div>
+                    <div class="p-col-2 p-pb-0 p-d-flex p-ai-center p-jc-end">
+                        <i *ngIf="cardOptions?.isEditable && cardOptions?.isRulingEditable" class="elegant-button fas fa-pencil-alt" (click)="showEditRuling(ruling)"></i>
+                        <i *ngIf="cardOptions?.isEditable && cardOptions?.isRulingEditable" class="elegant-button fas fa-trash-alt" (click)="deleteRuling($event, ruling)"></i>
+                    </div>
+                </div>
+                <p class="text-style">{{ruling.ruleText}}</p>
+            </div>
         </div>
     </div>
 
@@ -82,22 +97,12 @@
         
         <div class="p-fluid" >
 
-            <div class="p-field p-grid">
+            <div class="p-field p-grid p-ai-center">
 
-                <h1 class="p-offset-3 p-col-8">{{card.name}}</h1>
-                <div class="p-col-1 p-d-flex p-ai-center">
-                    <i *ngIf="cardOptions.isEditable" class="fas fa-times fa-lg" (click)="isEditMode = false"></i>
-                </div>
-
+                <h1 class="p-offset-3 p-col-7">{{card.name}}<span class="draft" *ngIf="card?.status?.name === 'Draft'" > [{{'card.field.status.draft' | translate}}]</span></h1>
+                <a class="p-col-2" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="isEditMode = false">{{ "card.show-less" | translate}}</a>
             </div>
         </div>
-
-            <div class="p-field p-grid">
-        <div class="p-d-flex p-jc-between p-ai-center">
-          
-        </div>
-    </div>
-       
         
         <div class="p-fluid" >
 
@@ -375,5 +380,23 @@
             <p>{{"card.field.artwork.info" | translate}}</p>
         </div>
     </p-overlayPanel>
+
+    <p-sidebar [(visible)]="showRuleCreation" position="right" styleClass="p-sidebar-md">
+        <h1 *ngIf="!isRuleEditing">{{ "rulings.create-new-ruling" | translate }}</h1>
+        <h1 *ngIf="isRuleEditing">{{ "rulings.edit-ruling" | translate }}</h1>
+        <div class="p-fluid">
+          <div class="p-field">
+              <label for="newruling_ruletext">{{ "ruling.field.rule-text" | translate }}*</label>
+              <textarea  rows="8" class="form-control input-flex-flox" id="newruling_ruletext" #newruling_ruletext="ngModel" name="newruling_ruletext" [(ngModel)]="newruling.ruleText" ></textarea>
+              <div *ngIf="newruling_ruletext.invalid && (newruling_ruletext.dirty || newruling_ruletext.touched)" class="requried-input-field">
+                <div *ngIf="newruling_ruletext.errors.required">*{{ "ruling.field.rule-text.required" | translate }}</div>
+              </div>
+          </div>
+          <div class="p-d-flex p-jc-end">
+            <button type="button" (click)="SaveRuling()" [disabled]="newruling?.ruleText == null || newruling.ruleText == '' " class="btn btn-primary float-right">{{ "global.save" | translate }}</button>
+          </div>
+        </div>
+    
+      </p-sidebar>
 
 </div>

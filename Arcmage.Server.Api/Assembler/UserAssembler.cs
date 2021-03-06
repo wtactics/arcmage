@@ -17,6 +17,8 @@ namespace Arcmage.Server.Api.Assembler
                 LastLoginTime = userModel.LastLoginTime,
                 CreateTime = userModel.CreateTime,
                 Token = userModel.Token,
+                IsDisabled = userModel.IsDisabled,
+                IsVerified = userModel.IsVerified,
                 
             };
             if (includeRole)
@@ -33,6 +35,17 @@ namespace Arcmage.Server.Api.Assembler
                 userModel.Cards.ForEach(x=> result.Cards.Add(x.FromDal()));
             }
             return result;
+        }
+
+        public static void Patch(this UserModel userModel, User newUser, RoleModel roleModel)
+        {
+            if (userModel == null) return;
+            if (newUser == null) return;
+            userModel.Name = newUser.Name;
+            userModel.IsVerified = newUser.IsVerified;
+            userModel.IsDisabled = newUser.IsDisabled;
+
+            if (roleModel != null) userModel.Role = roleModel;
         }
     }
 }

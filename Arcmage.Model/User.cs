@@ -17,6 +17,10 @@ namespace Arcmage.Model
 
         public string Password2 { get; set; }
 
+        public bool IsVerified { get; set; }
+
+        public bool IsDisabled { get; set; }
+
         public string Token { get; set; }
 
         public Role Role { get; set; }

@@ -34,6 +34,8 @@ namespace Arcmage.DAL
 
         public DbSet<DeckCardModel> DeckCards { get; set; }
 
+        public DbSet<RulingModel> Rulings { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(Settings.Current.ArcmageConnectionString);
@@ -60,6 +62,7 @@ namespace Arcmage.DAL
             AddDefaults<CardModel>(modelBuilder);
             AddDefaults<DeckModel>(modelBuilder);
             AddDefaults<DeckCardModel>(modelBuilder);
+            AddDefaults<RulingModel>(modelBuilder);
 
 
             modelBuilder.Entity<CardTypeModel>().HasOne(x => x.TemplateInfo);
@@ -76,6 +79,8 @@ namespace Arcmage.DAL
 
             modelBuilder.Entity<DeckCardModel>().HasOne(x => x.Deck).WithMany(x=>x.DeckCards);
             modelBuilder.Entity<DeckCardModel>().HasOne(x => x.Card).WithMany();
+
+            modelBuilder.Entity<RulingModel>().HasOne(x => x.Card).WithMany();
 
         }
 

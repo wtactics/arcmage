@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   registerErrorMessage: string;
 
   loading = false;
+  showEmailValidation = false;
 
   constructor(
     private router: Router,
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = new User();
+    this.showEmailValidation = false;
      // get return url from route parameters or default to '/'
     // tslint:disable-next-line:no-string-literal
     this.returnUrl = this.globalEventsService.getPreviousUrl() || "/";
@@ -66,16 +68,7 @@ export class RegisterComponent implements OnInit {
   register(user: User) {
     this.registerErrorMessage = null;
     this.userApiService.create$(user).subscribe( newUser => {
-      this.loginApiService.signIn(user.email, user.password).subscribe( token => {
-        localStorage.setItem(localStorageKeys.token, token);
-        this.userApiService.me().subscribe(
-          loggedinUser => {
-            this.globalEventsService.setUser(loggedinUser);
-            this.router.navigate([this.returnUrl]);
-          },
-          error => this.registerError(error));
-      },
-      error => this.registerError(error));
+      this.showEmailValidation = true;
     },
     error => {
       this.registerError(error);

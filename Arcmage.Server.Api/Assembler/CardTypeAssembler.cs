@@ -25,7 +25,7 @@ namespace Arcmage.Server.Api.Assembler
             if (cardTypeModel == null) return;
             cardTypeModel.Name = cardType.Name;
             cardTypeModel.TemplateInfo = templateInfoModel;
-            cardTypeModel.Patch(user);
+            cardTypeModel.PatchBase(user);
         }
     }
 }

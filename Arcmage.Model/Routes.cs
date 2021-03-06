@@ -17,12 +17,18 @@ namespace Arcmage.Model
         public const string Cards = Root + "Cards";
         public const string Decks = Root + "Decks";
         public const string DeckCards = Root + "DeckCards";
+        public const string Rulings = Root + "Rulings";
 
         public const string CardOptions = Root + "CardOptions";
         public const string DeckOptions = Root + "DeckOptions";
+        public const string SettingsOptions = Root + "SettingsOptions";
 
         public const string CardSearchOptions = Root + "CardSearch";
         public const string DeckSearchOptions = Root + "DeckSearch";
+
+        
+
+
 
         public const string Game = Root + "Games";
         public const string GameSearchOptions = Root + "GameSearch";
@@ -47,10 +53,13 @@ namespace Arcmage.Model
                 {typeof(Card), Cards},
                 {typeof(Deck), Decks},
                 {typeof(DeckCard), DeckCards},
+                {typeof(Ruling), Rulings},
                 {typeof(Game), Game},
 
                 {typeof(CardOptions), CardOptions},
                 {typeof(DeckOptions), DeckOptions},
+                {typeof(SettingsOptions), SettingsOptions},
+
 
                 {typeof(CardSearchOptions), CardSearchOptions},
                 {typeof(DeckSearchOptions), DeckSearchOptions},

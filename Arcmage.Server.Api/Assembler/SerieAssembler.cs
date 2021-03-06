@@ -26,7 +26,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (serieModel == null) return;
             serieModel.Name = serie.Name;
-            serieModel.Patch(user);
+            serieModel.PatchBase(user);
         }
 
     }

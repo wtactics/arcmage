@@ -25,7 +25,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (deckCardModel == null) return;
             deckCardModel.Quantity = deckCard.Quantity;
-            deckCardModel.Patch(user);
+            deckCardModel.PatchBase(user);
         }
     }
 }

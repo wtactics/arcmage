@@ -21,7 +21,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (ruleSetModel == null) return;
             ruleSetModel.Name = ruleSet.Name;
-            ruleSetModel.Patch(user);
+            ruleSetModel.PatchBase(user);
         }
 
     }

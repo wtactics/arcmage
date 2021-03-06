@@ -380,6 +380,45 @@ namespace Arcmage.DAL.Migrations
                     b.ToTable("RuleSetModels");
                 });
 
+            modelBuilder.Entity("Arcmage.DAL.Model.RulingModel", b =>
+                {
+                    b.Property<int>("RulingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CardId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("LastModifiedById")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastModifiedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RuleText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RulingId");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("LastModifiedById");
+
+                    b.ToTable("RulingModels");
+                });
+
             modelBuilder.Entity("Arcmage.DAL.Model.SerieModel", b =>
                 {
                     b.Property<int>("SerieId")
@@ -538,6 +577,12 @@ namespace Arcmage.DAL.Migrations
 
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDisabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("LastLoginTime")
                         .HasColumnType("datetime2");
@@ -760,6 +805,31 @@ namespace Arcmage.DAL.Migrations
                     b.Navigation("LastModifiedBy");
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("Arcmage.DAL.Model.RulingModel", b =>
+                {
+                    b.HasOne("Arcmage.DAL.Model.CardModel", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId");
+
+                    b.HasOne("Arcmage.DAL.Model.UserModel", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Arcmage.DAL.Model.UserModel", "LastModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("LastModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastModifiedBy");
                 });
 
             modelBuilder.Entity("Arcmage.DAL.Model.SerieModel", b =>

@@ -14,8 +14,9 @@
         </div>
     </div>
     <div *ngIf="loginErrorMessage">{{loginErrorMessage}}</div>
-    <div class="p-d-flex p-jc-end">
+    <div class="p-d-flex p-jc-between p-ai-start">
         <button type="button" (click)="submitLogin()" [disabled]="username == null || username == '' || password == null || password == '' " class="btn btn-primary float-right">{{'login.login' | translate }}</button>
-      </div>
+        <a [routerLink]="['/password-forget']" >{{ "login.password-forget" | translate }}</a>
+    </div>
 </div>
 

@@ -47,7 +47,7 @@ namespace Arcmage.Server.Api.Assembler
             deckModel.GeneratePdf = deck.GeneratePdf;
             
             if (statusModel != null) deckModel.Status = statusModel;
-            deckModel.Patch(user);
+            deckModel.PatchBase(user);
         }
     }
 }

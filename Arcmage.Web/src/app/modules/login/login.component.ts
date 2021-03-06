@@ -63,7 +63,8 @@ export class LoginComponent implements OnInit {
           this.globalEventsService.setUser(user);
           this.router.navigate([this.returnUrl]);
         },
-        error => this.loginError(error));
+        error => this.loginError(error)
+      );
     },
     error => {
       this.loginError(error);

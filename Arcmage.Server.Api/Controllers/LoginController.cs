@@ -35,10 +35,19 @@ namespace Arcmage.Server.Api.Controllers
 
                     if (user != null)
                     {
+                        if (user.IsDisabled)
+                        {
+                            return BadRequest(new { message = "Login failed" });
+                        }
+
+                        if (!user.IsVerified)
+                        {
+                            return BadRequest(new { message = "Login failed" });
+                        }
 
                         if (Hasher.VerifyHashedPassword(user.Password, login.Password))
                         {
-                            user.Token = CreateToken(user);
+                            user.Token = TokenGenerator.CreateToken(user.Guid.ToString(), TimeSpan.FromDays(7));
                             return Ok(user.Token);
                         }
                         if (user.Password == login.Password)
@@ -46,7 +55,7 @@ namespace Arcmage.Server.Api.Controllers
                             // simple password hash is not sufficient we'll  update it
                             user.Password = Hasher.HashPassword(user.Password);
                             repository.Context.SaveChanges();
-                            user.Token = CreateToken(user);
+                            user.Token = TokenGenerator.CreateToken(user.Guid.ToString(), TimeSpan.FromDays(7));
                             return Ok(user.Token);
                         }
 
@@ -61,23 +70,6 @@ namespace Arcmage.Server.Api.Controllers
             }
         }
 
-        private static string CreateToken(UserModel user)
-        {
-            // authentication successful so generate jwt token
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Settings.Current.TokenEncryptionKey);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Guid.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials =
-                    new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
+     
     }
 }

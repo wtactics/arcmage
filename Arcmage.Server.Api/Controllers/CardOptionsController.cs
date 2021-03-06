@@ -45,6 +45,14 @@ namespace Arcmage.Server.Api.Controllers
                         cardOptions.IsEditable = true;
                         cardOptions.IsStatusChangedAllowed = true;
                     }
+
+                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer || 
+                        repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
+                        repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
+                    {
+                        cardOptions.IsRulingEditable = true;
+                    }
+
                 }
 
                 cardOptions.Factions = repository.Context.Factions.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();

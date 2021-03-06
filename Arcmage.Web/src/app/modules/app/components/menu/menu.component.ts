@@ -6,6 +6,7 @@ import { GlobalEventsService } from "./../../../../services/global/global-events
 import { Configuration } from "../../../../services/global/configuration";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SelectItem } from "primeng/api";
+import { User } from "src/app/models/user";
 
 
 @Component({
@@ -17,7 +18,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
 
   public isAuthenticated = false;
-  public userName = null;
+  public user: User;
 
   public configuration: Configuration;
 
@@ -41,9 +42,9 @@ export class MenuComponent implements OnInit, OnDestroy {
       }));
 
     this.subscription.add(
-      this.globalEventsService.currentUser$.subscribe((value) => {
-        if (value !== null) {
-          this.userName = value.name;
+      this.globalEventsService.currentUser$.subscribe((user) => {
+        if (user !== null) {
+          this.user = user;
         }
       }));
 

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using SendGrid.Extensions.DependencyInjection;
 
 namespace Arcmage.Server.Api
 {
@@ -61,6 +62,10 @@ namespace Arcmage.Server.Api
             // add the processing server as IHostedService
             services.AddHangfireServer();
 
+            services.AddSendGrid(options =>
+            {
+                options.ApiKey = Settings.Current.SendGridApiKey;
+            });
 
             // setup http context access in the middleware pipeline 
             var httpContextAccessor = new HttpContextAccessor();
@@ -105,8 +110,8 @@ namespace Arcmage.Server.Api
             // Remark:
             // - Uncomment/Comment the next lines to host the static (wwwroot) files using Kerstel instead of IIS / IIS Express
             // - Also change the web.config to remove hosting the static (wwwroot) files form IIS / IIS Express 
-            // app.UseDefaultFiles();
-            // app.UseStaticFiles();
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
 
             // use url routing
             app.UseRouting();

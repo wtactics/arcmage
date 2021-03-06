@@ -20,7 +20,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (statusModel == null) return;
             statusModel.Name = status.Name;
-            statusModel.Patch(user);
+            statusModel.PatchBase(user);
         }
     }
 }

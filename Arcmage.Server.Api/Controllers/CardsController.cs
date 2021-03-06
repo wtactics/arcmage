@@ -53,6 +53,10 @@ namespace Arcmage.Server.Api.Controllers
             using (var repository = new Repository())
             {
                 var result = await repository.Context.Cards.FindByGuidAsync(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
                 await repository.Context.Entry(result).Reference(x=>x.Faction).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.RuleSet).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Serie).LoadAsync();
@@ -62,6 +66,24 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.Entry(result).Reference(x => x.LastModifiedBy).LoadAsync();
 
                 return Ok(result.FromDal());
+            }
+        }
+
+        [HttpGet]
+        [Route("{id}/rulings")]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        public async Task<IActionResult> GetRulings(Guid id)
+        {
+            using (var repository = new Repository())
+            {
+                var rulingModels = await repository.Context.Rulings
+                    .Include(x=>x.Creator)
+                    .Include(x => x.LastModifiedBy)
+                    .Where(x =>x.Card.Guid == id).ToListAsync();
+                var result = new ResultList<Ruling>(rulingModels.Select(x => x.FromDal()).OrderByDescending(x=>x.CreateTime).ToList());
+                return Ok(result);
+
             }
         }
 

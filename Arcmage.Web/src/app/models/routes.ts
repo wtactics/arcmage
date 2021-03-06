@@ -13,10 +13,12 @@ export class Routes  {
         this.routeMap.set("Card", "api/Cards");
         this.routeMap.set("Deck", "api/Decks");
         this.routeMap.set("DeckCard", "api/DeckCards");
+        this.routeMap.set("Ruling", "api/Rulings");
         this.routeMap.set("Game", "api/Games");
 
         this.routeMap.set("CardOptions", "api/CardOptions");
         this.routeMap.set("DeckOptions", "api/DeckOptions");
+        this.routeMap.set("SettingsOptions", "api/SettingsOptions");
 
         this.routeMap.set("CardSearch", "api/CardSearch");
         this.routeMap.set("DeckSearch", "api/DeckSearch");

@@ -23,6 +23,10 @@ namespace Arcmage.DAL.Model
 
         public string Password { get; set; }
 
+        public bool IsVerified { get; set; }
+
+        public bool IsDisabled { get; set; }
+
         public virtual RoleModel Role { get; set; }
 
         public virtual List<CardModel> Cards { get; set; }

@@ -10,6 +10,10 @@ import { DecksComponent } from "./modules/decks/decks.component";
 import { DeckDetailsComponent } from "./modules/deck-details/deck-details.component";
 import { GamesComponent } from "./modules/games/games.component";
 import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
+import { ConfirmComponent } from "./modules/confirm/confirm.component";
+import { PasswordResetComponent } from "./modules/password-reset/password-reset.component";
+import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
+import { SettingsComponent } from "./modules/settings/settings.component";
 
 const routes: Routes = [
   { path: "unauthorized", component: UnauthorizedComponent },
@@ -21,6 +25,10 @@ const routes: Routes = [
   { path: "invite/:gameId", component: GameInviteComponent },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
+  { path: "password-reset", component: PasswordResetComponent },
+  { path: "password-forget", component: PasswordForgetComponent },
+  { path: "confirm", component: ConfirmComponent },
+  { path: "settings/:userId", component: SettingsComponent },
   { path: "**", redirectTo: "cards" }
 ];
 

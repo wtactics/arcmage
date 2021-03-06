@@ -20,7 +20,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (factionModel == null) return;
             factionModel.Name = faction.Name;
-            factionModel.Patch(user);
+            factionModel.PatchBase(user);
         }
     }
 }

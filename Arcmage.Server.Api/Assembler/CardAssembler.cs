@@ -83,7 +83,7 @@ namespace Arcmage.Server.Api.Assembler
             if (cardTypeModel != null) cardModel.Type = cardTypeModel;
             if (statusModel != null) cardModel.Status = statusModel;
             if (ruleSetModel != null) cardModel.RuleSet = ruleSetModel;
-            cardModel.Patch(user);
+            cardModel.PatchBase(user);
         }
 
     }

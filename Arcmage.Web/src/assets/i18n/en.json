@@ -6,11 +6,14 @@
   "menu.login": "Sign in",
   "menu.logout": "Sign out",
   "menu.register": "Sign up",
+  "menu.settings": "Settings",
   "menu.changePassword": "Change password",
   "menu.help": "Help",
 
   "global.create": "Create",
   "global.save": "Save",
+  "global.delete": "Delete",
+  "global.cancel": "Cancel",
   "global.search": "Search",
   "global.search.advanced": "advanced",
   "global.search.clear": "clear",
@@ -21,11 +24,12 @@
 
   "grids.total": "total",
 
-  "login.username": "Login (e-mail address)",
+  "login.username": "Login (email address)",
   "login.username.required": "The login email adress is required.",
   "login.password": "Password",
   "login.password.required": "The password is required.",
   "login.login": "Sign in",
+  "login.password-forget": "I forgot my password",
 
   "register.name": "Name",
   "register.name.required": "Your name is required.",
@@ -36,6 +40,20 @@
   "register.password2": "Retype your password",
   "register.password2.required": "You must retype your password.",
   "register.register": "Sign up",
+  "register.email-sent": "You're signed up. An email has been sent to you confirm your registration.",
+
+  "password-forget.email-info" : "Send a password reset email to",
+  "password-forget.email.required": "Your email is required.",
+  "password-forget.send-email": "Send password recovery mail",
+  "password-forget.email-sent": "A password recovery email has been sent to you.",
+
+  "password-reset.reset": "Reset Now",
+  "password-reset.failed": "Failed to validate the reset link",
+  "password-reset.back-in-business": "Password has been reset, you're back in business!",
+  "password-reset.password": "New password",
+  "password-reset.password.required": "Your new password is required.",
+  "password-reset.password2": "Retype your new password",
+  "password-reset.password2.required": "You must retype your new password.",
 
   "cards.create-your-own": "Create your own card!",
   "cards.login-to-create-your-own": "Log in to create your own Cards!",
@@ -44,6 +62,8 @@
   "card.creator-artist": "Creator & Artist",
   "card.rulings": "Official Rulings",
   "card.no-rulings": "No rulings yet.",
+  "card.show-more": "show more",
+  "card.show-less": "less",
 
   "card.field.name": "Name",
   "card.field.name.required": "The card name is required.",
@@ -60,6 +80,9 @@
   "card.field.defense.short": "D",
   "card.field.serie": "Serie",
   "card.field.status": "Status",
+  "card.field.status.draft": "Draft",
+  "card.field.status.release-candidate": "Release Candidate",
+  "card.field.status.final": "Final",
   "card.field.language": "Language",
   "card.field.rule-text": "Rule Text",
   "card.field.flavor-text": "Flavor Text",
@@ -150,6 +173,33 @@
   "deck.field.creator": "Creator",
   "deck.field.create-date": "Creation date",
   "deck.field.last-modified-by": "Last edit by",
-  "deck.field.last-modified-on": "Last edit"
+  "deck.field.last-modified-on": "Last edit",
+
+  "rulings.delete": "Delete this ruling?",
+  "rulings.create-new-ruling": "Create a new ruling",
+  "rulings.edit-ruling": "Edit ruling",
+  "ruling.field.rule-text": "Describe the ruling or clarification for the card",
+  "ruling.field.rule-text.required": "The ruling text is required",
+
+  "confirm.verifying": "Verifying ...",
+  "confirm.it-is-you": "Yep, it's you!",
+  "confirm.failed": "We couldn't verify that it is you.",
+
+  "settings": "Settings",
+  "settings.player": "Player",
+  "settings.admin": "Administration",
+  "settings.change-password": "Change password",
+  "settings.saved": "Settings saved",
+  "settings.name": "Name",
+  "settings.name.required": "Your name is required.",
+  "settings.email": "Email",
+  "settings.role": "Role",
+  "settings.email-verified": "Email verified",
+  "settings.user-disabled": "Account disabled",
+  "settings.user-not-found": "User not found",
+  "settings.settings-options-error": "Settings options not found",
+  "settings.password-forget": "Change or recover password",
+  "settings.password-forget.email-sent": "A password change/recovery email has been sent to you.",
+  "settings.password-forget.failed": "Could not send password change/recovery email"
 
 }

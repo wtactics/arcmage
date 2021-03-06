@@ -1,0 +1,45 @@
+<div class="p-fluid" *ngIf="settingsOptions">
+    <div class="p-d-flex p-jc-between p-ai-center">
+        <h1>{{'settings' | translate}}</h1>
+    </div>
+    
+
+    <p-divider align="left"><b>{{'settings.player' | translate}}</b></p-divider>
+    <div class="view-info">
+        <div class="p-field">
+            <label for="settings_username">{{'settings.name' | translate }}</label>
+            <input id="settings_username" type="text"  #settings_username="ngModel" [(ngModel)]="user.name" [disabled]="loading" required pInputText> 
+            <div *ngIf="settings_username.invalid && (settings_username.dirty || settings_username.touched)" class="requried-input-field">
+                <div *ngIf="settings_username.errors.required">{{'settings.name.required' | translate }}</div>
+            </div>
+        </div>
+        <div class="p-field p-fluid">
+            <label for="settings_email">{{'settings.email' | translate }}</label>
+            <input id="settings_email" type="text"  [(ngModel)]="user.email" [disabled]="true" required pInputText> 
+            <small id="settings_email_help"> <a [routerLink]="" queryParamsHandling="preserve" (click)="requestPasswordReset()" >{{ "settings.password-forget" | translate }}</a></small>
+        </div> 
+    </div>
+    <p-divider align="left" *ngIf="settingsOptions.isPlayerAdmin"><b>{{'settings.admin' | translate}}</b></p-divider>
+    <div class="view-info" *ngIf="settingsOptions.isPlayerAdmin">
+        <div class="p-field">
+            <label for="settings_role" >{{'settings.role' | translate}}</label>
+            <p-dropdown inputId="settings_role" dataKey="guid" [options]="settingsOptions?.roles" [(ngModel)]="user.role" placeholder="{{'global.select' | translate}}" optionLabel="name" [disabled]="loading"></p-dropdown> 
+        </div>
+        <div class="p-field-checkbox">
+            <p-checkbox [(ngModel)]="user.isVerified" binary="true" inputId="settings_email_verified" [disabled]="loading" ></p-checkbox>
+            <label for="settings_email_verified">{{'settings.email-verified' | translate }}</label>
+        </div>
+        <div class="p-field-checkbox">
+            <p-checkbox [(ngModel)]="user.isDisabled" binary="true" inputId="settings_user_disabled" [disabled]="loading"></p-checkbox>
+            <label for="settings_user_disabled">{{'settings.user-disabled' | translate }}</label>
+        </div>
+    </div>
+    <div class="view-info">
+        <div *ngIf="saveErrorMessage">{{saveErrorMessage}}</div>
+        <div class="p-d-flex p-jc-end">
+            <button type="button" (click)="savePlayer()" [disabled]="isSavePlayerDisabled" class="btn btn-primary float-right">{{'global.save' | translate }}</button>
+        </div>
+    </div>
+
+</div>
+

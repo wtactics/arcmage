@@ -9,9 +9,12 @@ import { Observable, interval, Subscription } from "rxjs";
 import { startWith, switchMap, delay } from "rxjs/operators";
 import { HttpEvent, HttpEventType, HttpParams } from "@angular/common/http";
 import { OverlayPanel } from "primeng/overlaypanel/overlaypanel";
-import { SelectItem } from "primeng/api";
+import { ConfirmationService, SelectItem } from "primeng/api";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { Language } from "src/app/models/language";
+import { Ruling } from "src/app/models/ruling";
+import { RulingApiService } from "src/app/services/api/ruling-api.service";
+import { TranslateService } from "@ngx-translate/core";
 
 
 @Component({
@@ -30,6 +33,11 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   loyalties: SelectItem[];
   selectedCardInfo: string;
 
+  rulings: Ruling[];
+  showRuleCreation: boolean;
+  isRuleEditing: boolean;
+  newruling: Ruling;
+
   languages: Language[];
 
   loading: boolean;
@@ -45,8 +53,11 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private configurationService: ConfigurationService,
               private route: ActivatedRoute,
+              private translateService: TranslateService,
               private cardApiService: CardApiService,
-              private fileUploadApiService: FileUploadApiService) {
+              private rulingApiService: RulingApiService,
+              private fileUploadApiService: FileUploadApiService,
+              private confirmationService: ConfirmationService) {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.card = new Card();
     this.card.name = "";
@@ -62,6 +73,10 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loading = true;
+    this.newruling = new Ruling();
+    this.showRuleCreation = false;
+
+
     this.route.paramMap.subscribe(params => {
       const cardGuid = params.get("cardId");
 
@@ -72,7 +87,13 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
           this.cardApiService.get$(cardGuid).subscribe(
             card => {
               this.card = card;
-              this.loading = false;
+              this.cardApiService.getRulings(cardGuid).subscribe(
+                result => {
+                  this.rulings = result.items;
+                  this.loading = false;
+                },
+                error => { this.loading = false; }
+              );
             },
             error => { this.loading = false; }
           );
@@ -88,7 +109,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   }
 
   saveCard(forceGeneration: boolean = false) {
-   
+
     const params = new HttpParams().set("forceGeneration", forceGeneration ? "true" : "false" );
 
     this.saving = true;
@@ -165,6 +186,93 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   selectCardInfo(event, infoName: string, overlaypanel: OverlayPanel) {
     this.selectedCardInfo = infoName;
     overlaypanel.toggle(event);
+  }
+
+  showEditRuling(ruling): void {
+    this.newruling = ruling;
+    this.newruling.card = this.card;
+    this.isRuleEditing = true;
+    this.showRuleCreation = true;
+  }
+
+
+
+  deleteRuling(event: Event, ruling) {
+    this.confirmationService.confirm({
+        target: event.target,
+        acceptLabel: this.translateService.instant("global.delete"),
+        rejectLabel: this.translateService.instant("global.cancel"),
+        message: this.translateService.instant("rulings.delete"),
+        icon: "pi pi-exclamation-triangle",
+        accept: () => {
+          this.rulingApiService.delete$(ruling.guid).subscribe(
+            _ => {
+              this.cardApiService.getRulings(this.card.guid).subscribe(
+                result => {
+                  this.rulings = result.items;
+                  this.showRuleCreation = false;
+                },
+              );
+            },
+            error => {
+              this.cardApiService.getRulings(this.card.guid).subscribe(
+                result => {
+                  this.rulings = result.items;
+                  this.showRuleCreation = false;
+                },
+              );
+            }
+          );
+        },
+        reject: () => {
+        }
+    });
+}
+
+  showAddRuling(): void {
+    this.isRuleEditing = false;
+    this.newruling = new Ruling();
+    this.newruling.card = this.card;
+    this.showRuleCreation = true;
+  }
+
+  SaveRuling(): void {
+    if (this.isRuleEditing) {
+      this.rulingApiService.update$(this.newruling.guid, this.newruling).subscribe(
+        ruling => {
+          this.cardApiService.getRulings(this.card.guid).subscribe(
+            result => {
+              this.rulings = result.items;
+              this.showRuleCreation = false;
+            },
+            error => {
+              this.showRuleCreation = false;
+            }
+          );
+        },
+        error => {
+          this.showRuleCreation = false;
+        }
+      );
+    }
+    else {
+      this.rulingApiService.create$(this.newruling).subscribe(
+        ruling => {
+          this.cardApiService.getRulings(this.card.guid).subscribe(
+            result => {
+              this.rulings = result.items;
+              this.showRuleCreation = false;
+            },
+            error => {
+              this.showRuleCreation = false;
+            }
+          );
+        },
+        error => {
+          this.showRuleCreation = false;
+        }
+      );
+    }
   }
 
 }

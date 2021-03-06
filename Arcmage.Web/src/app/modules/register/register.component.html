@@ -1,4 +1,4 @@
-<div class="p-fluid">
+<div class="p-fluid" *ngIf="!showEmailValidation">
     <div class="p-field">
         <label for="registration_name">{{'register.name' | translate }}</label>
         <input id="registration_name" type="text"  #registration_name="ngModel" [(ngModel)]="user.name" [disabled]="loading" required pInputText> 
@@ -31,5 +31,9 @@
     <div *ngIf="registerErrorMessage">{{registerErrorMessage}}</div>
     <div class="p-d-flex p-jc-end">
         <button type="button" (click)="submitRegistration()" [disabled]="isRegistrationDisabled" class="btn btn-primary float-right">{{'register.register' | translate }}</button>
-      </div>
+    </div>
+</div>
+
+<div class="p-fluid" *ngIf="showEmailValidation">
+    <h1>{{ 'register.email-sent' | translate}}</h1>
 </div>

@@ -23,7 +23,7 @@ namespace Arcmage.Server.Api.Assembler
             return t;
         }
 
-        public static void Patch(this ModelBase baseModel, UserModel user)
+        public static void PatchBase(this ModelBase baseModel, UserModel user)
         {
             if (baseModel == null) return;
             baseModel.LastModifiedTime = DateTime.UtcNow;

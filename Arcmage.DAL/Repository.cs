@@ -340,6 +340,28 @@ namespace Arcmage.DAL
             return deckCard;
         }
 
+        public RulingModel CreateRuling(CardModel cardModel, string ruleText, Guid guid)
+        {
+            var ruling = Context.Rulings.FindByGuid(guid);
+            if (ruling == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                ruling = new RulingModel
+                {
+                    Guid = guid,
+                    Card = cardModel,
+                    RuleText= ruleText,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                };
+                Context.Rulings.Add(ruling);
+                Context.SaveChanges();
+            }
+            return ruling;
+        }
+
 
         public SerieModel CreateSeries(string name, Guid guid)
         {
