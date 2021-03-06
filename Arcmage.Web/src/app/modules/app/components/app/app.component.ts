@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 import { localStorageKeys } from "./../../../../global/localStorage.keys";
-import { UserApiService } from 'src/app/services/api/user-api.service';
-import { GlobalEventsService } from 'src/app/services/global/global-events.service';
+import { UserApiService } from "src/app/services/api/user-api.service";
+import { GlobalEventsService } from "src/app/services/global/global-events.service";
 
 @Component({
   selector: "app-root",

@@ -97,13 +97,6 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
   return new TranslateHttpLoader(http, configurationService.configuration.resourcesUri, `.json?ts=${Date.now()}`);
 }
 
-export function appInitializerFactory(translate: TranslateService) {
-  return () => {
-    translate.setDefaultLang("en");
-    return translate.use("en").toPromise();
-  };
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -158,6 +151,7 @@ export function appInitializerFactory(translate: TranslateService) {
     ClipboardModule,
     TranslateModule.forRoot(
       {
+        defaultLanguage: "en",
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
@@ -172,12 +166,6 @@ export function appInitializerFactory(translate: TranslateService) {
       provide: APP_INITIALIZER,
       useFactory: (configService: ConfigurationService) => () => configService.loadConfiguration(),
       deps: [ConfigurationService],
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializerFactory,
-      deps: [TranslateService],
       multi: true
     },
     {

@@ -15,7 +15,7 @@ import { MessageService } from "primeng/api";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { SlickCarouselComponent } from "ngx-slick-carousel";
 import { ConfigurationService } from "src/app/services/global/config.service";
-import { TranslateService } from "@ngx-translate/core";
+import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-game-invite",
@@ -68,11 +68,13 @@ export class GameInviteComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.userName = this.translateService.instant("invite.guest");
-    this.enterNameMenuItem =  {label: this.translateService.instant("invite.step.enter-name")};
-    this.copyInviteLinkMenuItem = {label: this.translateService.instant("invite.step.invite-friend"), visible: true};
-    this.selectDeckMenuItem = {label: this.translateService.instant("invite.step.select-deck")};
-    this.startGameMenuItem =  {label: this.translateService.instant("invite.step.start-game")};
+    this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.userName = this.translateService.instant("invite.guest");
+      this.enterNameMenuItem =  {label: this.translateService.instant("invite.step.enter-name")};
+      this.copyInviteLinkMenuItem = {label: this.translateService.instant("invite.step.invite-friend"), visible: true};
+      this.selectDeckMenuItem = {label: this.translateService.instant("invite.step.select-deck")};
+      this.startGameMenuItem =  {label: this.translateService.instant("invite.step.start-game")};
+    });
 
     this.gameSetupSteps = [
       this.enterNameMenuItem,
