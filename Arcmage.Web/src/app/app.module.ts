@@ -42,7 +42,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 
 import localeNLBE from "@angular/common/locales/nl-BE";
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateModule, TranslateLoader, TranslateService } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 
@@ -85,16 +85,23 @@ import { FileUploadApiService } from "./services/api/file-upload-api.service";
 import { DeckDetailsComponent } from "./modules/deck-details/deck-details.component";
 import { GamesComponent } from "./modules/games/games.component";
 import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
-import { ConfirmComponent } from './modules/confirm/confirm.component';
-import { PasswordResetComponent } from './modules/password-reset/password-reset.component';
-import { PasswordForgetComponent } from './modules/password-forget/password-forget.component';
-import { SettingsComponent } from './modules/settings/settings.component';
+import { ConfirmComponent } from "./modules/confirm/confirm.component";
+import { PasswordResetComponent } from "./modules/password-reset/password-reset.component";
+import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
+import { SettingsComponent } from "./modules/settings/settings.component";
 
 
 registerLocaleData(localeNLBE);
 
 export function HttpLoaderFactory(http: HttpClient, configurationService: ConfigurationService) {
   return new TranslateHttpLoader(http, configurationService.configuration.resourcesUri, `.json?ts=${Date.now()}`);
+}
+
+export function appInitializerFactory(translate: TranslateService) {
+  return () => {
+    translate.setDefaultLang("en");
+    return translate.use("en").toPromise();
+  };
 }
 
 @NgModule({
@@ -168,7 +175,13 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
       multi: true
     },
     {
-      provide: LOCALE_ID, useValue: "nl-be"
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService],
+      multi: true
+    },
+    {
+      provide: LOCALE_ID, useValue: "en"
     },
     GlobalEventsService,
     ApiService,
