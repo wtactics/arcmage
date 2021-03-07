@@ -93,8 +93,8 @@ import { SettingsComponent } from "./modules/settings/settings.component";
 
 registerLocaleData(localeNLBE);
 
-export function HttpLoaderFactory(http: HttpClient, configurationService: ConfigurationService) {
-  return new TranslateHttpLoader(http, configurationService.configuration.resourcesUri, `.json?ts=${Date.now()}`);
+export function HttpLoaderFactory(http: HttpClient, configService: ConfigurationService) {
+  return new TranslateHttpLoader(http, "/assets/i18n/", `.json?ts=${Date.now()}`);
 }
 
 @NgModule({
@@ -165,7 +165,7 @@ export function HttpLoaderFactory(http: HttpClient, configurationService: Config
     {
       provide: APP_INITIALIZER,
       useFactory: (configService: ConfigurationService) => () => configService.loadConfiguration(),
-      deps: [ConfigurationService],
+      deps: [ConfigurationService, TranslateService],
       multi: true
     },
     {

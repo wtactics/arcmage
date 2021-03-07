@@ -2,7 +2,7 @@
     "production": false,
     
     "apiUri": "http://localhost:5000",
-    "gameApiUri": "http://localhost:9090",
+    "gameApiUri": "http://localhost:5090",
 
     "slideConfig": {
       "infinite": true,
