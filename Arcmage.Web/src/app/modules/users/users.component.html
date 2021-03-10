@@ -1,0 +1,74 @@
+<div class="d-flex flex-column" *ngIf="isAuthenticated && settingsOptions">
+ 
+    <div class="p-my-2">
+      <div class="input-group">
+        <input type="text" class="form-control"  placeholder="{{'global.search' | translate}}" aria-label="Search" aria-describedby="button-addon2"  [(ngModel)]="userSearchOptions.search" (keydown.enter)="searchClick()">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2"  (click)="searchClick()" ><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+      <div class="p-d-flex p-jc-end">
+        <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="toggleAvancedSearch()">{{ "global.search.advanced" | translate}}</a>
+        <a class="searchlink" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="clear()">{{ "global.search.clear" | translate}}</a>
+      </div>
+    </div>
+    
+    <p-panel class="p-my-2" [toggleable]="true" [collapsed]="hideAvancedSearch" [showHeader]="false">
+      <div class="p-fluid p-formgrid p-grid p-ai-center">
+        <div class="p-field-checkbox p-col">
+          <p-triStateCheckbox [(ngModel)]="userSearchOptions.isDisabled" binary="false" inputId="search_users_disabled" [disabled]="loading" (onChange)="searchClick()"></p-triStateCheckbox>
+          <label for="search_users_disabled">{{"users.disabled" |translate}}</label>
+        </div>
+        <div class="p-field-checkbox p-col" >
+            <p-triStateCheckbox [(ngModel)]="userSearchOptions.isVerified" binary="false" inputId="search_users_verified" [disabled]="loading" (onChange)="searchClick()"></p-triStateCheckbox>
+            <label for="search_users_verified">{{"users.verified" |translate}}</label>
+        </div>
+        <div class="p-field p-col">
+            <!-- <label for="search_user_role">{{ "users.role" | translate }}</label> -->
+            <p-dropdown dataKey="guid" inputId="search_user_role" [options]="settingsOptions?.roles" [(ngModel)]="userSearchOptions.role" (onChange)="searchClick()" showClear="true" placeholder="{{ 'users.role' | translate }}" optionLabel="name" [disabled]="loading"></p-dropdown> 
+        </div>
+      </div>
+    </p-panel>
+  
+      <p-table #usersTable
+              [value]="userSearchResult.items"
+              [resizableColumns]="true"
+              [autoLayout]="true"
+              [rowHover]="true"
+              [lazy]="true"
+              (onLazyLoad)="loadData($event)"
+              [paginator]="true"
+              paginatorPosition="both"
+              [rows]="30"
+              [totalRecords]="userSearchResult.totalItems"
+              [showCurrentPageReport]="false"
+              currentPageReportTemplate="{{'grids.total' | translate}}: {{userSearchResult.totalItems}}"
+              [loading]="loading">
+    
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">{{"user.field.name" |translate}} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+            <th pSortableColumn="role.name">{{"user.field.role" |translate}} <p-sortIcon [field]="'role.name'"></p-sortIcon></th>
+            <th pSortableColumn="createTime">{{"user.field.create-date" |translate}} <p-sortIcon [field]="'createTime'"></p-sortIcon></th>
+            <th pSortableColumn="lastLoginTime">{{"user.field.last-login" |translate}} <p-sortIcon [field]="'lastLoginTime'"></p-sortIcon></th>
+            <th pSortableColumn="isVerified">{{"user.field.is-verified" |translate}} <p-sortIcon [field]="'isVerified'"></p-sortIcon></th>
+            <th pSortableColumn="isDisabled">{{"user.field.is-disabled" |translate}} <p-sortIcon [field]="'isDisabled'"></p-sortIcon></th>
+          </tr>
+        </ng-template>
+    
+        <ng-template pTemplate="body" let-user>
+          <tr>
+            <td><a [title]="user.name" [routerLink]="['/settings', user.guid]">{{ user.name }}</a></td>
+            <td>{{user.role?.name ? user.role?.name : ""}}</td>
+            <td>{{user.createTime | date:'yyyy-MM-dd'}}</td>
+            <td>{{user.lastLoginTime | date:'yyyy-MM-dd'}}</td>
+            <td><i *ngIf="user.isVerified" class="fas fa-at"></i></td>
+            <td><i *ngIf="user.isDisabled" class="fas fa-user-slash"></i></td>
+          </tr>
+        </ng-template>
+        
+      </p-table>
+    
+    </div>
+    
+  

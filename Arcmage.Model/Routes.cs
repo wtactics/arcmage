@@ -25,10 +25,8 @@ namespace Arcmage.Model
 
         public const string CardSearchOptions = Root + "CardSearch";
         public const string DeckSearchOptions = Root + "DeckSearch";
-
+        public const string UserSearchOptions = Root + "UserSearch";
         
-
-
 
         public const string Game = Root + "Games";
         public const string GameSearchOptions = Root + "GameSearch";
@@ -63,6 +61,7 @@ namespace Arcmage.Model
 
                 {typeof(CardSearchOptions), CardSearchOptions},
                 {typeof(DeckSearchOptions), DeckSearchOptions},
+                {typeof(UserSearchOptions), UserSearchOptions},
                 {typeof(GameSearchOptions), GameSearchOptions},
 
                 {typeof(Login), Login},

@@ -2,15 +2,19 @@
   "menu.cards": "Cards (nl)",
   "menu.decks": "Decks (nl)",
   "menu.games": "Games (nl)",
+  "menu.players": "Players (nl)",
  
   "menu.login": "Sign in (nl)",
   "menu.logout": "Sign out (nl)",
   "menu.register": "Sign up (nl)",
+  "menu.settings": "Settings (nl)",
   "menu.changePassword": "Change password (nl)",
   "menu.help": "Help (nl)",
 
   "global.create": "Create (nl)",
   "global.save": "Save (nl)",
+  "global.delete": "Delete (nl)",
+  "global.cancel": "Cancel (nl)",
   "global.search": "Search (nl)",
   "global.search.advanced": "advanced (nl)",
   "global.search.clear": "clear (nl)",
@@ -21,11 +25,12 @@
 
   "grids.total": "total (nl)",
 
-  "login.username": "Login (e-mail address) (nl)",
+  "login.username": "Login (email address) (nl)",
   "login.username.required": "The login email adress is required. (nl)",
   "login.password": "Password (nl)",
   "login.password.required": "The password is required. (nl)",
   "login.login": "Sign in (nl)",
+  "login.password-forget": "I forgot my password (nl)",
 
   "register.name": "Name (nl)",
   "register.name.required": "Your name is required. (nl)",
@@ -36,6 +41,20 @@
   "register.password2": "Retype your password (nl)",
   "register.password2.required": "You must retype your password. (nl)",
   "register.register": "Sign up (nl)",
+  "register.email-sent": "You're signed up. An email has been sent to you confirm your registration. (nl)",
+
+  "password-forget.email-info" : "Send a password reset email to (nl)",
+  "password-forget.email.required": "Your email is required. (nl)",
+  "password-forget.send-email": "Send password recovery mail (nl)",
+  "password-forget.email-sent": "A password recovery email has been sent to you. (nl)",
+
+  "password-reset.reset": "Reset Now (nl)",
+  "password-reset.failed": "Failed to validate the reset link (nl)",
+  "password-reset.back-in-business": "Password has been reset, you're back in business! (nl)",
+  "password-reset.password": "New password (nl)",
+  "password-reset.password.required": "Your new password is required. (nl)",
+  "password-reset.password2": "Retype your new password (nl)",
+  "password-reset.password2.required": "You must retype your new password. (nl)",
 
   "cards.create-your-own": "Create your own card! (nl)",
   "cards.login-to-create-your-own": "Log in to create your own Cards! (nl)",
@@ -44,6 +63,8 @@
   "card.creator-artist": "Creator & Artist (nl)",
   "card.rulings": "Official Rulings (nl)",
   "card.no-rulings": "No rulings yet. (nl)",
+  "card.show-more": "show more (nl)",
+  "card.show-less": "less (nl)",
 
   "card.field.name": "Name (nl)",
   "card.field.name.required": "The card name is required. (nl)",
@@ -60,6 +81,9 @@
   "card.field.defense.short": "D (nl)",
   "card.field.serie": "Serie (nl)",
   "card.field.status": "Status (nl)",
+  "card.field.status.draft": "Draft (nl)",
+  "card.field.status.release-candidate": "Release Candidate (nl)",
+  "card.field.status.final": "Final (nl)",
   "card.field.language": "Language (nl)",
   "card.field.rule-text": "Rule Text (nl)",
   "card.field.flavor-text": "Flavor Text (nl)",
@@ -76,8 +100,8 @@
   "card.field.last-modified-on": "Last edit (nl)",
 
   "card.field.name.info": "Shown on card. (nl)",
-  "card.field.type.info": "he layout type of the card. (nl)",
-  "card.field.subtype.info": "he card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ... (nl)",
+  "card.field.type.info": "The layout type of the card. (nl)",
+  "card.field.subtype.info": "The card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ... (nl)",
   "card.field.faction.info": "The chosen faction defines the look and feel of the card's template. (nl)",
   "card.field.cost.info": "The card's cost, shown on card. (nl)",
   "card.field.loyalty.info": "The card's loyalty, shown on card. (nl)",
@@ -91,7 +115,7 @@
   "card.field.info-text.info": "The card's footer info, shown on card. For official cards, please use 'arcmage.org - join us!' (nl)",
   "card.field.firstname.info": "First line of the card's name. Leave empty if you don't wish to split the name. (nl)",
   "card.field.lastname.info": "Second line of the card's name. Leave empty if you don't wish to split the name; or fill in if you like it closer to the subtype. (nl)",
-  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - star paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p> (nl)",
+  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break (or use \\ ) <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - start paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p> (nl)",
   "card.field.artist.info": "The artist's name, not shown on card. (nl)",
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box. (nl)",
 
@@ -121,7 +145,7 @@
   "invite.step.enter-name": "Enter your name (nl)",
   "invite.step.invite-friend": "Invite a friend (nl)",
   "invite.step.select-deck": "Select a deck (nl)",
-  "invite.step.start-game": "Start the game(nl)",
+  "invite.step.start-game": "Start the game (nl)",
 
   "decks.create-your-own": "Create your own deck! (nl)",
   "decks.login-to-create-your-own": "Log in to create your own deck! (nl)",
@@ -150,5 +174,44 @@
   "deck.field.creator": "Creator (nl)",
   "deck.field.create-date": "Creation date (nl)",
   "deck.field.last-modified-by": "Last edit by (nl)",
-  "deck.field.last-modified-on": "Last edit (nl)"
+  "deck.field.last-modified-on": "Last edit (nl)",
+
+  "rulings.delete": "Delete this ruling? (nl)",
+  "rulings.create-new-ruling": "Create a new ruling (nl)",
+  "rulings.edit-ruling": "Edit ruling (nl)",
+  "ruling.field.rule-text": "Describe the ruling or clarification for the card (nl)",
+  "ruling.field.rule-text.required": "The ruling text is required (nl)",
+
+  "confirm.verifying": "Verifying ... (nl)",
+  "confirm.it-is-you": "Yep, it's you! (nl)",
+  "confirm.failed": "We couldn't verify that it is you. (nl)",
+
+  "settings": "Settings (nl)",
+  "settings.player": "Player (nl)",
+  "settings.admin": "Administration (nl)",
+  "settings.change-password": "Change password (nl)",
+  "settings.saved": "Settings saved (nl)",
+  "settings.name": "Name (nl)",
+  "settings.name.required": "Your name is required. (nl)",
+  "settings.email": "Email (nl)",
+  "settings.role": "Role (nl)",
+  "settings.email-verified": "Email verified (nl)",
+  "settings.user-disabled": "Account disabled (nl)",
+  "settings.user-not-found": "User not found (nl)",
+  "settings.settings-options-error": "Settings options not found (nl)",
+  "settings.password-forget": "Change or recover password (nl)",
+  "settings.password-forget.email-sent": "A password change/recovery email has been sent to you. (nl)",
+  "settings.password-forget.failed": "Could not send password change/recovery email (nl)",
+
+  "users.verified": "Verfied (nl)",
+  "users.disabled": "Disabled (nl)",
+  "users.role": "Role (nl)",
+
+  "user.field.name": "Name (nl)",
+  "user.field.role": "Role (nl)",
+  "user.field.is-verified": "Verfied (nl)",
+  "user.field.is-disabled": "Disabled (nl)",
+  "user.field.create-date": "Joined (nl)",
+  "user.field.last-login": "Last Active (nl)"
+
 }

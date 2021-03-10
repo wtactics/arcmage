@@ -14,9 +14,11 @@ import { ConfirmComponent } from "./modules/confirm/confirm.component";
 import { PasswordResetComponent } from "./modules/password-reset/password-reset.component";
 import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
+import { UsersComponent } from "./modules/users/users.component";
 
 const routes: Routes = [
   { path: "unauthorized", component: UnauthorizedComponent },
+  { path: "players", component: UsersComponent },
   { path: "cards", component: CardsComponent },
   { path: "cards/:cardId", component: CardDetailsComponent },
   { path: "decks", component: DecksComponent },

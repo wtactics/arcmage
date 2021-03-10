@@ -36,9 +36,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-    
-
     this.route.paramMap.subscribe(params => {
       this.loading = true;
       this.userId = params.get("userId");

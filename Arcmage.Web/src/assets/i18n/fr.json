@@ -2,15 +2,19 @@
   "menu.cards": "Cards (fr)",
   "menu.decks": "Decks (fr)",
   "menu.games": "Games (fr)",
+  "menu.players": "Players (fr)",
  
   "menu.login": "Sign in (fr)",
   "menu.logout": "Sign out (fr)",
   "menu.register": "Sign up (fr)",
+  "menu.settings": "Settings (fr)",
   "menu.changePassword": "Change password (fr)",
   "menu.help": "Help (fr)",
 
   "global.create": "Create (fr)",
   "global.save": "Save (fr)",
+  "global.delete": "Delete (fr)",
+  "global.cancel": "Cancel (fr)",
   "global.search": "Search (fr)",
   "global.search.advanced": "advanced (fr)",
   "global.search.clear": "clear (fr)",
@@ -21,11 +25,12 @@
 
   "grids.total": "total (fr)",
 
-  "login.username": "Login (e-mail address) (fr)",
+  "login.username": "Login (email address) (fr)",
   "login.username.required": "The login email adress is required. (fr)",
   "login.password": "Password (fr)",
   "login.password.required": "The password is required. (fr)",
   "login.login": "Sign in (fr)",
+  "login.password-forget": "I forgot my password (fr)",
 
   "register.name": "Name (fr)",
   "register.name.required": "Your name is required. (fr)",
@@ -36,6 +41,20 @@
   "register.password2": "Retype your password (fr)",
   "register.password2.required": "You must retype your password. (fr)",
   "register.register": "Sign up (fr)",
+  "register.email-sent": "You're signed up. An email has been sent to you confirm your registration. (fr)",
+
+  "password-forget.email-info" : "Send a password reset email to (fr)",
+  "password-forget.email.required": "Your email is required. (fr)",
+  "password-forget.send-email": "Send password recovery mail (fr)",
+  "password-forget.email-sent": "A password recovery email has been sent to you. (fr)",
+
+  "password-reset.reset": "Reset Now (fr)",
+  "password-reset.failed": "Failed to validate the reset link (fr)",
+  "password-reset.back-in-business": "Password has been reset, you're back in business! (fr)",
+  "password-reset.password": "New password (fr)",
+  "password-reset.password.required": "Your new password is required. (fr)",
+  "password-reset.password2": "Retype your new password (fr)",
+  "password-reset.password2.required": "You must retype your new password. (fr)",
 
   "cards.create-your-own": "Create your own card! (fr)",
   "cards.login-to-create-your-own": "Log in to create your own Cards! (fr)",
@@ -44,6 +63,8 @@
   "card.creator-artist": "Creator & Artist (fr)",
   "card.rulings": "Official Rulings (fr)",
   "card.no-rulings": "No rulings yet. (fr)",
+  "card.show-more": "show more (fr)",
+  "card.show-less": "less (fr)",
 
   "card.field.name": "Name (fr)",
   "card.field.name.required": "The card name is required. (fr)",
@@ -60,6 +81,9 @@
   "card.field.defense.short": "D (fr)",
   "card.field.serie": "Serie (fr)",
   "card.field.status": "Status (fr)",
+  "card.field.status.draft": "Draft (fr)",
+  "card.field.status.release-candidate": "Release Candidate (fr)",
+  "card.field.status.final": "Final (fr)",
   "card.field.language": "Language (fr)",
   "card.field.rule-text": "Rule Text (fr)",
   "card.field.flavor-text": "Flavor Text (fr)",
@@ -76,8 +100,8 @@
   "card.field.last-modified-on": "Last edit (fr)",
 
   "card.field.name.info": "Shown on card. (fr)",
-  "card.field.type.info": "he layout type of the card. (fr)",
-  "card.field.subtype.info": "he card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ... (fr)",
+  "card.field.type.info": "The layout type of the card. (fr)",
+  "card.field.subtype.info": "The card's type, shown on card. For City, Event, Magic, Enchantment and Equipment please only use City, Event, Magic, Enchantment and Equipment. For Creatures, use their types, e.g. 'Elf', 'Soldier', 'Undead', ... (fr)",
   "card.field.faction.info": "The chosen faction defines the look and feel of the card's template. (fr)",
   "card.field.cost.info": "The card's cost, shown on card. (fr)",
   "card.field.loyalty.info": "The card's loyalty, shown on card. (fr)",
@@ -91,7 +115,7 @@
   "card.field.info-text.info": "The card's footer info, shown on card. For official cards, please use 'arcmage.org - join us!' (fr)",
   "card.field.firstname.info": "First line of the card's name. Leave empty if you don't wish to split the name. (fr)",
   "card.field.lastname.info": "Second line of the card's name. Leave empty if you don't wish to split the name; or fill in if you like it closer to the subtype. (fr)",
-  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - star paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p> (fr)",
+  "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break (or use \\ ) <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - start paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p> (fr)",
   "card.field.artist.info": "The artist's name, not shown on card. (fr)",
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box. (fr)",
 
@@ -121,7 +145,7 @@
   "invite.step.enter-name": "Enter your name (fr)",
   "invite.step.invite-friend": "Invite a friend (fr)",
   "invite.step.select-deck": "Select a deck (fr)",
-  "invite.step.start-game": "Start the game(fr)",
+  "invite.step.start-game": "Start the game (fr)",
 
   "decks.create-your-own": "Create your own deck! (fr)",
   "decks.login-to-create-your-own": "Log in to create your own deck! (fr)",
@@ -150,5 +174,44 @@
   "deck.field.creator": "Creator (fr)",
   "deck.field.create-date": "Creation date (fr)",
   "deck.field.last-modified-by": "Last edit by (fr)",
-  "deck.field.last-modified-on": "Last edit (fr)"
+  "deck.field.last-modified-on": "Last edit (fr)",
+
+  "rulings.delete": "Delete this ruling? (fr)",
+  "rulings.create-new-ruling": "Create a new ruling (fr)",
+  "rulings.edit-ruling": "Edit ruling (fr)",
+  "ruling.field.rule-text": "Describe the ruling or clarification for the card (fr)",
+  "ruling.field.rule-text.required": "The ruling text is required (fr)",
+
+  "confirm.verifying": "Verifying ... (fr)",
+  "confirm.it-is-you": "Yep, it's you! (fr)",
+  "confirm.failed": "We couldn't verify that it is you. (fr)",
+
+  "settings": "Settings (fr)",
+  "settings.player": "Player (fr)",
+  "settings.admin": "Administration (fr)",
+  "settings.change-password": "Change password (fr)",
+  "settings.saved": "Settings saved (fr)",
+  "settings.name": "Name (fr)",
+  "settings.name.required": "Your name is required. (fr)",
+  "settings.email": "Email (fr)",
+  "settings.role": "Role (fr)",
+  "settings.email-verified": "Email verified (fr)",
+  "settings.user-disabled": "Account disabled (fr)",
+  "settings.user-not-found": "User not found (fr)",
+  "settings.settings-options-error": "Settings options not found (fr)",
+  "settings.password-forget": "Change or recover password (fr)",
+  "settings.password-forget.email-sent": "A password change/recovery email has been sent to you. (fr)",
+  "settings.password-forget.failed": "Could not send password change/recovery email (fr)",
+
+  "users.verified": "Verfied (fr)",
+  "users.disabled": "Disabled (fr)",
+  "users.role": "Role (fr)",
+
+  "user.field.name": "Name (fr)",
+  "user.field.role": "Role (fr)",
+  "user.field.is-verified": "Verfied (fr)",
+  "user.field.is-disabled": "Disabled (fr)",
+  "user.field.create-date": "Joined (fr)",
+  "user.field.last-login": "Last Active (fr)"
+
 }

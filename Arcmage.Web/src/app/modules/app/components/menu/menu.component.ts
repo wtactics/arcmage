@@ -7,6 +7,8 @@ import { Configuration } from "../../../../services/global/configuration";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SelectItem } from "primeng/api";
 import { User } from "src/app/models/user";
+import { SettingsOptions } from "src/app/models/settings-options";
+import { UserApiService } from "src/app/services/api/user-api.service";
 
 
 @Component({
@@ -26,8 +28,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   returnUrl: string;
   languages: SelectItem[];
+  settingsOptions: SettingsOptions;
 
-  constructor(    public translate: TranslateService,  private router: Router, private route: ActivatedRoute, private globalEventsService: GlobalEventsService) {
+  constructor( 
+    public translate: TranslateService,
+    private router: Router, private route: ActivatedRoute, private globalEventsService: GlobalEventsService, private userApiService: UserApiService) {
   }
 
   ngOnInit() {
@@ -45,6 +50,9 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.globalEventsService.currentUser$.subscribe((user) => {
         if (user !== null) {
           this.user = user;
+          this.userApiService.getSettingsOptions$().subscribe( settingsOptions => {
+            this.settingsOptions = settingsOptions;
+          });
         }
       }));
 
@@ -62,6 +70,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   public logout() {
+    this.settingsOptions = null;
     this.globalEventsService.logout();
   }
 

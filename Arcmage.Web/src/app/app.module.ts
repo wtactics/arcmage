@@ -2,7 +2,7 @@ import { FormsModule } from "@angular/forms";
 import { TableModule } from "primeng/table";
 import { DialogModule } from "primeng/dialog";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
-
+import { TriStateCheckboxModule } from "primeng/tristatecheckbox";
 import { FileUploadModule} from "primeng/fileupload";
 import { DropdownModule } from "primeng/dropdown";
 import { ToastModule } from "primeng/toast";
@@ -89,11 +89,13 @@ import { ConfirmComponent } from "./modules/confirm/confirm.component";
 import { PasswordResetComponent } from "./modules/password-reset/password-reset.component";
 import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
+import { UsersComponent } from "./modules/users/users.component";
 
 
 registerLocaleData(localeNLBE);
 
 export function HttpLoaderFactory(http: HttpClient, configService: ConfigurationService) {
+  const config = configService.configuration;
   return new TranslateHttpLoader(http, "/assets/i18n/", `.json?ts=${Date.now()}`);
 }
 
@@ -115,6 +117,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     PasswordResetComponent,
     PasswordForgetComponent,
     SettingsComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,6 +143,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     PanelModule,
     InputSwitchModule,
     CheckboxModule,
+    TriStateCheckboxModule,
     AutoCompleteModule,
     BadgeModule,
     DividerModule,

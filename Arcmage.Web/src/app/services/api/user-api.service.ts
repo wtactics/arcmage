@@ -10,6 +10,10 @@ export class UserApiService extends ApiService<User> {
         return this.getNamedRoute("User");
     }
 
+    getSearchRoute(): string {
+        return this.getNamedRoute("UserSearch");
+    }
+
     me(): Observable<User> {
         return this.get$("me");
     }

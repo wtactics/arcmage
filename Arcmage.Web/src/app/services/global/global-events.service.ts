@@ -4,13 +4,14 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { localStorageKeys } from "../../global/localStorage.keys";
 import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { User } from "src/app/models/user";
+import { SettingsOptions } from "src/app/models/settings-options";
+import { UserApiService } from "../api/user-api.service";
 
 @Injectable()
 export class GlobalEventsService {
 
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public isAuthenticated$: Observable<boolean> = this.isAuthenticated.asObservable();
-
 
   public currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   public currentUser$: Observable<User> = this.currentUser.asObservable();

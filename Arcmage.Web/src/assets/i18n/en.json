@@ -2,6 +2,7 @@
   "menu.cards": "Cards",
   "menu.decks": "Decks",
   "menu.games": "Games",
+  "menu.players": "Players",
  
   "menu.login": "Sign in",
   "menu.logout": "Sign out",
@@ -200,6 +201,17 @@
   "settings.settings-options-error": "Settings options not found",
   "settings.password-forget": "Change or recover password",
   "settings.password-forget.email-sent": "A password change/recovery email has been sent to you.",
-  "settings.password-forget.failed": "Could not send password change/recovery email"
+  "settings.password-forget.failed": "Could not send password change/recovery email",
+
+  "users.verified": "Verfied",
+  "users.disabled": "Disabled",
+  "users.role": "Role",
+
+  "user.field.name": "Name",
+  "user.field.role": "Role",
+  "user.field.is-verified": "Verfied",
+  "user.field.is-disabled": "Disabled",
+  "user.field.create-date": "Joined",
+  "user.field.last-login": "Last Active"
 
 }

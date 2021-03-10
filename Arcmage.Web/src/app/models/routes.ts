@@ -22,6 +22,7 @@ export class Routes  {
 
         this.routeMap.set("CardSearch", "api/CardSearch");
         this.routeMap.set("DeckSearch", "api/DeckSearch");
+        this.routeMap.set("UserSearch", "api/UserSearch");
         this.routeMap.set("GameSearch", "api/GameSearch");
 
         this.routeMap.set("Login", "api/Login");

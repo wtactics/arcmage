@@ -44,11 +44,15 @@ namespace Arcmage.Server.Api.Controllers
                     return Ok(result);
                 }
 
-                if (Guid.TryParse(id, out var guid))
+                if (repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
+                    repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
                 {
-                    var userModel = await repository.Context.Users.Include(x=>x.Role).FirstOrDefaultAsync(x=>x.Guid == guid);
-                    var result = userModel.FromDal(true);
-                    return Ok(result);
+                    if (Guid.TryParse(id, out var guid))
+                    {
+                        var userModel = await repository.Context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Guid == guid);
+                        var result = userModel.FromDal(true);
+                        return Ok(result);
+                    }
                 }
 
                 return NotFound("User not found");
@@ -128,7 +132,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
 
                 // Only Administrators or the service user can change the role, the verification and disabled state
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
+                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator &&
                     repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
                 {
                     user.IsVerified = userModel.IsVerified;
@@ -140,7 +144,7 @@ namespace Arcmage.Server.Api.Controllers
 
                 userModel.Patch(user, newRole);
                 await repository.Context.SaveChangesAsync();
-                return Ok(userModel.FromDal());
+                return Ok(userModel.FromDal(true));
             }
         }
 

@@ -2,15 +2,19 @@
     "menu.cards": "Cartas",
     "menu.decks": "Baralhos",
     "menu.games": "Partidas",
+    "menu.players": "Players (pt-br)",
    
     "menu.login": "Entrar",
     "menu.logout": "Sair",
     "menu.register": "Registrar",
+    "menu.settings": "Settings (pt-br)",
     "menu.changePassword": "Redefinir senha",
     "menu.help": "Ajuda",
   
     "global.create": "Criar",
     "global.save": "Salvar",
+    "global.delete": "Delete (pt-br)",
+    "global.cancel": "Cancel (pt-br)",
     "global.search": "Buscar",
     "global.search.advanced": "avançado",
     "global.search.clear": "limpar",
@@ -26,6 +30,7 @@
     "login.password": "Senha",
     "login.password.required": "A senha é obrigatória.",
     "login.login": "Entrar",
+    "login.password-forget": "I forgot my password (pt-br)",
   
     "register.name": "Nome",
     "register.name.required": "Seu nome é obrigatório.",
@@ -36,6 +41,20 @@
     "register.password2": "Digite novamente:",
     "register.password2.required": "Você precisa repetir sua senha.",
     "register.register": "Registrar",
+    "register.email-sent": "You're signed up. An email has been sent to you confirm your registration. (pt-br)",
+
+    "password-forget.email-info" : "Send a password reset email to (pt-br)",
+    "password-forget.email.required": "Your email is required. (pt-br)",
+    "password-forget.send-email": "Send password recovery mail (pt-br)",
+    "password-forget.email-sent": "A password recovery email has been sent to you. (pt-br)",
+
+    "password-reset.reset": "Reset Now (pt-br)",
+    "password-reset.failed": "Failed to validate the reset link (pt-br)",
+    "password-reset.back-in-business": "Password has been reset, you're back in business! (pt-br)",
+    "password-reset.password": "New password (pt-br)",
+    "password-reset.password.required": "Your new password is required. (pt-br)",
+    "password-reset.password2": "Retype your new password (pt-br)",
+    "password-reset.password2.required": "You must retype your new password. (pt-br)",
   
     "cards.create-your-own": "Crie sua própria carta!",
     "cards.login-to-create-your-own": "Faça login para criar suas próprias cartas!",
@@ -44,6 +63,8 @@
     "card.creator-artist": "Creator & Artist (pt-br)",
     "card.rulings": "Official Rulings (pt-br)",
     "card.no-rulings": "No rulings yet. (pt-br)",
+    "card.show-more": "show more (pt-br)",
+    "card.show-less": "less (pt-br)",
   
     "card.field.name": "Nome",
     "card.field.name.required": "O nome da carta é obrigatório.",
@@ -60,6 +81,9 @@
     "card.field.defense.short": "D",
     "card.field.serie": "Série",
     "card.field.status": "Status",
+    "card.field.status.draft": "Draft (pt-br)",
+    "card.field.status.release-candidate": "Release Candidate (pt-br)",
+    "card.field.status.final": "Final (pt-br)",
     "card.field.language": "Idioma",
     "card.field.rule-text": "Texto de Regras",
     "card.field.flavor-text": "Texto decorativo",
@@ -150,5 +174,44 @@
     "deck.field.creator": "Criador",
     "deck.field.create-date": "Data de criação",
     "deck.field.last-modified-by": "Última edição por",
-    "deck.field.last-modified-on": "Última edição"
+    "deck.field.last-modified-on": "Última edição",
+
+    "rulings.delete": "Delete this ruling? (pt-br)",
+    "rulings.create-new-ruling": "Create a new ruling (pt-br)",
+    "rulings.edit-ruling": "Edit ruling (pt-br)",
+    "ruling.field.rule-text": "Describe the ruling or clarification for the card (pt-br)",
+    "ruling.field.rule-text.required": "The ruling text is required (pt-br)",
+  
+    "confirm.verifying": "Verifying ... (pt-br)",
+    "confirm.it-is-you": "Yep, it's you! (pt-br)",
+    "confirm.failed": "We couldn't verify that it is you. (pt-br)",
+  
+    "settings": "Settings (pt-br)",
+    "settings.player": "Player (pt-br)",
+    "settings.admin": "Administration (pt-br)",
+    "settings.change-password": "Change password (pt-br)",
+    "settings.saved": "Settings saved (pt-br)",
+    "settings.name": "Name (pt-br)",
+    "settings.name.required": "Your name is required. (pt-br)",
+    "settings.email": "Email (pt-br)",
+    "settings.role": "Role (pt-br)",
+    "settings.email-verified": "Email verified (pt-br)",
+    "settings.user-disabled": "Account disabled (pt-br)",
+    "settings.user-not-found": "User not found (pt-br)",
+    "settings.settings-options-error": "Settings options not found (pt-br)",
+    "settings.password-forget": "Change or recover password (pt-br)",
+    "settings.password-forget.email-sent": "A password change/recovery email has been sent to you. (pt-br)",
+    "settings.password-forget.failed": "Could not send password change/recovery email (pt-br)",
+  
+    "users.verified": "Verfied (pt-br)",
+    "users.disabled": "Disabled (pt-br)",
+    "users.role": "Role (pt-br)",
+  
+    "user.field.name": "Name (pt-br)",
+    "user.field.role": "Role (pt-br)",
+    "user.field.is-verified": "Verfied (pt-br)",
+    "user.field.is-disabled": "Disabled (pt-br)",
+    "user.field.create-date": "Joined (pt-br)",
+    "user.field.last-login": "Last Active (pt-br)"
+  
 }
