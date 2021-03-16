@@ -8,7 +8,7 @@ It offers a virtual one-to-one table top for playing the game without rule enfor
 
 The game has no artificial intelligence nor are there any plans to implement game rules.
 
-Furthermore, Arcmage Online offers an card generation webiste to create new cards 
+Furthermore, Arcmage Online offers a card generation webiste to create new cards 
 and decks.
 
 Repository Structure
