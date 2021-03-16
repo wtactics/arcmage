@@ -127,10 +127,10 @@ Card Templates
 Our card svg templates are at Server.Arcmage.Api\wwwroot\arcmage\CardTemplates
 
 The are per Faction and per Type. Each template combination has the several files
-1. <template>.svg : the real full blown template, used to generate the cards in high resolution png and pdf files
-2. <template>.png : used as background while editing the card on the website
-3. <template> overlay plain.svg : used as overlay while editing the card on the website  
-4. <template> overlay.svg : used for changing the template in inkscape (before saving it as overlay plain)
+1. (template).svg : the real full blown template, used to generate the cards in high resolution png and pdf files
+2. (template)png : used as background while editing the card on the website
+3. (template) overlay plain.svg : used as overlay while editing the card on the website  
+4. (template) overlay.svg : used for changing the template in inkscape (before saving it as overlay plain)
 
 Furthermore, the border.svg and border.png files are used to create a 2mm bleed around the cards when generating the png and pdfs print ready files.
 
