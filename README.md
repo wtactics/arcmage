@@ -46,7 +46,7 @@ Build and Installation
 Build requiremenst
 ------------------
 
-- dotnet core 3.1
+- .NET 5
 - ef core tools 3.1
 - Visual Studio 2019 Community Edition (or above)
 - Visual Studio Code
@@ -133,7 +133,6 @@ The are per Faction and per Type. Each template combination has the several file
 4. <template> overlay.svg : used for changing the template in inkscape (before saving it as overlay plain)
 
 Furthermore, the border.svg and border.png files are used to create a 2mm bleed around the cards when generating the png and pdfs print ready files.
-
 
 Resources
 =========
