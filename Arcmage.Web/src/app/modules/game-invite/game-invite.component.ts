@@ -14,8 +14,10 @@ import { Guid } from "guid-typescript";
 import { MessageService } from "primeng/api";
 import { Clipboard } from "@angular/cdk/clipboard";
 import { SlickCarouselComponent } from "ngx-slick-carousel";
+import { OverlayPanel } from "primeng/overlaypanel";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
+import { Card } from "src/app/models/card";
 
 @Component({
   selector: "app-game-invite",
@@ -52,6 +54,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
   deckSearchOptions: DeckSearchOptions;
 
   deck: Deck;
+  selectedCard: Card;
 
 
   constructor(private configurationService: ConfigurationService,
@@ -233,6 +236,11 @@ export class GameInviteComponent implements OnInit, OnDestroy {
 
   trackByGuid(index: number, item: any): string {
     return item.guid;
+  }
+
+  selectCard(event, card: Card, overlaypanel: OverlayPanel) {
+    this.selectedCard = card;
+    overlaypanel.toggle(event);
   }
 
 }

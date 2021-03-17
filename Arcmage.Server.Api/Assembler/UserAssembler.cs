@@ -1,5 +1,6 @@
 ﻿using Arcmage.DAL.Model;
 using Arcmage.Model;
+using Arcmage.Server.Api.Auth;
 
 namespace Arcmage.Server.Api.Assembler
 {
@@ -24,6 +25,7 @@ namespace Arcmage.Server.Api.Assembler
             if (includeRole)
             {
                 result.Role = userModel.Role.FromDal();
+                result.Rights = AuthorizeService.GetRights(userModel.Role);
             }
 
             if (includeDecks)

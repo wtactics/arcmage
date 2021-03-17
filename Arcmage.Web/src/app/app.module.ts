@@ -46,27 +46,16 @@ import { TranslateModule, TranslateLoader, TranslateService } from "@ngx-transla
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./modules/app/components/app/app.component";
-import { MenuComponent } from "./modules/app/components/menu/menu.component";
-import { UnauthorizedComponent } from "./modules/app/components/unauthorized/unauthorized.component";
 
 
-import { CardsComponent } from "./modules/cards/cards.component";
-import { CardDetailsComponent } from "./modules/card-details/card-details.component";
-import { DecksComponent } from "./modules/decks/decks.component";
 
 import { GlobalEventsService } from "./services/global/global-events.service";
 import { ErrorService } from "./services/global/error.service";
 import { DialogService } from "./services/global/dialog.service";
 import { ConfigurationService } from "./services/global/config.service";
 
+import { AuthGuardService } from "./services/auth/auth-guard.service";
 
-
-// import { DefaultInterceptor } from "./services/api/interceptors/default.interceptor";
-// import { JsonInterceptor } from "./services/api/interceptors/json.interceptor";
-// import { HttpErrorInterceptor } from "./services/api/interceptors/http-error.interceptor";
-// import { ContentLanguageInterceptor } from "./services/api/interceptors/content-language.interceptor";
 import { JwtInterceptor } from "./services/global/jwt.interceptor";
 import { ApiService } from "./services/api/api.service";
 import { CardApiService } from "./services/api/card-api.service";
@@ -74,22 +63,32 @@ import { DeckApiService } from "./services/api/deck-api.service";
 import { DeckCardApiService } from "./services/api/deck-card-api.service";
 import { RulingApiService } from "./services/api/ruling-api.service";
 import { GameApiService } from "./services/api/game-api.service";
-
-
-import { SvgIconComponent } from "./modules/components/svg-icon/svg-icon.component";
-import { LoginComponent } from "./modules/login/login.component";
-import { RegisterComponent } from "./modules/register/register.component";
 import { LoginApiService } from "./services/api/login-api.service";
 import { UserApiService } from "./services/api/user-api.service";
 import { FileUploadApiService } from "./services/api/file-upload-api.service";
-import { DeckDetailsComponent } from "./modules/deck-details/deck-details.component";
-import { GamesComponent } from "./modules/games/games.component";
-import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
+
+import { AppRoutingModule } from "./app-routing.module";
+
+import { AppComponent } from "./modules/app/components/app/app.component";
+import { UnauthorizedComponent } from "./modules/app/components/unauthorized/unauthorized.component";
+import { MenuComponent } from "./modules/app/components/menu/menu.component";
+import { LoginComponent } from "./modules/login/login.component";
+import { RegisterComponent } from "./modules/register/register.component";
+import { FooterComponent } from "./modules/app/components/footer/footer.component";
+import { SvgIconComponent } from "./modules/components/svg-icon/svg-icon.component";
 import { ConfirmComponent } from "./modules/confirm/confirm.component";
 import { PasswordResetComponent } from "./modules/password-reset/password-reset.component";
 import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
+
+import { CardsComponent } from "./modules/cards/cards.component";
+import { CardDetailsComponent } from "./modules/card-details/card-details.component";
+import { DecksComponent } from "./modules/decks/decks.component";
+import { DeckDetailsComponent } from "./modules/deck-details/deck-details.component";
+import { GamesComponent } from "./modules/games/games.component";
+import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
+
 
 
 registerLocaleData(localeNLBE);
@@ -118,6 +117,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     PasswordForgetComponent,
     SettingsComponent,
     UsersComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -175,6 +175,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     {
       provide: LOCALE_ID, useValue: "en"
     },
+    AuthGuardService,
     GlobalEventsService,
     ApiService,
     {

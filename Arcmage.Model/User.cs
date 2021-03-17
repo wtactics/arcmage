@@ -32,12 +32,15 @@ namespace Arcmage.Model
         public List<Card> Cards { get; set; }
 
         public List<Deck> Decks { get; set; }
+
+        public List<Right> Rights { get; set; }
         
 
         public User()
         {
             Cards = new List<Card>();
             Decks = new List<Deck>();
+            Rights = new List<Right>();
         }
     }
 }

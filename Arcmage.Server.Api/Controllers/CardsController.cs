@@ -9,6 +9,7 @@ using Arcmage.DAL.Utils;
 using Arcmage.Layout.InputConvertor;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Layout;
 using Arcmage.Server.Api.Utils;
 using Hangfire;
@@ -24,20 +25,29 @@ namespace Arcmage.Server.Api.Controllers
     public class CardsController : ControllerBase
     {
         [HttpGet]
+        [AllowAnonymous]
         [Produces("application/json")]
         public async Task<IActionResult> Get(string search = null)
         {
             using (var repository = new Repository())
             {
 
-                IQueryable<CardModel> dbResult = repository.Context.Cards.Include(x => x.RuleSet).Include(x=>x.Serie).Include(x=>x.Faction).Include(x=>x.Status).Include(x=>x.Type).Include(x => x.Creator).Include(x => x.LastModifiedBy).AsNoTracking();
+                var cardModels = repository.Context.Cards
+                    .Include(x => x.RuleSet)
+                    .Include(x=>x.Serie)
+                    .Include(x=>x.Faction)
+                    .Include(x=>x.Status)
+                    .Include(x=>x.Type)
+                    .Include(x => x.Creator)
+                    .Include(x => x.LastModifiedBy)
+                    .AsNoTracking();
 
                 if (!string.IsNullOrWhiteSpace(search))
                 {
-                    dbResult = dbResult.Where(it => it.Name.Contains(search) || it.Creator.Name.Contains(search));
+                    cardModels = cardModels.Where(it => it.Name.Contains(search) || it.Creator.Name.Contains(search));
                 }
 
-                var query = await dbResult.OrderByDescending(it => it.LastModifiedTime).Take(100).ToListAsync();
+                var query = await cardModels.OrderByDescending(it => it.LastModifiedTime).Take(100).ToListAsync();
                 var result = new ResultList<Card>(query.Select(x => x.FromDal()).ToList());
                 return Ok(result);
             }
@@ -45,8 +55,8 @@ namespace Arcmage.Server.Api.Controllers
 
 
         [HttpGet]
-        [Route("{id}")]
         [AllowAnonymous]
+        [Route("{id}")]
         [Produces("application/json")]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -70,8 +80,8 @@ namespace Arcmage.Server.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{id}/rulings")]
         [AllowAnonymous]
+        [Route("{id}/rulings")]
         [Produces("application/json")]
         public async Task<IActionResult> GetRulings(Guid id)
         {
@@ -89,8 +99,8 @@ namespace Arcmage.Server.Api.Controllers
 
 
         [HttpGet]
-        [Route("{id}/export")]
         [AllowAnonymous]
+        [Route("{id}/export")]
         public async Task<IActionResult> Export(Guid id, ExportFormat format)
         {
 
@@ -224,10 +234,11 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.CreateCard))
                 {
                     return Forbid();
                 }
+                
                 var cardModel = repository.CreateCard(card.Name, Guid.NewGuid());
 
                 var serieModel = await repository.Context.Series.FindByGuidAsync(card.Serie?.Guid);
@@ -257,15 +268,6 @@ namespace Arcmage.Server.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("{id}")]
-        [Produces("application/json")]
-        public async Task<IActionResult> Delete( Guid id)
-        {
-            return BadRequest("Not Implemented");
-        }
-
-        [Authorize]
         [HttpPatch]
         [Route("{id}")]
         [Produces("application/json")]
@@ -273,30 +275,26 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCard))
                 {
                     return Forbid();
                 }
+
                 var cardModel = await repository.Context.Cards.FindByGuidAsync(id);
 
                 await repository.Context.Entry(cardModel).Reference(x => x.Status).LoadAsync();
-                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
-
-                if (repository.ServiceUser != null)
+                var isFinal = cardModel.Status.Guid == PredefinedGuids.Final;
+                if (isFinal && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowCardStatusChange))
                 {
-                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                    if (cardModel.Status.Guid == PredefinedGuids.Final)
-                    {
-                        if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer ||
-                            repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
-                            repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
-                        {
-                            return Forbid("Card is marked as final");
-                        }
-                    }
+                    return Forbid("Card is marked as final");
                 }
 
-
+                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
+                var isMyCard = repository.ServiceUser?.Guid == cardModel.Creator.Guid;
+                if (!isMyCard && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowOthersCardEdit))
+                {
+                    return Forbid("This is not your card");
+                }
 
                 await repository.Context.Entry(cardModel).Reference(x => x.Faction).LoadAsync();
                 await repository.Context.Entry(cardModel).Reference(x => x.Serie).LoadAsync();
@@ -350,8 +348,6 @@ namespace Arcmage.Server.Api.Controllers
                     await cardGenerator.Generate(false);
 
                     cardModel.PngCreationJobId = BackgroundJob.Schedule(() => CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name), TimeSpan.FromMinutes(1));
-                    //CardGenerator.CreatePngJob(card.Guid, card.Faction.Name, card.Type.Name);
-
                 }
                 await repository.Context.SaveChangesAsync();
 

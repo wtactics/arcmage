@@ -27,6 +27,10 @@
             <div *ngIf="registration_password2.errors.required">{{'register.password2.required' | translate }}</div>
         </div>
     </div>
+    <div class="p-field-checkbox">
+        <p-checkbox [(ngModel)]="hasAgreedTermsOfService" binary="true" inputId="registration_terms_of_service" [disabled]="loading"></p-checkbox>
+        <label for="registration_terms_of_service" [innerHTML]="'register.terms-of-service' | translate"></label>
+    </div>
 
     <div *ngIf="registerErrorMessage">{{registerErrorMessage}}</div>
     <div class="p-d-flex p-jc-end">

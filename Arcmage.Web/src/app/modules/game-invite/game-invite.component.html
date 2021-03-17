@@ -33,6 +33,9 @@
          
             <div class="p-col p-px-3">
                 <p-button  [disabled]="!game.selectedDeck"  label="{{'invite.start' | translate}}" icon="pi pi-play" iconPos="right" (onClick)="joinGame(game, game.selectedDeck)"></p-button>
+                <div class="p-d-flex p-m-1" *ngIf="!isAuthenticated">
+                    <div [innerHTML]="'invite.terms-of-service' | translate"></div>
+                  </div>
             </div>
             
         </div>
@@ -48,6 +51,51 @@
             </div> 
         </div>
         </ngx-slick-carousel>
+        <div class="p-my-5" >
+            <p-table #deckCardsTableReadOnly
+                [value]="deck.deckCards"
+                [resizableColumns]="true"
+                [autoLayout]="true"
+                [rowHover]="true"
+                [lazy]="false"
+                [paginator]="true"
+                paginatorPosition="both"
+                [rows]="100"
+                [totalRecords]="deck.totalCards"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="{{'deck.unique-cards' | translate}}: {{deck?.deckCards?.length}}, {{'deck.total-cards' | translate}}: {{deck?.totalCards}}"
+                [loading]="loading">
+    
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 2.25em"></th>
+                        <th pSortableColumn="card.name">{{'deck.card-name' | translate}} <p-sortIcon [field]="'card.name'"></p-sortIcon></th>
+                        <th pSortableColumn="type.name">{{ "card.field.type" | translate }} <p-sortIcon [field]="'type.name'"></p-sortIcon></th>
+                        <th pSortableColumn="faction.name">{{ "card.field.faction" | translate }} <p-sortIcon [field]="'faction.name'"></p-sortIcon></th>
+                        <th pSortableColumn="cost" style="text-align:center">{{ "card.field.cost.short" | translate }} <p-sortIcon [field]="'cost'"></p-sortIcon></th>
+                        <th pSortableColumn="loyalty" style="text-align:center">{{ "card.field.loyalty.short" | translate }} <p-sortIcon [field]="'loyalty'"></p-sortIcon></th>
+                        <th pSortableColumn="attack" style="text-align:center">{{ "card.field.attack.short" | translate }} <p-sortIcon [field]="'attack'"></p-sortIcon></th>
+                        <th pSortableColumn="defense" style="text-align:center">{{ "card.field.defense.short" | translate }} <p-sortIcon [field]="'defense'"></p-sortIcon></th>
+                        <th pSortableColumn="quantity" style="text-align:right">{{'deck.card-amount' | translate}} <p-sortIcon [field]="'quantity'"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+    
+                <ng-template pTemplate="body" let-deckCard>
+                    <tr>
+                        <td><a (mouseenter)="selectCard($event,deckCard.card,cardOverlayPanel)" ><i class="fas fa-info-circle"></i></a></td>
+                        <td> <a [href]="'/#/cards/' + deckCard.card.guid" target="_blank" [title]="deckCard.card.name" >{{ deckCard.card.name }}</a></td>
+                        <td>{{deckCard.card.type.name}}</td>
+                        <td>{{deckCard.card.faction.name}}</td>
+                        <td style="text-align:center">{{deckCard.card.cost}}</td>
+                        <td style="text-align:center">{{deckCard.card.loyalty}}</td>
+                        <td style="text-align:center">{{deckCard.card.attack}}</td>
+                        <td style="text-align:center">{{deckCard.card.defense}}</td>
+                        <td style="text-align:right">{{deckCard.quantity}}</td>
+                    </tr>
+                </ng-template>
+    
+            </p-table>
+        </div>
     </div>
 
     <div class="p-mt-2" *ngIf="started">
@@ -60,3 +108,7 @@
 
 
 </div>
+
+<p-overlayPanel #cardOverlayPanel>
+    <img src="{{apiUri + selectedCard.jpeg}}" *ngIf="selectedCard" height="350px"/>
+</p-overlayPanel>

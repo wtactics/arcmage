@@ -16,9 +16,18 @@ import { PasswordForgetComponent } from "./modules/password-forget/password-forg
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
 
+import { AuthGuardService } from "./services/auth/auth-guard.service";
+import { Rights } from "./models/rights";
+
+
 const routes: Routes = [
   { path: "unauthorized", component: UnauthorizedComponent },
-  { path: "players", component: UsersComponent },
+  { 
+    path: "players",
+    component: UsersComponent,
+    data: { requiredUserRight: Rights.viewPlayer },
+    canActivate: [AuthGuardService]
+  },
   { path: "cards", component: CardsComponent },
   { path: "cards/:cardId", component: CardDetailsComponent },
   { path: "decks", component: DecksComponent },
@@ -30,7 +39,12 @@ const routes: Routes = [
   { path: "password-reset", component: PasswordResetComponent },
   { path: "password-forget", component: PasswordForgetComponent },
   { path: "confirm", component: ConfirmComponent },
-  { path: "settings/:userId", component: SettingsComponent },
+  {
+    path: "settings/:userId",
+    component: SettingsComponent,
+    data: { requiredUserRight: Rights.viewPlayer, checkUserId: true },
+    canActivate: [AuthGuardService]
+  },
   { path: "**", redirectTo: "cards" }
 ];
 

@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
 
   loading = false;
   showEmailValidation = false;
+  hasAgreedTermsOfService = false;
 
   constructor(
     private router: Router,
@@ -35,6 +36,7 @@ export class RegisterComponent implements OnInit {
   }
 
   get isRegistrationDisabled(): boolean{
+    if (!this.hasAgreedTermsOfService) { return true; }
     if (this.user.name == null || this.user.name === "") { return true; }
     if (this.user.email == null || this.user.email === "") { return true; }
     if (this.user.password == null || this.user.password === "") { return true; }

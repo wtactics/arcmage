@@ -8,6 +8,7 @@ using Arcmage.DAL.Model;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Layout;
 using Arcmage.Server.Api.Utils;
 using Hangfire;
@@ -51,23 +52,29 @@ namespace Arcmage.Server.Api.Controllers
             {
                 await repository.Context.Factions.LoadAsync();
                 await repository.Context.CardTypes.LoadAsync();
+
                 var result = await repository.Context.Decks
                     .Include(x=>x.Status)
-                    .Include(x=>x.DeckCards).ThenInclude(x=>x.Card)
+                    .Include(x=>x.DeckCards)
+                        .ThenInclude(x=>x.Card)
                     .Where(x=>x.Guid == id).FirstOrDefaultAsync();
+
                 if (result == null)
                 {
                     return NotFound();
                 }
 
                 var deck = result.FromDal(true);
-                if (repository.ServiceUser != null)
-                {
 
-                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                    await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
-                    deck.IsEditable = repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator || repository.ServiceUser.Guid == result.Creator.Guid;
-                }
+                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
+                await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
+
+                var isMyDeck = deck.Creator.Guid == repository.ServiceUser?.Guid;
+
+                deck.IsEditable =
+                    (isMyDeck && AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditDeck)) ||
+                    (!isMyDeck && AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowOthersDeckEdit));
+
                 return Ok(deck);
             }
         }
@@ -147,7 +154,7 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.CreateDeck))
                 {
                     return Forbid();
                 }
@@ -184,7 +191,7 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditDeck))
                 {
                     return Forbid();
                 }
@@ -200,13 +207,14 @@ namespace Arcmage.Server.Api.Controllers
                 }
                 await repository.Context.Entry(deckModel).Reference(x => x.Creator).LoadAsync();
                 await repository.Context.Entry(deckModel).Reference(x => x.Status).LoadAsync();
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
 
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator && deckModel.Creator.Guid != repository.ServiceUser.Guid)
+
+                var isMyDeck = deckModel.Creator.Guid == repository.ServiceUser?.Guid;
+                if (!isMyDeck && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowOthersDeckEdit))
                 {
-                    return Forbid();
+                    return Forbid("This is not your deck");
                 }
-                
+
                 StatusModel statusModel = null;
                 if (deck.Status != null) {
                     statusModel = await repository.Context.Statuses.FindByGuidAsync(deck.Status.Guid);
@@ -216,9 +224,9 @@ namespace Arcmage.Server.Api.Controllers
                 System.IO.File.WriteAllText(Repository.GetDeckJsonFile(deck.Guid), JsonConvert.SerializeObject(deck));
                 System.IO.File.WriteAllText(Repository.GetDeckFormatFile(deck.Guid), GetDeckFormat(deckModel));
 
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                var generateMissing = repository.ServiceUser.Guid == PredefinedGuids.Administrator ||
-                                      repository.ServiceUser.Guid == PredefinedGuids.ServiceUser;
+                
+                var generateMissing = repository.ServiceUser?.Guid == PredefinedGuids.Administrator ||
+                                      repository.ServiceUser?.Guid == PredefinedGuids.ServiceUser;
 
                 await repository.Context.SaveChangesAsync();
 

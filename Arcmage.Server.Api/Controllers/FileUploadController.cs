@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,8 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCard))
                 {
                     return Forbid();
                 }
@@ -31,21 +33,19 @@ namespace Arcmage.Server.Api.Controllers
                 var cardModel = await repository.Context.Cards.FindByGuidAsync(id);
 
                 await repository.Context.Entry(cardModel).Reference(x => x.Status).LoadAsync();
-                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
-
-                if (repository.ServiceUser != null)
+                var isFinal = cardModel.Status.Guid == PredefinedGuids.Final;
+                if (isFinal && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowCardStatusChange))
                 {
-                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                    if (cardModel.Status.Guid == PredefinedGuids.Final)
-                    {
-                        if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer ||
-                            repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
-                            repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
-                        {
-                            return Forbid("Card is marked as final");
-                        }
-                    }
+                    return Forbid("Card is marked as final");
                 }
+
+                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
+                var isMyCard = repository.ServiceUser?.Guid == cardModel.Creator.Guid;
+                if (!isMyCard && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowOthersCardEdit))
+                {
+                    return Forbid("This is not your card");
+                }
+              
             }
 
 

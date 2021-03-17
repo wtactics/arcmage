@@ -21,7 +21,7 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository())
             {
-                IQueryable<DeckModel> dbResult = repository.Context.Decks
+                var dbResult = repository.Context.Decks
                     .Include(x=>x.Status)
                     .Include(x => x.Creator).AsNoTracking();
 

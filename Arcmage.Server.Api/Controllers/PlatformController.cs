@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Arcmage.Configuration;
 using Arcmage.DAL;
 using Arcmage.Model;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Layout;
 using Arcmage.Server.Api.Utils;
 using Hangfire.Dashboard.Resources;
@@ -28,20 +29,12 @@ namespace Arcmage.Server.Api.Controllers
        
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.GameRuntimeAdmin))
                 {
                     return Forbid();
                 }
-
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
-                    repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
-                {
-                    StartRuntime();
-                    return Ok();
-                }
-
-                return Forbid();
+                StartRuntime();
+                return Ok();
             }
         }
 
@@ -54,19 +47,12 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.GameRuntimeAdmin))
                 {
                     return Forbid();
                 }
-
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
-                    repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
-                {
-                    StopRuntime();
-                    return Ok();
-                }
-                return Forbid();
+                StopRuntime();
+                return Ok();
             }
         }
 
@@ -79,21 +65,13 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.GameRuntimeAdmin))
                 {
                     return Forbid();
                 }
-
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator ||
-                    repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
-                {
-                    StopRuntime();
-                    StartRuntime();
-                    return Ok();
-                }
-                return Forbid();
-
+                StopRuntime();
+                StartRuntime();
+                return Ok();
             }
         }
 

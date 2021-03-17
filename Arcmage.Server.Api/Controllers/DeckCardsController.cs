@@ -6,6 +6,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditDeck))
                 {
                     return Forbid();
                 }
@@ -52,7 +53,9 @@ namespace Arcmage.Server.Api.Controllers
                 }
 
                 await repository.Context.Entry(deckModel).Reference(x => x.Creator).LoadAsync();
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator && repository.ServiceUser.Guid != deckModel.Creator.Guid)
+                var isMyDeck = repository.ServiceUser?.Guid == deckModel.Creator.Guid;
+
+                if(!isMyDeck && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowOthersDeckEdit))
                 {
                     return Forbid("The specified deck is not yours.");
                 }

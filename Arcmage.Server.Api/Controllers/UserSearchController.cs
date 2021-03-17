@@ -5,6 +5,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Model;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +23,7 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
-                {
-                    return Forbid();
-                }
-                // only admins can see the users
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator &&
-                    repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.ViewPlayer))
                 {
                     return Forbid();
                 }

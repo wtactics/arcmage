@@ -7,6 +7,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,11 +51,8 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
-                {
-                    return Forbid();
-                }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
+
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.CreateCardType))
                 {
                     return Forbid();
                 }
@@ -70,15 +68,6 @@ namespace Arcmage.Server.Api.Controllers
             }
         }
 
-        [Authorize]
-        [HttpDelete]
-        [Route("{id}")]
-        [Produces("application/json")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            return BadRequest("Not Implemented");
-
-        }
 
         [Authorize]
         [HttpPatch]
@@ -88,14 +77,11 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCardType))
                 {
                     return Forbid();
                 }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
-                {
-                    return Forbid();
-                }
+
                 if (string.IsNullOrWhiteSpace(cardType.Name))
                 {
                     return BadRequest("The name is required.");

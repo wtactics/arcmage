@@ -42,6 +42,7 @@
   "register.password2.required": "You must retype your password. (fr)",
   "register.register": "Sign up (fr)",
   "register.email-sent": "You're signed up. An email has been sent to you confirm your registration. (fr)",
+  "register.terms-of-service" : "I understand that all content I create or uploade is my sole responsibility, and agree to the full <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, the <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, the <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and the <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (fr)",
 
   "password-forget.email-info" : "Send a password reset email to (fr)",
   "password-forget.email.required": "Your email is required. (fr)",
@@ -120,6 +121,8 @@
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box. (fr)",
 
   "games.create-new-game": "Create a new game! (fr)",
+  "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (fr)",
+
 
   "game.field.name": "Name (fr)",
   "game.field.name.required": "The game name is required. (fr)",
@@ -146,6 +149,7 @@
   "invite.step.invite-friend": "Invite a friend (fr)",
   "invite.step.select-deck": "Select a deck (fr)",
   "invite.step.start-game": "Start the game (fr)",
+  "invite.terms-of-service": "By joining the game you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (fr)",
 
   "decks.create-your-own": "Create your own deck! (fr)",
   "decks.login-to-create-your-own": "Log in to create your own deck! (fr)",
@@ -212,6 +216,10 @@
   "user.field.is-verified": "Verfied (fr)",
   "user.field.is-disabled": "Disabled (fr)",
   "user.field.create-date": "Joined (fr)",
-  "user.field.last-login": "Last Active (fr)"
+  "user.field.last-login": "Last Active (fr)",
+
+  "footer.policies": "By using this site you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (fr)",
+  "footer.license": "Cards, decks, artwork and software are subjected to the following <a target='_blank' href='https://arcmage.org/license/'>license</a>. (fr)",
+  "footer.copyright": "Copyright"
 
 }

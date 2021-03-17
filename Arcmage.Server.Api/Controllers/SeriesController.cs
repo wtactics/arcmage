@@ -7,6 +7,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -50,13 +51,9 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.CreateSerie))
                 {
-                    return Forbid();
-                }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
-                {
-                    return Forbid();
+                    return Forbid("You are not allowed to create series.");
                 }
                 if (string.IsNullOrWhiteSpace(serie.Name))
                 {
@@ -68,15 +65,6 @@ namespace Arcmage.Server.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
-        [Produces("application/json")]
-        [Route("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            return BadRequest("Not Implemented");
-        }
-
-        [Authorize]
         [HttpPatch]
         [Produces("application/json")]
         [Route("{id}")]
@@ -84,13 +72,9 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditSerie))
                 {
-                    return Forbid();
-                }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
-                {
-                    return Forbid();
+                    return Forbid("You are not allowed to edit series.");
                 }
                 if (string.IsNullOrWhiteSpace(serie.Name))
                 {

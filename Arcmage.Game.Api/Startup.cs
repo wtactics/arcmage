@@ -122,7 +122,7 @@ namespace Arcmage.Game.Api
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .AllowCredentials();
 
-                o.WithOrigins(Settings.Current.PortalUrl, Settings.Current.GameApiUrl);
+                o.WithOrigins(Settings.Current.PortalUrl, Settings.Current.GameApiUrl, "http://localhost:4200");
             });
 
             // use api endpoints and signalR endpoint

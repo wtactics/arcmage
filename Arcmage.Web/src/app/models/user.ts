@@ -1,6 +1,7 @@
 import { Role } from "./role";
 import { Card } from "./card";
 import { Deck } from "./deck";
+import { Right } from "./right";
 
 export class User {
     id: number;
@@ -17,5 +18,5 @@ export class User {
     lastLoginTime: any;
     cards: Card[];
     decks: Deck[];
-
+    rights: Right[];
 }

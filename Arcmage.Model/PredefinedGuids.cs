@@ -15,8 +15,6 @@ namespace Arcmage.Model
 
         public static Guid ServiceUser = GuidUtility.Create(Role, "ServiceUser");
 
-        // rights
-        // no rights defined yet
 
         // status of cards and series
         public static Guid Status = GuidUtility.Create("Status");

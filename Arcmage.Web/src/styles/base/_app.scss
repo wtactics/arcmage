@@ -6,8 +6,15 @@ body {
   line-height: 1.42857143;
 }
 
+app-root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 .container {
   margin-top: 30px;
+  flex: 1;
 }
 
 body a {

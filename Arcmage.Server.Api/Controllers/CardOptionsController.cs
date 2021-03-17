@@ -7,6 +7,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,33 +27,18 @@ namespace Arcmage.Server.Api.Controllers
             {
                
 
-                var card = await repository.Context.Cards.FindByGuidAsync(id);
-                await repository.Context.Entry(card).Reference(x => x.Status).LoadAsync();
-                await repository.Context.Entry(card).Reference(x => x.Creator).LoadAsync();
+                var cardModel = await repository.Context.Cards.FindByGuidAsync(id);
+                await repository.Context.Entry(cardModel).Reference(x => x.Status).LoadAsync();
+                await repository.Context.Entry(cardModel).Reference(x => x.Creator).LoadAsync();
 
                 var cardOptions = new CardOptions();
                 if (repository.ServiceUser != null)
                 {
-                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                    if (card.Status.Guid != PredefinedGuids.Final)
-                    {
-                        if (card.Creator.Guid == repository.ServiceUser.Guid) cardOptions.IsEditable = true;
-                    }
-                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer ||
-                        repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
-                        repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
-                    {
-                        cardOptions.IsEditable = true;
-                        cardOptions.IsStatusChangedAllowed = true;
-                    }
+                    var isFinal = cardModel.Status.Guid == PredefinedGuids.Final;
 
-                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Developer || 
-                        repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
-                        repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
-                    {
-                        cardOptions.IsRulingEditable = true;
-                    }
-
+                    cardOptions.IsEditable = !isFinal && AuthorizeService.HashRight(repository.ServiceUser.Role, Rights.EditCard);
+                    cardOptions.IsRulingEditable = AuthorizeService.HashRight(repository.ServiceUser.Role, Rights.EditCardRuling);
+                    cardOptions.IsStatusChangedAllowed = AuthorizeService.HashRight(repository.ServiceUser.Role, Rights.AllowCardStatusChange);
                 }
 
                 cardOptions.Factions = repository.Context.Factions.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();

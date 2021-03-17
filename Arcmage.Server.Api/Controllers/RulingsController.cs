@@ -8,6 +8,7 @@ using Arcmage.DAL.Model;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Layout;
 using Arcmage.Server.Api.Utils;
 using Hangfire;
@@ -54,12 +55,7 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
-                {
-                    return Forbid();
-                }
-
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator && repository.ServiceUser.Guid != PredefinedGuids.ServiceUser)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCardRuling))
                 {
                     return Forbid("You are not allowed to create rulings.");
                 }
@@ -96,16 +92,11 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
-                {
-                    return Forbid();
-                }
-
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator &&
-                    repository.ServiceUser.Guid != PredefinedGuids.ServiceUser)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCardRuling))
                 {
                     return Forbid("You are not allowed to delete rulings.");
                 }
+
 
                 var rulingModel = await repository.Context.Rulings.Where(x => x.Guid == id).FirstOrDefaultAsync();
                 if (rulingModel == null)
@@ -127,12 +118,7 @@ namespace Arcmage.Server.Api.Controllers
 
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
-                {
-                    return Forbid();
-                }
-
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator && repository.ServiceUser.Guid != PredefinedGuids.ServiceUser)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditCardRuling))
                 {
                     return Forbid("You are not allowed to change rulings.");
                 }

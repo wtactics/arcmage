@@ -1,12 +1,9 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Arcmage.DAL;
-using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,17 +24,7 @@ namespace Arcmage.Server.Api.Controllers
             {
               
                 var settingsOptions = new SettingsOptions();
-                if (repository.ServiceUser != null)
-                {
-                    await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-                   
-                    if (repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
-                        repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
-                    {
-                        settingsOptions.IsPlayerAdmin = true;
-                    }
-                }
-
+                settingsOptions.IsPlayerAdmin = AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditPlayer);
                 settingsOptions.Roles = repository.Context.Roles.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 return Ok(settingsOptions);
             }

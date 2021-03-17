@@ -4,8 +4,7 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { localStorageKeys } from "../../global/localStorage.keys";
 import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { User } from "src/app/models/user";
-import { SettingsOptions } from "src/app/models/settings-options";
-import { UserApiService } from "../api/user-api.service";
+import { Right } from "src/app/models/right";
 
 @Injectable()
 export class GlobalEventsService {
@@ -27,6 +26,14 @@ export class GlobalEventsService {
         this.currentUrl = event.url;
       }
     });
+  }
+
+  public hasRight(rightName: string): boolean {
+    const user = this.getUser();
+    if (user && user.rights && user.rights.length !== 0) {
+      return user.rights.map(function(x) {return x.name; }).indexOf(rightName) > -1;
+    }
+    return false;
   }
 
   public getPreviousUrl() {

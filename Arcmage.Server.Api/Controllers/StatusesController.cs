@@ -5,6 +5,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -48,13 +49,9 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.CreateStatus))
                 {
-                    return Forbid();
-                }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
-                {
-                    return Forbid();
+                    return Forbid("You are not allowed to create statuses.");
                 }
 
                 if (string.IsNullOrWhiteSpace(status.Name))
@@ -67,16 +64,6 @@ namespace Arcmage.Server.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete]
-        [Route("{id}")]
-        [Produces("application/json")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            return BadRequest("Not Implemented");
-
-        }
-
-        [Authorize]
         [HttpPatch]
         [Route("{id}")]
         [Produces("application/json")]
@@ -84,13 +71,9 @@ namespace Arcmage.Server.Api.Controllers
         {
             using (var repository = new Repository(HttpContext.GetUserGuid()))
             {
-                if (repository.ServiceUser == null)
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditStatus))
                 {
-                    return Forbid();
-                }
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator)
-                {
-                    return Forbid();
+                    return Forbid("You are not allowed to edit statuses.");
                 }
 
                 if (string.IsNullOrWhiteSpace(status.Name))

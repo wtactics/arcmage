@@ -6,6 +6,7 @@ using Arcmage.DAL;
 using Arcmage.DAL.Model;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
+using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -40,19 +41,23 @@ namespace Arcmage.Server.Api.Controllers
 
                 if (id == "me")
                 {
-                    var result = repository.ServiceUser.FromDal();
+                    var result = repository.ServiceUser.FromDal(true);
                     return Ok(result);
                 }
 
-                if (repository.ServiceUser.Role.Guid == PredefinedGuids.Administrator ||
-                    repository.ServiceUser.Role.Guid == PredefinedGuids.ServiceUser)
+
+                if (Guid.TryParse(id, out var guid))
                 {
-                    if (Guid.TryParse(id, out var guid))
+
+                    var isMe = repository.ServiceUser.Guid == guid;
+                    if (!isMe && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditPlayer))
                     {
-                        var userModel = await repository.Context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Guid == guid);
-                        var result = userModel.FromDal(true);
-                        return Ok(result);
+                        return Forbid();
                     }
+
+                    var userModel = await repository.Context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Guid == guid);
+                    var result = userModel.FromDal(true);
+                    return Ok(result);
                 }
 
                 return NotFound("User not found");
@@ -124,17 +129,20 @@ namespace Arcmage.Server.Api.Controllers
                     return Forbid();
                 }
                 var userModel = await repository.Context.Users.Include(x=>x.Role).FirstOrDefaultAsync(x=>x.Guid == id);
-                if (repository.ServiceUser == null)
+                if (userModel == null)
                 {
                     return BadRequest("User not found.");
                 }
 
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
-
-                // Only Administrators or the service user can change the role, the verification and disabled state
-                if (repository.ServiceUser.Role.Guid != PredefinedGuids.Administrator &&
-                    repository.ServiceUser.Role.Guid != PredefinedGuids.ServiceUser)
+                var isMe = repository.ServiceUser.Guid == userModel.Guid;
+                if (!isMe && !AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.EditPlayer))
                 {
+                    return Forbid();
+                }
+
+                if (!AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowPlayerStateChange))
+                {
+                    // When we're not allowed to change the role, the verified or disabled state, use the values from the database
                     user.IsVerified = userModel.IsVerified;
                     user.IsDisabled = userModel.IsDisabled;
                     user.Role = null;
