@@ -54,6 +54,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.CardTypes.LoadAsync();
 
                 var result = await repository.Context.Decks
+                    .Include(x=>x.Creator)
                     .Include(x=>x.Status)
                     .Include(x=>x.DeckCards)
                         .ThenInclude(x=>x.Card)
@@ -66,7 +67,6 @@ namespace Arcmage.Server.Api.Controllers
 
                 var deck = result.FromDal(true);
 
-                await repository.Context.Entry(repository.ServiceUser).Reference(x => x.Role).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
 
                 var isMyDeck = deck.Creator.Guid == repository.ServiceUser?.Guid;
