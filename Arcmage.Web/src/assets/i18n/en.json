@@ -207,13 +207,13 @@
   "settings.password-forget.email-sent": "A password change/recovery email has been sent to you.",
   "settings.password-forget.failed": "Could not send password change/recovery email",
 
-  "users.verified": "Verfied",
+  "users.verified": "Verified",
   "users.disabled": "Disabled",
   "users.role": "Role",
 
   "user.field.name": "Name",
   "user.field.role": "Role",
-  "user.field.is-verified": "Verfied",
+  "user.field.is-verified": "Verified",
   "user.field.is-disabled": "Disabled",
   "user.field.create-date": "Joined",
   "user.field.last-login": "Last Active",
