@@ -48,6 +48,18 @@ body a:hover {
   background: $colorPrimary !important;
 }
 
+.p-badge.p-badge-xl {
+  font-size: 1.25rem !important;
+  min-width: 2.5rem !important;
+  height: 2.5rem !important;
+  line-height: 2.5rem !important;
+}
+
+.p-badge.p-badge-info {
+  background-color: $colorPrimary !important;
+  color: #fff;
+}
+
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
