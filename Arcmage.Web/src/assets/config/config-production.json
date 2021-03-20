@@ -1,7 +1,7 @@
 {
     "production": true,
     
-    "apiUri": "https://aminduna.arcmage.org:9000",
+    "apiUri": "https://aminduna.arcmage.org",
     "gameApiUri": "https://aminduna.arcmage.org:9090",
 
     "slideConfig": {
