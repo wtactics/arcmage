@@ -109,7 +109,7 @@ Running the game api
 
 The game api is a standalone dotnet core app, using signalR hubs to allow browser to browser communication for the online game.
 
-While the Arcmage.Server.Api is running, start the Arcmage.Seed 
+While the Arcmage.Server.Api is running, start the Arcmage.Game.Api as well 
 * In Visual Studio, right click the Arcmage.Game.Api > Debug > Start New Instance
 * Or use the alternative 'dotnet run' command to start the Arcmage.Game.Api program
 
@@ -126,7 +126,7 @@ Card Templates
 
 Our card svg templates are at Server.Arcmage.Api\wwwroot\arcmage\CardTemplates
 
-The are per Faction and per Type. Each template combination has the several files
+They are per Faction and per Type. Each template combination has the several files
 1. (template).svg : the real full blown template, used to generate the cards in high resolution png and pdf files
 2. (template).png : used as background while editing the card on the website
 3. (template) overlay plain.svg : used as overlay while editing the card on the website  
@@ -139,5 +139,6 @@ Resources
 
 If you want to know more about the project please visit the following links or 
 read the suggested documents:
+- https://aminduna.arcmage.org/ [Arcmage]
 - https://aminduna.arcmage.org/#/cards [Arcmage cards]
 - https://aminduna.arcmage.org/#/games [Arcmage online game]

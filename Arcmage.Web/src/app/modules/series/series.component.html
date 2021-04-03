@@ -1,0 +1,60 @@
+<div class="p-d-flex p-flex-column">
+  
+    <div class="p-my-2 p-d-flex p-jc-end">
+        <button type="button" (click)="createSerie()" class="btn btn-primary">{{ "series.create-new-serie" | translate }}</button>
+    </div>
+   
+    <p-table #cardsTable
+            [value]="serieSearchResult.items"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="true"
+            (onLazyLoad)="loadData($event)"
+            [paginator]="true"
+            paginatorPosition="both"
+            [rows]="30"
+            [totalRecords]="serieSearchResult.totalItems"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="{{'grids.total' | translate}}: {{serieSearchResult.totalItems}}"
+            [loading]="loading">
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">{{ "serie.name" | translate }} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-serie>
+        <tr>
+          <td>{{ serie.name }}</td>
+          <td style="text-align: right">
+            <i class="elegant-button fas fa-pencil-alt" (click)="showEditSerie(serie)"></i>
+          </td>
+        </tr>
+      </ng-template>
+      
+    </p-table>
+  
+    <p-sidebar [(visible)]="showEdit" position="right" styleClass="p-sidebar-md">
+      <h1 *ngIf="!isEdit" >{{ "series.create-new-serie" | translate }}</h1>
+      <h1 *ngIf="isEdit">{{ "series.edit-serie" | translate }}</h1>
+  
+      <div class="p-fluid">
+        <div class="p-field">
+            <label for="serie_name">{{ "serie.name" | translate }}*</label>
+            <input id="serie_name" #serie_name="ngModel" [(ngModel)]="newSerie.name" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="serie_name.invalid && (serie_name.dirty || serie_name.touched)" class="requried-input-field">
+              <div *ngIf="serie_name.errors.required">*{{ "serie.name.required" | translate }}</div>
+            </div>
+        </div>
+        <div class="p-d-flex p-jc-end">
+          <button type="button" (click)="saveSerie()" [disabled]="newSerie?.name == null || newSerie.name == '' " class="btn btn-primary float-right">{{ "global.save" | translate }}</button>
+        </div>
+      </div>
+  
+    </p-sidebar>
+  
+  </div>
+  

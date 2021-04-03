@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Arcmage.DAL;
+using Arcmage.DAL.Model;
 using Arcmage.DAL.Utils;
 using Arcmage.Model;
 using Arcmage.Server.Api.Assembler;
@@ -87,5 +88,61 @@ namespace Arcmage.Server.Api.Controllers
             }
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [Produces("application/json")]
+        [Route("search")]
+        public async Task<IActionResult> Post([FromBody] SearchOptionsBase searchOptionsBase)
+        {
+            using (var repository = new Repository())
+            {
+
+                IQueryable<SerieModel> dbResult = repository.Context.Series
+                    .Include(x => x.Creator)
+                    .Include(x => x.LastModifiedBy).AsNoTracking();
+
+  
+
+                if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
+                {
+                    dbResult = dbResult.Where(
+                        it => it.Name.Contains(searchOptionsBase.Search) 
+                    );
+                }
+                var totalCount = dbResult.Count();
+
+                // default order by
+                if (string.IsNullOrWhiteSpace(searchOptionsBase.OrderBy))
+                {
+                    searchOptionsBase.OrderBy = "Name";
+                }
+
+                var orderByType = QueryHelper.GetPropertyType<SerieModel>(searchOptionsBase.OrderBy);
+                if (orderByType != null)
+                {
+                    if (orderByType == typeof(string))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<SerieModel, string>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(int))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<SerieModel, int>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                    if (orderByType == typeof(DateTime))
+                    {
+                        var orderByExpression = QueryHelper.GetPropertyExpression<SerieModel, DateTime>(searchOptionsBase.OrderBy);
+                        dbResult = searchOptionsBase.ReverseOrder ? dbResult.OrderByDescending(orderByExpression) : dbResult.OrderBy(orderByExpression);
+                    }
+                }
+
+                searchOptionsBase.PageSize = Math.Min(50, searchOptionsBase.PageSize);
+                var query = await dbResult.Skip((searchOptionsBase.PageNumber - 1) * searchOptionsBase.PageSize).Take(searchOptionsBase.PageSize).ToListAsync();
+                var result = new ResultList<Serie>(query.Select(x => x.FromDal()).ToList()) { TotalItems = totalCount, SearchOptions = searchOptionsBase };
+                return Ok(result);
+            }
+        }
     }
+
 }

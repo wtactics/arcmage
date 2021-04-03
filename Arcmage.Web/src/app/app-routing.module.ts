@@ -15,14 +15,16 @@ import { PasswordResetComponent } from "./modules/password-reset/password-reset.
 import { PasswordForgetComponent } from "./modules/password-forget/password-forget.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
+import { SeriesComponent } from "./modules/series/series.component";
 
 import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { Rights } from "./models/rights";
 
 
+
 const routes: Routes = [
   { path: "unauthorized", component: UnauthorizedComponent },
-  { 
+  {
     path: "players",
     component: UsersComponent,
     data: { requiredUserRight: Rights.viewPlayer },
@@ -43,6 +45,12 @@ const routes: Routes = [
     path: "settings/:userId",
     component: SettingsComponent,
     data: { requiredUserRight: Rights.viewPlayer, checkUserId: true },
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "admin/series",
+    component: SeriesComponent,
+    data: { requiredUserRight: Rights.viewSerie},
     canActivate: [AuthGuardService]
   },
   { path: "**", redirectTo: "cards" }

@@ -180,6 +180,12 @@
   "deck.field.last-modified-by": "Last edit by (es)",
   "deck.field.last-modified-on": "Last edit (es)",
 
+  "series.create-new-serie": "Create new serie (es)",
+  "series.edit-serie": "Edit serie (es)",
+ 
+  "serie.name": "Name (es)",
+  "serie.name.required": "The serie name is required. (es)",
+
   "rulings.delete": "Delete this ruling? (es)",
   "rulings.create-new-ruling": "Create a new ruling (es)",
   "rulings.edit-ruling": "Edit ruling (es)",

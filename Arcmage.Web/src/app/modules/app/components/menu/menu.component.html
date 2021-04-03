@@ -22,9 +22,17 @@
       <li class="nav-item" [routerLinkActive]="['link-active']">
         <a class="btn btn-tertiary" [routerLink]="['/games']">{{ "menu.games" | translate }}</a>
       </li>
-
-      <li class="nav-item" *ngIf="isAuthenticated && settingsOptions?.isPlayerAdmin" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/players']">{{ "menu.players" | translate }}</a>
+      
+      <li class="nav-item dropdown dropdown-user"*ngIf="isAuthenticated && settingsOptions?.isPlayerAdmin">
+        <a class="btn btn-user nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button"
+          aria-haspopup="true" aria-expanded="false">
+          <span class="avatar avatar-sm avatar-type-man"></span>  {{ "menu.admin" | translate }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" [routerLink]="['/players/']" >{{ "menu.players" | translate }}</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item danger"  [routerLink]="['/admin/series']">{{ "menu.series" | translate }}</a>
+        </div>
       </li>
 
       <li class="nav-item" *ngIf="!isAuthenticated" [routerLinkActive]="['link-active']">

@@ -110,8 +110,8 @@ namespace Arcmage.Server.Api
             // Remark:
             // - Uncomment/Comment the next lines to host the static (wwwroot) files using Kerstel instead of IIS / IIS Express
             // - Also change the web.config to remove hosting the static (wwwroot) files form IIS / IIS Express 
-            //app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             // use url routing
             app.UseRouting();
@@ -143,7 +143,7 @@ namespace Arcmage.Server.Api
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .AllowCredentials();
 
-                o.WithOrigins(Settings.Current.PortalUrl, Settings.Current.GameApiUrl);
+                o.WithOrigins(Settings.Current.PortalUrl, Settings.Current.GameApiUrl, "http://localhost:4200");
             });
 
             // use api endpoints

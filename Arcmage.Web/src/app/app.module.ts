@@ -26,6 +26,7 @@ import { BadgeModule } from "primeng/badge";
 import { DividerModule } from "primeng/divider";
 import { ConfirmPopupModule } from "primeng/confirmpopup";
 import { ConfirmationService } from "primeng/api";
+import { MenuModule } from "primeng/menu";
 
 import { SlickCarouselModule } from "ngx-slick-carousel";
 
@@ -65,6 +66,7 @@ import { RulingApiService } from "./services/api/ruling-api.service";
 import { GameApiService } from "./services/api/game-api.service";
 import { LoginApiService } from "./services/api/login-api.service";
 import { UserApiService } from "./services/api/user-api.service";
+import { SerieApiService } from "./services/api/serie-api.service";
 import { FileUploadApiService } from "./services/api/file-upload-api.service";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -88,6 +90,7 @@ import { GamesComponent } from "./modules/games/games.component";
 import { GameInviteComponent } from "./modules/game-invite/game-invite.component";
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
+import { SeriesComponent } from "./modules/series/series.component";
 
 
 
@@ -118,6 +121,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     SettingsComponent,
     UsersComponent,
     FooterComponent,
+    SeriesComponent,
   ],
   imports: [
     BrowserModule,
@@ -152,6 +156,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     FileUploadModule,
     ProgressBarModule,
     TabViewModule,
+    MenuModule,
     ClipboardModule,
     TranslateModule.forRoot(
       {
@@ -193,6 +198,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     GameApiService,
     LoginApiService,
     UserApiService,
+    SerieApiService,
     FileUploadApiService,
     ConfirmationService
   ],

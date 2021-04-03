@@ -172,6 +172,12 @@ namespace Arcmage.Model
             Guid = GuidUtility.Create(Right, nameof(EditFaction)),
         };
 
+        public static Right ViewSerie = new Right
+        {
+            Name = nameof(ViewSerie),
+            Guid = GuidUtility.Create(Right, nameof(ViewSerie)),
+        };
+
         public static Right CreateSerie = new Right
         {
             Name = nameof(CreateSerie),
@@ -226,6 +232,7 @@ namespace Arcmage.Model
             Rights.CreateDeck,
             Rights.CreateFaction,
             Rights.EditFaction,
+            Rights.ViewSerie,
             Rights.CreateSerie,
             Rights.EditSerie,
             Rights.CreateStatus,
@@ -254,6 +261,7 @@ namespace Arcmage.Model
             Rights.CreateDeck,
             Rights.CreateFaction,
             Rights.EditFaction,
+            Rights.ViewSerie,
             Rights.CreateSerie,
             Rights.EditSerie,
             Rights.CreateStatus,
