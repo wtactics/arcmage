@@ -26,7 +26,7 @@
   "grids.total": "total",
 
   "login.username": "Login (email address)",
-  "login.username.required": "The login email adress is required.",
+  "login.username.required": "The login email address is required.",
   "login.password": "Password",
   "login.password.required": "The password is required.",
   "login.login": "Sign in",
@@ -42,7 +42,7 @@
   "register.password2.required": "You must retype your password.",
   "register.register": "Sign up",
   "register.email-sent": "You're signed up. An email has been sent to you confirm your registration.",
-  "register.terms-of-service" : "I understand that all content I create or uploade is my sole responsibility, and agree to the full <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, the <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, the <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and the <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>.",
+  "register.terms-of-service" : "I understand that all content I create or upload is my sole responsibility, and agree to the full <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, the <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, the <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and the <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>.",
 
   "password-forget.email-info" : "Send a password reset email to",
   "password-forget.email.required": "Your email is required.",
@@ -111,7 +111,7 @@
   "card.field.serie.info": "Series are not shown on card.",
   "card.field.status.info": "Promotion to the release candidate and final states is reserved for developers",
   "card.field.language.info": "The card's language.",
-  "card.field.rule-text.info": "The card's offical rules, not shown on card.",
+  "card.field.rule-text.info": "The card's official rules, not shown on card.",
   "card.field.flavor-text.info": "The card's optional flavor text, not shown on card.",
   "card.field.info-text.info": "The card's footer info, shown on card. For official cards, please use 'arcmage.org - join us!'",
   "card.field.firstname.info": "First line of the card's name. Leave empty if you don't wish to split the name.",

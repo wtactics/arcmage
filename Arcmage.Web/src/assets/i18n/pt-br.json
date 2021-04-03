@@ -42,7 +42,7 @@
     "register.password2.required": "Você precisa repetir sua senha.",
     "register.register": "Registrar",
     "register.email-sent": "Sucesso! Um email foi enviado para você confirmar seu registro. Obrigado!",
-    "register.terms-of-service" : "I understand that all content I create or uploade is my sole responsibility, and agree to the full <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, the <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, the <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and the <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (pt-br)",
+    "register.terms-of-service" : "Eu entendo que todo conteúdo que eu criar ou fizer upload é de minha total responsabilidade, e concordo com os <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, a <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, a <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e a <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",
     
     "password-forget.email-info" : "Enviar um email de recuperação de conta para",
     "password-forget.email.required": "Seu email é obrigatório.",
@@ -121,7 +121,7 @@
     "card.field.artwork.info": "PNG transparente (1535x1266 @ 600dpi). Opcionalmente use uma margem de 70px esquerda/direita para caixa de cartas.",
   
     "games.create-new-game": "Criar uma nova partida!",
-    "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (pt-br)",
+    "games.terms-of-service": "Ao criar ou se juntar a uma partida, você concorda com nossos <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, nossa <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, nossa <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e nossa <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",
   
 
     "game.field.name": "Nome",
@@ -149,7 +149,7 @@
     "invite.step.invite-friend": "Convidar um amigo",
     "invite.step.select-deck": "Selecione um baralho",
     "invite.step.start-game": "Começar a partida",
-    "invite.terms-of-service": "By joining the game you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (pt-br)",
+    "invite.terms-of-service": "Ao se juntar a uma partida, você concorda com nossos <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, nossa <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, nossa <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e nossa <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",
 
     "decks.create-your-own": "Crie seu próprio baralho!",
     "decks.login-to-create-your-own": "Entre para criar seu próprio baralho!",
@@ -218,8 +218,8 @@
     "user.field.create-date": "Data de registro",
     "user.field.last-login": "Último login",
   
-    "footer.policies": "By using this site you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (pt-bt)",
-    "footer.license": "Cards, decks, artwork and software are subjected to the following <a target='_blank' href='https://arcmage.org/license/'>license</a>. (pt-bt)",
-    "footer.copyright": "Copyright (pt-bt)"
+    "footer.policies": "Ao usar o nosso site você concorda com nossos <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, nossa <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, nossa <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e nossa <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",
+    "footer.license": "Cartas, baralhos, arte e software estão sujeitos a seguinte <a target='_blank' href='https://arcmage.org/license/'>licença</a>.",
+    "footer.copyright": "Todos os direitos reservados"
   
   }
