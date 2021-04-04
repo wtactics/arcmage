@@ -216,6 +216,7 @@ export class DeckDetailsComponent implements OnInit {
     deckUpdate.guid = this.deck.guid;
     deckUpdate.name = this.deck.name;
     deckUpdate.exportTiles = this.deck.exportTiles;
+    deckUpdate.generatePdf = this.deck.generatePdf;
     deckUpdate.status = this.deck.status;
 
     this.saving = true;

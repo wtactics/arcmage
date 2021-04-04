@@ -239,11 +239,11 @@
             <div class="p-mb-2">{{"deck.export.info" | translate}}</div>
             
             <div class="p-field-checkbox">
-                <p-checkbox name="deck_export_tiles" [(ngModel)]="deck.exportTiles" inputId="deck_export_tiles"></p-checkbox>
+                <p-checkbox name="deck_export_tiles" [(ngModel)]="deck.exportTiles"  binary="true" inputId="deck_export_tiles"></p-checkbox>
                 <label for="deck_export_tiles">{{"deck.export.table-top-simulator" | translate}}</label>
             </div>
             <div class="p-field-checkbox">
-                <p-checkbox name="deck_export_pdf" [(ngModel)]="deck.generatePdf" inputId="deck_export_pdf"></p-checkbox>
+                <p-checkbox name="deck_export_pdf" [(ngModel)]="deck.generatePdf"  binary="true" inputId="deck_export_pdf"></p-checkbox>
                 <label for="deck_export_pdf">{{"deck.export.zip-pdf" | translate}}</label>
             </div>
             <div class="p-d-flex p-jc-end">
