@@ -2,7 +2,10 @@
     "menu.cards": "Cartas",
     "menu.decks": "Baralhos",
     "menu.games": "Partidas",
+    "menu.admin": "Administration (pt-br)",
     "menu.players": "Jogadores",
+    "menu.series": "Series (pt-br)",
+    "menu.licenses": "Licenses (pt-br)",
    
     "menu.login": "Entrar",
     "menu.logout": "Sair",
@@ -66,7 +69,10 @@
     "card.no-rulings": "Ainda sem regras",
     "card.show-more": "mostrar mais",
     "card.show-less": "menos",
-  
+    "card.artwork-from": "Artwork from (pt-br)",
+    "card.artwork-used-under": ", used under (pt-br)",
+    "card.artwork-modified-match-template": "Modified to match the card template. (pt-br)",
+
     "card.field.name": "Nome",
     "card.field.name.required": "O nome da carta é obrigatório.",
     "card.field.type": "Tipo",
@@ -95,6 +101,8 @@
     "card.field.markdown-text.example": ":E:xemplo",
     "card.field.artist": "Artista",
     "card.field.artwork": "Arte",
+    "card.field.artwork-licensor": "Art Licensor (pt-br)",
+    "card.field.artwork-license": "Art License (pt-br)",
     "card.field.creator": "Criador",
     "card.field.create-date": "Data da criação",
     "card.field.last-modified-by": "Última edição por",
@@ -119,7 +127,9 @@
     "card.field.markdown-text.info": "<p>O layout de texto MarkDown, exibido na carta. <br/><br/>Deixe uma linha em branco para começar um novo parágrafo <br/><br/>Cerque texto ***negrito itálico*** com três asteriscos <br />Cerque texto **negrito** com dois asteriscos  <br />Cerque texto *itálico* com um  <br /><br /><b>:br:</b> - força uma quebra de linha (ou use \\ ) <br /><b>:mis:</b> - marca de seta pequena<br /><b>:g0-g9:, :gx:, :gt:</b> - símbolos cifrados 0-9, x, t<br /><br /><b>Apenas válido no começo do parágrafo</b><br /><b>:letra maiúscula A-Z:</b> - parágrafo capitular com letra maíuscula e.g. :C:apital <br /><b>:m:</b> - marcador<br /><b>:mi:</b> - seta marcadora<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - símbolos marcadores 0-9, x, t, a<br /><b>:mc:</b> - marcar, alinhar coluna<br /><b>:mic:</b> - seta marcadora, alinhar coluna<br /></p>",
     "card.field.artist.info": "O nome do artista, NÃO é exibido na carta.",
     "card.field.artwork.info": "PNG transparente (1535x1266 @ 600dpi). Opcionalmente use uma margem de 70px esquerda/direita para caixa de cartas.",
-  
+    "card.field.artwork-license.info": "The artwork license. Note that only artwork matching one of the provided licenses is allowed. Other licenses are not compatible with arcmage. (pt-br)",
+    "card.field.artwork-licensor.info": "The holder of the copyright, often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses. (pt-br)",
+
     "games.create-new-game": "Criar uma nova partida!",
     "games.terms-of-service": "Ao criar ou se juntar a uma partida, você concorda com nossos <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, nossa <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, nossa <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e nossa <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",
   
@@ -185,6 +195,16 @@
    
     "serie.name": "Name (pt-br)",
     "serie.name.required": "The serie name is required. (pt-br)",
+
+    "licenses.create-new-license": "Create new license (pt-br)",
+    "licenses.edit-license": "Edit license (pt-br)",
+   
+    "license.name": "Name (pt-br)",
+    "license.name.required": "The license name is required. (pt-br)",
+    "license.description": "Description (pt-br)",
+    "license.description.required": "The license description is required. (pt-br)",
+    "license.url": "Url (pt-br)",
+    "license.url.required": "The license url is required. (pt-br)",
 
     "rulings.delete": "Deletar essa regra?",
     "rulings.create-new-ruling": "Criar uma nova regra",

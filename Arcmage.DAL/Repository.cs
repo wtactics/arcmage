@@ -362,6 +362,29 @@ namespace Arcmage.DAL
             return ruling;
         }
 
+        public LicenseModel CreateLicense(string name, string description, string url, Guid guid)
+        {
+            var license = Context.Licenses.FindByGuid(guid);
+            if (license == null)
+            {
+                var utcNow = DateTime.UtcNow;
+                license = new LicenseModel
+                {
+                    Name = name,
+                    Description = description,
+                    Url = url,
+                    Guid = guid,
+                    LastModifiedTime = utcNow,
+                    CreateTime = utcNow,
+                    Creator = ServiceUser,
+                    LastModifiedBy = ServiceUser,
+                };
+                Context.Licenses.Add(license);
+                Context.SaveChanges();
+            }
+            return license;
+        }
+
 
         public SerieModel CreateSeries(string name, Guid guid)
         {

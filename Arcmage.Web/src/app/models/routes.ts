@@ -7,6 +7,7 @@ export class Routes  {
         this.routeMap.set("Role", "api/Roles");
         this.routeMap.set("User", "api/Users");
         this.routeMap.set("Faction", "api/Factions");
+        this.routeMap.set("License", "api/Licenses");
         this.routeMap.set("Serie", "api/Series");
         this.routeMap.set("CardType", "api/CardTypes");
         this.routeMap.set("Status", "api/Statuses");
@@ -25,6 +26,7 @@ export class Routes  {
         this.routeMap.set("UserSearch", "api/UserSearch");
         this.routeMap.set("GameSearch", "api/GameSearch");
         this.routeMap.set("SeriesSearch", "api/Series/search");
+        this.routeMap.set("LicenseSearch", "api/Licenses/search");
 
         this.routeMap.set("Login", "api/Login");
         this.routeMap.set("FileUpload", "api/FileUpload");

@@ -16,6 +16,7 @@ import { PasswordForgetComponent } from "./modules/password-forget/password-forg
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
 import { SeriesComponent } from "./modules/series/series.component";
+import { LicensesComponent } from "./modules/licenses/licenses.component";
 
 import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { Rights } from "./models/rights";
@@ -51,6 +52,12 @@ const routes: Routes = [
     path: "admin/series",
     component: SeriesComponent,
     data: { requiredUserRight: Rights.viewSerie},
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: "admin/licenses",
+    component: LicensesComponent,
+    data: { requiredUserRight: Rights.viewLicense},
     canActivate: [AuthGuardService]
   },
   { path: "**", redirectTo: "cards" }

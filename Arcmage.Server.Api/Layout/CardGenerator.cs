@@ -32,37 +32,47 @@ namespace Arcmage.Server.Api.Layout
 
         public static void CreatePngJob(Guid cardGuid, string faction, string type)
         {
-            var svgFile = Repository.GetSvgFile(cardGuid);
-            InkscapeExporter.ExportPng(svgFile, Repository.GetPngFile(cardGuid));
-
-            using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
+            try
             {
-                image.Scale(320, 454);
-                // You're done. Save it.
-                image.Write(Repository.GetJpegFile(cardGuid));
-            }
+                var svgFile = Repository.GetSvgFile(cardGuid);
+                InkscapeExporter.ExportPng(svgFile, Repository.GetPngFile(cardGuid));
 
-            var border = Repository.GetPrintBorderFile(faction, type, "png");
-
-
-            using (MagickImage image = new MagickImage(border))
-            {
-
-                image.SetProfile(ColorProfile.SRGB);
-                image.SetProfile(ColorProfile.USWebCoatedSWOP);
-
-                // Read the watermark that will be put on top of the image
-                using (MagickImage card = new MagickImage(Repository.GetPngFile(cardGuid)))
+                using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
                 {
-                    card.SetProfile(ColorProfile.SRGB);
-                    card.SetProfile(ColorProfile.USWebCoatedSWOP);
-                    card.Scale(1465, 2079);
-
-                    image.Composite(card, Gravity.Center, CompositeOperator.Over);
+                    image.Scale(320, 454);
+                    // You're done. Save it.
+                    image.Write(Repository.GetJpegFile(cardGuid));
                 }
-                // Save the result
-                image.Write(Repository.GetPdfFile(cardGuid));
+
+                var border = Repository.GetPrintBorderFile(faction, type, "png");
+
+
+                using (MagickImage image = new MagickImage(border))
+                {
+
+                    image.SetProfile(ColorProfile.SRGB);
+                    image.SetProfile(ColorProfile.USWebCoatedSWOP);
+
+                    // Read the watermark that will be put on top of the image
+                    using (MagickImage card = new MagickImage(Repository.GetPngFile(cardGuid)))
+                    {
+                        card.SetProfile(ColorProfile.SRGB);
+                        card.SetProfile(ColorProfile.USWebCoatedSWOP);
+                        card.Scale(1465, 2079);
+
+                        image.Composite(card, Gravity.Center, CompositeOperator.Over);
+                    }
+
+                    // Save the result
+                    image.Write(Repository.GetPdfFile(cardGuid));
+                }
             }
+            catch
+            {
+                // N.G. Remark: something went wrong, we're not trying to recover here.
+                //              and will just mark the job as finished.
+            }
+          
 
             using (var repository = new Repository())
             {

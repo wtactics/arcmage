@@ -20,6 +20,8 @@ namespace Arcmage.Model
 
         public List<Status> Statuses { get; set; }
 
+        public List<License> ArtworkLicenses { get; set; }
+
         public List<int> Loyalties { get; set; }
 
         public List<Language> Languages { get; set; }

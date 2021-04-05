@@ -2,7 +2,10 @@
   "menu.cards": "Cards (nl)",
   "menu.decks": "Decks (nl)",
   "menu.games": "Games (nl)",
+  "menu.admin": "Administration (pt-br)",
   "menu.players": "Players (nl)",
+  "menu.series": "Series (nl)",
+  "menu.licenses": "Licenses (nl)",
  
   "menu.login": "Sign in (nl)",
   "menu.logout": "Sign out (nl)",
@@ -66,6 +69,9 @@
   "card.no-rulings": "No rulings yet. (nl)",
   "card.show-more": "show more (nl)",
   "card.show-less": "less (nl)",
+  "card.artwork-from": "Artwork from (nl)",
+  "card.artwork-used-under": ", used under (nl)",
+  "card.artwork-modified-match-template": "Modified to match the card template. (nl)",
 
   "card.field.name": "Name (nl)",
   "card.field.name.required": "The card name is required. (nl)",
@@ -95,6 +101,8 @@
   "card.field.markdown-text.example": ":E:xample (nl)",
   "card.field.artist": "Artist (nl)",
   "card.field.artwork": "Artwork (nl)",
+  "card.field.artwork-licensor": "Art Licensor (nl)",
+  "card.field.artwork-license": "Art License (nl)",
   "card.field.creator": "Creator (nl)",
   "card.field.create-date": "Creation date (nl)",
   "card.field.last-modified-by": "Last edit by (nl)",
@@ -119,6 +127,8 @@
   "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break (or use \\ ) <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - start paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p> (nl)",
   "card.field.artist.info": "The artist's name, not shown on card. (nl)",
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box. (nl)",
+  "card.field.artwork-license.info": "The artwork license. Note that only artwork matching one of the provided licenses is allowed. Other licenses are not compatible with arcmage. (nl)",
+  "card.field.artwork-licensor.info": "The holder of the copyright, often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses. (nl)",
 
   "games.create-new-game": "Create a new game! (nl)",
   "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (nl)",
@@ -185,6 +195,16 @@
  
   "serie.name": "Name (nl)",
   "serie.name.required": "The serie name is required. (nl)",
+
+  "licenses.create-new-license": "Create new license (nl)",
+  "licenses.edit-license": "Edit license (nl)",
+ 
+  "license.name": "Name (nl)",
+  "license.name.required": "The license name is required. (nl)",
+  "license.description": "Description (nl)",
+  "license.description.required": "The license description is required. (nl)",
+  "license.url": "Url (nl)",
+  "license.url.required": "The license url is required. (nl)",
 
   "rulings.delete": "Delete this ruling? (nl)",
   "rulings.create-new-ruling": "Create a new ruling (nl)",

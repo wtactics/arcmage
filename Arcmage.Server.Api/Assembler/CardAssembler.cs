@@ -18,6 +18,7 @@ namespace Arcmage.Server.Api.Assembler
             result.FirstName = cardModel.FirstName;
             result.LastName = cardModel.LastName;
             result.Artist = cardModel.Artist;
+            result.ArtworkLicensor = cardModel.ArtworkLicensor;
             result.RuleText = cardModel.RuleText;
             result.FlavorText = cardModel.FlavorText;
             result.SubType = cardModel.SubType;
@@ -34,6 +35,7 @@ namespace Arcmage.Server.Api.Assembler
             if (cardModel.Serie != null) result.Serie = cardModel.Serie.FromDal();
             if (cardModel.RuleSet != null) result.RuleSet = cardModel.RuleSet.FromDal();
             if (cardModel.Status != null) result.Status = cardModel.Status.FromDal();
+            if (cardModel.ArtworkLicense != null) result.ArtworkLicense = cardModel.ArtworkLicense.FromDal();
 
             result.SyncBase(cardModel,true, true);
 
@@ -58,7 +60,7 @@ namespace Arcmage.Server.Api.Assembler
         }
 
         public static void Patch(this CardModel cardModel, Card card, 
-            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, RuleSetModel ruleSetModel, UserModel user)
+            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, RuleSetModel ruleSetModel, LicenseModel artworkLicense, UserModel user)
         {
             if (cardModel == null) return;
             if (card == null) return;
@@ -66,6 +68,7 @@ namespace Arcmage.Server.Api.Assembler
             cardModel.FirstName = card.FirstName;
             cardModel.LastName = card.LastName;
             cardModel.Artist = card.Artist;
+            cardModel.ArtworkLicensor = card.ArtworkLicensor;
             cardModel.RuleText = card.RuleText;
             cardModel.FlavorText = card.FlavorText;
             cardModel.SubType = card.SubType;
@@ -83,6 +86,8 @@ namespace Arcmage.Server.Api.Assembler
             if (cardTypeModel != null) cardModel.Type = cardTypeModel;
             if (statusModel != null) cardModel.Status = statusModel;
             if (ruleSetModel != null) cardModel.RuleSet = ruleSetModel;
+            if (artworkLicense != null) cardModel.ArtworkLicense = artworkLicense;
+
             cardModel.PatchBase(user);
         }
 

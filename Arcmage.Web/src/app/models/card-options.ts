@@ -4,6 +4,7 @@ import { Serie } from "./serie";
 import { RuleSet } from "./rule-set";
 import { Status } from "./status";
 import { Language } from "./language";
+import { License } from "./license";
 
 export class CardOptions {
     isEditable: boolean;
@@ -16,4 +17,5 @@ export class CardOptions {
     statuses: Status[];
     loyalties: number[];
     languages: Language[];
+    artworkLicenses: License[];
 }

@@ -5,6 +5,7 @@ import { Status } from "./status";
 import { RuleSet } from "./rule-set";
 import { Serie } from "./serie";
 import { Language } from "./language";
+import { License } from "./license";
 
 export class Card extends Base {
     id: number;
@@ -26,6 +27,8 @@ export class Card extends Base {
     serie: Serie;
     ruleSet: RuleSet;
     artwork: string;
+    artworkLicensor: string;
+    artworkLicense: License;
     layoutText: string;
     markdownText: string;
     svg: string;

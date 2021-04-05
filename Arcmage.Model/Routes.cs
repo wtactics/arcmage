@@ -10,6 +10,7 @@ namespace Arcmage.Model
 
         public const string Roles = Root + "Roles";
         public const string Users = Root + "Users";
+        public const string Licenses = Root + "Licenses";
         public const string Factions = Root + "Factions";
         public const string Series = Root + "Series";
         public const string CardTypes = Root + "CardTypes";
@@ -44,6 +45,7 @@ namespace Arcmage.Model
             {
                 {typeof(Role), Roles},
                 {typeof(User), Users},
+                {typeof(License), Licenses},
                 {typeof(Faction), Factions},
                 {typeof(Serie), Series},
                 {typeof(CardType), CardTypes},

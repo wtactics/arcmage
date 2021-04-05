@@ -67,6 +67,7 @@ import { GameApiService } from "./services/api/game-api.service";
 import { LoginApiService } from "./services/api/login-api.service";
 import { UserApiService } from "./services/api/user-api.service";
 import { SerieApiService } from "./services/api/serie-api.service";
+import { LicenseApiService } from "./services/api/license-api.service";
 import { FileUploadApiService } from "./services/api/file-upload-api.service";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -91,6 +92,7 @@ import { GameInviteComponent } from "./modules/game-invite/game-invite.component
 import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
 import { SeriesComponent } from "./modules/series/series.component";
+import { LicensesComponent } from './modules/licenses/licenses.component';
 
 
 
@@ -122,6 +124,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     UsersComponent,
     FooterComponent,
     SeriesComponent,
+    LicensesComponent,
   ],
   imports: [
     BrowserModule,
@@ -199,6 +202,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     LoginApiService,
     UserApiService,
     SerieApiService,
+    LicenseApiService,
     FileUploadApiService,
     ConfirmationService
   ],

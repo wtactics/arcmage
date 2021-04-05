@@ -10,14 +10,14 @@
             </div>
         </div>
 
-        <div class="p-d-flex p-jc-end p-my-2" *ngIf="card.isGenerated">
+        <div class="p-d-flex p-jc-end p-mt-2" *ngIf="card.isGenerated">
             <a class="searchlink" href="{{apiUri + card.svg}}" target="_blank">Svg</a>
             <a class="searchlink" href="{{apiUri + card.png}}" target="_blank">Png</a>
             <a class="searchlink" href="{{apiUri + card.jpeg}}" target="_blank">Jpeg</a>
             <a class="searchlink" href="{{apiUri + card.pdf}}" target="_blank">Pdf (CMYK)</a>
         </div>
    
-        <div class="p-fluid" *ngIf="isEditMode">
+        <div class="p-fluid p-mt-2" *ngIf="isEditMode">
             <div class="p-field p-grid">
                 <label for="card_creator" class="p-col-4">{{"card.field.creator" | translate}}</label>
                 <div class="p-col-8">
@@ -67,7 +67,8 @@
 
         <p-divider align="left"><b>{{"card.creator-artist" | translate}}</b></p-divider>
         <div class="view-info">
-            <p>{{card?.creator?.name}} - {{card.artist}}</p>
+            <p>{{card?.creator?.name}} - {{card?.artist}}</p>
+            <p><em>{{"card.artwork-from" | translate}} {{card?.artworkLicensor}}{{"card.artwork-used-under" | translate}} <a href="{{card?.artworkLicense?.url}}" target="_blank"> {{card?.artworkLicense?.name}}</a><br/> {{"card.artwork-modified-match-template" | translate}} </em></p>
         </div>
 
         <p-divider align="left"><b>{{"card.rulings" | translate}} </b><i *ngIf="cardOptions?.isEditable && cardOptions?.isRulingEditable" class="elegant-button fas fa-plus fa-sm" (click)="showAddRuling()"></i></p-divider>
@@ -292,6 +293,25 @@
                 </div>
             </div>
 
+            <div class="p-field p-grid">
+                <label for="card_artwork_licensor" class="p-col-3">{{"card.field.artwork-licensor" | translate}}</label>
+                <div class="p-col-8">
+                    <input type="text" required #name="ngModel" inputId="card_artwork_licensor" name="card_artwork_licensor" placeholder="{{'card.field.artwork-licensor' | translate}}" [(ngModel)]="card.artworkLicensor" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artwork_licensor', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
+                <label for="card_artwork_license" class="p-col-3"> <a class="searchlink" href="{{card?.artworkLicense?.url}}" target="_blank">{{"card.field.artwork-license" | translate}}</a></label>
+                <div class="p-col-8">
+                    <p-dropdown inputId="card_artwork_license" dataKey="guid" [options]="cardOptions?.artworkLicenses" [(ngModel)]="card.artworkLicense"  placeholder="{{'global.select' | translate}}" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artwork_license', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div> 
 
             <div class="p-field p-grid">
                 <label for="card_artwork" class="p-col-3"> <a class="searchlink" href="{{apiUri + card.artwork}}" target="_blank">{{'card.field.artwork' | translate}}</a></label>
@@ -375,6 +395,12 @@
         </div>
         <div *ngIf="selectedCardInfo === 'card_artist'">
             <p>{{"card.field.artist.info" | translate}}</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_artwork_licensor'">
+            <p>{{"card.field.artwork-licensor.info" | translate}}</p>
+        </div>
+        <div *ngIf="selectedCardInfo === 'card_artwork_license'">
+            <p>{{"card.field.artwork-license.info" | translate}}</p>
         </div>
         <div *ngIf="selectedCardInfo === 'card_artwork'">
             <p>{{"card.field.artwork.info" | translate}}</p>

@@ -232,7 +232,7 @@ namespace Arcmage.Server.Api.Controllers
 
                 BackgroundJob.Schedule(
                     () => DeckGenerator.GenerateDeck(deck.Guid, deck.GeneratePdf, deck.ExportTiles, generateMissing,true), 
-                    TimeSpan.Zero);
+                    TimeSpan.FromSeconds(15));
 
                 deck.IsEditable = true;
 

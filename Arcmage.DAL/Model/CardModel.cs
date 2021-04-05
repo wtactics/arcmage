@@ -17,6 +17,10 @@ namespace Arcmage.DAL.Model
         
         // artist
         public string Artist { get; set; }
+
+        public string ArtworkLicensor { get; set; }
+
+        public LicenseModel ArtworkLicense { get; set; }
        
         public string RuleText { get; set; }
 

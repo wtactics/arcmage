@@ -1,0 +1,82 @@
+<div class="p-d-flex p-flex-column">
+  
+    <div class="p-my-2 p-d-flex p-jc-end">
+        <button type="button" (click)="createLicense()" class="btn btn-primary">{{ "licenses.create-new-license" | translate }}</button>
+    </div>
+   
+    <p-table #licensesTable
+            [value]="licenseSearchResult.items"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="true"
+            (onLazyLoad)="loadData($event)"
+            [paginator]="true"
+            paginatorPosition="both"
+            [rows]="30"
+            [totalRecords]="licenseSearchResult.totalItems"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="{{'grids.total' | translate}}: {{licenseSearchResult.totalItems}}"
+            [loading]="loading">
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="name">{{ "license.name" | translate }} <p-sortIcon [field]="'name'"></p-sortIcon></th>
+          <th pSortableColumn="description">{{ "license.description" | translate }} <p-sortIcon [field]="'description'"></p-sortIcon></th>
+          <th></th>
+        </tr>
+      </ng-template>
+  
+      <ng-template pTemplate="body" let-license>
+        <tr>
+          <td><a href="{{license.url}}" target="_blank">{{ license.name }}</a></td>
+          <td>{{ license.description }}</td>
+          <td style="text-align: right">
+            <i class="elegant-button fas fa-pencil-alt" (click)="showEditLicense(license)"></i>
+          </td>
+        </tr>
+      </ng-template>
+      
+    </p-table>
+  
+    <p-sidebar [(visible)]="showEdit" position="right" styleClass="p-sidebar-md">
+      <h1 *ngIf="!isEdit" >{{ "licenses.create-new-license" | translate }}</h1>
+      <h1 *ngIf="isEdit">{{ "licenses.edit-license" | translate }}</h1>
+  
+      <div class="p-fluid">
+        <div class="p-field">
+            <label for="license_name">{{ "license.name" | translate }}*</label>
+            <input id="license_name" #license_name="ngModel" [(ngModel)]="newLicense.name" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="license_name.invalid && (license_name.dirty || license_name.touched)" class="requried-input-field">
+              <div *ngIf="license_name.errors.required">*{{ "license.name.required" | translate }}</div>
+            </div>
+        </div>
+      
+        <div class="p-field">
+            <label for="license_description">{{ "license.description" | translate }}*</label>
+            <input id="license_description" #license_description="ngModel" [(ngModel)]="newLicense.description" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="license_description.invalid && (license_description.dirty || license_description.touched)" class="requried-input-field">
+              <div *ngIf="license_description.errors.required">*{{ "license.description.required" | translate }}</div>
+            </div>
+        </div>
+
+        <div class="p-field">
+            <label for="license_url">{{ "license.url" | translate }}*</label>
+            <input id="license_url" #license_url="ngModel" [(ngModel)]="newLicense.url" [disabled]="loading" type="text" pInputText required> 
+            <div *ngIf="license_url.invalid && (license_url.dirty || license_url.touched)" class="requried-input-field">
+              <div *ngIf="license_url.errors.required">*{{ "license.url.required" | translate }}</div>
+            </div>
+        </div>
+        
+        <div class="p-d-flex p-jc-end">
+          <button type="button" (click)="saveLicense()" 
+                  [disabled]="newLicense?.name == null || newLicense.name == '' || newLicense?.description == null || newLicense.description == '' || newLicense?.url == null || newLicense.url == '' " 
+                  class="btn btn-primary float-right">{{ "global.save" | translate }}</button>
+        </div>
+      </div>
+  
+    </p-sidebar>
+  
+  </div>
+  
+

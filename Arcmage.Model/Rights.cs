@@ -202,6 +202,24 @@ namespace Arcmage.Model
             Guid = GuidUtility.Create(Right, nameof(EditStatus)),
         };
 
+        public static Right ViewLicense = new Right
+        {
+            Name = nameof(ViewLicense),
+            Guid = GuidUtility.Create(Right, nameof(ViewLicense)),
+        };
+
+        public static Right CreateLicense = new Right
+        {
+            Name = nameof(CreateLicense),
+            Guid = GuidUtility.Create(Right, nameof(CreateLicense)),
+        };
+
+        public static Right EditLicense = new Right
+        {
+            Name = nameof(EditLicense),
+            Guid = GuidUtility.Create(Right, nameof(EditLicense)),
+        };
+
 
         public static List<Right> DefaultRights = new List<Right>
         {
@@ -235,6 +253,9 @@ namespace Arcmage.Model
             Rights.ViewSerie,
             Rights.CreateSerie,
             Rights.EditSerie,
+            Rights.ViewLicense,
+            Rights.CreateLicense,
+            Rights.EditLicense,
             Rights.CreateStatus,
             Rights.EditStatus,
             Rights.AllowPlayerStateChange,
@@ -264,6 +285,9 @@ namespace Arcmage.Model
             Rights.ViewSerie,
             Rights.CreateSerie,
             Rights.EditSerie,
+            Rights.ViewLicense,
+            Rights.CreateLicense,
+            Rights.EditLicense,
             Rights.CreateStatus,
             Rights.EditStatus,
             Rights.AllowPlayerStateChange,

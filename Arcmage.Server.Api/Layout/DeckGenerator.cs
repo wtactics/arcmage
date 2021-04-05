@@ -25,7 +25,15 @@ namespace Arcmage.Server.Api.Layout
                 var deck = JsonConvert.DeserializeObject<Deck>(File.ReadAllText(jsonFile));
                 if (generatePdf)
                 {
-                    GenerateDeckZip(deckGuid, generateMissingCards, singleDoc, deck);
+                    try
+                    {
+                        GenerateDeckZip(deckGuid, generateMissingCards, singleDoc, deck);
+                    }
+                    catch
+                    {
+                        // N.G. Remark: something went wrong, we're not trying to recover here.
+                        //              and will just mark the job as finished.
+                    }
                 }
                 if (exportTiles)
                 {
@@ -35,7 +43,8 @@ namespace Arcmage.Server.Api.Layout
                     }
                     catch
                     {
-
+                        // N.G. Remark: something went wrong, we're not trying to recover here.
+                        //              and will just mark the job as finished.
                     }
                 }
             }

@@ -30,6 +30,8 @@ namespace Arcmage.DAL
 
         public DbSet<StatusModel> Statuses { get; set; }
 
+        public DbSet<LicenseModel> Licenses { get; set; }
+
         public DbSet<DeckModel> Decks { get; set; }
 
         public DbSet<DeckCardModel> DeckCards { get; set; }
@@ -63,6 +65,7 @@ namespace Arcmage.DAL
             AddDefaults<DeckModel>(modelBuilder);
             AddDefaults<DeckCardModel>(modelBuilder);
             AddDefaults<RulingModel>(modelBuilder);
+            AddDefaults<LicenseModel>(modelBuilder);
 
 
             modelBuilder.Entity<CardTypeModel>().HasOne(x => x.TemplateInfo);
@@ -74,6 +77,7 @@ namespace Arcmage.DAL
             modelBuilder.Entity<CardModel>().HasOne(x => x.RuleSet).WithMany();
             modelBuilder.Entity<CardModel>().HasOne(x => x.Status).WithMany();
             modelBuilder.Entity<CardModel>().HasOne(x => x.Serie).WithMany(x=>x.Cards);
+            modelBuilder.Entity<CardModel>().HasOne(x => x.ArtworkLicense).WithMany().IsRequired(false);
 
             modelBuilder.Entity<DeckModel>().HasOne(x => x.Status).WithMany().IsRequired(false);
 

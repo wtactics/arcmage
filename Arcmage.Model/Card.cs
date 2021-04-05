@@ -16,6 +16,10 @@
         // artist
         public string Artist { get; set; }
 
+        public string ArtworkLicensor { get; set; }
+
+        public License ArtworkLicense { get; set; }
+
         public string RuleText { get; set; }
 
         public string FlavorText { get; set; }

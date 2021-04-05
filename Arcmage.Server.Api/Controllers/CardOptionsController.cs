@@ -45,6 +45,7 @@ namespace Arcmage.Server.Api.Controllers
                 cardOptions.Series = repository.Context.Series.AsNoTracking().ToList().Select(x => x.FromDal(false)).ToList();
                 cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                cardOptions.ArtworkLicenses = repository.Context.Licenses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
 
                 cardOptions.Languages = Languages.All;
@@ -68,6 +69,7 @@ namespace Arcmage.Server.Api.Controllers
                 cardOptions.Series = repository.Context.Series.AsNoTracking().ToList().Select(x => x.FromDal(false)).ToList();
                 cardOptions.RuleSets = repository.Context.RuleSets.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                cardOptions.ArtworkLicenses = repository.Context.Licenses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
                 cardOptions.CardTypes = repository.Context.CardTypes.Include(x => x.TemplateInfo).AsNoTracking().ToList().Select(x => x.FromDal(true)).ToList();
 
                 cardOptions.Languages = Languages.All;

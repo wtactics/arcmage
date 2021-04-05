@@ -5,6 +5,7 @@
   "menu.admin": "Administration",
   "menu.players": "Players",
   "menu.series": "Series",
+  "menu.licenses": "Licenses",
  
   "menu.login": "Sign in",
   "menu.logout": "Sign out",
@@ -68,6 +69,9 @@
   "card.no-rulings": "No rulings yet.",
   "card.show-more": "show more",
   "card.show-less": "less",
+  "card.artwork-from": "Artwork from",
+  "card.artwork-used-under": ", used under",
+  "card.artwork-modified-match-template": "Modified to match the card template.",
 
   "card.field.name": "Name",
   "card.field.name.required": "The card name is required.",
@@ -97,6 +101,8 @@
   "card.field.markdown-text.example": ":E:xample",
   "card.field.artist": "Artist",
   "card.field.artwork": "Artwork",
+  "card.field.artwork-licensor": "Art Licensor",
+  "card.field.artwork-license": "Art License",
   "card.field.creator": "Creator",
   "card.field.create-date": "Creation date",
   "card.field.last-modified-by": "Last edit by",
@@ -121,6 +127,8 @@
   "card.field.markdown-text.info": "<p>The markdown layout text, shown on the card. <br/><br/>Leave a blank line to start a new paragraph <br/><br/>Surround ***bold italic*** text with three stars <br />Surround **bold** text with two stars  <br />Surround *italic* text with one one  <br /><br /><b>:br:</b> - force a line break (or use \\ ) <br /><b>:mis:</b> - mark arrow small<br /><b>:g0-g9:, :gx:, :gt:</b> - cypher symbols 0-9, x, t<br /><br /><b>Only valid on start of paragraph</b><br /><b>:capital letter A-Z:</b> - start paragraph with a capital letter e.g. :C:apital <br /><b>:m:</b> - mark<br /><b>:mi:</b> - mark arrow<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - mark symbols 0-9, x, t, a<br /><b>:mc:</b> - mark, align column<br /><b>:mic:</b> - mark arrow, align column<br /></p>",
   "card.field.artist.info": "The artist's name, not shown on card.",
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box.",
+  "card.field.artwork-license.info": "The artwork license. Note that only artwork matching one of the provided licenses is allowed. Other licenses are not compatible with arcmage.",
+  "card.field.artwork-licensor.info": "The holder of the copyright, often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses.",
 
   "games.create-new-game": "Create a new game!",
   "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>.",
@@ -187,6 +195,16 @@
  
   "serie.name": "Name",
   "serie.name.required": "The serie name is required.",
+
+  "licenses.create-new-license": "Create new license",
+  "licenses.edit-license": "Edit license",
+ 
+  "license.name": "Name",
+  "license.name.required": "The license name is required.",
+  "license.description": "Description",
+  "license.description.required": "The license description is required.",
+  "license.url": "Url",
+  "license.url.required": "The license url is required.",
 
   "rulings.delete": "Delete this ruling?",
   "rulings.create-new-ruling": "Create a new ruling",
