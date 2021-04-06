@@ -13,10 +13,11 @@ namespace Arcmage.DAL.Utils
             return set?.SingleOrDefault(x => x.Guid == guid);
         }
 
-        public static Task<T> FindByGuidAsync<T>(this DbSet<T> set, Guid? guid) where T : ModelBase
+        public static async Task<T> FindByGuidAsync<T>(this DbSet<T> set, Guid? guid) where T : ModelBase
         {
             if (guid == null) return null;
-            return set?.SingleOrDefaultAsync(x => x.Guid == guid.Value);
+            if (set == null) return null;
+            return await set.SingleOrDefaultAsync(x => x.Guid == guid.Value);
         }
     }
 }

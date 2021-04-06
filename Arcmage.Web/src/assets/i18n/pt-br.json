@@ -101,7 +101,7 @@
     "card.field.markdown-text.example": ":E:xemplo",
     "card.field.artist": "Artista",
     "card.field.artwork": "Arte",
-    "card.field.artwork-licensor": "Art Licensor (pt-br)",
+    "card.field.artwork-source": "Art Source (pt-br)",
     "card.field.artwork-license": "Art License (pt-br)",
     "card.field.creator": "Criador",
     "card.field.create-date": "Data da criação",
@@ -128,7 +128,7 @@
     "card.field.artist.info": "O nome do artista, NÃO é exibido na carta.",
     "card.field.artwork.info": "PNG transparente (1535x1266 @ 600dpi). Opcionalmente use uma margem de 70px esquerda/direita para caixa de cartas.",
     "card.field.artwork-license.info": "The artwork license. Note that only artwork matching one of the provided licenses is allowed. Other licenses are not compatible with arcmage. (pt-br)",
-    "card.field.artwork-licensor.info": "The holder of the copyright, often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses. (pt-br)",
+    "card.field.artwork-source.info": "The source of the artwork often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses. (pt-br)",
 
     "games.create-new-game": "Criar uma nova partida!",
     "games.terms-of-service": "Ao criar ou se juntar a uma partida, você concorda com nossos <a target='_blank' href='https://arcmage.org/terms-of-service/'>termos de serviço</a>, nossa <a  target='_blank' href='https://arcmage.org/privacy-policy/'>política de privacidade</a>, nossa <a target='_blank' href='https://arcmage.org/fair-play-policy/'>política de jogo limpo</a> e nossa <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>política de não discriminação</a>.",

@@ -286,7 +286,7 @@
             <div class="p-field p-grid">
                 <label for="card_artist" class="p-col-3">{{"card.field.artist" | translate}}</label>
                 <div class="p-col-8">
-                    <input type="text" required #name="ngModel" inputId="card_artist" name="card_artist" placeholder="{{'card.field.artist' | translate}}" [(ngModel)]="card.artist" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                    <input type="text" inputId="card_artist" name="card_artist" placeholder="{{'card.field.artist' | translate}}" [(ngModel)]="card.artist" [disabled]="loading || !cardOptions.isEditable" pInputText/>
                 </div>
                 <div class="p-col-1 p-d-flex p-ai-center">
                     <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artist', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
@@ -294,12 +294,12 @@
             </div>
 
             <div class="p-field p-grid">
-                <label for="card_artwork_licensor" class="p-col-3">{{"card.field.artwork-licensor" | translate}}</label>
+                <label for="card_artwork_source" class="p-col-3">{{"card.field.artwork-source" | translate}}</label>
                 <div class="p-col-8">
-                    <input type="text" required #name="ngModel" inputId="card_artwork_licensor" name="card_artwork_licensor" placeholder="{{'card.field.artwork-licensor' | translate}}" [(ngModel)]="card.artworkLicensor" [disabled]="loading || !cardOptions.isEditable" pInputText/>
+                    <input type="text" inputId="card_artwork_source" name="card_artwork_source" placeholder="{{'card.field.artwork-source' | translate}}" [(ngModel)]="card.artworkLicensor" [disabled]="loading || !cardOptions.isEditable" pInputText/>
                 </div>
                 <div class="p-col-1 p-d-flex p-ai-center">
-                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artwork_licensor', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_artwork_source', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
                 </div>
             </div>
 
@@ -396,8 +396,8 @@
         <div *ngIf="selectedCardInfo === 'card_artist'">
             <p>{{"card.field.artist.info" | translate}}</p>
         </div>
-        <div *ngIf="selectedCardInfo === 'card_artwork_licensor'">
-            <p>{{"card.field.artwork-licensor.info" | translate}}</p>
+        <div *ngIf="selectedCardInfo === 'card_artwork_source'">
+            <p>{{"card.field.artwork-source.info" | translate}}</p>
         </div>
         <div *ngIf="selectedCardInfo === 'card_artwork_license'">
             <p>{{"card.field.artwork-license.info" | translate}}</p>
