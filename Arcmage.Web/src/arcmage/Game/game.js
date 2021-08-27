@@ -163,7 +163,8 @@ var vue = new Vue({
             }
         },
         openVideo: function() {
-           window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
+           // window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
+		   window.open("https://meet.jit.si/arcmage_" + vue.gameGuid, "_blank");
         },
         openRules: function () {
             window.open(portalUri + "/arcmage/Game/pdfjs/web/viewer.html?file=" + portalUri + "/arcmage/Game/ArcmageRules.pdf", "_blank");
