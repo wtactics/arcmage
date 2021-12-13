@@ -116,12 +116,14 @@ namespace Arcmage.Matrix.MatchBot
                 var helpList = new List<string>()
                 {
                     "Hey, I'm arcbot, here to help you find arcmage players and set up arcmage games.",
+                    "",
                     " .help   =>  show this help",
                     " .add    =>  mark yourself as willing to play and add you to the match notification list",
                     " .remove =>  remove yourself from the match notification list",
                     " .list   =>  show all arcmage players on the notification list",
                     " .match  =>  let all arcmage players on the notification list know your up for a game",
-                    " .play   =>  create and set up the arcmage game battlefield, the game link shared, and two players can join the game"
+                    " .play   =>  create and set up the arcmage game battlefield, the game link shared, and two players can join the game",
+                    " .lic    =>  show the lic information",
                 };
                 var plainHelp = string.Join('\n', helpList);
                 var formattedHelp = string.Join("<br/>", helpList);
@@ -187,6 +189,18 @@ namespace Arcmage.Matrix.MatchBot
                 var gameInvite = $"https://aminduna.arcmage.org/#/invite/{game.guid}?invitedBy=arcbot";
                 MatrixApi.SendTextMessageToRoom(Settings.RoomId, gameInvite);
 
+            }
+
+            if (".lic".Equals(command))
+            {
+                var helpList = new List<string>()
+                {
+                    "My avatar was drawn by Emilien Rotival under CC-BY-SA4.",
+                    "My source code is under GPLv3 and is available at https://github.com/wtactics/arcmage",
+                };
+                var plainHelp = string.Join('\n', helpList);
+                var formattedHelp = string.Join("<br/>", helpList);
+                MatrixApi.SendTextMessageToRoom(Settings.RoomId, plainHelp, formattedHelp);
             }
         }
 
