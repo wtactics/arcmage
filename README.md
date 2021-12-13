@@ -27,12 +27,16 @@ Api folders
 * Arcmage.DAL : The database orm layer for use with Entity Framework Core
 * Arcmage.Seed : A database seeder to populate an empty database with some basic data (Sets, Factions, ...)
 * Arcmage.InputConvertor : A library to convert our card layout xml field to markdown or vise versa
-* Arcmage.Server.Api : The Rest API for Authentication, Card Creation, Deck Creation, Card Searching, ...
+* Arcmage.Server.Api : The Rest API for Authentication, Card Creation, Deck Creation, Card Searching, ... (also hosts the Matrix Matchbot)
 * Arcmage.Web : Holds the angular webapp for card and deck creation, and the vue app for the online game
 
 Game folders
 * Arcmage.Game.Api : The singalR hub backend for the browser to browser communication
 
+Matchbot (matrix.org complient bot)
+* Matrix.Sdk.Api : A fork from https://github.com/VRocker/MatrixAPI under Apache License, Version 2.0, January 2004, http://www.apache.org/licenses/
+* Arcmage.Matrix.Matchbot : a simple matrix bot to facilitate player matchups and to create an arcmage game from within a matrix room
+* Arcmage.Matrix.Matchbot.Console : a console app to host the matchbox locally  
 
 tools
 * ApiExamples : A small demo on how to use the Arcmage.Client to interact with the Arcmage API

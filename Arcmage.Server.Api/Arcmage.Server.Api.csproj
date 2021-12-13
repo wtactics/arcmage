@@ -67,6 +67,7 @@
     <ProjectReference Include="..\Arcmage.DAL\Arcmage.DAL.csproj" />
     <ProjectReference Include="..\Arcmage.Game.Api\Arcmage.Game.Api.csproj" />
     <ProjectReference Include="..\Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj" />
+    <ProjectReference Include="..\Arcmage.Matrix.MatchBot\Arcmage.Matrix.MatchBot.csproj" />
     <ProjectReference Include="..\Arcmage.Model\Arcmage.Model.csproj" />
   </ItemGroup>
 

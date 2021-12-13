@@ -80,5 +80,18 @@ namespace Arcmage.Configuration
         // Send grid api key
         public string SendGridApiKey { get; set; }
 
+
+        // Match bot
+
+        public bool HostMatchBot { get; set; }
+
+        public string MatrixHomeServer { get; set; }
+
+        public string MatrixUser { get; set; }
+
+        public string MatrixPassword { get; set; }
+
+        public string MatrixRoomId { get; set; }
+
     }
 }

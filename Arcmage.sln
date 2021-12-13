@@ -22,7 +22,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Seed", "Arcmage.See
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Game.Api", "Arcmage.Game.Api\Arcmage.Game.Api.csproj", "{356DC346-052E-4972-9D2F-A5F3C29D6131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arcmage.Layout.InputConvertor", "Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj", "{6E51B8CF-6C5D-4A9F-A232-61AD832C6895}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Layout.InputConvertor", "Arcmage.Layout.InputConvertor\Arcmage.Layout.InputConvertor.csproj", "{6E51B8CF-6C5D-4A9F-A232-61AD832C6895}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrix.Sdk.Api", "Matrix.Sdk.Api\Matrix.Sdk.Api.csproj", "{04B79E4E-4F82-4439-BBF2-8A0B06B7D682}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Matrix.MatchBot", "Arcmage.Matrix.MatchBot\Arcmage.Matrix.MatchBot.csproj", "{08EA08E2-CE16-4A2C-AE66-0CF614197D77}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Arcmage.Matrix.MatchBot.Console", "Arcmage.Matrix.MatchBot.Console\Arcmage.Matrix.MatchBot.Console.csproj", "{D29BE011-2DC6-415B-B972-3B91716DD5C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +68,18 @@ Global
 		{6E51B8CF-6C5D-4A9F-A232-61AD832C6895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E51B8CF-6C5D-4A9F-A232-61AD832C6895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E51B8CF-6C5D-4A9F-A232-61AD832C6895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04B79E4E-4F82-4439-BBF2-8A0B06B7D682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04B79E4E-4F82-4439-BBF2-8A0B06B7D682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04B79E4E-4F82-4439-BBF2-8A0B06B7D682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04B79E4E-4F82-4439-BBF2-8A0B06B7D682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08EA08E2-CE16-4A2C-AE66-0CF614197D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08EA08E2-CE16-4A2C-AE66-0CF614197D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08EA08E2-CE16-4A2C-AE66-0CF614197D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08EA08E2-CE16-4A2C-AE66-0CF614197D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29BE011-2DC6-415B-B972-3B91716DD5C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29BE011-2DC6-415B-B972-3B91716DD5C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29BE011-2DC6-415B-B972-3B91716DD5C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29BE011-2DC6-415B-B972-3B91716DD5C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

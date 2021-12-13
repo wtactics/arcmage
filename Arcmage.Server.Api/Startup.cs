@@ -102,6 +102,9 @@ namespace Arcmage.Server.Api
             // setup cors access control
             services.AddCors();
 
+            // add matchbot
+            services.AddHostedService<MatchBotService.MatchBotService>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
