@@ -183,12 +183,26 @@ namespace Arcmage.Matrix.MatchBot
 
             if (".play".Equals(command))
             {
-                var response = HttpClient.PostAsJsonAsync("https://aminduna.arcmage.org:9090/api/Games", new Game { name = $"{ FormatPlayerDisplayName(messageSender)}'s game"}).Result;
-                var game = HttpContentExtensions.ReadAsAsync<Game>(response.Content).Result;
+                try
+                {
+                    var gameName = $"{FormatPlayerDisplayName(messageSender)}'s game";
 
-                var gameInvite = $"https://aminduna.arcmage.org/#/invite/{game.guid}?invitedBy=arcbot";
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, gameInvite);
+                    var response = HttpClient.PostAsJsonAsync("https://aminduna.arcmage.org:9090/api/Games", new Game {name = gameName}).Result;
+                    var game = HttpContentExtensions.ReadAsAsync<Game>(response.Content).Result;
 
+                    var gameInviteFormatted = $"<a href=\"https://aminduna.arcmage.org/#/invite/{game.guid}?invitedBy=arcbot\">{gameName} invite link</a>";
+                    var gameInvite = $"{gameName} invite link: https://aminduna.arcmage.org/#/invite/{game.guid}?invitedBy=arcbot";
+                    MatrixApi.SendTextMessageToRoom(Settings.RoomId, gameInvite, gameInviteFormatted);
+
+
+                    var chatLinkFormatted = $"<a href=\"https://meet.jit.si/arcmage_{game.guid}\">jit.si voice chat</a>";
+                    var chatLink = $"jit.si voice chat: https://meet.jit.si/arcmage_{game.guid}";
+                    MatrixApi.SendTextMessageToRoom(Settings.RoomId, chatLink, chatLinkFormatted);
+                }
+                catch (Exception e)
+                {
+                    // Couldn't create the game
+                }
             }
 
             if (".lic".Equals(command))
