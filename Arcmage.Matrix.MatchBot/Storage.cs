@@ -10,15 +10,16 @@ namespace Arcmage.Matrix.MatchBot
 {
     public class Storage
     {
-        
+        // List of last 10 processed message ids
         public List<string> ProcessedMessageIds { get; set; }
         
-        public List<string> Players { get; set; }
+        // Dictionary of player id's and player info objects
+        public Dictionary<string, Player> Players { get; set; }
 
         public Storage()
         {
             ProcessedMessageIds = new List<string>();
-            Players = new List<string>();
+            Players = new Dictionary<string,Player>();
         }
 
         public static Storage Load(string storageFile)
