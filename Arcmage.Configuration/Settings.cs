@@ -67,6 +67,8 @@ namespace Arcmage.Configuration
 
         public string InkscapeExe { get; set; }
 
+        public string InkscapeVersion { get; set; }
+
 
         public string GameRuntimePath { get; set; }
 
@@ -95,6 +97,6 @@ namespace Arcmage.Configuration
         public string MatrixPassword { get; set; }
 
         public string MatrixRoomId { get; set; }
-
+        
     }
 }

@@ -13,12 +13,18 @@ namespace Arcmage.Server.Api.Layout
 
         public static void ExportPng(string inputfile, string outputfile, int dpi = 600, int width = 1535)
         {
-            // Use inkscape command from setting's or fall back to the default windows location (for backward compatibility)
-            var inkscapeExe = Settings.Current.InkscapeExe ?? InkscapeExe;
-
             try
             {
-                var args = string.Format(InkscapePngArgs, inputfile, outputfile, dpi, width);
+                // Use inkscape command from setting's or fall back to the default windows location (for backward compatibility)
+                var inkscapeExe = Settings.Current.InkscapeExe ?? InkscapeExe;
+                var inkscapePngArgs = InkscapePngArgs;
+
+                if (Settings.Current.InkscapeVersion == "1.0.2")
+                {
+                    inkscapePngArgs = "--export-type=png -o=\"{1}\" --export-area-page --export-dpi={2} --export-width={3} \"{0}\"";
+                }
+
+                var args = string.Format(inkscapePngArgs, inputfile, outputfile, dpi, width);
 
                 var processStartInfo = new ProcessStartInfo(inkscapeExe, args);
                 processStartInfo.RedirectStandardInput = false;
@@ -48,9 +54,18 @@ namespace Arcmage.Server.Api.Layout
         {
             try
             {
+                // Use inkscape command from setting's or fall back to the default windows location (for backward compatibility)
+                var inkscapeExe = Settings.Current.InkscapeExe ?? InkscapeExe;
+                var inkscapePdfArgs = InkscapePdfArgs;
 
-                var args = string.Format(InkscapePdfArgs, inputfile, outputfile, dpi);
-                var processStartInfo = new ProcessStartInfo(InkscapeExe, args);
+                if (Settings.Current.InkscapeVersion == "1.0.2")
+                {
+                    inkscapePdfArgs = "--export-type=pdf -o=\"{1}\" --export-area-page --export-dpi={2} \"{0}\"";
+                }
+
+
+                var args = string.Format(inkscapePdfArgs, inputfile, outputfile, dpi);
+                var processStartInfo = new ProcessStartInfo(inkscapeExe, args);
                 processStartInfo.RedirectStandardInput = true;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.CreateNoWindow = true;
