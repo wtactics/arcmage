@@ -21,7 +21,7 @@ namespace Arcmage.Server.Api.Layout
 
                 if (Settings.Current.InkscapeVersion == "1.0.2")
                 {
-                    inkscapePngArgs = "--export-type=png -o=\"{1}\" --export-area-page --export-dpi={2} --export-width={3} \"{0}\"";
+                    inkscapePngArgs = "--export-type=png --export-filename=\"{1}\" --export-area-page --export-dpi={2} --export-width={3} \"{0}\"";
                 }
 
                 var args = string.Format(inkscapePngArgs, inputfile, outputfile, dpi, width);
@@ -60,7 +60,7 @@ namespace Arcmage.Server.Api.Layout
 
                 if (Settings.Current.InkscapeVersion == "1.0.2")
                 {
-                    inkscapePdfArgs = "--export-type=pdf -o=\"{1}\" --export-area-page --export-dpi={2} \"{0}\"";
+                    inkscapePdfArgs = "--export-type=pdf --export-filename=\"{1}\" --export-area-page --export-dpi={2} \"{0}\"";
                 }
 
 
