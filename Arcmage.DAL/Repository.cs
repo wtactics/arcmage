@@ -195,29 +195,29 @@ namespace Arcmage.DAL
 
         public static string GetBackgroundPngFile(string faction, string cardType)
         {
-            faction = faction.Replace(' ', '_');
-            cardType = cardType.Replace(' ', '_');
+            faction = faction.Replace(' ', '_').ToLowerInvariant();
+            cardType = cardType.Replace(' ', '_').ToLowerInvariant();
             return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}.png");
         }
 
         public static string GetTemplateFile(string faction, string cardType)
         {
-            faction = faction.Replace(' ', '_');
-            cardType = cardType.Replace(' ', '_');
+            faction = faction.Replace(' ', '_').ToLowerInvariant();
+            cardType = cardType.Replace(' ', '_').ToLowerInvariant();
            return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}.svg");
         }
 
         public static string GetPrintBorderFile(string faction, string cardType, string ext)
         {
-            faction = faction.Replace(' ', '_');
-            cardType = cardType.Replace(' ', '_');
+            faction = faction.Replace(' ', '_').ToLowerInvariant();
+            cardType = cardType.Replace(' ', '_').ToLowerInvariant();
             return Path.Combine(TemplatesPath, $"{faction}", $"border.{ext}");
         }
 
         public static string GetOverlayTemplateFile(string faction, string cardType)
         {
-            faction = faction.Replace(' ', '_');
-            cardType = cardType.Replace(' ', '_');
+            faction = faction.Replace(' ', '_').ToLowerInvariant();
+            cardType = cardType.Replace(' ', '_').ToLowerInvariant();
             return Path.Combine(TemplatesPath, $"{faction}", $"{cardType}_overlay_plain.svg");
         }
 
