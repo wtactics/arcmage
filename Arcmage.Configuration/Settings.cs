@@ -64,7 +64,10 @@ namespace Arcmage.Configuration
         public string InkscapeUser { get; set; }
 
         public string InkscapePassword { get; set; }
-        
+
+        public string InkscapeExe { get; set; }
+
+
         public string GameRuntimePath { get; set; }
 
         public string GameRuntimeUser { get; set; }

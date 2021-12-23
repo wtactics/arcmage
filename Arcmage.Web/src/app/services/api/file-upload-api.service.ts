@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpEvent, HttpRequest, HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Routes } from "src/app/models/routes";
-import { Configuration } from "../global/Configuration";
-import { ConfigurationService } from "../global/config.service";
+import { Configuration } from "src/app/services/global/configuration";
+import { ConfigurationService } from "src/app/services/global/config.service";
 
 @Injectable()
 export class FileUploadApiService {

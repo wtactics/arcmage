@@ -13,11 +13,14 @@ namespace Arcmage.Server.Api.Layout
 
         public static void ExportPng(string inputfile, string outputfile, int dpi = 600, int width = 1535)
         {
+            // Use inkscape command from setting's or fall back to the default windows location (for backward compatibility)
+            var inkscapeExe = Settings.Current.InkscapeExe ?? InkscapeExe;
+
             try
             {
                 var args = string.Format(InkscapePngArgs, inputfile, outputfile, dpi, width);
 
-                var processStartInfo = new ProcessStartInfo(InkscapeExe, args);
+                var processStartInfo = new ProcessStartInfo(inkscapeExe, args);
                 processStartInfo.RedirectStandardInput = false;
                 processStartInfo.UseShellExecute = false;
                 processStartInfo.CreateNoWindow = true;

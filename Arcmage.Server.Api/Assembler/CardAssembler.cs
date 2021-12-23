@@ -45,7 +45,7 @@ namespace Arcmage.Server.Api.Assembler
 
             result.Svg = $"/api/Cards/{cardModel.Guid}/export?format=Svg&modified={result.LastModifiedTime.Value.Ticks}";
             result.Png = $"/api/Cards/{cardModel.Guid}/export?format=Png&modified={result.LastModifiedTime.Value.Ticks}";
-            result.Jpeg = $"/Arcmage/Cards/{cardModel.Guid}/card.jpg";
+            result.Jpeg = $"/arcmage/Cards/{cardModel.Guid}/card.jpg";
             result.Pdf = $"/api/Cards/{cardModel.Guid}/export?format=Pdf&modified={result.LastModifiedTime.Value.Ticks}";
 
             result.BackPng = $"/api/Cards/{cardModel.Guid}/export?format=BackPng";

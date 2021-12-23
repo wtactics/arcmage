@@ -24,7 +24,7 @@ namespace Arcmage.Server.Api.Assembler
             result.SyncBase(deckModel, true, true);
 
             result.Zip = $"/api/Decks/{deckModel.Guid}/export?format=Zip&modified={result.LastModifiedTime.Value.Ticks}";
-            result.Txt = $"/Arcmage/Decks/{deckModel.Guid}/deck.txt";
+            result.Txt = $"/arcmage/Decks/{deckModel.Guid}/deck.txt";
             result.IsAvailable = File.Exists(Repository.GetDeckFile(deckModel.Guid));
             result.ExportTiles = deckModel.ExportTiles;
             result.GeneratePdf = deckModel.GeneratePdf;
