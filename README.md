@@ -44,50 +44,92 @@ tools
 * DeckTranslator : A tool that copies cards from one language to a new language for a given deck. It marks the cards as work in progress and copies the artwork, fills in the cards' translated Subtype, Info, ...
 * ProductGenerator : A tool that exports cards/decks in a woocommerce compliant file so that it can be imported in our webshop.
 
-Build and Installation
-======================
+Build and hosting on windows
+============================
 
-Build requiremenst
+Build requirements
 ------------------
 
-- .NET 5
-- ef core tools 3.1
-- Visual Studio 2019 Community Edition (or above)
-- Visual Studio Code
-- nodejs
-- inkscape 0.91 or above, see https://inkscape.org/
-- SQL Server Express (or any database with support for entity framework core, e.g. MySQL)
+- .NET 5 sdk or above, see https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+- .ASP.NET Core Runtime 5 or above, see https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+- ef core tools, see https://docs.microsoft.com/en-us/ef/core/cli/dotnet
+- Visual Studio 2019 Community Edition (or above),see https://visualstudio.microsoft.com/vs/community/
+- Visual Studio Code, see https://code.visualstudio.com/
+- nodejs, see https://nodejs.org/en/download/
+- inkscape 0.91, 1.0.2 or above, see https://inkscape.org/
+- SQL Server Express 2019 or above (or any database with support for entity framework core, e.g. MySQL), see https://www.microsoft.com/nl-be/sql-server/sql-server-downloads
+- git, see https://git-scm.com/downloads
 
-Althoug the development stack is windows based, it should be possible to build on linux as well using the 'dotnet build' command,
-also it should be possible to configure the Arcmage.DAL project and ef core to use the MySQL provider or any other provider listed here https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli
+Check inkscape install
+----------------------
+
+* open a command prompt and navigate to C:\Program Files\Inkscape
+* run 'inkscape.exe -V' to see the inkscape version en remember the version
+
+Getting the code
+----------------
+
+* open a command prompt and navigate to a desired checkout location
+* use 'git clone https://github.com/wtactics/arcmage.git' to get the code
+
+Configuring the applications settings
+-------------------------------------
+
+A sample application settings file looks like
+
+```
+{
+  "App": {
+    "ArcmageConnectionString": "Server=localhost;Database=Arcmage;User Id=<db-user>;Password=<db-password>",
+    "RepositoryRootPah": "wwwroot",
+    "TokenEncryptionKey": "<your 20 char token>",
+    "PortalUrl": "http://localhost:5000",
+    "ApiUrl": "http://localhost:5000",
+    "ApiListenUrls": "http://*:5000",
+    "InkscapeExe": "<path-to-inkscape-executable>",
+    "InkscapeVersion": "1.0.2",
+    "GameApiUrl": "http://localhost:5090",
+    "GameApiListenUrls": "http://*:5090",
+    "SendGridApiKey": ""
+  }
+}
+```
+
+Edit ***both*** the Acrmage.Game.Api\appsettings.json and Arcmage.Server.Api\appsettings.json files
+   * Update the Arcmage connection strings to point to your database provider
+   * Update the TokenEncryptionKey with your own custom generated 20 char key, to encrypt login tokens
+   * Update the InkscapeExe path to 'C:\Program Files\Inkscape\inkscape.exe' 
+   * Update the InkscapeVersion to '1.0.2' (or leave empty to use the 0.9.x command line syntax)
+   * Update the SendGridApiKey to use sendgrid to validate signup registrations, or leave empty
+
+In case you need to run the inkscape export process with elevated permissions or under a certain system user (windows only)
+   * Update the ForceInkscapeUserImpersonate
+   * Fill in InkscapeUser 
+   * Fill in InkscapePassword
+
+Advanced settings  (see Arcmage.Configuration/Settings.cs for all options)
+
+   * The game runtime can be run stand alone or the api can start/stop the game runtime on request
+   * The api can host the matrix matchmaking bot (arcbot)
 
 Building and run the api
 ------------------------
 
-Before you starts, make sure you've installed inkscape, and add it to your system variables! 
-* Check if you can run 'inkscape' in a command prompt
-* In case you need to run the inkscape export process with elevated permissions or under a certain system user 
-   * Edit Arcmage.Server.Api\appsettings.json and enable ForceInkscapeUserImpersonate and fill in InkscapeUser and InkscapePassword
-
-1. Clone the repository and open the Arcmage.sln solution in Visual Studio
-2. Edit ***both*** the Acrmage.Game.Api\appsettings.json and Arcmage.Server.Api\appsettings.json files
-   * Update the HangFire and Arcmage connection strings to point to your database provider
-   * Update the TokenEncryptionKey with your own custom generated 20 char key
-3. Build the solution
+1. Build the solution
    * The first time build will fetch all the required nuget packages
-4. Open a command line at the Arcmage.DAL folder and run 'dotnet ef database update'
+2. Open a command line at the Arcmage.DAL folder and run 'dotnet ef database update'
    * This will create the an empty database with the correct tables
-5. Set Arcmage.Server.Api as startup project and run (use the project launch, not IIS Express)
+3. Set Arcmage.Server.Api as startup project and run (use the project launch, not IIS Express)
 
 Seeding the database
 --------------------
 
 1. Edit Acrmage.Seed\appsettings.cs and update the ServiceUser fields with your user name, email and password.
    * This will be the default admin user
-
 2. Run the Arcmage.Seed 
    * In Visual Studio, right click the Arcmage.Seed > Debug > Start New Instance
    * Or use the alternative 'dotnet run' command to start the Arcmage.Seed program
+3. Remove the  ServiceUser fields (no longer needed)
 
 Settings tip for contributers
 -----------------------------
@@ -116,6 +158,123 @@ The game api is a standalone dotnet core app, using signalR hubs to allow browse
 While the Arcmage.Server.Api is running, start the Arcmage.Game.Api as well 
 * In Visual Studio, right click the Arcmage.Game.Api > Debug > Start New Instance
 * Or use the alternative 'dotnet run' command to start the Arcmage.Game.Api program
+
+Build and hosting on linux (ubuntu 21.10 / debian 11)
+=====================================================
+
+Build requirements
+------------------
+
+* .NET 5 sdk or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+* .ASP.NET Core Runtime 5 or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
+* ef core tools, see https://docs.microsoft.com/en-us/ef/core/cli/dotnet
+* Visual Studio Code, see https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
+* nodejs, see https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+* npm, see https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+* inkscape 0.91, 1.0.2 or above, see https://inkscape.org/release/inkscape-1.0/gnulinux/ubuntu/ppa/dl/
+* SQL Server Express 2019 or above (or any database with support for entity framework core, e.g. MySQL), see https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-ver15
+* git, see https://git-scm.com/download/linux
+
+optionally install sqlpackage, 
+ * see https://docs.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download?view=sql-server-ver15#get-sqlpackage-net-core-for-linux
+ * allows you to import/export to/from .bacpac database backup files
+
+Check inkscape install
+----------------------
+
+* open a shell
+* run '/bin/inkscape -V' to see the inkscape version en remember the version
+
+Getting the code
+----------------
+
+* open a shell and navigate to a desired checkout location
+* use 'git clone https://github.com/wtactics/arcmage.git' to get the code
+
+Configuring the applications settings
+-------------------------------------
+
+A sample application settings file looks like
+
+```
+{
+  "App": {
+    "ArcmageConnectionString": "Server=localhost;Database=Arcmage;User Id=<db-user>;Password=<db-password>",
+    "RepositoryRootPah": "wwwroot",
+    "TokenEncryptionKey": "<your 20 char token>",
+    "PortalUrl": "http://localhost:5000",
+    "ApiUrl": "http://localhost:5000",
+    "ApiListenUrls": "http://*:5000",
+    "InkscapeExe": "<path-to-inkscape-executable>",
+    "InkscapeVersion": "1.0.2",
+    "GameApiUrl": "http://localhost:5090",
+    "GameApiListenUrls": "http://*:5090",
+    "SendGridApiKey": ""
+  }
+}
+```
+
+Edit ***both*** the Acrmage.Game.Api\appsettings.json and Arcmage.Server.Api\appsettings.json files
+   * Update the Arcmage connection strings to point to your database provider
+   * Update the TokenEncryptionKey with your own custom generated 20 char key, to encrypt login tokens
+   * Update the InkscapeExe path to '/bin/inkscape' 
+   * Update the InkscapeVersion to '1.0.2' (or leave empty to use the 0.9.x command line syntax)
+   * Update the SendGridApiKey to use sendgrid to validate signup registrations, or leave empty
+
+Advanced settings  (see Arcmage.Configuration/Settings.cs for all options)
+
+   * The game runtime can be run stand alone or the api can start/stop the game runtime on request
+   * The api can host the matrix matchmaking bot (arcbot)
+
+Building and run the api
+------------------------
+
+0. open a shell
+1. navigate to the checkout location and run 'dotnet build Arcmage.sln'
+   * The first time build will fetch all the required nuget packages
+2. navigate to the Arcmage.DAL folder and run 'dotnet ef database update'
+   * This will create the an empty database with the correct tables
+3. navigate to the Arcmage.Server.Api folder and run 'dotnet ./bin/Debug/net5.0/Arcmage.Server.Api.dll'
+
+Seeding the database
+--------------------
+
+While the api is running
+
+0. Edit Acrmage.Seed\appsettings.cs and update the ServiceUser fields with your user name, email and password.
+   * This will be the default admin user
+1. open a shell
+2. navigate the Arcmage.Seed folder and run 'dotnet ./bin/Debug/net5.0/Arcmage.Seed.dll'
+3. Remove the  ServiceUser fields (no longer needed)
+
+Settings tip for contributers
+-----------------------------
+
+If you'd like to contribute the code base, but keep your settings from being committed, use alternative 'appsettings_development.json' files instead.
+(You can still leave the appsettings.json files as is)
+
+Building the angular webapp
+---------------------------
+
+1. open the Arcmage.Web folder in Visual Studio Code 
+2. open a new terminal
+3. run 'npm install'
+    * This will fetch all required npm packages
+4. run 'npm run buildlinux'
+    * This will build the angular app (and game vue js app) and output it in the './dist' folder
+	* A post build script will copy the './dist' contents to Arcmage.Server.Api/wwwroot (this is done so we can host the web apps and the server api in a single Kestrel web server)
+	
+While the Arcmage.Server.API is actice browse to http://localhost:5000
+
+Running the game api
+--------------------
+
+The game api is a standalone dotnet core app, using signalR hubs to allow browser to browser communication for the online game.
+
+While the Arcmage.Server.Api is running, start the Arcmage.Game.Api as well 
+1. open a shell
+2. navigate the Arcmage.Game.Api folder and run 'dotnet ./bin/Debug/net5.0/Arcmage.Game.Api.dll'
+
 
 Where are the cards/decks?
 ==========================
