@@ -1,8 +1,6 @@
-
-import { Table } from "primeng/table";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
-import { Component, OnInit, ViewChild, AfterViewInit, ViewEncapsulation } from "@angular/core";
-
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { Paginator } from 'primeng/paginator';
 
 import { Card } from "src/app/models/card";
 import { CardApiService } from "src/app/services/api/card-api.service";
@@ -14,7 +12,6 @@ import { OverlayPanel } from "primeng/overlaypanel";
 import { GlobalEventsService } from "src/app/services/global/global-events.service";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import { SlickCarouselComponent } from "ngx-slick-carousel";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { Language } from "src/app/models/language";
 
@@ -23,11 +20,21 @@ import { Language } from "src/app/models/language";
   templateUrl: "./cards.component.html",
   styleUrls: ["./cards.component.scss"],
 })
-export class CardsComponent implements OnInit, AfterViewInit {
+export class CardsComponent implements OnInit {
+
+
+  @ViewChild('paginator', { static: true }) paginator: Paginator
 
   apiUri: string;
 
+  cardsSearchKey = "cards-cardSearchOptions";
+  cardsHideAdvancedSearchKey = "cards-hideAdvancedSearch";
+  
+
   loading: boolean;
+  enableLazyLoad = false;
+  numberOfRows = 30;
+  firstItem = 0;
 
   isAuthenticated = false;
   subscription: Subscription = new Subscription();
@@ -48,8 +55,6 @@ export class CardsComponent implements OnInit, AfterViewInit {
 
   selectedCard: Card;
 
-  @ViewChild("cardsTable") table: Table;
-
   constructor(private configurationService: ConfigurationService,
               private globalEventsService: GlobalEventsService,
               private cardApiService: CardApiService,
@@ -58,27 +63,33 @@ export class CardsComponent implements OnInit, AfterViewInit {
     this.slideConfig = this.configurationService.configuration.slideConfig;
   }
 
-  ngAfterViewInit(): void {
-  }
-
   ngOnInit(): void {
 
     this.newCard = new Card();
+
+    this.cardSearchOptions = new CardSearchOptions();
+    this.cardSearchOptions.pageNumber = 1;
+    this.cardSearchOptions.search = "";
+    this.cardSearchOptions.pageSize = this.numberOfRows;
+
+    this.cardSearchResult = new ResultList<Card>();
+    this.cardSearchResult.items = [];
+    this.cardSearchResult.totalItems = 0;
+    
+
 
     this.cardApiService.getOptions().subscribe(cardOptions => {
       this.cardOptions = cardOptions;
       this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
       this.languages = cardOptions.languages;
+      this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
+      this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464")   
+      this.setDefaults();
+      this.searchCards();
+      this.enableLazyLoad = true;
     });
 
-    this.cardSearchOptions = new CardSearchOptions();
-    this.cardSearchOptions.pageNumber = 1;
-    this.cardSearchOptions.search = "";
-
-    this.cardSearchResult = new ResultList<Card>();
-    this.cardSearchResult.items = [];
-    this.cardSearchResult.totalItems = 0;
-
+   
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {
         if (value !== null) {
@@ -104,6 +115,9 @@ export class CardsComponent implements OnInit, AfterViewInit {
 
   searchCards(): void {
     this.showCarousel = false;
+
+    sessionStorage.setItem(this.cardsSearchKey, JSON.stringify(this.cardSearchOptions));
+
     this.cardApiService.search$(this.cardSearchOptions).subscribe(
       (result) => {
         this.cardSearchResult.items = result.items;
@@ -117,26 +131,22 @@ export class CardsComponent implements OnInit, AfterViewInit {
   }
 
   loadData(event: LazyLoadEvent) {
-
-    if (event == null && this.table.lazy) {
-      this.cardSearchOptions.pageNumber = 1;
-      this.cardSearchOptions.pageSize = this.table.rows;
-    }
-    else{
-      this.cardSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
-      this.cardSearchOptions.pageSize = event.rows;
-
-      if (event.sortField) {
-        this.cardSearchOptions.orderBy = event.sortField;
-        this.cardSearchOptions.reverseOrder = event.sortOrder > 0;
+    if (this.enableLazyLoad) {
+      if (event != null) {
+        this.cardSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
+        this.cardSearchOptions.pageSize = event.rows;
+  
+        if (event.sortField) {
+          this.cardSearchOptions.orderBy = event.sortField;
+          this.cardSearchOptions.reverseOrder = event.sortOrder > 0;
+        }
       }
+      this.searchCards();
     }
-    this.searchCards();
   }
 
   searchClick(){
     this.cardSearchOptions.pageNumber = 1;
-    this.cardSearchOptions.pageSize = this.table.rows;
     this.searchCards();
   }
 
@@ -153,12 +163,26 @@ export class CardsComponent implements OnInit, AfterViewInit {
     this.cardSearchOptions.cost = null;
     this.cardSearchOptions.serie = null;
     this.cardSearchOptions.status = null;
-    this.cardSearchOptions.pageSize = this.table.rows;
+    this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
+    this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464")   
     this.searchCards();
+  }
+
+  setDefaults(){
+    const storedCardSearchOptions = sessionStorage.getItem(this.cardsSearchKey);
+    if (storedCardSearchOptions) {
+      this.cardSearchOptions = JSON.parse(storedCardSearchOptions) as CardSearchOptions;
+      this.firstItem = (this.cardSearchOptions.pageNumber-1) * this.cardSearchOptions.pageSize
+    }
+    const storedHideAdvancedSearch = sessionStorage.getItem(this.cardsHideAdvancedSearchKey);
+    if (storedHideAdvancedSearch) {
+      this.hideAvancedSearch = JSON.parse(storedHideAdvancedSearch) as boolean;
+    }
   }
 
   toggleAvancedSearch() {
     this.hideAvancedSearch = !this.hideAvancedSearch;
+    sessionStorage.setItem(this.cardsHideAdvancedSearchKey, JSON.stringify(this.hideAvancedSearch));
   }
 
   createCard() {

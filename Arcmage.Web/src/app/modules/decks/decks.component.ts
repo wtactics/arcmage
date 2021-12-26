@@ -1,7 +1,6 @@
 
-import { Table } from "primeng/table";
 import { LazyLoadEvent } from "primeng/api";
-import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 
 import { Deck } from "src/app/models/deck";
@@ -21,7 +20,13 @@ import { DeckOptions } from "src/app/models/deck-options ";
 })
 export class DecksComponent implements OnInit {
 
+  deckSearchKey = "decks-deckSearchOptions";
+  decksHideAdvancedSearchKey = "decks-hideAdvancedSearch";
+
   loading: boolean;
+  enableLazyLoad = false;
+  numberOfRows = 30;
+  firstItem = 0;
 
   isAuthenticated = false;
   subscription: Subscription = new Subscription();
@@ -33,8 +38,6 @@ export class DecksComponent implements OnInit {
   deckSearchOptions: DeckSearchOptions;
   hideAvancedSearch = false;
   deckOptions: DeckOptions;
-
-  @ViewChild("decksTable") table: Table;
 
   constructor(private globalEventsService: GlobalEventsService, private deckApiService: DeckApiService, private router: Router) { }
 
@@ -62,9 +65,15 @@ export class DecksComponent implements OnInit {
           this.isAuthenticated = value;
         }
       }));
+
+      this.setDefaults();
+      this.enableLazyLoad = true;
   }
 
   searchDecks(): void {
+
+    sessionStorage.setItem(this.deckSearchKey, JSON.stringify(this.deckSearchOptions));
+
     this.deckApiService.search$(this.deckSearchOptions).subscribe(
       (result) => {
         this.deckSearchResult.items = result.items;
@@ -77,12 +86,7 @@ export class DecksComponent implements OnInit {
   }
 
   loadData(event: LazyLoadEvent) {
-
-    if (event == null && this.table.lazy) {
-      this.deckSearchOptions.pageNumber = 1;
-      this.deckSearchOptions.pageSize = this.table.rows;
-    }
-    else{
+    if (this.enableLazyLoad) {
       this.deckSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
       this.deckSearchOptions.pageSize = event.rows;
 
@@ -90,13 +94,13 @@ export class DecksComponent implements OnInit {
         this.deckSearchOptions.orderBy = event.sortField;
         this.deckSearchOptions.reverseOrder = event.sortOrder > 0;
       }
+      this.searchDecks();
     }
-    this.searchDecks();
   }
 
   searchClick(){
     this.deckSearchOptions.pageNumber = 1;
-    this.deckSearchOptions.pageSize = this.table.rows;
+    this.deckSearchOptions.pageSize = this.numberOfRows;
     this.searchDecks();
   }
 
@@ -106,16 +110,30 @@ export class DecksComponent implements OnInit {
     this.showDeckCreation = true;
   }
 
-  toggleAvancedSearch() {
-    this.hideAvancedSearch = !this.hideAvancedSearch;
-  }
   clear(){
     this.deckSearchOptions.search = "";
     this.deckSearchOptions.status = null;
     this.deckSearchOptions.myDecks = false;
     this.deckSearchOptions.excludeDrafts = true;
-    this.deckSearchOptions.pageSize = this.table.rows;
+    this.deckSearchOptions.pageSize = this.numberOfRows;
     this.searchDecks();
+  }
+
+  setDefaults(){
+    const storedDeckSearchOptions = sessionStorage.getItem(this.deckSearchKey);
+    if (storedDeckSearchOptions) {
+      this.deckSearchOptions = JSON.parse(storedDeckSearchOptions) as DeckSearchOptions;
+      this.firstItem = (this.deckSearchOptions.pageNumber-1) * this.deckSearchOptions.pageSize
+    }
+    const storedHideAdvancedSearch = sessionStorage.getItem(this.decksHideAdvancedSearchKey);
+    if (storedHideAdvancedSearch) {
+      this.hideAvancedSearch = JSON.parse(storedHideAdvancedSearch) as boolean;
+    }
+  }
+
+  toggleAvancedSearch() {
+    this.hideAvancedSearch = !this.hideAvancedSearch;
+    sessionStorage.setItem(this.decksHideAdvancedSearchKey, JSON.stringify(this.hideAvancedSearch));
   }
 
   saveDeck() {

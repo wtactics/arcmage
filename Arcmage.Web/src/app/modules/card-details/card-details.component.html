@@ -51,7 +51,7 @@
     <div class="p-col-6 p-ml-3" *ngIf="!isEditMode">
         <div class="p-d-flex p-jc-between p-ai-center">
             <h1>{{card.name}}<span class="draft" *ngIf="card?.status?.name === 'Draft'" > [{{'card.field.status.draft' | translate}}]</span></h1>
-            <a role="button" [routerLink]="" queryParamsHandling="preserve" (click)="isEditMode = true">{{ "card.show-more" | translate}}</a>
+            <a role="button" [routerLink]="" queryParamsHandling="preserve" (click)="setEditMode(true)">{{ "card.show-more" | translate}}</a>
         </div>
         
 
@@ -101,7 +101,7 @@
             <div class="p-field p-grid p-ai-center">
 
                 <h1 class="p-offset-3 p-col-7">{{card.name}}<span class="draft" *ngIf="card?.status?.name === 'Draft'" > [{{'card.field.status.draft' | translate}}]</span></h1>
-                <a class="p-col-2" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="isEditMode = false">{{ "card.show-less" | translate}}</a>
+                <a class="p-col-2" role="button" [routerLink]="" queryParamsHandling="preserve" (click)="setEditMode(false)">{{ "card.show-less" | translate}}</a>
             </div>
         </div>
         

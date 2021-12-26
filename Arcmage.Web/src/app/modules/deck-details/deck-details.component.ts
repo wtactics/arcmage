@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Table } from "primeng/table";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
@@ -31,6 +31,9 @@ export class DeckDetailsComponent implements OnInit {
 
   loading: boolean;
   saving: boolean;
+  enableLazyLoad = false;
+  numberOfRows = 30;
+  firstItem = 0;
 
   deck: Deck;
 
@@ -39,15 +42,13 @@ export class DeckDetailsComponent implements OnInit {
   cardOptions: CardOptions;
   loyalties: SelectItem[];
   languages: Language[];
-  hideAvancedSearch = true;
+  hideAvancedSearch = false;
 
   selectedCard: Card;
 
   deckOptions: DeckOptions;
 
   deckGenerationPoll: Subscription;
-
-  @ViewChild("cardsTable") table: Table;
 
   slideConfig: any;
 
@@ -81,6 +82,8 @@ export class DeckDetailsComponent implements OnInit {
       this.cardOptions = cardOptions;
       this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
       this.languages = cardOptions.languages;
+      this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
+      this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464");
     });
 
     this.cardSearchOptions = new CardSearchOptions();
@@ -121,11 +124,7 @@ export class DeckDetailsComponent implements OnInit {
 
   loadData(event: LazyLoadEvent) {
 
-    if (event == null && this.table.lazy) {
-      this.cardSearchOptions.pageNumber = 1;
-      this.cardSearchOptions.pageSize = this.table.rows;
-    }
-    else{
+    if (this.enableLazyLoad) {
       this.cardSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
       this.cardSearchOptions.pageSize = event.rows;
 
@@ -133,13 +132,14 @@ export class DeckDetailsComponent implements OnInit {
         this.cardSearchOptions.orderBy = event.sortField;
         this.cardSearchOptions.reverseOrder = event.sortOrder > 0;
       }
+      this.searchCards();
     }
-    this.searchCards();
   }
 
   searchClick(){
+    this.enableLazyLoad = true;
     this.cardSearchOptions.pageNumber = 1;
-    this.cardSearchOptions.pageSize = this.table.rows;
+    this.cardSearchOptions.pageSize = this.numberOfRows;
     this.searchCards();
   }
 
@@ -156,7 +156,9 @@ export class DeckDetailsComponent implements OnInit {
     this.cardSearchOptions.cost = null;
     this.cardSearchOptions.serie = null;
     this.cardSearchOptions.status = null;
-    this.cardSearchOptions.pageSize = this.table.rows;
+    this.cardSearchOptions.pageSize = this.numberOfRows;
+    this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
+    this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464");
     this.searchCards();
   }
 

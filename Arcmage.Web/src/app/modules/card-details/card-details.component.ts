@@ -27,6 +27,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   apiUri: string;
 
   isEditMode = false;
+  isEditModeKey = "card-details-isEditMode";
 
   card: Card;
   cardOptions: CardOptions;
@@ -94,6 +95,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
                 },
                 error => { this.loading = false; }
               );
+              this.setDefaults();
             },
             error => { this.loading = false; }
           );
@@ -106,6 +108,18 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   searchLanguages(event) {
     this.languages = this.cardOptions.languages.filter(x => x.name.startsWith(event.query));
+  }
+
+  setEditMode(editMode: boolean) {
+    this.isEditMode = editMode;
+    sessionStorage.setItem(this.isEditModeKey, JSON.stringify(this.isEditMode));
+  }
+
+  setDefaults(){
+    const storedIsEditMode = sessionStorage.getItem(this.isEditModeKey);
+    if (storedIsEditMode) {
+      this.isEditMode = JSON.parse(storedIsEditMode) as boolean;
+    }
   }
 
   saveCard(forceGeneration: boolean = false) {

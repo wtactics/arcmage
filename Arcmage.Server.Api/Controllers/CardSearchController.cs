@@ -112,6 +112,7 @@ namespace Arcmage.Server.Api.Controllers
                 }
 
                 searchOptionsBase.PageSize = Math.Min(50, searchOptionsBase.PageSize);
+                searchOptionsBase.PageSize = Math.Max(10, searchOptionsBase.PageSize);
                 var query = await dbResult.Skip((searchOptionsBase.PageNumber - 1) * searchOptionsBase.PageSize).Take(searchOptionsBase.PageSize).ToListAsync();
                 var result = new ResultList<Card>(query.Select(x => x.FromDal()).ToList()) { TotalItems = totalCount, SearchOptions = searchOptionsBase };
                 return Ok(result);
