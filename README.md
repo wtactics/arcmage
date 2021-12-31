@@ -159,11 +159,11 @@ While the Arcmage.Server.Api is running, start the Arcmage.Game.Api as well
 * In Visual Studio, right click the Arcmage.Game.Api > Debug > Start New Instance
 * Or use the alternative 'dotnet run' command to start the Arcmage.Game.Api program
 
-Build and hosting on linux (ubuntu 21.10 / debian 11)
-=====================================================
+Build and hosting on linux
+==========================
 
-Build requirements
-------------------
+Build requirements for ubuntu 21.10
+-----------------------------------
 
 * .NET 5 sdk or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
 * .ASP.NET Core Runtime 5 or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu
@@ -178,6 +178,26 @@ Build requirements
 optionally install sqlpackage, 
  * see https://docs.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download?view=sql-server-ver15#get-sqlpackage-net-core-for-linux
  * allows you to import/export to/from .bacpac database backup files
+
+
+Build requirements for debian 11
+--------------------------------
+
+* .NET 5 sdk or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-debian
+* .ASP.NET Core Runtime 5 or above, see https://docs.microsoft.com/en-us/dotnet/core/install/linux-debian
+* ef core tools, see https://docs.microsoft.com/en-us/ef/core/cli/dotnet
+* Visual Studio Code, see https://code.visualstudio.com/docs/setup/linux#_debian-and-ubuntu-based-distributions
+* nodejs, see https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+* npm, see https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-debian-10
+* inkscape 0.91, 1.0.2 or above, see https://wiki.inkscape.org/wiki/Installing_Inkscape
+* SQL Server Express 2019 or above (or any database with support for entity framework core, e.g. MySQL), see https://docs.microsoft.com/en-us/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-ver15
+* git, see https://git-scm.com/download/linux
+
+optionally install sqlpackage, 
+ * see https://docs.microsoft.com/en-us/sql/tools/sqlpackage/sqlpackage-download?view=sql-server-ver15#get-sqlpackage-net-core-for-linux
+ * allows you to import/export to/from .bacpac database backup files
+
+
 
 Check inkscape install
 ----------------------
