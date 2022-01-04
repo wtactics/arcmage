@@ -34,11 +34,13 @@ export class Card extends Base {
     svg: string;
     png: string;
     jpeg: string;
+    webp: string;
     pdf: string;
     backSvg: string;
     backPng: string;
     backJpeg: string;
     backPdf: string;
+    backWebp: string;
     isGenerated: boolean;
     backgroundPng: string;
     overlaySvg: string;

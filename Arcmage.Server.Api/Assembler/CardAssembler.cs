@@ -46,12 +46,14 @@ namespace Arcmage.Server.Api.Assembler
             result.Svg = $"/api/Cards/{cardModel.Guid}/export?format=Svg&modified={result.LastModifiedTime.Value.Ticks}";
             result.Png = $"/api/Cards/{cardModel.Guid}/export?format=Png&modified={result.LastModifiedTime.Value.Ticks}";
             result.Jpeg = $"/arcmage/Cards/{cardModel.Guid}/card.jpg";
+            result.Webp = $"/arcmage/Cards/{cardModel.Guid}/card.webp";
             result.Pdf = $"/api/Cards/{cardModel.Guid}/export?format=Pdf&modified={result.LastModifiedTime.Value.Ticks}";
 
             result.BackPng = $"/api/Cards/{cardModel.Guid}/export?format=BackPng";
             result.BackJpeg = $"/api/Cards/{cardModel.Guid}/export?format=BackJpeg";
             result.BackPdf = $"/api/Cards/{cardModel.Guid}/export?format=BackPdf";
             result.BackSvg = $"/api/Cards/{cardModel.Guid}/export?format=BackSvg";
+            result.BackWebp = $"/api/Cards/{cardModel.Guid}/export?format=BackWebp";
 
             result.OverlaySvg = $"/api/Cards/{cardModel.Guid}/export?format=OverlaySvg&modified={result.LastModifiedTime.Value.Ticks}";
             // background only changes when type or faction changes

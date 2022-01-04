@@ -372,7 +372,7 @@ namespace Arcmage.Game.Api.GameRuntime
                         var c = new GameCard()
                         {
                             Name = deckCard.Card.Name,
-                            Url = $"/Arcmage/Cards/{deckCard.Card.Guid}/card.jpg",
+                            Url = $"/Arcmage/Cards/{deckCard.Card.Guid}/card.webp",
                             IsFaceDown = true,
                             IsDraggable = true,
                             CounterA = 0,

@@ -8,7 +8,7 @@
   <div class="p-my-2">
     <ngx-slick-carousel *ngIf="showCarousel" class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
       <div ngxSlickItem *ngFor="let card of cardSearchResult.items" class="slide">
-        <img src="{{apiUri + card.jpeg}}"  style="max-width: 95%" draggable="false" *ngIf="card"/>
+        <img src="{{apiUri + card.webp}}"  style="max-width: 95%" draggable="false" *ngIf="card"/>
       </div>
     </ngx-slick-carousel>
   </div>
@@ -120,7 +120,7 @@
   </p-table>
 
   <p-overlayPanel #cardOverlayPanel>
-    <img src="{{apiUri + selectedCard.jpeg}}" *ngIf="selectedCard" height="350px"/>
+    <img src="{{apiUri + selectedCard.webp}}" *ngIf="selectedCard" height="350px"/>
   </p-overlayPanel>
 
   <p-sidebar [(visible)]="showCardCreation" position="right" styleClass="p-sidebar-md">

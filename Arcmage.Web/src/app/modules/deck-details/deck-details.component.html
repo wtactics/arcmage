@@ -7,7 +7,7 @@
         <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
             <div ngxSlickItem *ngFor="let deckCard of deck.deckCards" class="slide">
                 <div class="overlaycontainer">
-                    <img  severity="success" src="{{apiUri + deckCard.card.jpeg}}"  style="max-width: 95%" draggable="false" *ngIf="deck.deckCards"/>
+                    <img  severity="success" src="{{apiUri + deckCard.card.webp}}"  style="max-width: 95%" draggable="false" *ngIf="deck.deckCards"/>
                     <p-badge [value]="deckCard.quantity" size="xlarge" severity="info" class="overlaynumber" ></p-badge>
                 </div> 
             </div>
@@ -201,7 +201,7 @@
     </div>
 
     <p-overlayPanel #cardOverlayPanel>
-        <img src="{{apiUri + selectedCard.jpeg}}" *ngIf="selectedCard" height="350px"/>
+        <img src="{{apiUri + selectedCard.webp}}" *ngIf="selectedCard" height="350px"/>
     </p-overlayPanel>
 
     <p-sidebar [(visible)]="showDeckSettings" position="right" styleClass="p-sidebar-md">

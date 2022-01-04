@@ -61,8 +61,10 @@
 
         public string Pdf { get; set; }
 
+        public string Webp { get; set; }
+
         //
-        
+
         public string BackSvg { get; set; }
 
         public string BackPng { get; set; }
@@ -70,6 +72,8 @@
         public string BackJpeg { get; set; }
 
         public string BackPdf { get; set; }
+
+        public string BackWebp { get; set; }
 
 
         public bool IsGenerated { get; set; }

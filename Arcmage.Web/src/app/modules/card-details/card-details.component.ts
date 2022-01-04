@@ -62,7 +62,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.card = new Card();
     this.card.name = "";
-    this.card.jpeg = "";
+    this.card.webp = "";
 
   }
 
