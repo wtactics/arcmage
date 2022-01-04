@@ -149,6 +149,20 @@ namespace Arcmage.Server.Api.Controllers
                     cardPath = Repository.GetJpegFile(id);
 
                     break;
+                case ExportFormat.Webp:
+                    using (var repository = new Repository())
+                    {
+                        var result = await repository.Context.Cards.FindByGuidAsync(id);
+                        if (!string.IsNullOrEmpty(result.PngCreationJobId))
+                        {
+                            // still busy creating png
+                            return NotFound();
+                        }
+                    }
+                    mediaType = "image/webp";
+                    cardPath = Repository.GetWebpFile(id);
+
+                    break;
                 case ExportFormat.Pdf:
                     using (var repository = new Repository())
                     {
@@ -185,6 +199,10 @@ namespace Arcmage.Server.Api.Controllers
                 case ExportFormat.BackJpeg:
                     mediaType = "image/jpeg";
                     cardPath = Repository.GetBackJpegFile();
+                    break;
+                case ExportFormat.BackWebp:
+                    mediaType = "image/webp";
+                    cardPath = Repository.GetBackWebpFile();
                     break;
                 case ExportFormat.BackPdf:
                     mediaType = "application/pdf";

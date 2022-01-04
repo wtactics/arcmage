@@ -160,6 +160,11 @@ namespace Arcmage.DAL
             return Path.Combine(GetCardPath(cardGuid), "card.jpg");
         }
 
+        public static string GetWebpFile(Guid cardGuid)
+        {
+            return Path.Combine(GetCardPath(cardGuid), "card.webp");
+        }
+
         public static string GetSvgFile(Guid cardGuid)
         {
             return Path.Combine(GetCardPath(cardGuid), "card.svg");
@@ -175,6 +180,12 @@ namespace Arcmage.DAL
         {
             return Path.Combine(TemplatesPath, "back.jpeg");
         }
+
+        public static string GetBackWebpFile()
+        {
+            return Path.Combine(TemplatesPath, "back.webp");
+        }
+        
 
         public static string GetBackSvgFile()
         {

@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="itext7" Version="7.1.14" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.23.2.1" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
     <PackageReference Include="SendGrid" Version="9.22.0" />

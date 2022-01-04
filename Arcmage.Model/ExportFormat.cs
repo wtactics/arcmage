@@ -7,9 +7,11 @@
         Png,
         Jpeg,
         Svg,
+        Webp,
 
         BackPng,
         BackJpeg,
+        BackWebp,
         BackPdf,
         BackSvg,
 

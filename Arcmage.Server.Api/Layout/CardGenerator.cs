@@ -9,6 +9,7 @@ using Arcmage.DAL.Utils;
 using Arcmage.Layout.InputConvertor;
 using Arcmage.Model;
 using ImageMagick;
+using ImageMagick.Formats;
 using iText.Kernel.Font;
 using Newtonsoft.Json;
 
@@ -42,6 +43,11 @@ namespace Arcmage.Server.Api.Layout
                     image.Scale(320, 454);
                     // You're done. Save it.
                     image.Write(Repository.GetJpegFile(cardGuid));
+                }
+
+                using (MagickImage image = new MagickImage(Repository.GetPngFile(cardGuid)))
+                {
+                    image.Write(Repository.GetWebpFile(cardGuid));
                 }
 
                 var border = Repository.GetPrintBorderFile(faction, type, "png");
