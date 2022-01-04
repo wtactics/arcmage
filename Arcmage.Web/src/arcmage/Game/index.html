@@ -150,7 +150,7 @@
         <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
         <template v-for="(index, card) in opponent.graveyard">
             <img class="card"
-                 v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                 v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="opponent-graveyard-{{card.cardId}}"
                  :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
@@ -202,7 +202,7 @@
     <div id="opponentDeck">
         <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
         <template v-for="(index, card) in opponent.deck">
-            <img class="card" v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+            <img class="card" v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="opponent-deck-{{card.cardId}}"
                  :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
@@ -322,7 +322,7 @@
         <!-- Template for a card in the deck. The cards have a litle offset so they appear to be stacked -->
         <template v-for="(index, card) in player.deck">
             <img class="card"
-                 v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                 v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="player-deck-{{card.cardId}}"
                  :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
@@ -375,7 +375,7 @@
         <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
         <template v-for="(index, card) in player.graveyard">
             <img class="card"
-                 v-bind:src="card.isFaceDown? 'back.png' : card.imageSrc"
+                 v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="player-graveyard-{{card.cardId}}"
                  :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
@@ -409,7 +409,7 @@
                  v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'hand', item: card, isDraggable: card.isDraggable,  top: card.top, left: card.left} ">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <img src="back.png" />
+                        <img src="back.webp" />
                     </div>
                     <div class="flip-card-back">
                         <img v-bind:src="card.imageSrc" />
@@ -582,7 +582,7 @@
 
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <img src="back.png" />
+                    <img src="back.webp" />
                 </div>
                 <div class="flip-card-back">
                     <img v-bind:src="card.imageSrc" />
@@ -628,7 +628,7 @@
              v-draggable="{ fromPlayerGuid: opponent.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
-                    <img src="back.png" />
+                    <img src="back.webp" />
                 </div>
                 <div class="flip-card-back">
                     <img v-bind:src="card.imageSrc" />
@@ -715,7 +715,7 @@
                      v-on:mouseout="this.$parent.hidePreview(card)">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
-                            <img src="back.png" />
+                            <img src="back.webp" />
                         </div>
                         <div class="flip-card-back">
                             <img v-bind:src="card.imageSrc" />
