@@ -326,7 +326,7 @@ namespace Arcmage.Game.Api.GameRuntime
             if (player == null && Game.CanJoin)
             {
                 var playernumber = Game.Players.Count() + 1;
-                var avatar = playernumber == 1 ? "player.png" : "opponent.png";
+                var avatar = playernumber == 1 ? "player.webp" : "opponent.webp";
                 player = new GamePlayer()
                 {
                     PlayerGuid = playerGuid,
