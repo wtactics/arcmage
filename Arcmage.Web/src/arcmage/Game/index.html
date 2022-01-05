@@ -575,12 +575,12 @@
              v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
              v-on:mouseover="this.$parent.showPreview(card)"
              v-on:mouseout="this.$parent.hidePreview(card)"
-             v-on:mousedown="this.$parent.peekCard($event, card)"
+             v-on:mousedown="this.$parent.pointOrPeekCard($event, card)"
              v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
              v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }">
 
 
-            <div class="flip-card-inner">
+            <div class="flip-card-inner" v-bind:class="{ 'pointed' : card.isPointed }">
                 <div class="flip-card-front">
                     <img src="back.webp" />
                 </div>
@@ -623,10 +623,10 @@
              v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
              v-on:mouseover="this.$parent.showPreview(card)"
              v-on:mouseout="this.$parent.hidePreview(card)"
-             v-on:mousedown="this.$parent.peekCard($event, card)"
+             v-on:mousedown="this.$parent.pointOrPeekCard($event, card)"
              v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
              v-draggable="{ fromPlayerGuid: opponent.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }">
-            <div class="flip-card-inner">
+            <div class="flip-card-inner" v-bind:class="{ 'pointed' : card.isPointed }">
                 <div class="flip-card-front">
                     <img src="back.webp" />
                 </div>

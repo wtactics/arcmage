@@ -812,6 +812,10 @@ body {
 	box-shadow: 0px 0px 6px 6px rgba(255,256,0,0.6);
 }
 
+.pointed {
+    animation: glowPointed 1.5s alternate !important;
+}
+
 .card:hover {
     animation: glow 1s alternate;
 }
@@ -823,6 +827,16 @@ body {
 
     to {
         box-shadow: 0px 0px 13px 13px rgba(120,220,245,1);
+    }
+}
+
+@keyframes glowPointed {
+    from {
+        box-shadow: 0px 0px 0px 0px rgb(241, 104, 25);
+    }
+
+    to {
+        box-shadow: 0px 0px 13px 13px rgb(241, 104, 25);
     }
 }
 

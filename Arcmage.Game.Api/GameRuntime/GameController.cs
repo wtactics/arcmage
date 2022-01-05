@@ -184,6 +184,7 @@ namespace Arcmage.Game.Api.GameRuntime
                 if (state.CounterA != null) card.CounterA = Math.Max(0,state.CounterA.Value);
                 if (state.CounterB != null) card.CounterB = Math.Max(0, state.CounterB.Value);
                 if (state.IsPeeking != null) card.IsPeeking = state.IsPeeking.Value;
+                if (state.IsPointed != null) card.IsPointed = state.IsPointed.Value;
 
                 if (state.Top != null && state.Left != null && includeLocation)
                 {

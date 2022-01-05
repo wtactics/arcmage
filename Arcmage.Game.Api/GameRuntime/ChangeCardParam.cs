@@ -21,5 +21,7 @@ namespace Arcmage.Game.Api.GameRuntime
         public int? CounterB { get; set; }
 
         public bool? IsPeeking { get; set; }
+
+        public bool? IsPointed { get; set; }
     }
 }

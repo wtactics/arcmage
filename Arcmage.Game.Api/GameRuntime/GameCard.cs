@@ -37,6 +37,8 @@ namespace Arcmage.Game.Api.GameRuntime
 
         public bool IsPeeking { get; set; }
 
+        public bool IsPointed { get; set; }
+
         public GameCard()
         {
             CardId = Guid.NewGuid();

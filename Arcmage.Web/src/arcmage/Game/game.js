@@ -306,7 +306,8 @@ var vue = new Vue({
                 });
             }
         },
-        peekCard: function(event, card) {
+        pointOrPeekCard: function(event, card) {
+            // peek card
             if (event.shiftKey && card.isFaceDown) {
                 this.previewImageSrc = card.imageSrc;
                 this.preview = true;
@@ -321,7 +322,36 @@ var vue = new Vue({
                         isPeeking: true,
                     }
                 });
-              
+            }
+            // point card
+            if (event.ctrlKey) {
+                card.isPointed = true;
+                // send game action point card.
+                sendGameAction({
+                    gameGuid: vue.gameGuid,
+                    playerGuid: vue.player.playerGuid,
+                    actionType: 'changeCardState',
+                    actionData: {
+                        cardId: card.cardId,
+                        isPointed: true,
+                    }
+                });
+
+                setTimeout((unPointCard) => {
+                    unPointCard.isPointed = false;
+                    // send game action point card.
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'changeCardState',
+                        actionData: {
+                            cardId: unPointCard.cardId,
+                            isPointed: false,
+                        }
+                    });
+                }, 1600, card);
+
+
             }
         },
         showPreview: function (card) {
@@ -335,6 +365,7 @@ var vue = new Vue({
         hidePreview: function (card) {
             this.preview = false;
             card.isPeeking = false;
+           // card.isPointed = false;
             sendGameAction({
                 gameGuid: vue.gameGuid,
                 playerGuid: vue.player.playerGuid,
@@ -342,6 +373,7 @@ var vue = new Vue({
                 actionData: {
                     cardId: card.cardId,
                     isPeeking: false,
+             //       isPointed: false,
                 }
             });
         },
@@ -981,7 +1013,8 @@ function createCard(card) {
         subType: card.subType,
         isCity: card.isCity,
         isToken: card.isToken,
-        isPeeking: false
+        isPeeking: false,
+        isPointed: false
     };
 }
 
@@ -1124,6 +1157,8 @@ function processChangeCardState(state, animate) {
         if (state.counterA !== undefined) card.counterA = state.counterA;
         if (state.counterB !== undefined) card.counterB = state.counterB;
         if (state.isPeeking !== undefined) card.isPeeking = state.isPeeking;
+        if (state.isPointed !== undefined) card.isPointed = state.isPointed;
+        
         if (state.top !== undefined && state.left !== undefined) {
             updateCardLocation(card, state.top, state.left, animate);
         }
