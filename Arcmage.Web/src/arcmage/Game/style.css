@@ -71,6 +71,10 @@ body {
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
+    background-image: url("logo_fade.webp");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 15%;
 }
 
 #preview{
@@ -106,7 +110,13 @@ body {
 	width: 1920px;  
 	height: 1200px;  
 	position: absolute;
+    background-image: url("field.webp");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 100% 100%;
+    background-color: floralwhite;
 }
+
 
 #battleFieldDrop {
     width: 100%;
@@ -214,7 +224,7 @@ body {
 
 
 
-#playerField{
+/* #playerField{
 	width : 1920px;
 	height: 600px;
     top: 600px;
@@ -223,7 +233,7 @@ body {
 	background-image: url("playerField2.jpg");
     background-repeat: no-repeat;
     background-position: right top;
-}
+} */
 
 #playerDeck{
 	width : 106px;
@@ -235,7 +245,7 @@ body {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("deck2.png");
+    background-image: url("deck2.webp");
 }
 
 #playerDeckActions{
@@ -493,7 +503,7 @@ body {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("graveyard.png");
+    background-image: url("graveyard.webp");
 }
 
 #playerGraveyardActions{
@@ -619,7 +629,7 @@ body {
 }
 
 
-#opponentField{
+/* #opponentField{
 	width : 1920px;
 	height: 600px;
     background: blue;
@@ -628,7 +638,7 @@ body {
     background-repeat: no-repeat;
     background-position: right top;
 	transform : scaleY(-1);
-}
+} */
 
 #opponentDeck{
 	width : 106px;
@@ -640,7 +650,7 @@ body {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("deck2.png");
+    background-image: url("deck2.webp");
 }
 
 #opponentDeckActions{
@@ -671,7 +681,7 @@ body {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("graveyard.png");
+    background-image: url("graveyard.webp");
 }
 
 #opponentResources{
@@ -875,7 +885,7 @@ body {
     border-style: solid;
     width: 10%;
     padding-top: 10%;
-    background: url('placeholder.jpg');
+    background: url('placeholder.webp');
     background-size: 100%;
     overflow: hidden;
 }
@@ -890,7 +900,7 @@ body {
     border-style: solid;
     width: 10%;
     padding-top: 10%;
-    background: url('placeholder.jpg');
+    background: url('placeholder.webp');
     background-size: 100%;
     overflow: hidden;
 }
@@ -1222,7 +1232,7 @@ body {
     background-size: 200% 100%;
     background-repeat: no-repeat;
     background-position: 0 center;
-    background-image: url("curtain.png");
+    background-image: url("curtain.webp");
 }
 .curtain__panel--right {
     -webkit-box-pack: start;
@@ -1232,7 +1242,7 @@ body {
     background-size: 200% 100%;
     background-repeat: no-repeat;
     background-position: 100% center;
-    background-image: url("curtain.jpg");
+    background-image: url("curtain.webp");
 }
 
 .curtain__closed {
