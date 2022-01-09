@@ -121,12 +121,12 @@ function perspectiveDragStart (event, ui) {
 	var minleft = (topleftX + bottomrightX)/2;
 	var maxright = (toprightX + bottomleftX)/2;
 	var centerX = Math.max(maxright,minleft);
-	left = Math.round(centerX - 106/2.0);
+	left = Math.round(centerX - sizing.card.width/2.0);
 	
 	var minbottom = (topleftY + bottomrightY) /2;
 	var maxbottom = (toprightY + bottomleftY) /2;
 	var centerY = Math.max(maxbottom, minbottom);
-	top = Math.round(centerY - 150/2.0);
+	top = Math.round(centerY - sizing.card.height/2.0);
 	
 	ui.position.left = left;
 	ui.position.top = top;
@@ -221,7 +221,7 @@ Vue.directive('draggable', {
 
 /* Region: Perspective Layout */
 
-function resizeGame() {
+function resizeGame(targetWidth, targetHeight) {
     
 	var height = Math.max(window.innerHeight, $(window).height());
 	var width =  Math.max(window.innerWidth, $(window).width());
@@ -239,11 +239,11 @@ function resizeGame() {
 	/*  left top */
 	originalPos.push([0,0]);
 	/* left bottom */
-	originalPos.push([0,1200]);
+	originalPos.push([0,targetHeight]);
 	/* right top */
-	originalPos.push([1920,0]);
+	originalPos.push([targetWidth,0]);
 	/* right bottom */
-	originalPos.push([1920,1200]);
+	originalPos.push([targetWidth,targetHeight]);
 	
 	
 	

@@ -10,21 +10,23 @@ namespace Arcmage.Game.Api.GameRuntime
 {
     public class GameController: IDisposable
     {
-        public static int BattleFieldWidth = 1920;
-        public static int BattleFieldHeight = 1200;
+        public static double Scale = 3;
 
-        public static int CenterLeft = 907;
-        public static int CenterTop = 800;
-        public static int CardWitdh = 106;
-        public static int CardHeight = 150;
-        public static int LayoutGap = 10;
+        public static double BattleFieldWidth = 1920 * Scale;
+        public static double BattleFieldHeight = 1200 * Scale;
 
-        public static int TokenStartLeft = BattleFieldWidth - CardWitdh - CardWitdh - 70;
-        public static int TokenStartTop = 850 + CardHeight + 60;
-        public static int TokenGap = 5;
+        public static double CenterLeft = 907 * Scale;
+        public static double CenterTop = 800 * Scale;
+        public static double CardWitdh = 106 * Scale;
+        public static double CardHeight = 150 * Scale;
+        public static double LayoutGap = 10 * Scale;
 
-        public static int CityStartLeft = 136;
-        public static int CityStartTop = 772;
+        public static double TokenStartLeft = (BattleFieldWidth - CardWitdh - CardWitdh - 70) * Scale;
+        public static double TokenStartTop = (850 + CardHeight + 60) * Scale;
+        public static double TokenGap = 5 * Scale;
+
+        public static double CityStartLeft = 136 * Scale;
+        public static double CityStartTop = 772 * Scale;
 
 
         // Games are cancelled after 24 hours.

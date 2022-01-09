@@ -23,25 +23,25 @@
     <h1 class="curtain__text">{{{curtainLeftText}}}</h1>
 </div>
 
-    <!--the entire content -->
+<!--the entire content -->
 <div id="content">
 
 
-
+<!-- 
 <div class="actions" id="actions">
     <div class="actionsText">
         <template v-for="(index, action) in actions" track-by="$index">
             <span class="action_item">{{action}}</span>
         </template>
     </div>
-</div>
+</div> -->
 
 
 
 <!-- Region: BattleField -->
     
 <!-- the battleField contains (on this element and it children, the perspective is applied) -->
-<div id="battleField">
+<div id="battleField" v-bind:style="{ 'background-image': 'url(' + backgroundImage + ')' }">
     <!--<div id="helper1"></div>
     <div id="helper2"></div>-->
     <!-- the battleField backgrounds -->
@@ -152,7 +152,7 @@
             <img class="card"
                  v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="opponent-graveyard-{{card.cardId}}"
-                 :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
@@ -204,7 +204,7 @@
         <template v-for="(index, card) in opponent.deck">
             <img class="card" v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="opponent-deck-{{card.cardId}}"
-                 :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
@@ -223,7 +223,7 @@
                 <div class="spinbutton" v-on:click="increaseUsedResource(opponent.playerGuid, opponent.resources.black)"></div>
                 <div class="spinbutton" v-on:click="decreaseUsedResource(opponent.playerGuid, opponent.resources.black)"></div>
             </div>
-            <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.resources.black)">
+            <div class="availableResources" v-on:wheel="availableResourceWheel($event, opponent.playerGuid, opponent.resources.black)">
                 <div class="spinbutton" v-on:click="increaseAvailableResource(opponent.playerGuid, opponent.resources.black)"></div>
                 <div class="spinbutton" v-on:click="decreaseAvailableResource(opponent.playerGuid, opponent.resources.black)"></div>
             </div>
@@ -324,7 +324,7 @@
             <img class="card"
                  v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="player-deck-{{card.cardId}}"
-                 :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3+ 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
@@ -377,7 +377,7 @@
             <img class="card"
                  v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
                  id="player-graveyard-{{card.cardId}}"
-                 :style="{ top: -0.5*index + 'px', left: 0.4*index + 'px' }"
+                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
@@ -400,7 +400,7 @@
 
             <div class="card draggable-card animatecardmove"
                  id="player-hand-{{card.cardId}}"
-                 v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : !card.isFaceDown }"
+                 v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : card.isFaceDown }"
                  v-on:dblclick="this.$parent.toggleMark(card)"
                  v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
                  v-on:mouseover="this.$parent.showPreview(card)"
@@ -409,41 +409,44 @@
                  v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'hand', item: card, isDraggable: card.isDraggable,  top: card.top, left: card.left} ">
                 <div class="flip-card-inner">
                     <div class="flip-card-front">
-                        <img src="back.webp" />
-                    </div>
-                    <div class="flip-card-back">
                         <img v-bind:src="card.imageSrc" />
                     </div>
+                    <div class="flip-card-back">
+                        <img src="back.webp" />
+                    </div>
                 </div>
-                <div class="flip-card-resources">
-                    <div class="flip-card-resource flip-card-resource-black" v-on:click="this.$parent.playResourceCard(card, 'black')">
-                        <div class="tooltip-content">
-                            <p>Convert to Dark Legion resource (black).</p>
+                <div class="after">
+                    <div class="flip-card-resources">
+                        <div class="flip-card-resource flip-card-resource-black" v-on:click="this.$parent.playResourceCard(card, 'black')">
+                            <div class="tooltip-content">
+                                <p>Convert to Dark Legion resource (black).</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flip-card-resource flip-card-resource-yellow" v-on:click="this.$parent.playResourceCard(card, 'yellow')">
-                        <div class="tooltip-content">
-                            <p>Convert to The Empire resource (yellow).</p>
+                        <div class="flip-card-resource flip-card-resource-yellow" v-on:click="this.$parent.playResourceCard(card, 'yellow')">
+                            <div class="tooltip-content">
+                                <p>Convert to The Empire resource (yellow).</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flip-card-resource flip-card-resource-green" v-on:click="this.$parent.playResourceCard(card, 'green')">
-                        <div class="tooltip-content">
-                            <p>Convert to Gaian resource (green).</p>
+                        <div class="flip-card-resource flip-card-resource-green" v-on:click="this.$parent.playResourceCard(card, 'green')">
+                            <div class="tooltip-content">
+                                <p>Convert to Gaian resource (green).</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flip-card-resource flip-card-resource-blue" v-on:click="this.$parent.playResourceCard(card, 'blue')">
-                        <div class="tooltip-content">
-                            <p>Convert to House of Noble resource (blue).</p>
+                        <div class="flip-card-resource flip-card-resource-blue" v-on:click="this.$parent.playResourceCard(card, 'blue')">
+                            <div class="tooltip-content">
+                                <p>Convert to House of Noble resource (blue).</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flip-card-resource flip-card-resource-red" v-on:click="this.$parent.playResourceCard(card, 'red')">
-                        <div class="tooltip-content">
-                            <p>Convert to Red Banner resource (red).</p>
+                        <div class="flip-card-resource flip-card-resource-red" v-on:click="this.$parent.playResourceCard(card, 'red')">
+                            <div class="tooltip-content">
+                                <p>Convert to Red Banner resource (red).</p>
+                            </div>
                         </div>
-                    </div>
+                    </div>    
                 </div>
             </div>
-
+           
+            
         </template>
     </div>
 
@@ -570,7 +573,7 @@
     <template v-for="card in player.play">
         <div class="card draggable-card animatecardmove"
              id="player-play-{{card.cardId}}"
-             v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : !card.isFaceDown }"
+             v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : card.isFaceDown }"
              v-on:dblclick="this.$parent.toggleMark(card)"
              v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
              v-on:mouseover="this.$parent.showPreview(card)"
@@ -582,10 +585,10 @@
 
             <div class="flip-card-inner" v-bind:class="{ 'pointed' : card.isPointed }">
                 <div class="flip-card-front">
-                    <img src="back.webp" />
+                    <img v-bind:src="card.imageSrc" />
                 </div>
                 <div class="flip-card-back">
-                    <img v-bind:src="card.imageSrc" />
+                    <img src="back.webp" />
                 </div>
             </div>
 
@@ -618,7 +621,7 @@
     <template v-for="card in opponent.play">
         <div class="card draggable-card animatecardmove"
              id="opponent-play-{{card.cardId}}"
-             v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : !card.isFaceDown }"
+             v-bind:class="{ 'rotate': card.isMarked, 'rotate-reset' : !card.isMarked, 'flip-card-hover' : card.isFaceDown }"
              v-on:dblclick="this.$parent.toggleMark(card)"
              v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
              v-on:mouseover="this.$parent.showPreview(card)"
@@ -628,10 +631,10 @@
              v-draggable="{ fromPlayerGuid: opponent.playerGuid, fromKind: 'play', item: card, isDraggable: card.isDraggable, top: card.top, left: card.left }">
             <div class="flip-card-inner" v-bind:class="{ 'pointed' : card.isPointed }">
                 <div class="flip-card-front">
-                    <img src="back.webp" />
+                    <img v-bind:src="card.imageSrc" />
                 </div>
                 <div class="flip-card-back">
-                    <img v-bind:src="card.imageSrc" />
+                    <img src="back.webp" />
                 </div>
             </div>
 
@@ -663,6 +666,13 @@
     <div id="opponent"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
     <div id="player"><div class="playerName"><div class="playerName-text">{{player.name}}</div></div></div>
 
+    <div id="menu">
+        <div >
+            <template v-for="(index, item) in backgrounds" track-by="$index">
+                <img :src="item.image" class="backgroundOption" @click="setBackground(item.image)" ></img>
+            </template>
+        </div>
+    </div>
 
 
     <img id="preview" v-bind:src="previewImageSrc" v-show="preview" transition="preview" />
@@ -698,15 +708,13 @@
             <div class="cardlistaction play_action" @click="cardlistPlayCard()"></div>
             <div class="cardsearch"><input id="cardsearch_input" type="text" v-model="searchValue" /></div>
         </div>
-        <div slot="body" id="cardlist" class="cardlist">
+        <div slot="body" id="cardlist">
             <template v-for="card in filteredCards">
                 <!--cardlist.cards">-->
 
-
-
                 <div class="listcard animatecardmove"
                      id="cardlist-{{card.cardId}}"
-                     v-bind:class="{ 'selected': card.isSelected, 'flip-card-hover' : !card.isFaceDown }"
+                     v-bind:class="{ 'selected': card.isSelected, 'flip-card-hover' : card.isFaceDown }"
                      v-on:dblclick="this.$parent.toggleCardListFaceDown(card)"
                      v-on:contextmenu.prevent="this.$parent.toggleCardListFaceDown(card)"
                      v-on:mousedown="this.$parent.selectFromCardList(card, $event)"
@@ -715,14 +723,12 @@
                      v-on:mouseout="this.$parent.hidePreview(card)">
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
-                            <img src="back.webp" />
-                        </div>
-                        <div class="flip-card-back">
                             <img v-bind:src="card.imageSrc" />
                         </div>
+                        <div class="flip-card-back">
+                            <img src="back.webp" />
+                        </div>
                     </div>
-
-
                 </div>
 
             </template>

@@ -4,13 +4,48 @@ const connection = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Debug)
     .build();
 
+const scale = 3;
+
+const sizing = {
+    battlefield: {
+        width: 1920 * scale,
+        height: 1200 * scale,
+    },
+    card: {
+        width: 106 * scale,
+        height: 150 * scale,
+    },
+    snap: {
+        gapX: 30 * scale,
+        gapY: 50 * scale
+    },
+    autoResourceGap: 10 * scale,
+    playerDeck: { top: 640 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale },
+    playerGraveyard: { top: 850 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale },
+    opponentDeck: { top: 410 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale },
+    opponentGraveyard: { top: 200 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale},
+    opponentHand: { top: 0 * scale, left: 800 * scale, width:320 * scale, height: 50 * scale },
+    playerHand: { top: 1105 * scale, left: 380 * scale, width: 1160 * scale, height: 95 * scale }
+}
+
 /* The vue app, containing the visualisation, and the ui actions */
 var vue = new Vue({
     el: '#arcmagegame',
     data: {
+        backgroundImage: 'field.webp',
+        backgrounds: [
+            {
+                image: 'field9.webp'
+            },
+            {
+                image: 'field10.webp'
+            },
+            {
+                image: 'field.webp'
+            }
+        ],
+        sacle: scale,
         useGrid: false,
-        gapY: 50,
-        gapX: 30,
         highlightPlayerHand: false,
         curtainLeftText: 'Waiting for your opponent&nbsp;',
         curtainRightText: 'to step into the arena...',
@@ -112,15 +147,10 @@ var vue = new Vue({
                 }
             });
         // Apply the layouting (matrix-3d transform, position victory point sliders)
-        $(window).on('resize', function(e) { resizeGame(); }, 1000).resize();
+        $(window).on('resize', function(e) { resizeGame(sizing.battlefield.width, sizing.battlefield.height); }, 1000).resize();
         // Set up the droppable regions on the battlefield
         setupDropRegions();
-        var i;
-        for (i = 0; i < 90; i++) {
-            this.actions.splice(0, 0, 'test ' + i);
-        }
-
-
+      
         // Start the game's BL
         $(init);
     },
@@ -161,6 +191,9 @@ var vue = new Vue({
                     }
                 });
             }
+        },
+        setBackground: function(image) {
+            vue.backgroundImage = image;
         },
         openVideo: function() {
            // window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
@@ -486,8 +519,8 @@ var vue = new Vue({
                 vue.player.resources.green.available +
                 vue.player.resources.yellow.available;
 
-            var top = 1200 - 10 - 150 - 3 * totalResources;
-            var left = 10 + 3 * totalResources;
+            var top = sizing.battlefield.height - sizing.autoResourceGap - sizing.card.height - 3 * totalResources;
+            var left = sizing.autoResourceGap + 3 * totalResources;
 
             sendGameAction({
                 gameGuid: vue.gameGuid,
@@ -604,11 +637,7 @@ var vue = new Vue({
                 start: function (event, ui) {
                     vue.cardlist.oldIndex = ui.item.index();
                 },
-                //update: function (event, ui) {
-                //    var newIndex = ui.item.index();
-                //    vue.swapCards(vue.cardlist.cards, vue.cardlist.oldIndex, newIndex);
-                //    vue.cardlist.oldIndex = newIndex;
-                //},
+              
                 stop: function (event, ui) {
                     var newIndex = ui.item.index();
                     vue.swapCards(vue.cardlist.cards, vue.cardlist.oldIndex, newIndex);
@@ -897,6 +926,8 @@ function init() {
     }
     vue.player.name = decodeURIComponent(vue.player.name);
 
+    vue.root = document.documentElement;
+
     window.onbeforeunload = function (e) {
         sendGameAction({
             gameGuid: vue.gameGuid,
@@ -959,17 +990,6 @@ async function joinGame() {
         actionData: { deckGuid: vue.player.deckGuid }
     });
 
-/*
-    $.connection.games.server.joinGame(vue.gameGuid, vue.player.playerGuid, vue.player.name)
-        .done(function() {
-            sendGameAction({
-                gameGuid: vue.gameGuid,
-                playerGuid: vue.player.playerGuid,
-                actionType: 'loadDeck',
-                actionData: { deckGuid: vue.player.deckGuid }
-            });
-        });
-*/
 }
 
 
@@ -1100,6 +1120,15 @@ function processMoveCard(moveCardParam) {
         } else {
             target.push(card);
         }
+        if (moveCardParam.toPlayerGuid === vue.player.playerGuid ){
+            if (moveCardParam.toKind === 'hand') {
+                vue.root.style.setProperty("--totalHandCards", Math.max(1, target.length));
+            }
+            if (moveCardParam.fromKind === 'hand') {
+                vue.root.style.setProperty("--totalHandCards", Math.max(1, source.length));
+            }
+        }
+       
         if (moveCardParam.cardState !== undefined) {
             moveCardParam.cardState.cardId = card.cardId;
             processChangeCardState(moveCardParam.cardState, false);
@@ -1119,8 +1148,8 @@ function updateCardLocation(card, top, left, animate) {
         return element.cardId === card.cardId;
     });
     if (isPlayerCard !== undefined) {
-        card.top = snapToGrid(top, vue.gapY);
-        card.left = snapToGrid(left, vue.gapX);
+        card.top = snapToGrid(top, sizing.snap.gapY);
+        card.left = snapToGrid(left, sizing.snap.gapX);
     }
 
     var isOpponentCard = vue.opponent.play.find(function (element) {
@@ -1128,8 +1157,8 @@ function updateCardLocation(card, top, left, animate) {
     });
     /* mirror the location using the battlefield line as mirroring line if it's an opponent card */
     if (isOpponentCard !== undefined) {
-        card.top = 1200 - snapToGrid(top, vue.gapY) - 150;
-        card.left = snapToGrid(left, vue.gapX);
+        card.top = sizing.battlefield.height - snapToGrid(top, sizing.snap.gapY) - sizing.card.height;
+        card.left = snapToGrid(left, sizing.snap.gapX);
     }
     if (isOpponentCard === undefined && isPlayerCard === undefined) {
         card.top = 0;
@@ -1352,63 +1381,6 @@ function setDroppableState(isEnabled) {
 
 function setupDropRegions() {
     
-
-    // Define playerhand as a drop target, when a card it dropped, change it in the datastructures
-    //$("#playerHand").droppable({
-    //    classes: {
-    //        "ui-droppable-hover": "droptarget"
-    //    },
-    //    tolerance: 'perspectiveintersect',
-    //    drop: function (event, ui) {
-    //        var dragdata = $(ui.helper).data('dragdata');
-    //        if (dragdata.dropped) return true;
-    //        if (!(dragdata.fromPlayerGuid === vue.player.playerGuid && dragdata.fromKind === 'hand')) {
-    //            sendGameAction({
-    //                gameGuid: vue.gameGuid,
-    //                playerGuid: vue.player.playerGuid,
-    //                actionType: 'drawCard',
-    //                actionData: {
-    //                    fromPlayerGuid: dragdata.fromPlayerGuid,
-    //                    fromKind: dragdata.fromKind,
-    //                    toPlayerGuid: vue.player.playerGuid,
-    //                    toKind: 'hand',
-    //                    cardId: dragdata.item.cardId,
-    //                    cardState: {
-    //                        cardId: dragdata.item.cardId,
-    //                        isFaceDown: false,
-    //                        top: 0,
-    //                        left: 0
-    //                    }
-    //                }
-    //            });
-    //        } else {
-    //            dragdata.top = 0;
-    //            dragdata.left = 0;
-    //            dragdata.item.top = 0;
-    //            dragdata.item.left = 0;
-    //            $(ui.helper).css({ top: 0, left: 0 });
-    //        }
-    //        dragdata.dropped = true;
-    //        return true;
-    //    },
-    //});
-
-    //$("#playerHand").sortable({
-    //    start: function(event, ui) {
-    //        vue.player.hand.oldIndex = ui.item.index();
-    //    },
-    //    //update: function (event, ui) {
-    //    //    var newIndex = ui.item.index();
-    //    //    vue.swapCards(vue.cardlist.cards, vue.cardlist.oldIndex, newIndex);
-    //    //    vue.cardlist.oldIndex = newIndex;
-    //    //},
-    //    stop: function(event, ui) {
-    //        var newIndex = ui.item.index();
-    //        vue.swapCards(vue.cardlist.cards, vue.cardlist.oldIndex, newIndex);
-    //        vue.cardlist.oldIndex = newIndex;
-    //    },
-    //});
-
     $("#playerHand").sortable({
         //classes: {
         //    "ui-sortable": "droptarget"
@@ -1724,12 +1696,12 @@ function setupDropRegions() {
     $("#battleFieldDrop").droppable({
         tolerance: 'perspectiveintersect',
         excludeRegions: [
-            { name: '#playerDeck', top: 640, left: 1774, width: 106, height: 150 },
-            { name: '#playerGraveyard', top: 850, left: 1774, width: 106, height: 150 },
-            { name: '#opponentDeck', top: 410, left: 1774, width: 106, height: 150 },
-            { name: '#opponentGraveyard', top: 200, left: 1774, width: 106, height: 150 },
-            { name: '#opponentHand', top: 0, left: 800, width:320, height: 50 },
-            { name: '#playerHand', top: 1105, left: 380, width: 1160, height: 95 }],
+            { name: '#playerDeck', top: sizing.playerDeck.top, left: sizing.playerDeck.left, width: sizing.playerDeck.width, height: sizing.playerDeck.height },
+            { name: '#playerGraveyard', top: sizing.playerGraveyard.top, left: sizing.playerGraveyard.left, width: sizing.playerGraveyard.width, height: sizing.playerGraveyard.height },
+            { name: '#opponentDeck', top: sizing.opponentDeck.top, left: sizing.opponentDeck.left, width: sizing.opponentDeck.width, height: sizing.opponentDeck.height },
+            { name: '#opponentGraveyard', top: sizing.opponentGraveyard.top, left: sizing.opponentGraveyard.left, width: sizing.opponentGraveyard.width, height: sizing.opponentGraveyard.height },
+            { name: '#opponentHand', top: sizing.opponentHand.top, left: sizing.opponentHand.left, width: sizing.opponentHand.width, height: sizing.opponentHand.height },
+            { name: '#playerHand', top: sizing.playerHand.top, left: sizing.playerHand.left, width: sizing.playerHand.width, height: sizing.playerHand.height }],
         drop: function (event, ui) {
 
             var dragdata = $(ui.helper).data('dragdata');
@@ -1748,8 +1720,8 @@ function setupDropRegions() {
                         cardState: {
                             cardId: dragdata.item.cardId,
                             isFaceDown: dragdata.item.isFaceDown,
-                            top: snapToGrid(dragdata.top,vue.gapY),
-                            left: snapToGrid(dragdata.left, vue.gapX)
+                            top: snapToGrid(dragdata.top,sizing.snap.gapY),
+                            left: snapToGrid(dragdata.left, sizing.snap.gapX)
                         }
                     }
                 });
@@ -1762,8 +1734,8 @@ function setupDropRegions() {
                             actionType: 'changeCardState',
                             actionData: {
                                 cardId: dragdata.item.cardId,
-                                top: snapToGrid(dragdata.top, vue.gapY),
-                                left: snapToGrid(dragdata.left, vue.gapX)
+                                top: snapToGrid(dragdata.top, sizing.snap.gapY),
+                                left: snapToGrid(dragdata.left, sizing.snap.gapX)
                             }
                         });
                     });
@@ -1776,8 +1748,8 @@ function setupDropRegions() {
                         actionType: 'changeCardState',
                         actionData: {
                             cardId: dragdata.item.cardId,
-                            top: 1200 - snapToGrid(dragdata.top, vue.gapY) - 150,
-                            left: snapToGrid(dragdata.left, vue.gapX)
+                            top: sizing.battlefield.height - snapToGrid(dragdata.top, sizing.snap.gapY) - sizing.card.height,
+                            left: snapToGrid(dragdata.left, sizing.snap.gapX)
                         }
                     });
                 }
