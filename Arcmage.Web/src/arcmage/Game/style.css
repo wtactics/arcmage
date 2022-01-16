@@ -7,6 +7,7 @@
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */ 
+  scrollbar-width: thin;
 }
 
 /* scrollbar */
@@ -75,14 +76,15 @@ body {
 :root {
   --totalHandCards: 1;
   --scale: 3.0;
-  --highlight: rgba(120,220,245,1);
+  --highlight: rgba(255, 209, 70, 0.6);
   --ground: rgb(0, 0, 0);
   --primary: rgb(255,255,255);
   --secondary: rgb(204, 204, 204);
   --overlay: rgba(255,255,255,0.5);
-  --chrome: rgb(230, 218, 166);
-  --drop: rgba(255,255,0,0.6);
+  --chrome: rgba(255, 209, 70, 0.7);
+  --drop: rgba(255, 209, 70, 0.6);
   --pointed: rgb(241, 104, 25);
+  --gropa: rgba(0, 0,0,0.7);
 }
 
 /* tooltips */
@@ -199,11 +201,7 @@ body {
 	top: 0px;
 	bottom: 0px;
 	right: 0px;
-	left: 0px;
-  background-image: url("logo_fade.webp");
-  background-repeat: no-repeat;
-  background-position: right top;
-  background-size: 15%;
+	left: 0px; 
 }
 
 /* card preview (top right) */
@@ -234,24 +232,20 @@ body {
     animation: fadeout 0.5s;
 }
 
-/* settings menu */
-#menu {
-  position: absolute;
-  width: 10%;
-  top: 10%;
-  height: 25%;
-  overflow-y: scroll;
-  right: 0;
+.hide {
+  display: none !important;
 }
 
+/* settings menu */
+
 .backgroundOption {
-  width: 70%;
+  width: 30%;
   border-radius: 5% 5% 5% 5%;
   border-color: var(--secondary);
   border-width: thick;
   border-style: solid;
   position: relative;
-  right: -20%;
+  margin: 0.5%;
 }
 
 #menu .backgroundOption:hover{
@@ -369,6 +363,36 @@ body {
   color: var(--primary);
 }
 
+/* game info contents */
+.dialog_header {
+  color: var(--chrome);
+  font-size: xx-large;
+  margin: 10px;
+}
+
+.dialog_body {
+  color: var(--chrome);
+}
+
+.infotitle{
+  font-size: xx-large;
+  margin: 10px;
+}
+
+.infokey {
+  font-size: x-large;
+  margin: 5px;
+}
+
+.infokey::after {
+  font-size: x-large;
+  content: " => ";
+}
+
+.infodescription{
+  font-size: x-large;
+  margin: 5px;
+}
 
 /* the battlefield (everything inside the perspective */
 
@@ -376,7 +400,7 @@ body {
 	width: calc(var(--scale) * 1920px);  
 	height: calc(var(--scale) * 1200px);  
 	position: absolute;
-  background-image: url("field.webp");
+  background-image: url("field1.webp");
   background-repeat: no-repeat;
   background-position: right top;
   background-size: 100% 100%;
@@ -384,18 +408,22 @@ body {
 }
 
 #battleFieldDrop {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
+  background-image: url("chrome3.webp");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
 }
 
 /* turn structure menu */
 
 #turnStructure {
     position: absolute;
-    top: calc(var(--scale) * 600px);
+    top: calc(var(--scale) * 575px);
     width: calc(var(--scale) * 50px);
     height: calc(var(--scale) * 180px);
-    right: calc(var(--scale) * -50px);
+    right: calc(var(--scale) * -55px);
     background-color: var(--ground);
 }
 
@@ -427,41 +455,71 @@ body {
 }
 
 .unmark{
- 	background-image: url("turn_unmark.svg");
+ 	background-image: url("turn_unmark.webp");
 }
 
 .dice{
-    background-image: url("turn_dice.svg");
+  background-image: url("turn_dice_less.webp");
+  margin-left: calc(var(--scale) * 56px);
+  margin-top: calc(var(--scale) * -50px);
 }
 
 .coin {
-    background-image: url("turn_coin.svg");
+    background-image: url("turn_coin.webp");
 }
 
 .draw2 {
-    background-image: url("turn_draw2.svg");
+    background-image: url("turn_draw2.webp");
 }
 
 .draw7 {
-    background-image: url("turn_draw7.svg");
+    background-image: url("turn_draw7.webp");
     margin-left: calc(var(--scale) * 56px);
     margin-top: calc(var(--scale) * -50px);
 }
 
 .blinds {
-    background-image: url("turn_blinds.svg");
+    background-image: url("turn_blinds.webp");
 }
 
 .open_blinds {
-    background-image: url("turn_open_blinds.svg");
+    background-image: url("turn_open_blinds.webp");
 }
 
 .video {
-    background-image: url("turn_headset.svg");
+    background-image: url("turn_headset.webp");
+}
+
+.settings{
+  background-image: url("turn_settings.webp");
+  margin-left: calc(var(--scale) * 56px);
+  margin-top: calc(var(--scale) * -50px);
 }
 
 .rules {
-    background-image: url("turn_rules.svg");
+    background-image: url("turn_rules.webp");
+    margin-left: calc(var(--scale) * 56px);
+    margin-top: calc(var(--scale) * -50px);
+}
+
+.hints {
+  background-image: url("turn_hint_less.webp");
+}
+
+.turn_flat {
+  background-image: url("turn_flat.webp");
+  margin-left: calc(var(--scale) * 56px);
+  margin-top: calc(var(--scale) * -50px);
+}
+
+.turn_perspective {
+  background-image: url("turn_perspective.webp");
+  margin-left: calc(var(--scale) * 56px);
+  margin-top: calc(var(--scale) * -50px);
+}
+
+.turn_flat_override{
+  margin: calc(var(--scale) * 6px) 0px 0px 0px !important;
 }
 
 /* turn actions animations: coin flip */
@@ -555,7 +613,7 @@ body {
 	margin: calc(var(--scale) * 6px) 0px 0px 0px;
   background-repeat: no-repeat;
   background-position: center center;
-	background-size: calc(var(--scale) * 30px) calc(var(--scale) * 30px);
+	background-size: calc(var(--scale) * 27px) calc(var(--scale) * 27px);
 }
 
 .action:hover {
@@ -572,46 +630,47 @@ body {
 }
 
 .up_action{
-	background-image: url("action_up.svg");
+	background-image: url("action_up.webp");
 }
 
 .down_action{
-	background-image: url("action_down.svg");
+	background-image: url("action_down.webp");
 }
 
 .draw_action{
-	background-image: url("action_draw.svg");
+	background-image: url("action_draw.webp");
 }
 
 .graveyard_action{
-	background-image: url("action_graveyard.svg");
+	background-image: url("action_graveyard.webp");
 }
 
 .deck_action{
-	background-image: url("action_deck.svg");
+	background-image: url("action_deck.webp");
 }
 
 .play_action{
-	background-image: url("action_play.svg");
+	background-image: url("action_play.webp");
 }
 
 .view_action{
-	background-image: url("action_view.svg");
+	background-image: url("action_view.webp");
 }
 
 .shuffle_action{
-	background-image: url("action_shuffle.svg");
+	background-image: url("action_shuffle.webp");
 }
 
 .count_action{
 	font-family: verdana;
-  font-size:calc(var(--scale) * 150%);
+  font-size:calc(var(--scale) * 130%);
   text-align: center;
 	color: var(--primary);
 	left: calc(var(--scale) * 36px);
 	top: calc(var(--scale) * -36px);
 	position: relative;
-	cursor: pointer;
+	cursor: default;
+  color: var(--chrome);
 }
 
 .count_action:hover {
@@ -622,7 +681,7 @@ body {
 /* player deck and deck actions location */
 
 #playerDeck{
-	width : calc(var(--scale) * 106px);
+	width: calc(var(--scale) * 106px);
 	height: calc(var(--scale) * 150px);
  	position: absolute;
 	top: calc(var(--scale) * 640px);
@@ -631,19 +690,29 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("deck2.webp");
+  border-radius: 0px calc(var(--scale) * 5px) 0px calc(var(--scale) * 5px);
 }
 
 #playerDeckActions{
-	width : calc(var(--scale) * 136px);
 	height: calc(var(--scale) * 180px);
-  background: var(--ground);
-	position: absolute;
+ 	position: absolute;
 	top: calc(var(--scale) * 640px);
-	right: calc(var(--scale) * 40px);
+	right: calc(var(--scale) * 146px);
+  border-radius: calc(var(--scale) * 5px);
 }
 
 #playerDeckActions .tooltip-content {
   transform: scale(2.4);
+}
+
+#playerDeckActionsBackground{
+  width: calc(var(--scale) * 136px);
+	height: calc(var(--scale) * 180px);
+  background: var(--gropa);
+  top: calc(var(--scale) * 640px);
+	border-radius: calc(var(--scale) * 5px);
+  right: calc(var(--scale) * 40px);
+  position: absolute;
 }
 
 /* player graveyard and graveyard actions location */
@@ -658,46 +727,66 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("graveyard.webp");
+  border-radius: 0px calc(var(--scale) * 5px) 0px calc(var(--scale) * 5px);
 }
 
 #playerGraveyardActions{
-	width : calc(var(--scale) * 136px);
 	height: calc(var(--scale) * 180px);
-  background: var(--ground);
-	position: absolute;
+ 	position: absolute;
 	top: calc(var(--scale) * 850px);
-	right: calc(var(--scale) * 40px);
+	right: calc(var(--scale) * 146px);
+  border-radius: calc(var(--scale) * 5px);
 }
 
 #playerGraveyardActions .tooltip-content {
   transform: scale(2.1);
 }
 
+#playerGraveyardActionsBackground{
+  width : calc(var(--scale) * 136px);
+	height: calc(var(--scale) * 180px);
+  background: var(--gropa);
+  border-radius: calc(var(--scale) * 5px);
+  top: calc(var(--scale) * 850px);
+	right: calc(var(--scale) * 40px);
+  position: absolute;
+}
+
 /* opponent deck and deck actions location */
 
 #opponentDeck{
-	width :  calc(var(--scale) * 106px);;
-	height: 1 calc(var(--scale) * 150px);;
+	width: calc(var(--scale) * 106px);
+	height: calc(var(--scale) * 150px);
  	position: absolute;
-	top: calc(var(--scale) * 410px);;
-	right: calc(var(--scale) * 40px);;
+	top: calc(var(--scale) * 380px);
+	right: calc(var(--scale) * 40px);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("deck2.webp");
+  border-radius: 0px calc(var(--scale) * 5px) 0px calc(var(--scale) * 5px);
 }
 
 #opponentDeckActions{
-	width: calc(var(--scale) * 136px);
 	height: calc(var(--scale) * 180px);
-  background: var(--ground);
 	position: absolute;
-	top: calc(var(--scale) * 410px);
-	right: calc(var(--scale) * 40px);
+	top: calc(var(--scale) * 380px);
+	right: calc(var(--scale) * 146px);
+  border-radius: calc(var(--scale) * 5px);
 }
 
 #opponentDeckActions .tooltip-content {
   transform: scale(2.7);
+}
+
+#opponentDeckActionsBackground{
+	width: calc(var(--scale) * 136px);
+	height: calc(var(--scale) * 180px);
+  background: var(--gropa);
+  border-radius: calc(var(--scale) * 5px);
+  top: calc(var(--scale) * 380px);
+	right: calc(var(--scale) * 40px);
+  position: absolute;
 }
 
 /* opponent graveyard and graveyard actions location */
@@ -706,25 +795,35 @@ body {
 	width : calc(var(--scale) * 106px);
 	height: calc(var(--scale) * 150px);
  	position: absolute;
-	top: calc(var(--scale) * 200px);
+	top: calc(var(--scale) * 170px);
 	right: calc(var(--scale) * 40px);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("graveyard.webp");
+  border-radius: 0px calc(var(--scale) * 5px) 0px calc(var(--scale) * 5px);
 }
 
 #opponentGraveyardActions{
-	width: calc(var(--scale) * 136px);
 	height: calc(var(--scale) * 180px);
-  background: var(--ground);
-	position: absolute;
-	top: calc(var(--scale) * 200px);
-	right: calc(var(--scale) * 40px);
+ 	position: absolute;
+	top: calc(var(--scale) * 170px);
+	right: calc(var(--scale) * 146px);
+  border-radius: calc(var(--scale) * 5px);
 }
 
 #opponentGraveyardActions .tooltip-content {
   transform: scale(3);
+}
+
+#opponentGraveyardActionsBackground{
+  width: calc(var(--scale) * 136px);
+	height: calc(var(--scale) * 180px);
+  background: var(--gropa);
+  border-radius: calc(var(--scale) * 5px);
+  top: calc(var(--scale) * 170px);
+  right: calc(var(--scale) * 40px);
+  position: absolute;
 }
 
 /* opponent hand location and opponent hand actions*/
@@ -769,11 +868,7 @@ body {
 }
 
 #opponentHand .count_action{
-  font-family: verdana;
   font-size: calc(var(--scale) * 150%);
-  text-align: center;
-  color: var(--primary);
-  cursor: pointer;
   left: calc(var(--scale) * 0px);
   top: calc(var(--scale) * -12px);
   position: relative;
@@ -790,6 +885,7 @@ body {
   font-size: calc(var(--scale) *200%);
   text-align: center;
 	color: var(--primary);
+  opacity: 0.9;
 }
 
 .resource:hover {
@@ -851,12 +947,12 @@ body {
 
 #playerResources{
 	position: absolute;
-	top: calc(var(--scale) * 620px);
+	top: calc(var(--scale) * 640px);
 	width: calc(var(--scale) * 100px);
 	height: calc(var(--scale) * 280px);
-	padding: calc(var(--scale) * 10px) calc(var(--scale) * 0px);
 	background-color: var(--overlay);
-	border-radius: 0px calc(var(--scale) * 10px) calc(var(--scale) * 10px) 0px;
+	border-radius: 0px calc(var(--scale) * 25px) calc(var(--scale) * 25px) 0px;
+  overflow: hidden;
 }
 
 #opponentResources{
@@ -864,9 +960,9 @@ body {
 	top:calc(var(--scale) * 280px);
 	width: calc(var(--scale) * 100px);
 	height: calc(var(--scale) * 280px);
-	padding: calc(var(--scale) * 10px) calc(var(--scale) * 0px);
 	background-color: var(--overlay);
-	border-radius: 0px calc(var(--scale) * 10px) calc(var(--scale) * 10px) 0px;
+	border-radius: 0px calc(var(--scale) * 25px) calc(var(--scale) * 25px) 0px;
+  overflow: hidden;
 }
 
 /* cards */
@@ -925,18 +1021,13 @@ body {
 }
 
 .counterA:hover, .counterB:hover {
-  color: var(--primary);
-  box-shadow: calc(var(--scale) * -4px) 0px 0px 0px var(--highlight);
+   box-shadow: calc(var(--scale) * -4px) 0px 0px 0px var(--highlight);
 }
 
 #battleField > .card {
   animation: glow 1s alternate;
   position: fixed;
 }
-
-/* #battleField .card:hover {
-  animation: glow 1s alternate;
-} */
 
 #playerDeck .card {
   animation: glow 1s alternate;
@@ -983,7 +1074,7 @@ body {
 }
 
 .pointed {
-    animation: glowPointed 1.5s alternate !important;
+    animation: glowPointed 2.5s alternate !important;
 }
 
 
@@ -1000,11 +1091,11 @@ body {
 
 @keyframes glowPointed {
     from {
-        box-shadow: 0px 0px 0px 0px var(--pointed);
+      box-shadow: 0px 0px 13px 13px var(--pointed);
     }
-
     to {
-        box-shadow: 0px 0px 13px 13px var(--pointed);
+        
+        box-shadow: 0px 0px 0px 0px var(--pointed);
     }
 }
 
@@ -1053,9 +1144,13 @@ body {
   transform: rotateY(180deg);
 }
 
+/*
+
 .flip-card-inner:hover {
   box-shadow: 0px 0px calc(var(--scale) * 13px) calc(var(--scale) * 13px) var(--highlight);
 }
+
+*/
 
 .flip-card-front, .flip-card-back {
   position: absolute;
@@ -1076,11 +1171,9 @@ body {
 .flip-card-resources {
     perspective: 1000px;
     position: absolute;
-    /* top: calc(var(--scale) * 20px); */
     top: 0px;
     left: calc(var(--scale) * -5px);
     opacity: 0;
-    /* transition: 800ms cubic-bezier(0.19, 1, 0.22, 1) opacity; */
 }
 
 .flip-card-resource {
@@ -1176,23 +1269,29 @@ body {
 
 #playerHandDecoration {
 	position: fixed;
-	background-color:var(--overlay);
+	background-color:var(--ground);
 	border-radius: calc(var(--scale) * 25px) calc(var(--scale) * 25px) 0px 0px;
 	top: calc(var(--scale) * 1095px);
 	left: calc(var(--scale) * 370px);
 	width: calc(var(--scale) * 1180px);
 	height: calc(var(--scale) * 105px);
+  background-image: url("logo_fade.webp");
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: contain;
+  opacity: 0.9;
 }
 
 #playerHand {
   bottom: calc(var(--scale) * 0px);
   display: flex;
-  height: calc(var(--scale) * 95px);
+  height: calc(var(--scale) * 100px);
   justify-content: center;
   position: fixed;
   left: calc(var(--scale) * 380px);
   width: calc(var(--scale) * 1160px);
   z-index: 9999;
+  border-radius: calc(var(--scale) * 20px) calc(var(--scale) * 20px) 0px 0px;
  }
   
   #playerHand .card {

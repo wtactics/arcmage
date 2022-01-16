@@ -105,6 +105,19 @@
         </div>
     </div>
 
+    <!-- The opponent graveyard. It is a drop target to move cards to the opponent's graveyard -->
+    <div id="opponentGraveyardActionsBackground"></div>
+    <div id="opponentGraveyard">
+        <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
+        <template v-for="(index, card) in opponent.graveyard">
+            <img class="card"
+                    v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
+                    id="opponent-graveyard-{{card.cardId}}"
+                    :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
+                    v-on:mouseover="this.$parent.showPreview(card)"
+                    v-on:mouseout="this.$parent.hidePreview(card)" />
+        </template>
+    </div>
     <!-- Action bar for the opponent's graveyard. -->
     <div id="opponentGraveyardActions">
         <!-- Take a card from the opponent's graveyard and put it in the player's hand -->
@@ -145,19 +158,20 @@
             </div>
         </div>
     </div>
-    <!-- The opponent graveyard. It is a drop target to move cards to the opponent's graveyard -->
-    <div id="opponentGraveyard">
+
+
+    <!-- The opponent's deck. It is a drop target to move cards to the opponent's deck -->
+    <div id="opponentDeckActionsBackground"></div>
+    <div id="opponentDeck">
         <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
-        <template v-for="(index, card) in opponent.graveyard">
-            <img class="card"
-                 v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
-                 id="opponent-graveyard-{{card.cardId}}"
+        <template v-for="(index, card) in opponent.deck">
+            <img class="card" v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
+                 id="opponent-deck-{{card.cardId}}"
                  :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
     </div>
-
     <!-- Action bar for the opponent's deck. -->
     <div id="opponentDeckActions">
         <!-- Take a card from the opponent's deck and put it in the player's hand -->
@@ -198,17 +212,7 @@
             </div>
         </div>
     </div>
-    <!-- The opponent's deck. It is a drop target to move cards to the opponent's deck -->
-    <div id="opponentDeck">
-        <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
-        <template v-for="(index, card) in opponent.deck">
-            <img class="card" v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
-                 id="opponent-deck-{{card.cardId}}"
-                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
-                 v-on:mouseover="this.$parent.showPreview(card)"
-                 v-on:mouseout="this.$parent.hidePreview(card)" />
-        </template>
-    </div>
+    
 
     <!--
     The opponent's resources bar. There are resource counters in black, yellow, green, blue and red.
@@ -277,6 +281,20 @@
 
     <!-- EndRegion : Opponent -->
     <!-- Region : Player -->
+    <!-- The player's deck. It is a drop target to move cards to the player's deck -->
+    <div id="playerDeckActionsBackground"></div>
+    <div id="playerDeck">
+        <!-- Template for a card in the deck. The cards have a litle offset so they appear to be stacked -->
+        <template v-for="(index, card) in player.deck">
+            <img class="card"
+                v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
+                id="player-deck-{{card.cardId}}"
+                :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3+ 'px' }"
+                v-on:mouseover="this.$parent.showPreview(card)"
+                v-on:mouseout="this.$parent.hidePreview(card)" />
+        </template>
+    </div>
+
     <!-- Action bar for the player's deck. -->
     <div id="playerDeckActions">
         <!-- Take a card from the player's deck and put it in his hand -->
@@ -317,19 +335,20 @@
             </div>
         </div>
     </div>
-    <!-- The player's deck. It is a drop target to move cards to the player's deck -->
-    <div id="playerDeck">
-        <!-- Template for a card in the deck. The cards have a litle offset so they appear to be stacked -->
-        <template v-for="(index, card) in player.deck">
+   
+    <!-- The player's graveyard. It is a drop target to move cards to the player's graveyard -->
+    <div id="playerGraveyardActionsBackground"></div>
+    <div id="playerGraveyard">
+        <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
+        <template v-for="(index, card) in player.graveyard">
             <img class="card"
                  v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
-                 id="player-deck-{{card.cardId}}"
-                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3+ 'px' }"
+                 id="player-graveyard-{{card.cardId}}"
+                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)" />
         </template>
     </div>
-
     <!-- Action bar for the player's graveyard. -->
     <div id="playerGraveyardActions">
         <!-- Take a card from the player's graveyard and put it in the player's hand -->
@@ -370,18 +389,7 @@
             </div>
         </div>
     </div>
-    <!-- The player's graveyard. It is a drop target to move cards to the player's graveyard -->
-    <div id="playerGraveyard">
-        <!-- Template for a card in the graveyard. The cards have a litle offset so they appear to be stacked -->
-        <template v-for="(index, card) in player.graveyard">
-            <img class="card"
-                 v-bind:src="card.isFaceDown? 'back.webp' : card.imageSrc"
-                 id="player-graveyard-{{card.cardId}}"
-                 :style="{ top: -0.5*index*3 + 'px', left: 0.4*index*3 + 'px' }"
-                 v-on:mouseover="this.$parent.showPreview(card)"
-                 v-on:mouseout="this.$parent.hidePreview(card)" />
-        </template>
-    </div>
+
 
     <!-- Background for the player hand -->
     <div id="playerHandDecoration"></div>
@@ -528,7 +536,7 @@
                 <p>Draw two cards.</p>
             </div>
         </div>
-        <div class="turn draw7" @click="moveCardFrom('drawCard', player.playerGuid, 'deck', player.playerGuid, 'hand', false, 7)">
+        <div class="turn draw7" v-bind:class="{ 'turn_flat_override': showFlat }" @click="moveCardFrom('drawCard', player.playerGuid, 'deck', player.playerGuid, 'hand', false, 7)">
             <div class="tooltip-content">
                 <p>Draw seven cards.</p>
             </div>
@@ -538,9 +546,18 @@
                 <p>Flip a coin.</p>
             </div>
         </div>
-        <div class="turn dice" v-on:click="rollDice()">
+        <div class="turn dice" v-bind:class="{ 'turn_flat_override': showFlat }" v-on:click="rollDice()">
             <div class="tooltip-content">
                 <p>Throw a dice.</p>
+            </div>
+        </div>
+        <div class="turn hints" v-on:click="openHints()">
+            <div class="tooltip-content">
+                <p>Consult the keyboard shortcuts.</p>
+            </div>
+        </div><div class="turn rules"  v-bind:class="{ 'turn_flat_override': showFlat }"  v-on:click="openRules()">
+            <div class="tooltip-content">
+                <p>Consult the rules.</p>
             </div>
         </div>
         <div class="turn blinds" v-on:click="setCurtainState(opponent, !opponent.showCurtain)" v-bind:class="{ 'open_blinds': opponent.showCurtain }">
@@ -548,14 +565,19 @@
                 <p>Toggle your opponent's blinds.</p>
             </div>
         </div>
-        <div class="turn rules" v-on:click="openRules()">
+        <div class="turn turn_flat" v-on:click="setPerspective(!showFlat)" v-bind:class="{ 'turn_perspective': showFlat, 'turn_flat_override': showFlat  }">
             <div class="tooltip-content">
-                <p>Consult the rules.</p>
+                <p>Toggle the battlefield perspective.</p>
             </div>
         </div>
         <div class="turn video" v-on:click="openVideo()">
             <div class="tooltip-content">
                 <p>Open the audio/video room.</p>
+            </div>
+        </div>
+        <div class="turn settings"  v-bind:class="{ 'turn_flat_override': showFlat }"  v-on:click="openSettings()">
+            <div class="tooltip-content">
+                <p>Open the settings.</p>
             </div>
         </div>
 
@@ -663,17 +685,8 @@
         Everything in the content overlay is not drawn in perspective, it contains:
         the avatar's,  the card preview, and the card list dialog
     -->
-    <div id="opponent"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
-    <div id="player"><div class="playerName"><div class="playerName-text">{{player.name}}</div></div></div>
-
-    <div id="menu">
-        <div >
-            <template v-for="(index, item) in backgrounds" track-by="$index">
-                <img :src="item.image" class="backgroundOption" @click="setBackground(item.image)" ></img>
-            </template>
-        </div>
-    </div>
-
+    <div id="opponent" v-bind:class="{ 'hide': showFlat }"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
+    <div id="player" v-bind:class="{ 'hide': showFlat }"><div class="playerName"><div class="playerName-text">{{player.name}}</div></div></div>
 
     <img id="preview" v-bind:src="previewImageSrc" v-show="preview" transition="preview" />
 
@@ -734,8 +747,43 @@
             </template>
         </div>
     </modal>
+
+    <!-- the card list dialog  -->
+    <modal :show.sync="showHints">
+        <!-- Action bar of the card list dialog -->
+        <div slot="header">
+            <div class="dialog_header">Shortcuts</div>
+        </div>
+        <div slot="body" id="shortcutsinfo">
+            <div class="dialog_body">
+                <template v-for="info in gameinfo">
+                    <div class="infotitle">{{info.title}}</div>
+                    <template v-for="item in info.items">
+                        <div><span class="infokey">{{item.key}}</span> <span class="infodescription">{{item.description}}</span></div>
+                    </template>
+                </template> 
+            </div>
+        </div>
+    </modal>
+
+    <modal :show.sync="showSettings">
+        <!-- Action bar of the card list dialog -->
+        <div slot="header">
+            <div class="dialog_header">Settings</div>
+        </div>
+        <div slot="body" id="settings">
+            <div class="dialog_body">
+                <template v-for="(index, item) in backgrounds" track-by="$index">
+                    <img :src="item.image" class="backgroundOption" @click="setBackground(item.image)" ></img>
+                </template>
+            </div>
+        </div>
+    </modal>
+
+
     <div class="selection-rect"></div>
 </div>
+
 
 
 <div class="curtain__panel curtain__panel--right" v-bind:class="{ 'curtain__closed': player.showCurtain }">

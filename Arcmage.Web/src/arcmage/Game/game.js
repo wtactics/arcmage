@@ -11,6 +11,16 @@ const sizing = {
         width: 1920 * scale,
         height: 1200 * scale,
     },
+    fieldview: {
+        flat: { 
+            distancePercentage: 0, 
+            rightOffset: (5 + 56 ) * scale
+        },
+        perspective:{
+            distancePercentage: 0.2, 
+            rightOffset: 0
+        }
+    },
     card: {
         width: 106 * scale,
         height: 150 * scale,
@@ -32,20 +42,36 @@ const sizing = {
 var vue = new Vue({
     el: '#arcmagegame',
     data: {
-        backgroundImage: 'field.webp',
+        gameinfo: [{
+            title: "Cards in hand and on the battlefield.",
+            items: [
+                { key: "Drag and Drop", description: "Move cards around." },
+                { key: "Right Click", description: "Turn card face down/face up." },
+                { key: "Double Click", description: "Mark or unmark card (rotate)." },
+                { key: "Shift Click", description: "Peek card (only when the card is face down)." },
+                { key: "Ctrl Click", description: "Point to a card by highlighting." }
+            ]
+        }],
+        backgroundImage: 'field11.webp',
         backgrounds: [
-            {
-                image: 'field9.webp'
-            },
-            {
-                image: 'field10.webp'
-            },
-            {
-                image: 'field.webp'
-            }
+          { image: 'field1.webp' },
+          { image: 'field2.webp' },
+          { image: 'field3.webp' },
+          { image: 'field4.webp' },
+          { image: 'field5.webp' },
+          { image: 'field6.webp' },
+          { image: 'field7.webp' },
+          { image: 'field8.webp' },
+          { image: 'field9.webp' },
+          { image: 'field10.webp' },
+          { image: 'field11.webp' },
         ],
+        backgroundChromeImage: 'chrome1.webp',
         sacle: scale,
         useGrid: false,
+        showFlat: false,
+        showHints: false,
+        showSettings: false,
         highlightPlayerHand: false,
         curtainLeftText: 'Waiting for your opponent&nbsp;',
         curtainRightText: 'to step into the arena...',
@@ -147,7 +173,11 @@ var vue = new Vue({
                 }
             });
         // Apply the layouting (matrix-3d transform, position victory point sliders)
-        $(window).on('resize', function(e) { resizeGame(sizing.battlefield.width, sizing.battlefield.height); }, 1000).resize();
+        $(window).on('resize', function(e) { 
+            var fieldView = sizing.fieldview.perspective;
+            if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
+            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset); 
+        }, 1000).resize();
         // Set up the droppable regions on the battlefield
         setupDropRegions();
       
@@ -202,6 +232,12 @@ var vue = new Vue({
         openRules: function () {
             window.open(portalUri + "/arcmage/Game/pdfjs/web/viewer.html?file=" + portalUri + "/arcmage/Game/ArcmageRules.pdf", "_blank");
         },
+        openHints: function(){
+            vue.showHints = true;
+        },
+        openSettings: function(){
+            vue.showSettings = true;
+        },
         flipCoin: function() {
             if (!vue.coinflip) {
                 sendGameAction({
@@ -220,6 +256,13 @@ var vue = new Vue({
                     actionType: 'diceRoll',
                 });
             }
+        },
+        setPerspective:function (flat){
+            vue.showFlat = flat;
+            var fieldView = sizing.fieldview.perspective;
+            if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
+            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset); 
+
         },
         createServices: function() {
             this.services.login = this.$resource(apiUri + "/api/Login");
@@ -382,7 +425,7 @@ var vue = new Vue({
                             isPointed: false,
                         }
                     });
-                }, 1600, card);
+                }, 2600, card);
 
 
             }
