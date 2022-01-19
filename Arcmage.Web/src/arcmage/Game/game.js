@@ -42,16 +42,35 @@ const sizing = {
 var vue = new Vue({
     el: '#arcmagegame',
     data: {
-        gameinfo: [{
-            title: "Cards in hand and on the battlefield.",
+        keycode: null,
+        gameinfo: [
+        {
+            title: "Gloabal keyboard shortcuts.",
+            items: [
+                { key: "Enter, Spacebar", description: "Unmark all your cards." },
+                { key: "Shift+Enter, Shift+Spacebare", description: "Unmark all opponents cards (in case you'd like to help out)." },
+                { key: "D", description: "Draw one card from your deck." },
+                { key: "T", description: "Draw two cards from your deck." },
+                { key: "R", description: "Roll a dice." },
+                { key: "F", description: "Flip the coin." },
+                { key: "B", description: "Toggle the curtain/blinds for your opponent." }
+            ]
+        },
+        {
+            title: "Cards operations.",
             items: [
                 { key: "Drag and Drop", description: "Move cards around." },
-                { key: "Right Click", description: "Turn card face down/face up." },
-                { key: "Double Click", description: "Mark or unmark card (rotate)." },
-                { key: "Shift Click", description: "Peek card (only when the card is face down)." },
-                { key: "Ctrl Click", description: "Point to a card by highlighting." }
+                { key: "Double Click, M+Click, X+Click", description: "Mark or unmark card (rotate)." },
+                { key: "Right Click, U+Click", description: "Turn card face down/face up." },
+                { key: "L+Click, Shift+Click", description: "Look under card (only when the card is face down)." },
+                { key: "P+Click, Ctrl+Click", description: "Point at a card." },
+                { key: "G+Click", description: "Put the card in its owner garveyard." },
+                { key: "H+Click", description: "Send the card back to its owner hand." },
+                { key: "C+Click", description: "Take ownerschip of card (now it will unmark when you unmark all)." },
+
             ]
-        }],
+        }
+        ],
         backgroundImage: 'field11.webp',
         backgrounds: [
           { image: 'field1.webp' },
@@ -382,26 +401,154 @@ var vue = new Vue({
                 });
             }
         },
-        pointOrPeekCard: function(event, card) {
+        handleGlobalKeyPress: function() {
+            // not handling keyboard events in modals
+            if (this.showCurtain || this.showHints || this.showModal || this.showSettings) return;
+ 
+            switch(this.keycode){
+                case " ":
+                case "Enter":
+                    // unmark all
+                    this.unmarkAll(this.player);
+                    break;
+                case "Shift ":
+                case "ShiftEnter":
+                    // unmark all
+                    this.unmarkAll(this.opponent);
+                    break;
+                case "d":
+                case "D":
+                    // draw one cards
+                    this.moveCardFrom('drawCard', this.player.playerGuid, 'deck', this.player.playerGuid, 'hand', false);
+                    break;
+                case "t":
+                case "T":
+                    // draw two cards
+                    this.moveCardFrom('drawCard', this.player.playerGuid, 'deck', this.player.playerGuid, 'hand', false, 2);
+                break;
+                case "r":
+                case "R":
+                    // roll a dice
+                    this.rollDice();
+                    break;
+                case "b":
+                case "B":
+                    // toggle opponent blinds
+                    this.setCurtainState(this.opponent, !this.opponent.showCurtain);
+                    break;
+                case "f":
+                case "F":
+                    // flip a coin
+                    this.flipCoin();
+                    break;
+            }
+        },
+        mouseCardAction: function(event, card, fromPlayer) {
             // peek card
-            if (event.shiftKey && card.isFaceDown) {
-                this.previewImageSrc = card.imageSrc;
-                this.preview = true;
-                card.isPeeking = true;
-                // send game action peek card.
-                sendGameAction({
-                    gameGuid: vue.gameGuid,
-                    playerGuid: vue.player.playerGuid,
-                    actionType: 'changeCardState',
-                    actionData: {
-                        cardId: card.cardId,
-                        isPeeking: true,
-                    }
-                });
+            if (event.shiftKey) {
+                this.peekCard(card);
             }
             // point card
             if (event.ctrlKey) {
-                card.isPointed = true;
+               this.pointCard(card);
+            }
+
+            switch(this.keycode){
+                case "g":
+                case "G":
+                    // put card in graveyard
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'discardCard',
+                        actionData: {
+                            fromPlayerGuid: fromPlayer.playerGuid,
+                            fromKind: 'play',
+                            toPlayerGuid: fromPlayer.playerGuid,
+                            toKind: 'graveyard',
+                            cardId: card.cardId,
+                            cardState: {
+                                cardId: card.cardId,
+                                isFaceDown: false,
+                                top: 0,
+                                left: 0
+                            }
+                        }
+                    });
+
+                    break;
+                case "h":
+                case "H":
+                    // put card in hand of its controller
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'drawCard',
+                        actionData: {
+                            fromPlayerGuid: fromPlayer.playerGuid,
+                            fromKind: 'play',
+                            toPlayerGuid: fromPlayer.playerGuid,
+                            toKind: 'hand',
+                            cardId: card.cardId,
+                            cardState: {
+                                cardId: card.cardId,
+                                isFaceDown: false,
+                                top: 0,
+                                left: 0
+                            }
+                        }
+                    });
+                case "c":
+                case "C":
+                    // take control of the card (become the controller/owner)
+                    if (fromPlayer.playerGuid != this.player.playerGuid) {                      
+                        sendGameAction({
+                            gameGuid: vue.gameGuid,
+                            playerGuid: vue.player.playerGuid,
+                            actionType: 'playCard',
+                            actionData: {
+                                fromPlayerGuid: fromPlayer.playerGuid,
+                                fromKind: 'play',
+                                toPlayerGuid: this.player.playerGuid,
+                                toKind: 'play',
+                                cardId: card.cardId,
+                                cardState: {
+                                    cardId: card.cardId,
+                                    top: card.top,
+                                    left: card.left
+                                }
+                            }
+                        });
+                        this.pointCard(card);
+
+                    }
+                    break;
+                case "p":
+                case "P":
+                    // point at a card
+                    this.pointCard(card);
+                    break;
+                case "l":
+                    case "L":
+                    // look at a facedown card
+                    this.peekCard(card);
+                    break;
+                case "m":
+                case "M":
+                case "x":
+                case "X":
+                    // mark or unmark card
+                    this.toggleMark(card);
+                    break;
+                case "u":
+                case "U":
+                    // toggle face down
+                    this.toggleFaceDown(card)
+                    break;
+            }
+        },
+        pointCard: function(card){
+            card.isPointed = true;
                 // send game action point card.
                 sendGameAction({
                     gameGuid: vue.gameGuid,
@@ -426,8 +573,22 @@ var vue = new Vue({
                         }
                     });
                 }, 2600, card);
-
-
+        },
+        peekCard: function(card){
+            if (card.isFaceDown) {
+                this.previewImageSrc = card.imageSrc;
+                this.preview = true;
+                card.isPeeking = true;
+                // send game action peek card.
+                sendGameAction({
+                    gameGuid: vue.gameGuid,
+                    playerGuid: vue.player.playerGuid,
+                    actionType: 'changeCardState',
+                    actionData: {
+                        cardId: card.cardId,
+                        isPeeking: true,
+                    }
+                });
             }
         },
         showPreview: function (card) {
@@ -981,7 +1142,19 @@ function init() {
         /* $.connection.hub.stop(); */
     };
 
-    
+    window.addEventListener("keydown", e => {
+        if (e.shiftKey) {
+            vue.keycode = "Shift" + e.key;
+        }
+        else {
+            vue.keycode = e.key;
+        }
+        vue.handleGlobalKeyPress();
+    });
+    window.addEventListener("keyup", e => {
+        vue.keycode = null;
+    });
+
     /* set up the web push api, and send the join game action on completion */
     /* when the join is successful, the processGameAction callback is called every time an action happens in the game */
     /* using the sendGameAction method, a action can be triggered on all clients */

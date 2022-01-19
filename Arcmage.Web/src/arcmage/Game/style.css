@@ -1066,7 +1066,7 @@ body {
 }
 
 .droptarget {
-	box-shadow: 0px 0px calc(var(--scale) * 13px) calc(var(--scale) * 13px) var(--drop);
+	box-shadow: 0px 0px calc(var(--scale) * 7px) calc(var(--scale) * 7px) var(--drop);
 }
 
 .selected {
@@ -1286,10 +1286,11 @@ body {
   bottom: calc(var(--scale) * 0px);
   display: flex;
   height: calc(var(--scale) * 100px);
+  padding-top:calc(var(--scale) * 7px); 
   justify-content: center;
   position: fixed;
-  left: calc(var(--scale) * 380px);
-  width: calc(var(--scale) * 1160px);
+  left: calc(var(--scale) * 373px);
+  width: calc(var(--scale) * 1174px);
   z-index: 9999;
   border-radius: calc(var(--scale) * 20px) calc(var(--scale) * 20px) 0px 0px;
  }
