@@ -85,6 +85,7 @@ body {
   --drop: rgba(255, 209, 70, 0.6);
   --pointed: rgb(241, 104, 25);
   --gropa: rgba(0, 0,0,0.7);
+  --handoffset: 20;
 }
 
 /* tooltips */
@@ -1309,7 +1310,7 @@ body {
     pointer-events: none;
     position: absolute;
     right: 0;
-    top: calc(var(--scale) * -50px);
+    top: calc(var(--scale) * var(--handoffset) * -1px);
     transition: 800ms cubic-bezier(0.19, 1, 0.22, 1) transform;
   }
 
@@ -1317,14 +1318,14 @@ body {
     z-index: calc(var(--totalHandCards) - var(--ind)  + 9999) !important;
   }
   #playerHand .card .flip-card-inner {
-    transform: translateY(calc(var(--scale) * 50px))
+    transform: translateY(calc(var(--scale) * var(--handoffset) * 1px))
   }
   #playerHand .card:hover .flip-card-inner {
     transform: translateY(0);
   }
 
   #playerHand .flip-card-hover .flip-card-inner {
-    transform: translateY(calc(var(--scale) * 50px)) rotateY(180deg);
+    transform: translateY(calc(var(--scale) * var(--handoffset) * 1px)) rotateY(180deg);
   }
   
   #playerHand .flip-card-hover:hover .flip-card-inner {
@@ -1332,12 +1333,12 @@ body {
   }
 
   #playerHand .ui-draggable-dragging .flip-card-inner {
-    transform: translateY(calc(var(--scale) * 50px)) !important;
+    transform: translateY(calc(var(--scale) * var(--handoffset) * 1px)) !important;
     transition-duration: 0ms;
   }
 
   #playerHand .ui-draggable-dragging.flip-card-hover .flip-card-inner {
-    transform: translateY(calc(var(--scale) * 50px)) rotateY(180deg) !important;
+    transform: translateY(calc(var(--scale) * var(--handoffset) * 1px)) rotateY(180deg) !important;
     transition-duration: 0ms;
   }
 

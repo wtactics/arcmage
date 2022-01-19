@@ -413,6 +413,7 @@
                  v-on:contextmenu.prevent="this.$parent.toggleFaceDown(card)"
                  v-on:mouseover="this.$parent.showPreview(card)"
                  v-on:mouseout="this.$parent.hidePreview(card)"
+                 v-on:mousedown="this.$parent.handMouseCardAction($event, card, player)"
                  v-bind:style="{ top: card.top + 'px' , left: card.left + 'px' }"
                  v-draggable="{ fromPlayerGuid: player.playerGuid, fromKind: 'hand', item: card, isDraggable: card.isDraggable,  top: card.top, left: card.left} ">
                 <div class="flip-card-inner">

@@ -403,7 +403,7 @@ var vue = new Vue({
         },
         handleGlobalKeyPress: function() {
             // not handling keyboard events in modals
-            if (this.showCurtain || this.showHints || this.showModal || this.showSettings) return;
+            if (this.showCurtain || this.showHints || this.showModal || this.showSettings || this.cardlist.show) return;
  
             switch(this.keycode){
                 case " ":
@@ -440,6 +440,47 @@ var vue = new Vue({
                 case "F":
                     // flip a coin
                     this.flipCoin();
+                    break;
+            }
+        },
+        handMouseCardAction: function(event, card, fromPlayer) {
+
+            if (this.showCurtain || this.showHints || this.showModal || this.showSettings || this.cardlist.show) return;
+
+            switch(this.keycode){
+                case "g":
+                case "G":
+                    // put card in graveyard
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'discardCard',
+                        actionData: {
+                            fromPlayerGuid: fromPlayer.playerGuid,
+                            fromKind: 'hand',
+                            toPlayerGuid: fromPlayer.playerGuid,
+                            toKind: 'graveyard',
+                            cardId: card.cardId,
+                            cardState: {
+                                cardId: card.cardId,
+                                isFaceDown: false,
+                                top: 0,
+                                left: 0
+                            }
+                        }
+                    });
+                    break;
+                case "m":
+                case "M":
+                case "x":
+                case "X":
+                    // mark or unmark card
+                    this.toggleMark(card);
+                    break;
+                case "u":
+                case "U":
+                    // toggle face down
+                    this.toggleFaceDown(card)
                     break;
             }
         },
