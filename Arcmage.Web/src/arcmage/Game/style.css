@@ -1296,7 +1296,6 @@ body {
   
   #playerHand .card {
     height: calc(var(--scale) * 150px);
-    margin: 0 calc(var(--scale) * -25px);
     position: relative;
     width: calc(var(--scale) * 106px);
   }
@@ -1304,52 +1303,57 @@ body {
 
 
   #playerHand .flip-card-inner {
-    bottom: 0;
     content: "";
     left: 0;
     pointer-events: none;
     position: absolute;
     right: 0;
-    top: 0;
+    top: calc(var(--scale) * -50px);
     transition: 800ms cubic-bezier(0.19, 1, 0.22, 1) transform;
   }
 
   #playerHand .card, #playerHand .flip-card-hover {
-    --rotationRange: calc( min(30, (var(--totalHandCards) - 1) * 10));
-    --halfTotal: calc(var(--totalHandCards) * 0.5);
-    --percentage: calc( (var(--ind) - var(--halfTotal)) / (var(--totalHandCards)));
-    --rotation: calc( var(--percentage) * var(--rotationRange));
-    --offsetRange: calc( min(80, (var(--totalHandCards)) * 15));
-    --offsetSigned: calc( var(--percentage) * var(--offsetRange));
-    --offset: max(var(--offsetSigned), -1*var(--offsetSigned));
-    z-index: calc( var(--ind)  + 9999) !important;
+    z-index: calc(var(--totalHandCards) - var(--ind)  + 9999) !important;
   }
   #playerHand .card .flip-card-inner {
-    transform: translateY(calc( (var(--offset) * 1px - 40px ) * var(--scale))) rotate(calc( (var(--rotation) * 1deg))) scale(1);
+    transform: translateY(calc(var(--scale) * 50px))
   }
   #playerHand .card:hover .flip-card-inner {
-    transform: translateY(calc(var(--scale) * -50px)) rotate(0deg) scale(1.5);
-    transition-duration: 0ms;
+    transform: translateY(0);
   }
 
   #playerHand .flip-card-hover .flip-card-inner {
-    transform: translateY(calc( (var(--offset) * 1px - 40px ) * var(--scale))) rotate(calc( (var(--rotation) * 1deg))) rotateY(180deg) scale(1);
+    transform: translateY(calc(var(--scale) * 50px)) rotateY(180deg);
   }
+  
   #playerHand .flip-card-hover:hover .flip-card-inner {
-    transform: translateY(calc(var(--scale) * -50px)) rotate(0deg) scale(1.5) rotateY(180deg);
+    transform: translateY(0) rotateY(180deg) !important;
+  }
+
+  #playerHand .ui-draggable-dragging .flip-card-inner {
+    transform: translateY(calc(var(--scale) * 50px)) !important;
+    transition-duration: 0ms;
+  }
+
+  #playerHand .ui-draggable-dragging.flip-card-hover .flip-card-inner {
+    transform: translateY(calc(var(--scale) * 50px)) rotateY(180deg) !important;
     transition-duration: 0ms;
   }
 
   #playerHand .card:hover{
-    z-index:99999 !important;;
+    z-index:99999 !important;
+  }
+
+  .flip-card-resources {
+    top: 0px;
+    position: absolute;
+    left: calc(var(--scale) * -7px);
   }
 
   #playerHand .card .after {
-    /* background: rgba(255, 0, 0, 0.15);*/
     bottom: 0;
     position: absolute;
-    left: calc(var(--scale) * 1.5 * -20px);
-    right: calc(var(--scale) * 1.5 * 0px);
+    left: 0px;
     top: 0px;
     z-index: calc( var(--ind)  + 9999 + 10 ) !important;
   }
@@ -1358,9 +1362,11 @@ body {
     opacity: 1;
   }
 
-  #playerHand .card:hover .after {
-    top: calc(var(--scale) * -50px);
+  #playerHand .ui-draggable-dragging .flip-card-resources{
+    opacity: 0 !important;
   }
+
+
 
   /* player hand card index variable injection */
   
