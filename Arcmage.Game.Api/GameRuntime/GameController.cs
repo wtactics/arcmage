@@ -21,8 +21,8 @@ namespace Arcmage.Game.Api.GameRuntime
         public static double CardHeight = 150 * Scale;
         public static double LayoutGap = 10 * Scale;
 
-        public static double TokenStartLeft = (BattleFieldWidth - CardWitdh - CardWitdh - 70) * Scale;
-        public static double TokenStartTop = (850 + CardHeight + 60) * Scale;
+        public static double TokenStartLeft = BattleFieldWidth - CardWitdh - CardWitdh - 70 * Scale;
+        public static double TokenStartTop = 850 * Scale + CardHeight + 60 * Scale;
         public static double TokenGap = 5 * Scale;
 
         public static double CityStartLeft = 136 * Scale;
