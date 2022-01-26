@@ -926,24 +926,24 @@ body {
 }
 
 .blackResources {
-	background: rgba(0,0,0,1);
+	/* background: rgba(0,0,0,1);*/
 }
 
 .yellowResources {
-	background: rgba(255,255,0,1);
-	color : rgba(0,0,0,1);
+ /* background: rgba(255,255,0,1); */
+	color : rgb(0, 0, 0);
 }
 
 .greenResources {
-	background-color:rgba(112,173,71,1);
+	/* background-color:rgba(112,173,71,1); */
 }
 
 .blueResources {
-	background-color:rgba(0,176,240,1);
+	/* background-color:rgba(0,176,240,1); */
 }
 
 .redResources{
-	background-color:rgba(192,0,0,1);
+	/* background-color:rgba(192,0,0,1); */
 }
 
 #playerResources{
@@ -951,9 +951,12 @@ body {
 	top: calc(var(--scale) * 640px);
 	width: calc(var(--scale) * 100px);
 	height: calc(var(--scale) * 280px);
-	background-color: var(--overlay);
 	border-radius: 0px calc(var(--scale) * 25px) calc(var(--scale) * 25px) 0px;
   overflow: hidden;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("resources.webp");
 }
 
 #opponentResources{
@@ -964,6 +967,10 @@ body {
 	background-color: var(--overlay);
 	border-radius: 0px calc(var(--scale) * 25px) calc(var(--scale) * 25px) 0px;
   overflow: hidden;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("resources.webp");
 }
 
 /* cards */
@@ -1174,12 +1181,17 @@ body {
     position: absolute;
     top: 0px;
     left: calc(var(--scale) * -5px);
-    opacity: 0;
+    /* opacity: 0; */
+    display: none;
 }
 
 .flip-card-resource {
-    width: calc(var(--scale) * 15px);
-    height: calc(var(--scale) * 15px);
+  width: calc(var(--scale) * 15px);
+  height: calc(var(--scale) * 15px);
+  border-radius: calc(var(--scale) * 15px);
+  border-color: var(--chrome);
+  border-width: calc(var(--scale) * 2px);
+  border-style: groove;
 }
 
 .flip-card-resource:hover {
@@ -1189,23 +1201,43 @@ body {
 
 
 .flip-card-resource-black{
-    background-color: var(--ground);
+    background-color: black;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("black_r.webp");
 }
 
 .flip-card-resource-yellow {
     background-color: yellow;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("yellow_r.webp");
 }
 
 .flip-card-resource-green {
     background-color: rgba(112,173,71,1);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("green_r.webp");
 }
 
 .flip-card-resource-blue {
     background-color: rgba(0,176,240,1);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("blue_r.webp");
 }
 
 .flip-card-resource-red {
     background-color: rgba(192,0,0,1);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("red_r.webp");
 }
 
 .flip-card-resource .tooltip-content {
@@ -1361,11 +1393,13 @@ body {
   }
 
   #playerHand .card:hover .after .flip-card-resources {
-    opacity: 1;
+    /* opacity: 1; */
+    display: unset;
   }
 
   #playerHand .ui-draggable-dragging .flip-card-resources{
-    opacity: 0 !important;
+    /* opacity: 0 !important; */
+    display: none !important;
   }
 
 

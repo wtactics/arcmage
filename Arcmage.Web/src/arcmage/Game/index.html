@@ -7,10 +7,8 @@
     <meta name="HandheldFriendly" content="true" />
 
     <link rel="stylesheet" type="text/css" href="vue-modal/modal.css">
-    <!--<link rel="stylesheet" type="text/css" href="roundslider/roundslider.min.css" />-->
     <link rel="stylesheet" type="text/css" href="rolladie/roll-a-die.css">
     <link rel="stylesheet" type="text/css" href="style.css">
-	
 </head>
 
 <body id="arcmagegame" translate="no">
@@ -26,24 +24,10 @@
 <!--the entire content -->
 <div id="content">
 
-
-<!-- 
-<div class="actions" id="actions">
-    <div class="actionsText">
-        <template v-for="(index, action) in actions" track-by="$index">
-            <span class="action_item">{{action}}</span>
-        </template>
-    </div>
-</div> -->
-
-
-
 <!-- Region: BattleField -->
     
 <!-- the battleField contains (on this element and it children, the perspective is applied) -->
 <div id="battleField" v-bind:style="{ 'background-image': 'url(' + backgroundImage + ')' }">
-    <!--<div id="helper1"></div>
-    <div id="helper2"></div>-->
     <!-- the battleField backgrounds -->
     <div id="opponentField"></div>
     <div id="playerField"></div>
@@ -690,8 +674,6 @@
 
     <img id="preview" v-bind:src="previewImageSrc" v-show="preview" transition="preview" />
 
-    
-
     <!-- the coin flip -->
     <div class="coin-flip-conainer" v-bind:class="{ 'coin-flip': coinflip }">
         <div v-bind:class="{ 'coin-tails': coinflip }">
@@ -847,6 +829,7 @@
     <script type="text/javascript" src="vue/vue.js"></script>
     <script type="text/javascript" src="vue-resource/vue-resource.min.js"></script>
     <script type="text/javascript" src="vue-modal/vue-modal.js"></script>
+    
 
 
     <!-- Game specific scripts -->
