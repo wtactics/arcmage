@@ -1186,16 +1186,16 @@ body {
 }
 
 .flip-card-resource {
-  width: calc(var(--scale) * 15px);
-  height: calc(var(--scale) * 15px);
-  border-radius: calc(var(--scale) * 15px);
+  width: calc(var(--scale) * 10px);
+  height: calc(var(--scale) * 10px);
+  border-radius: calc(var(--scale) * 10px);
   border-color: var(--chrome);
-  border-width: calc(var(--scale) * 2px);
+  border-width: calc(var(--scale) * 1px);
   border-style: groove;
 }
 
 .flip-card-resource:hover {
-    width: calc(var(--scale) * 25px);
+    width: calc(var(--scale) * 20px);
     transition: width 0.15s;
 }
 
