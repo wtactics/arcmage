@@ -549,7 +549,7 @@
                 <p>Toggle your opponent's blinds.</p>
             </div>
         </div>
-        <div class="turn turn_flat" v-on:click="setPerspective(!showFlat)" v-bind:class="{ 'turn_perspective': showFlat, 'turn_flat_override': showFlat  }">
+        <div class="turn turn_flat" v-on:click="setPerspective(!showFlat, true)" v-bind:class="{ 'turn_perspective': showFlat, 'turn_flat_override': showFlat  }">
             <div class="tooltip-content">
                 <p>Toggle the battlefield perspective.</p>
             </div>
@@ -756,7 +756,7 @@
         <div slot="body" id="settings">
             <div class="dialog_body">
                 <template v-for="(index, item) in backgrounds" track-by="$index">
-                    <img :src="item.image" class="backgroundOption" @click="setBackground(item.image)" ></img>
+                    <img :src="item.image" class="backgroundOption" @click="setBackground(item.image, true)" ></img>
                 </template>
             </div>
         </div>

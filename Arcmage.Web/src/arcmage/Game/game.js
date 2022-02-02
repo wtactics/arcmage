@@ -214,6 +214,26 @@ var vue = new Vue({
         }
     },
     methods: {
+        restoreSettings: function(){
+            var settingsJson = window.localStorage.getItem("settings");
+            if (settingsJson){
+                var settings = JSON.parse(settingsJson);
+                if (settings.showFlat) {
+                    this.setPerspective(settings.showFlat, false);
+                }
+                if (settings.backgroundImage){
+                    this.setBackground(settings.backgroundImage, false);
+                }
+            }
+           
+        },
+        saveSettings: function(){
+            var settings = {
+                showFlat: vue.showFlat,
+                backgroundImage: vue.backgroundImage
+            };
+            window.localStorage.setItem('settings', JSON.stringify(settings));
+        },
         openCurtain: function() {
             vue.player.showCurtain = false;
             if (vue.isStarted) {
@@ -241,8 +261,11 @@ var vue = new Vue({
                 });
             }
         },
-        setBackground: function(image) {
+        setBackground: function(image, save) {
             vue.backgroundImage = image;
+            if(save){
+                this.saveSettings();
+            }
         },
         openVideo: function() {
            // window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
@@ -276,12 +299,14 @@ var vue = new Vue({
                 });
             }
         },
-        setPerspective:function (flat){
+        setPerspective:function (flat, save){
             vue.showFlat = flat;
             var fieldView = sizing.fieldview.perspective;
             if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
             resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset); 
-
+            if(save){
+                this.saveSettings();
+            }
         },
         createServices: function() {
             this.services.login = this.$resource(apiUri + "/api/Login");
@@ -1195,6 +1220,8 @@ function init() {
     window.addEventListener("keyup", e => {
         vue.keycode = null;
     });
+
+    vue.restoreSettings();
 
     /* set up the web push api, and send the join game action on completion */
     /* when the join is successful, the processGameAction callback is called every time an action happens in the game */
