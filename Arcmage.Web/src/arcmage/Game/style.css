@@ -487,6 +487,14 @@ body {
     background-image: url("turn_open_blinds.webp");
 }
 
+.no_sound {
+  background-image: url("nosound.webp");
+}
+
+.sound {
+  background-image: url("sound.webp");
+}
+
 .video {
     background-image: url("turn_headset.webp");
 }
@@ -538,7 +546,7 @@ body {
   margin: auto;
   transform-style: preserve-3d;
   position: absolute;
-  animation: fly 1s ease-in-out 0s 2 alternate forwards;
+  animation: fly 0.632s ease-in-out 0s 2 alternate forwards;
 }
 
 .coin-heads {
@@ -546,14 +554,14 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  animation: flip-head 0.5s linear 0s 4 alternate forwards;
+  animation: flip-head 0.316s linear 0s 4 alternate forwards;
 }
 .coin-tails {
   backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
-  animation: flip-tail 0.5s linear 0s 4 alternate forwards;
+  animation: flip-tail 0.316s linear 0s 4 alternate forwards;
 }
 
 @keyframes fly {

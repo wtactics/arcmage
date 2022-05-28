@@ -1,5 +1,4 @@
-﻿
-var dieInDOM = [];
+﻿var dieInDOM = [];
 
 function getFace(pips) {
     var XMLNS = "http://www.w3.org/2000/svg";

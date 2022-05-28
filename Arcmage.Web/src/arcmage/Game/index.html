@@ -685,7 +685,7 @@
     </div>
 
     <div class="dice-container" v-bind:class="{ 'dice-rolling': diceRoll }">
-        <div id="dice-inner-container"></div>
+        <div id="dice-outer-container"></div>
     </div>
 
 
@@ -755,6 +755,13 @@
         </div>
         <div slot="body" id="settings">
             <div class="dialog_body">
+                <div class="dialog_header">Audio</div>
+                <div class="turn no_sound" v-on:click="setSoundFx(!useSoundFx, true)" v-bind:class="{ 'sound': useSoundFx }">
+                    <div class="tooltip-content">
+                        <p>Toggle your opponent's blinds.</p>
+                    </div>
+                </div>
+                <div class="dialog_header">Background</div>
                 <template v-for="(index, item) in backgrounds" track-by="$index">
                     <img :src="item.image" class="backgroundOption" @click="setBackground(item.image, true)" ></img>
                 </template>
@@ -809,7 +816,11 @@
     <script type="text/javascript" src="jquery-querystring/jquery-querystring.js"></script>
     <!-- jquery support for touch events -->
     <!-- N.G. Remark: Currently we have no support for touch devices -->
-        <script type="text/javascript" src="jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+    <script type="text/javascript" src="jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+    
+    <!-- howler audio library -->
+    <script src="howler/howler.js"></script>
+    
     <!-- -->
     <script src="signalr/signalr.js"></script>
     

@@ -38,6 +38,28 @@ const sizing = {
     playerHand: { top: 1105 * scale, left: 380 * scale, width: 1160 * scale, height: 95 * scale }
 }
 
+const sound = new Howl({
+
+    src: ['audio/sound.ogg', 'audio/sound.mp3'],
+    sprite: {
+        joinGame: [0, 0],
+        startGame: [0, 0],
+        drawCard: [512, 422],
+        discardCard: [23966, 642],
+        playCard: [0, 0],
+        deckCard: [0, 0],
+        removeCard: [0, 0],
+        changeCardState: [0, 0],
+        changeCurtainState: [0, 0],
+        changePlayerStats: [0, 0],
+        shuffleList: [6638, 783],
+        updateList: [0, 0],
+        flipCoin: [17935, 1265],
+        diceRoll: [21078, 984], 
+        leaveGame: [0, 0],        
+    }
+  });
+
 /* The vue app, containing the visualisation, and the ui actions */
 var vue = new Vue({
     el: '#arcmagegame',
@@ -86,6 +108,7 @@ var vue = new Vue({
           { image: 'field11.webp' },
         ],
         backgroundChromeImage: 'chrome1.webp',
+        useSoundFx: true,
         sacle: scale,
         useGrid: false,
         showFlat: false,
@@ -224,13 +247,14 @@ var vue = new Vue({
                 if (settings.backgroundImage){
                     this.setBackground(settings.backgroundImage, false);
                 }
+                this.setSoundFx(settings.useSoundFx, false);
             }
-           
         },
         saveSettings: function(){
             var settings = {
                 showFlat: vue.showFlat,
-                backgroundImage: vue.backgroundImage
+                backgroundImage: vue.backgroundImage,
+                useSoundFx: vue.useSoundFx
             };
             window.localStorage.setItem('settings', JSON.stringify(settings));
         },
@@ -263,6 +287,13 @@ var vue = new Vue({
         },
         setBackground: function(image, save) {
             vue.backgroundImage = image;
+            if(save){
+                this.saveSettings();
+            }
+        },
+        setSoundFx: function(useSoundFx, save){
+            vue.useSoundFx = useSoundFx;
+            sound.mute(!useSoundFx);
             if(save){
                 this.saveSettings();
             }
@@ -1107,9 +1138,64 @@ var vue = new Vue({
    
 });
 
+function playSoundFx(gameAction){
+    if(vue.isStarted && gameAction.actionType) {
+        switch (gameAction.actionType) {
+            case 'joinGame':
+                // sound.play(gameAction.actionType);
+                break;
+            case 'startGame':
+                // sound.play(gameAction.actionType);
+                break;
+            case 'drawCard':
+                sound.play(gameAction.actionType);
+                break;
+            case 'discardCard':
+                sound.play(gameAction.actionType);
+                break;
+            case 'playCard':
+                sound.play(gameAction.actionType);
+                break;
+            case 'deckCard':
+                sound.play(gameAction.actionType);
+                break;
+            case 'removeCard':
+                sound.play(gameAction.actionType);
+                break;
+            case 'changeCardState':
+                // sound.play(gameAction.actionType);
+                break;
+            case 'changeCurtainState':
+                sound.play(gameAction.actionType);
+                break;
+            case 'changePlayerStats':
+                // sound.play(gameAction.actionType);
+                break;
+            case 'shuffleList':
+                sound.play(gameAction.actionType);
+                break;
+            case 'updateList':
+                // sound.play(gameAction.actionType);
+                break;
+            case 'flipCoin':
+                sound.play(gameAction.actionType);
+                break;
+            case 'diceRoll': 
+                sound.play(gameAction.actionType);
+                break;
+            case 'leaveGame':
+                sound.play(gameAction.actionType);
+                break;
+    
+        }
+    } 
+
+}
+
 /* Process game actions*/
 function processGameAction(gameAction) {
     console.log(JSON.stringify(gameAction, null, 2));
+    playSoundFx(gameAction);
     switch (gameAction.actionType) {
         case 'joinGame':
             break;
@@ -1252,6 +1338,8 @@ async function connectHub(){
 async function sendGameAction(gameAction) {
     /* $.connection.games.server.pushAction(gameAction); */
     try {
+        // Play sounds locally
+        playSoundFx(gameAction);
         await connection.invoke("PushAction", gameAction);
     } catch (err) {
         console.error(err);
@@ -1353,7 +1441,7 @@ function processStartGame(game) {
 /* Action dice roll */
 function processDiceRoll(actionData, actionResult) {
 
-    var element = document.getElementById('dice-inner-container');
+    var element = document.getElementById('dice-outer-container');
     vue.diceRoll = true;
     var numberOfDice = 1;
     var valuesToThrow = [ actionResult ];
@@ -1375,7 +1463,7 @@ function processFlipCoin(updateListParam, headsOrTails) {
     vue.coinflip = true;
     setTimeout(function () {
         vue.coinflip = false;
-    }, 4000);
+    }, 3000);
 }
 
 /* Action move card form one list to another */
@@ -1546,7 +1634,6 @@ function processChangePlayerStats(playerState) {
 }
 
 function processShuffleList(shuffleListParam, gamecards) {
-    
     clearList(shuffleListParam.playerGuid, shuffleListParam.kind);
     var source = getList(shuffleListParam.playerGuid, shuffleListParam.kind);
     
