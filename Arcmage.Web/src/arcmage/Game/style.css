@@ -253,6 +253,36 @@ body {
   border-color: var(--primary);
 }
 
+/* sound settings */
+.sound_volume_container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  width: 30%;
+  height: calc(var(--scale) * 30px);
+}
+
+.sound_volume {
+  height: 100%;
+  width: 10%;
+  border-radius: 5% 0% 0% 0%;
+  background-color: var(--secondary);
+}
+
+.sound_volume:hover {
+  cursor: pointer;
+}
+
+.active_volume {
+  background-color: var(--chrome);
+}
+
+.audio_settings {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 
 /* avatars */
 #opponent {

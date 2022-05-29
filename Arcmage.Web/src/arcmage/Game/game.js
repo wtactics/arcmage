@@ -38,14 +38,22 @@ const sizing = {
     playerHand: { top: 1105 * scale, left: 380 * scale, width: 1160 * scale, height: 95 * scale }
 }
 
+
+const soundIntro = new Howl({
+    src: ['audio/soundIntro.ogg', 'audio/soundIntro.mp3'],
+    loop: true,
+  //  autoplay: true,
+    volume: 0.5,
+});
+
 const sound = new Howl({
 
     src: ['audio/sound.ogg', 'audio/sound.mp3'],
     sprite: {
         joinGame: [0, 0],
-        startGame: [0, 0],
+        startGame: [27968, 4069],
         drawCard: [512, 422],
-        discardCard: [23966, 642],
+        discardCard: [26062, 199],
         playCard: [0, 0],
         deckCard: [0, 0],
         removeCard: [0, 0],
@@ -109,6 +117,7 @@ var vue = new Vue({
         ],
         backgroundChromeImage: 'chrome1.webp',
         useSoundFx: true,
+        soundVolume: 5,
         sacle: scale,
         useGrid: false,
         showFlat: false,
@@ -248,13 +257,15 @@ var vue = new Vue({
                     this.setBackground(settings.backgroundImage, false);
                 }
                 this.setSoundFx(settings.useSoundFx, false);
+                this.setSoundVolume(settings.soundVolume, false);
             }
         },
         saveSettings: function(){
             var settings = {
                 showFlat: vue.showFlat,
                 backgroundImage: vue.backgroundImage,
-                useSoundFx: vue.useSoundFx
+                useSoundFx: vue.useSoundFx,
+                soundVolume: vue.soundVolume
             };
             window.localStorage.setItem('settings', JSON.stringify(settings));
         },
@@ -294,9 +305,25 @@ var vue = new Vue({
         setSoundFx: function(useSoundFx, save){
             vue.useSoundFx = useSoundFx;
             sound.mute(!useSoundFx);
+            soundIntro.mute(!useSoundFx);
             if(save){
                 this.saveSettings();
             }
+        },
+        setSoundVolume: function(soundVolume, save) {
+            if(!soundVolume) soundVolume = 5;
+            vue.soundVolume = soundVolume;
+            sound.volume(soundVolume / 10.0);
+            soundIntro.volume( (soundVolume / 10.0) * 0.6);
+            if(save){
+                this.saveSettings();
+            }
+        },
+        checkVolumeLevel: function(level){
+            if(this.soundVolume) {
+                return this.useSoundFx && level <= this.soundVolume;
+            }
+            return false;
         },
         openVideo: function() {
            // window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
@@ -1142,9 +1169,10 @@ function playSoundFx(gameAction){
     if(vue.isStarted && gameAction.actionType) {
         switch (gameAction.actionType) {
             case 'joinGame':
-                // sound.play(gameAction.actionType);
+                soundIntro.play();
                 break;
             case 'startGame':
+                soundIntro.stop();
                 // sound.play(gameAction.actionType);
                 break;
             case 'drawCard':
@@ -1166,7 +1194,17 @@ function playSoundFx(gameAction){
                 // sound.play(gameAction.actionType);
                 break;
             case 'changeCurtainState':
-                sound.play(gameAction.actionType);
+                // sound.play(gameAction.actionType);
+                var curtainState = gameAction.actionData;
+                if (vue.player.playerGuid === curtainState.playerGuid){
+                    if(curtainState.showCurtain){
+                        soundIntro.play();
+                    }
+                    else {
+                        soundIntro.stop();
+                    }
+                }
+                
                 break;
             case 'changePlayerStats':
                 // sound.play(gameAction.actionType);
@@ -1433,6 +1471,7 @@ function processStartGame(game) {
         vue.curtainRightText = 'to open the blinds';
         vue.player.showCurtain = false;
         vue.opponent.showCurtain = false;
+        sound.play('startGame');
     }, 1500);
 
    

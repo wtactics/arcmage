@@ -756,9 +756,14 @@
         <div slot="body" id="settings">
             <div class="dialog_body">
                 <div class="dialog_header">Audio</div>
-                <div class="turn no_sound" v-on:click="setSoundFx(!useSoundFx, true)" v-bind:class="{ 'sound': useSoundFx }">
-                    <div class="tooltip-content">
-                        <p>Toggle your opponent's blinds.</p>
+                <div class="audio_settings">
+                    <div class="turn no_sound" v-on:click="setSoundFx(!useSoundFx, true)" v-bind:class="{ 'sound': useSoundFx }">
+                    </div>
+                    <div class="sound_volume_container">
+                        <div class="sound_volume"
+                             v-bind:style="{ height: index*10 + '%' }" 
+                             v-for="index in 11" :key="index"
+                             v-on:click="setSoundVolume(index, true)" v-bind:class="{ 'active_volume': checkVolumeLevel(index) }"></div>
                     </div>
                 </div>
                 <div class="dialog_header">Background</div>
