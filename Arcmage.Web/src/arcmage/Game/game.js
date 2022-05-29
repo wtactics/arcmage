@@ -54,14 +54,16 @@ const sound = new Howl({
         startGame: [27968, 4069],
         drawCard: [512, 422],
         discardCard: [26062, 199],
-        playCard: [0, 0],
-        deckCard: [0, 0],
+        playCard: [33997, 331],
+        deckCard:  [33997, 331],
         removeCard: [0, 0],
-        changeCardState: [0, 0],
-        changeCurtainState: [0, 0],
+        moveCard:[753,211],
+        rotateCard:[753,211],
+        flipCard:[437,271],
+        peekCard: [0, 0],
+        pointCard: [0, 0],
         changePlayerStats: [0, 0],
         shuffleList: [6638, 783],
-        updateList: [0, 0],
         flipCoin: [17935, 1265],
         diceRoll: [21078, 984], 
         leaveGame: [0, 0],        
@@ -882,6 +884,8 @@ var vue = new Vue({
         },
         unmarkAll: function(player) {
            
+            sound.play('rotateCard');
+
             var actionData = {
                 playerGuid: player.playerGuid,
                 kind: 'Play',
@@ -1167,6 +1171,9 @@ var vue = new Vue({
 
 function playSoundFx(gameAction){
     if(vue.isStarted && gameAction.actionType) {
+        var opponentPlaySound = gameAction.playerGuid === vue.opponent.playerGuid;
+        var playerPlaySound = gameAction.playerGuid === vue.player.playerGuid;
+
         switch (gameAction.actionType) {
             case 'joinGame':
                 soundIntro.play();
@@ -1192,11 +1199,33 @@ function playSoundFx(gameAction){
                 break;
             case 'changeCardState':
                 // sound.play(gameAction.actionType);
+                var cardState = gameAction.actionData;
+                if(cardState.isMarked !== undefined){
+                    sound.play('rotateCard');
+                }
+                if(cardState.isFaceDown !== undefined){
+                    sound.play('flipCard');
+                }
+                if (cardState.isPeeking !== undefined){
+                   // sound.play('peekCard');
+                } 
+                if (cardState.isPointed !== undefined){
+                   // sound.play('pointCard');
+                } 
+                if (cardState.top !== undefined && cardState.left !== undefined) {
+                    // N.G. only play move animation with oponent cards
+                    if(opponentPlaySound){
+                        sound.play('moveCard');
+                    }
+                }
                 break;
             case 'changeCurtainState':
-                // sound.play(gameAction.actionType);
+                // N.G. only play blind waiting audio for current player
                 var curtainState = gameAction.actionData;
-                if (vue.player.playerGuid === curtainState.playerGuid){
+                var playIntro = vue.player.playerGuid === curtainState.playerGuid;
+                if (playIntro){
+                    
+                    // sound.play(gameAction.actionType);
                     if(curtainState.showCurtain){
                         soundIntro.play();
                     }
