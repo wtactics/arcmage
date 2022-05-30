@@ -51,7 +51,8 @@ const sound = new Howl({
     src: ['audio/sound.ogg', 'audio/sound.mp3'],
     sprite: {
         joinGame: [0, 0],
-        startGame: [27968, 4069],
+        // startGame: [27968, 4069],
+        startGame: [35912, 4458],
         drawCard: [512, 422],
         discardCard: [26062, 199],
         playCard: [33997, 331],

@@ -1,1 +1,1 @@
-audiosprite -o sound draw-card.wav riffle-shuffles.wav coin-flip.wav dice.wav discard.wav discard2.ogg gamestart.ogg card-down.ogg
+audiosprite -o sound draw-card.wav riffle-shuffles.wav coin-flip.wav dice.wav discard.wav discard2.ogg gamestart.ogg card-down.ogg start-match.ogg
