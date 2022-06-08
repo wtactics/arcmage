@@ -703,8 +703,10 @@
     <!--
         Everything in the content overlay is not drawn in perspective, it contains:
         the avatar's,  the card preview, and the card list dialog
-    
-    <div id="opponent" v-bind:class="{ 'hide': showFlat }"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
+    -->
+    <div id="jitsioverlay" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted && showFlat }"></div>
+    <div id="opponent" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted, 'opponent_flat': showFlat }"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
+    <!--
     <div id="player" v-bind:class="{ 'hide': showFlat }"><div class="playerName"><div class="playerName-text">{{player.name}}</div></div></div>
     -->
 

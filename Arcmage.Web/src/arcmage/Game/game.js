@@ -218,6 +218,8 @@ var vue = new Vue({
         jitsi: {
             isVideoMuted: true,
             isAudioMuted: true,
+            isOpponentVideoMuted: true,
+            opponentJitsiId: null,
             domain:  'meet.jit.si',
             options: {
                 roomName: 'JitsiMeetAPIExampleTest',
@@ -1606,12 +1608,13 @@ function processLeave(gameAction) {
 function setupJitsi(){
     if(!vue.services.jitsiApi) {
         vue.services.jitsiApi = new JitsiMeetExternalAPI(vue.jitsi.domain, vue.jitsi.options); 
+
+        vue.services.jitsiApi.addListener('participantJoined', participantJoinedHandler);
         vue.services.jitsiApi.addListener('incomingMessage', incommingMessageHandler);
         vue.services.jitsiApi.addListener('outgoingMessage', outgoingMessageHandler);
         vue.services.jitsiApi.addListener('audioMuteStatusChanged', audioMuteStatusChangedHandler);
         vue.services.jitsiApi.addListener('videoMuteStatusChanged', videoMuteStatusChangedHandler);
 
-        // vue.services.jitsiApi.executeCommand('avatarUrl', 'https://aminduna.arcmage.org/arcmage/Game/player.webp');
     }
 }
 
@@ -2058,16 +2061,28 @@ function audioMuteStatusChangedHandler(args){
 
 function videoMuteStatusChangedHandler(args){
     vue.jitsi.isVideoMuted = args.muted;
+    if(vue.jitsi.opponentJitsiId){
+        vue.services.jitsiApi.executeCommand('sendChatMessage', '' + args.muted, vue.jitsi.opponentJitsiId, true);
+    }
 }
 
+function participantJoinedHandler(args){
+    vue.jitsi.opponentJitsiId = args.id;
+}
 
 function incommingMessageHandler(args){
-    vue.chatMessages.push(
-        { 
-            isOpponent: true,
-            message: args.message
-        }
-    );
+    if(args.privateMessage){
+        vue.jitsi.isOpponentVideoMuted = args.message === 'true';
+    }
+    else {
+        vue.chatMessages.push(
+            { 
+                isOpponent: true,
+                message: args.message
+            }
+        );
+    }
+  
 }
 
 
