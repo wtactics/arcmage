@@ -2088,12 +2088,18 @@ function incommingMessageHandler(args){
 
 
 function outgoingMessageHandler(args){
-    vue.chatMessages.push(
-        { 
-            isOpponent: false,
-            message: args.message
-        }
-    );
+
+    if(args.privateMessage) {
+
+    }
+    else {
+        vue.chatMessages.push(
+            { 
+                isOpponent: false,
+                message: args.message
+            }
+        );
+    }
 }
 
 

@@ -676,7 +676,9 @@
     <!-- Region: video -->
     <div id="jitsi" v-bind:class="{ 'jitsi_flat': showFlat }"></div>
     
-
+    <div id="jitsioverlay" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted || !showFlat }"></div>
+    <div id="opponent" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted, 'opponent_flat': showFlat }"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
+   
     <div id="chatcontainer" v-bind:class="{ 'chatcontainer_flat': showFlat }">
         <div id="chat" v-bind:class="{ 'chat_flat': showFlat }">
             <div id="chat_messages_wrapper">
@@ -704,8 +706,6 @@
         Everything in the content overlay is not drawn in perspective, it contains:
         the avatar's,  the card preview, and the card list dialog
     -->
-    <div id="jitsioverlay" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted && showFlat }"></div>
-    <div id="opponent" v-bind:class="{ 'hide': !jitsi.isOpponentVideoMuted, 'opponent_flat': showFlat }"><div class="playerName"><div class="playerName-text">{{opponent.name}}</div></div></div>
     <!--
     <div id="player" v-bind:class="{ 'hide': showFlat }"><div class="playerName"><div class="playerName-text">{{player.name}}</div></div></div>
     -->
