@@ -253,6 +253,7 @@ body {
 .chat_flat {
   flex-direction: column !important;
   align-items: flex-end !important;
+  height: 100% !important;
 }
 
 #chat_messages_wrapper{

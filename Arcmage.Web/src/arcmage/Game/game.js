@@ -2088,7 +2088,6 @@ function incommingMessageHandler(args){
 
 
 function outgoingMessageHandler(args){
-
     if(args.privateMessage) {
 
     }
