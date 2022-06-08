@@ -14,11 +14,13 @@ const sizing = {
     fieldview: {
         flat: { 
             distancePercentage: 0, 
-            rightOffset: (5 + 56 ) * scale
+            rightOffset: (5 + 56 ) * scale,
+            leftOffsetPercentage: 0.15
         },
         perspective:{
-            distancePercentage: 0.2, 
-            rightOffset: 0
+            distancePercentage: 0.15, 
+            rightOffset: 0,
+            leftOffsetPercentage: 0.05
         }
     },
     card: {
@@ -47,7 +49,6 @@ const soundIntro = new Howl({
 });
 
 const sound = new Howl({
-
     src: ['audio/sound.ogg', 'audio/sound.mp3'],
     sprite: {
         joinGame: [0, 0],
@@ -80,13 +81,13 @@ var vue = new Vue({
         {
             title: "Gloabal keyboard shortcuts.",
             items: [
-                { key: "Enter, Spacebar", description: "Unmark all your cards." },
+                { key: "Ctrl+Enter, Ctrl+Spacebar", description: "Unmark all your cards." },
                 { key: "Shift+Enter, Shift+Spacebare", description: "Unmark all opponents cards (in case you'd like to help out)." },
-                { key: "D", description: "Draw one card from your deck." },
-                { key: "T", description: "Draw two cards from your deck." },
-                { key: "R", description: "Roll a dice." },
-                { key: "F", description: "Flip the coin." },
-                { key: "B", description: "Toggle the curtain/blinds for your opponent." }
+                { key: "Ctrl+D", description: "Draw one card from your deck." },
+                { key: "Ctrl+T", description: "Draw two cards from your deck." },
+                { key: "Ctrl+R", description: "Roll a dice." },
+                { key: "Ctrl+F", description: "Flip the coin." },
+                { key: "Ctrl+B", description: "Toggle the curtain/blinds for your opponent." }
             ]
         },
         {
@@ -210,8 +211,262 @@ var vue = new Vue({
             gameSearch: null,
             games: null,
             game: null,
-        }
+            jitsiApi: null,
+        },
+        newChatMessage: null,
+        chatMessages:[],
+        jitsi: {
+            isVideoMuted: true,
+            isAudioMuted: true,
+            domain:  'meet.jit.si',
+            options: {
+                roomName: 'JitsiMeetAPIExampleTest',
+                width:'100%',
+                height: '100%',
+                parentNode: document.querySelector('#jitsi'),
+                lang: 'en',
+                userInfo: {
+                    displayName: 'player',
+                    email: 'player.webp'
+                },
+                interfaceConfigOverwrite :{
+                    SHOW_CHROME_EXTENSION_BANNER: false,
+                    // Determines how the video would fit the screen. 'both' would fit the whole
+                    // screen, 'height' would fit the original video height to the height of the
+                    // screen, 'width' would fit the original video width to the width of the
+                    // screen respecting ratio, 'nocrop' would make the video as large as
+                    // possible and preserve aspect ratio without cropping.
+                    VIDEO_LAYOUT_FIT: 'both',
+                    SET_FILMSTRIP_ENABLED: false,
+                },
+                configOverwrite: {
+                    disableModeratorIndicator: true,
+                    disableReactions: true,
+                    disableReactionsModeration: true,
+                    disablePolls: true,
+                    disableSelfView: true,
+                    disableSelfViewSettings: true,
+                    startAudioOnly: false,
+                    startWithAudioMuted: true,
+                    disableResponsiveTiles: true,
+                    hideLobbyButton: true,
+                    autoKnockLobby: true,
+                    enableLobbyChat: false,
+                    requireDisplayName: false,
+                    enableWelcomePage: false,
+                    disableShortcuts: true,
+                    enableClosePage: true,
+                    defaultLocalDisplayName: 'me',
+                    defaultRemoteDisplayName: 'opponent',
+                    hideDisplayName: true,
+                    hideDominantSpeakerBadge: true,
+                    defaultLanguage: 'en',
+                    disableProfile: true,
+                    hideEmailInSettings: true,
+                    prejoinConfig: {
+                        enabled: false,
+                        hideDisplayName: true,
+                        hideExtraJoinButtons: ['no-audio', 'by-phone']
+                    },
+                    readOnlyName: true,
+                    enableInsecureRoomNameWarning: false,
+                    enableAutomaticUrlCopy: false,
+                    // Array with avatar URL prefixes that need to use CORS.                    
+                    corsAvatarURLs: [ 'https://aminduna.arcmage.org/arcmage/Game/' ],
+                    gravatarBaseURL: 'https://aminduna.arcmage.org/arcmage/Game/',
+                    // Setup for Gravatar-compatible services.
+                    gravatar: {
+                        // Defaults to Gravatar.
+                        baseUrl: 'https://aminduna.arcmage.org/arcmage/Game/',
+                        // True if Gravatar should be disabled.
+                        disabled: true
+                    },
+                    
+                    toolbarButtons: [ ],
+                    toolbarConfig: {
+                         alwaysVisible: false,
+                         autoHideWhileChatIsOpen: true
+                    },
+                    hiddenPremeetingButtons: ['microphone', 'camera', 'select-background', 'invite', 'settings'],
+                    disableThirdPartyRequests: true,
+                    notifications: [],
+                    disabledSounds: [
+                        'ASKED_TO_UNMUTE_SOUND',
+                        'E2EE_OFF_SOUND',
+                        'E2EE_ON_SOUND',
+                        'INCOMING_MSG_SOUND',
+                        'KNOCKING_PARTICIPANT_SOUND',
+                        'LIVE_STREAMING_OFF_SOUND',
+                        'LIVE_STREAMING_ON_SOUND',
+                        'NO_AUDIO_SIGNAL_SOUND',
+                        'NOISY_AUDIO_INPUT_SOUND',
+                        'OUTGOING_CALL_EXPIRED_SOUND',
+                        'OUTGOING_CALL_REJECTED_SOUND',
+                        'OUTGOING_CALL_RINGING_SOUND',
+                        'OUTGOING_CALL_START_SOUND',
+                        'PARTICIPANT_JOINED_SOUND',
+                        'PARTICIPANT_LEFT_SOUND',
+                        'RAISE_HAND_SOUND',
+                        'REACTION_SOUND',
+                        'RECORDING_OFF_SOUND',
+                        'RECORDING_ON_SOUND',
+                        'TALK_WHILE_MUTED_SOUND'
+                    ],
+                    disableInitialGUM: true,
+                    
+                    // resolution: 360,
+                    // constraints: {
+                    //     video: {
+                    //         height: {
+                    //             ideal: 360,
+                    //             max: 360,
+                    //             min: 240
+                    //         }
+                    //     }
+                    // },
+                    // disableSimulcast: true,
+                    // channelLastN: -1,
+                    // startLastN: 10,
+                    // resolution: 180,
+                    // maxFps: 15,
+                    // e2eping: {pingInterval: -1},
+                    // desktopSharingFrameRate: {min:5, max:30},
+                    // constraints: {
+                    //     video: {
+                    //         aspectRatio: 16 / 9,
+                    //         frameRate: {
+                    //             max: 15
+                    //         },
+                    //         height: {
+                    //             ideal: 180,
+                    //             max: 180,
+                    //             min: 180
+                    //         }
+                    //     }
+                    // },
+                    // // Specify the settings for video quality optimizations on the client.
+                    // videoQuality: {
+                    //    // Provides a way to prevent a video codec from being negotiated on the JVB connection. The codec specified
+                    //    // here will be removed from the list of codecs present in the SDP answer generated by the client. If the
+                    //    // same codec is specified for both the disabled and preferred option, the disable settings will prevail.
+                    //    // Note that 'VP8' cannot be disabled since it's a mandatory codec, the setting will be ignored in this case.
+                    //    // disabledCodec: 'H264',
+                    
+                    //    // Provides a way to set a preferred video codec for the JVB connection. If 'H264' is specified here,
+                    //    // simulcast will be automatically disabled since JVB doesn't support H264 simulcast yet. This will only
+                    //    // rearrange the the preference order of the codecs in the SDP answer generated by the browser only if the
+                    //    // preferred codec specified here is present. Please ensure that the JVB offers the specified codec for this
+                    //    // to take effect.
+                    //    preferredCodec: 'VP8',
+                    
+                    //    // Provides a way to enforce the preferred codec for the conference even when the conference has endpoints
+                    //    // that do not support the preferred codec. For example, older versions of Safari do not support VP9 yet.
+                    //    // This will result in Safari not being able to decode video from endpoints sending VP9 video.
+                    //    // When set to false, the conference falls back to VP8 whenever there is an endpoint that doesn't support the
+                    //    // preferred codec and goes back to the preferred codec when that endpoint leaves.
+                    //    // enforcePreferredCodec: false,
+                    
+                    //    // Provides a way to configure the maximum bitrates that will be enforced on the simulcast streams for
+                    //    // video tracks. The keys in the object represent the type of the stream (LD, SD or HD) and the values
+                    //    // are the max.bitrates to be set on that particular type of stream. The actual send may vary based on
+                    //    // the available bandwidth calculated by the browser, but it will be capped by the values specified here.
+                    //    // This is currently not implemented on app based clients on mobile.
+                    //    maxBitratesVideo: {
+                    //          H264: {
+                    //              low: 200000,
+                    //              standard: 500000,
+                    //              high: 1500000
+                    //          },
+                    //          VP8 : {
+                    //              low: 200000,
+                    //              standard: 500000,
+                    //              high: 1500000
+                    //          },
+                    //          VP9: {
+                    //              low: 100000,
+                    //              standard: 300000,
+                    //              high: 1200000
+                    //          }
+                    //    },
+                    
+                    //    // The options can be used to override default thresholds of video thumbnail heights corresponding to
+                    //    // the video quality levels used in the application. At the time of this writing the allowed levels are:
+                    //    //     'low' - for the low quality level (180p at the time of this writing)
+                    //    //     'standard' - for the medium quality level (360p)
+                    //    //     'high' - for the high quality level (720p)
+                    //    // The keys should be positive numbers which represent the minimal thumbnail height for the quality level.
+                    //    //
+                    //    // With the default config value below the application will use 'low' quality until the thumbnails are
+                    //    // at least 360 pixels tall. If the thumbnail height reaches 720 pixels then the application will switch to
+                    //    // the high quality.
+                    //    minHeightForQualityLvl: {
+                    //        10: 'low',                           
+                    //        45: 'standard',
+                    //        90: 'high',
+                    //    },
+                    
+                    //    // Provides a way to resize the desktop track to 720p (if it is greater than 720p) before creating a canvas
+                    //    // for the presenter mode (camera picture-in-picture mode with screenshare).
+                    //    resizeDesktopForPresenter: false
+                    // },
+                    // useNewBandwidthAllocationStrategy: false,
+                    disableInviteFunctions: true,
+                    remoteVideoMenu: {
+                            disabled: true,
+                    },
+                    disableRemoteMute: true,
+                    participantsPane: {
+                        // Hides the moderator settings tab.
+                        hideModeratorSettingsTab: true,
+                        // Hides the more actions button.
+                        hideMoreActionsButton: true,
+                        // Hides the mute all button.
+                        hideMuteAllButton: true
+                    },
+                    disableAddingBackgroundImages: true,
+                    disableTileView: true,
+                },
+                // Controls the visibility and behavior of the top header conference info labels.
+                // If a label's id is not in any of the 2 arrays, it will not be visible at all on the header.
+                conferenceInfo: {
+                    // those labels will not be hidden in tandem with the toolbox.
+                    alwaysVisible: [],
+                    // those labels will be auto-hidden in tandem with the toolbox buttons.
+                    autoHide: [
+                        // 'subject',
+                        // 'conference-timer',
+                        // 'participants-count',
+                        // 'e2ee',
+                        // 'transcribing',
+                        // 'video-quality',
+                        // 'insecure-room',
+                        // 'highlight-moment'
+                    ]
+                },
+                // Hides the conference subject
+                hideConferenceSubject: true,
+                // Hides the conference timer.
+                hideConferenceTimer: true,
+                // Hides the recording label
+                hideRecordingLabel: true,
+                // Hides the participants stats
+                hideParticipantsStats: true,
+                // Sets the conference subject
+                subject: '',
+                //Sets the conference local subject
+                localSubject: '',
+                
+                // filmstrip: {
+                //     // Disables user resizable filmstrip. Also, allows configuration of the filmstrip
+                //     // (width, tiles aspect ratios) through the interfaceConfig options.
+                //     disableResizable: true,
 
+                //     // Disables the stage filmstrip
+                //     // (displaying multiple participants on stage besides the vertical filmstrip)
+                //     disableStageFilmstrip: false
+                // },
+            }
+        }
     },
     ready: function() {
       
@@ -230,7 +485,7 @@ var vue = new Vue({
         $(window).on('resize', function(e) { 
             var fieldView = sizing.fieldview.perspective;
             if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
-            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset); 
+            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset, fieldView.leftOffsetPercentage); 
         }, 1000).resize();
         // Set up the droppable regions on the battlefield
         setupDropRegions();
@@ -332,6 +587,18 @@ var vue = new Vue({
            // window.open("https://brie.fi/ng/arcmage_" + vue.gameGuid, "_blank");
 		   window.open("https://meet.jit.si/arcmage_" + vue.gameGuid, "_blank");
         },
+        toggleVideo: function(){
+            vue.services.jitsiApi.executeCommand('toggleVideo');
+        },
+        toggleAudio: function(){
+            vue.services.jitsiApi.executeCommand('toggleAudio');
+        },
+        sendChatMessage(){
+            if(vue.newChatMessage){
+                vue.services.jitsiApi.executeCommand('sendChatMessage', vue.newChatMessage, null, false);
+                vue.newChatMessage = null;
+            }
+        },
         openRules: function () {
             window.open(portalUri + "/arcmage/Game/pdfjs/web/viewer.html?file=" + portalUri + "/arcmage/Game/ArcmageRules.pdf", "_blank");
         },
@@ -364,7 +631,7 @@ var vue = new Vue({
             vue.showFlat = flat;
             var fieldView = sizing.fieldview.perspective;
             if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
-            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset); 
+            resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset, fieldView.leftOffsetPercentage); 
             if(save){
                 this.saveSettings();
             }
@@ -492,38 +759,38 @@ var vue = new Vue({
             if (this.showCurtain || this.showHints || this.showModal || this.showSettings || this.cardlist.show) return;
  
             switch(this.keycode){
-                case " ":
-                case "Enter":
+                case "Ctrl+ ":
+                case "Ctrl+Enter":
                     // unmark all
                     this.unmarkAll(this.player);
                     break;
-                case "Shift ":
-                case "ShiftEnter":
+                case "Shift+ ":
+                case "Shift+Enter":
                     // unmark all
                     this.unmarkAll(this.opponent);
                     break;
-                case "d":
-                case "D":
+                case "Ctrl+d":
+                case "Ctrl+D":
                     // draw one cards
                     this.moveCardFrom('drawCard', this.player.playerGuid, 'deck', this.player.playerGuid, 'hand', false);
                     break;
-                case "t":
-                case "T":
+                case "Ctrl+t":
+                case "Ctrl+T":
                     // draw two cards
                     this.moveCardFrom('drawCard', this.player.playerGuid, 'deck', this.player.playerGuid, 'hand', false, 2);
                 break;
-                case "r":
-                case "R":
+                case "Ctrl+r":
+                case "Ctrl+R":
                     // roll a dice
                     this.rollDice();
                     break;
-                case "b":
-                case "B":
+                case "Ctrl+b":
+                case "Ctrl+B":
                     // toggle opponent blinds
                     this.setCurtainState(this.opponent, !this.opponent.showCurtain);
                     break;
-                case "f":
-                case "F":
+                case "Ctrl+f":
+                case "Ctrl+F":
                     // flip a coin
                     this.flipCoin();
                     break;
@@ -1336,6 +1603,18 @@ function processLeave(gameAction) {
 
 }
 
+function setupJitsi(){
+    if(!vue.services.jitsiApi) {
+        vue.services.jitsiApi = new JitsiMeetExternalAPI(vue.jitsi.domain, vue.jitsi.options); 
+        vue.services.jitsiApi.addListener('incomingMessage', incommingMessageHandler);
+        vue.services.jitsiApi.addListener('outgoingMessage', outgoingMessageHandler);
+        vue.services.jitsiApi.addListener('audioMuteStatusChanged', audioMuteStatusChangedHandler);
+        vue.services.jitsiApi.addListener('videoMuteStatusChanged', videoMuteStatusChangedHandler);
+
+        // vue.services.jitsiApi.executeCommand('avatarUrl', 'https://aminduna.arcmage.org/arcmage/Game/player.webp');
+    }
+}
+
 /* Game bootstrap */
 function init() {
     /* get the game id from the url */
@@ -1352,6 +1631,16 @@ function init() {
 
     vue.root = document.documentElement;
 
+    /* configure jitsy */
+    vue.jitsi.options.roomName = 'arcmage_' + vue.gameGuid;
+    vue.jitsi.options.userInfo.displayName = vue.player.name;
+    vue.jitsi.options.userInfo.email = 'player.webp'
+
+
+
+    setupJitsi();
+    
+
     window.onbeforeunload = function (e) {
         sendGameAction({
             gameGuid: vue.gameGuid,
@@ -1363,12 +1652,19 @@ function init() {
     };
 
     window.addEventListener("keydown", e => {
+        var prefix = "";
+
+        if (e.ctrlKey){
+            prefix += "Ctrl+";
+        }
+
         if (e.shiftKey) {
-            vue.keycode = "Shift" + e.key;
+            vue.keycode = "Shift+";
         }
-        else {
-            vue.keycode = e.key;
-        }
+       
+
+        vue.keycode = prefix + e.key;
+
         vue.handleGlobalKeyPress();
     });
     window.addEventListener("keyup", e => {
@@ -1755,6 +2051,37 @@ function processUpdateList(updateListParam, gamecards) {
 }
 
 /* Region: helpers */
+
+function audioMuteStatusChangedHandler(args){
+    vue.jitsi.isAudioMuted = args.muted;
+}
+
+function videoMuteStatusChangedHandler(args){
+    vue.jitsi.isVideoMuted = args.muted;
+}
+
+
+function incommingMessageHandler(args){
+    vue.chatMessages.push(
+        { 
+            isOpponent: true,
+            message: args.message
+        }
+    );
+}
+
+
+
+function outgoingMessageHandler(args){
+    vue.chatMessages.push(
+        { 
+            isOpponent: false,
+            message: args.message
+        }
+    );
+}
+
+
 function getPlayer(playerGuid) {
     if (vue.player.playerGuid === playerGuid) return vue.player;
     if (vue.opponent.playerGuid === playerGuid) return vue.opponent;

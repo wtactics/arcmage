@@ -221,11 +221,13 @@ Vue.directive('draggable', {
 
 /* Region: Perspective Layout */
 
-function resizeGame(targetWidth, targetHeight, distancePercentage, rightOffset) {
+function resizeGame(targetWidth, targetHeight, distancePercentage, rightOffset, leftOffsetPercentage) {
     
 	var height = Math.max(window.innerHeight, $(window).height());
 	var width =  Math.max(window.innerWidth, $(window).width());
 	var distance = width*distancePercentage;
+
+	var leftOffset = width*leftOffsetPercentage;
 
 	$("#content").css({
 	    width: width,
@@ -249,9 +251,9 @@ function resizeGame(targetWidth, targetHeight, distancePercentage, rightOffset) 
 	
 	var targetPos = [];
 	/*  left top */
-	targetPos.push([distance,0]);
+	targetPos.push([distance+leftOffset,0]);
 	/* left bottom */
-	targetPos.push([0,height]);
+	targetPos.push([0+leftOffset,height]);
 	/* right top */
 	targetPos.push([width-distance,0]);
 	/* right bottom */
