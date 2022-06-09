@@ -207,7 +207,7 @@ body {
 
 #chatcontainer {
   width:  15vw;
-  height: 100vh;
+  height: 35vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -242,7 +242,7 @@ body {
 
 #chat {
   width: 100%;
-  height: 35%;
+  height: 100%;
   display: flex;
   flex-direction: column-reverse;
   align-items: flex-start;
@@ -252,8 +252,7 @@ body {
 
 .chat_flat {
   flex-direction: column !important;
-  align-items: flex-end !important;
-  height: 100% !important;
+  align-items: flex-end !important;  
 }
 
 #chat_messages_wrapper{

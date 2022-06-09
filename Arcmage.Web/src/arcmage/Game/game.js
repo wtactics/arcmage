@@ -595,11 +595,24 @@ var vue = new Vue({
         toggleAudio: function(){
             vue.services.jitsiApi.executeCommand('toggleAudio');
         },
-        sendChatMessage(){
+        sendChatMessage: function(){
             if(vue.newChatMessage){
                 vue.services.jitsiApi.executeCommand('sendChatMessage', vue.newChatMessage, null, false);
                 vue.newChatMessage = null;
             }
+        },
+        scrollLatestChatMessageIntoView: function (){
+            this.$nextTick(() => {
+                // Scroll Down/up
+                const index = this.chatMessages.length -1;
+                if (index >= 0){
+                    var element = document.getElementById('chat_message_' + index);
+                    if(element){
+                        var alignToTop = !this.showFlat;
+                        element.scrollIntoView(alignToTop);    
+                    }
+                }
+             })
         },
         openRules: function () {
             window.open(portalUri + "/arcmage/Game/pdfjs/web/viewer.html?file=" + portalUri + "/arcmage/Game/ArcmageRules.pdf", "_blank");
@@ -634,6 +647,7 @@ var vue = new Vue({
             var fieldView = sizing.fieldview.perspective;
             if(vue.showFlat) { fieldView = sizing.fieldview.flat; }
             resizeGame(sizing.battlefield.width, sizing.battlefield.height, fieldView.distancePercentage, fieldView.rightOffset, fieldView.leftOffsetPercentage); 
+            vue.scrollLatestChatMessageIntoView();
             if(save){
                 this.saveSettings();
             }
@@ -2081,6 +2095,7 @@ function incommingMessageHandler(args){
                 message: args.message
             }
         );
+        vue.scrollLatestChatMessageIntoView();
     }
   
 }
@@ -2098,8 +2113,11 @@ function outgoingMessageHandler(args){
                 message: args.message
             }
         );
+        vue.scrollLatestChatMessageIntoView();
     }
 }
+
+
 
 
 function getPlayer(playerGuid) {

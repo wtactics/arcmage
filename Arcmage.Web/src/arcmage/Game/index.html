@@ -683,9 +683,10 @@
         <div id="chat" v-bind:class="{ 'chat_flat': showFlat }">
             <div id="chat_messages_wrapper">
                 <div id="chat_messages" v-bind:class="{ 'chat_messages_flat': showFlat }">
-                    <template v-for="messageInfo in chatMessages">
+                    <template v-for="(index, messageInfo) in chatMessages">
                         
-                        <div class="chat_message" v-bind:class="{ 'chat_message_opponent': messageInfo.isOpponent }">
+                        <div v-bind:id="'chat_message_' + index"
+                             class="chat_message" v-bind:class="{ 'chat_message_opponent': messageInfo.isOpponent }">
                             {{messageInfo.message}}
                         </div>
         
