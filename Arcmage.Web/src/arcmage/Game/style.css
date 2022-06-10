@@ -644,7 +644,7 @@ body {
   visibility: visible;
   opacity: 1;
   transition: .25s all ease;
-  transition-delay: 3s;
+  transition-delay: 1.5s;
   top: calc(var(--scale) * 60px);
 }
 
@@ -839,7 +839,7 @@ body {
   visibility: visible;
   opacity: 1;
   transition: .25s all ease;
-  transition-delay: 3s;
+  transition-delay: 1.5s;
   top: calc(var(--scale) * 60px);
 }
 
@@ -1077,7 +1077,7 @@ body {
   visibility: visible;
   opacity: 1;
   transition: .25s all ease;
-  transition-delay: 3s;
+  transition-delay: 1.5s;
   top: calc(var(--scale) * 150px);
 }
 
@@ -1476,7 +1476,7 @@ body {
     visibility: visible;
     opacity: 1;
     transition: .25s all ease;
-    transition-delay: 3s;
+    transition-delay: 1.5s;
     top: calc(var(--scale) * 0px);
     left: calc(var(--scale) * 0px);
     width: calc(var(--scale) * 310px);
