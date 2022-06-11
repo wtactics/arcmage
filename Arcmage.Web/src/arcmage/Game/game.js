@@ -146,6 +146,7 @@ var vue = new Vue({
         coinflip: false,
         heads: true,
         diceRoll: false,
+        isOpponentDiceRoll: false,
         cards: [],
         actions: [],
         player: {
@@ -1596,7 +1597,7 @@ function processGameAction(gameAction) {
             break;
         case 'diceRoll': 
             if (vue.isStarted) {
-                processDiceRoll(gameAction.actionData, gameAction.actionResult);
+                processDiceRoll(gameAction.playerGuid, gameAction.actionResult);
             } 
             break;
         case 'leaveGame':
@@ -1821,11 +1822,12 @@ function processStartGame(game) {
 }
 
 /* Action dice roll */
-function processDiceRoll(actionData, actionResult) {
+function processDiceRoll(playerGuid, actionResult) {
 
     var delay = 3000;
     var element = document.getElementById('dice-outer-container');
     vue.diceRoll = true;
+    vue.isOpponentDiceRoll = vue.player.playerGuid !== playerGuid;
     var numberOfDice = 1;
     var valuesToThrow = [ actionResult ];
     var options = {

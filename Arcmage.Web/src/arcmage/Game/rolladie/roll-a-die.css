@@ -13,59 +13,66 @@
     animation: dice-movement 3s linear both;
 }
 
-    .dice-outer .dice {
-        display: inline-block;
-        position: absolute;
-        width: 32px;
-        height: 32px;
-        transform-style: preserve-3d;
-        transform-origin: center center;
-    }
+.dice-outer .dice {
+    display: inline-block;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+}
 
-        .dice-outer .dice .dice-face {
-            position: absolute;
-            background-color: purple;
-            background-image: url("dicebackground.webp");
-            background-position: 0px 0px;
-            background-repeat: no-repeat; /* Do not repeat the image */
-            width: 32px;
-            height: 32px;
-            border: 0.5px solid #aaa;
-            border-radius: 1px;
-            box-sizing: border-box;
-            transform-origin: center center;
-            backface-visibility: hidden;
-        }
+.alternative-dice .dice-outer .dice .dice-face {
+    background-image: url("dicebackground2.webp");
+}
 
-            .dice-outer .dice .dice-face:nth-child(1) {
-                transform: translateZ(16px);
-                background-position: 0px -32px;
-            }
+.dice-outer .dice .dice-face {
+    position: absolute;
+    background-image: url("dicebackground.webp");
+    background-position: 0px 0px;
+    background-repeat: no-repeat; /* Do not repeat the image */
+    width: 32px;
+    height: 32px;
+    border: 0.5px solid #aaa;
+    border-radius: 1px;
+    box-sizing: border-box;
+    transform-origin: center center;
+    backface-visibility: hidden;
+}
 
-            .dice-outer .dice .dice-face:nth-child(2) {
-                transform: rotateY(-90deg) translateZ(16px);
-                background-position: 0px -64px;
-            }
+.alternative-dice .dice-outer .dice .dice-face {
+    background-image: url("dicebackground2.webp");
+}
 
-            .dice-outer .dice .dice-face:nth-child(3) {
-                transform: rotateX(-90deg) translateZ(16px);
-                background-position: 0px -96px;
-            }
+.dice-outer .dice .dice-face:nth-child(1) {
+    transform: translateZ(16px);
+    background-position: 0px -32px;
+}
 
-            .dice-outer .dice .dice-face:nth-child(4) {
-                transform: rotateX(90deg) translateZ(16px);
-                background-position: 0px -128px;
-            }
+.dice-outer .dice .dice-face:nth-child(2) {
+    transform: rotateY(-90deg) translateZ(16px);
+    background-position: 0px -64px;
+}
 
-            .dice-outer .dice .dice-face:nth-child(5) {
-                transform: rotateY(90deg) translateZ(16px);
-                background-position: 0px -160px;
-            }
+.dice-outer .dice .dice-face:nth-child(3) {
+    transform: rotateX(-90deg) translateZ(16px);
+    background-position: 0px -96px;
+}
 
-            .dice-outer .dice .dice-face:nth-child(6) {
-                transform: rotateY(180deg) translateZ(16px);
-                background-position: 0px -192px;
-            }
+.dice-outer .dice .dice-face:nth-child(4) {
+    transform: rotateX(90deg) translateZ(16px);
+    background-position: 0px -128px;
+}
+
+.dice-outer .dice .dice-face:nth-child(5) {
+    transform: rotateY(90deg) translateZ(16px);
+    background-position: 0px -160px;
+}
+
+.dice-outer .dice .dice-face:nth-child(6) {
+    transform: rotateY(180deg) translateZ(16px);
+    background-position: 0px -192px;
+}
 
 @-webkit-keyframes dice-movement {
     0% {
