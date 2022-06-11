@@ -1823,11 +1823,14 @@ function processStartGame(game) {
 /* Action dice roll */
 function processDiceRoll(actionData, actionResult) {
 
+    var delay = 3000;
     var element = document.getElementById('dice-outer-container');
     vue.diceRoll = true;
     var numberOfDice = 1;
     var valuesToThrow = [ actionResult ];
     var options = {
+        delay: delay,
+        dotColor: "#FFFFFF",
         element, // element to display the animated dice in.
         numberOfDice, // number of dice to use 
         values: valuesToThrow, // values to throw. When provided, overides library generated values. Optional.
@@ -1835,7 +1838,7 @@ function processDiceRoll(actionData, actionResult) {
     rollADie(options);
     setTimeout(function () {
         vue.diceRoll = false;
-    }, 3000);
+    }, delay);
 }
 
 /* Action flip a coin */

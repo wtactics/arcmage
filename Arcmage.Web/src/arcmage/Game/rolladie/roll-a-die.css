@@ -24,7 +24,10 @@
 
         .dice-outer .dice .dice-face {
             position: absolute;
-            background: floralwhite;
+            background-color: purple;
+            background-image: url("dicebackground.webp");
+            background-position: 0px 0px;
+            background-repeat: no-repeat; /* Do not repeat the image */
             width: 32px;
             height: 32px;
             border: 0.5px solid #aaa;
@@ -36,26 +39,32 @@
 
             .dice-outer .dice .dice-face:nth-child(1) {
                 transform: translateZ(16px);
+                background-position: 0px -32px;
             }
 
             .dice-outer .dice .dice-face:nth-child(2) {
                 transform: rotateY(-90deg) translateZ(16px);
+                background-position: 0px -64px;
             }
 
             .dice-outer .dice .dice-face:nth-child(3) {
                 transform: rotateX(-90deg) translateZ(16px);
+                background-position: 0px -96px;
             }
 
             .dice-outer .dice .dice-face:nth-child(4) {
                 transform: rotateX(90deg) translateZ(16px);
+                background-position: 0px -128px;
             }
 
             .dice-outer .dice .dice-face:nth-child(5) {
                 transform: rotateY(90deg) translateZ(16px);
+                background-position: 0px -160px;
             }
 
             .dice-outer .dice .dice-face:nth-child(6) {
                 transform: rotateY(180deg) translateZ(16px);
+                background-position: 0px -192px;
             }
 
 @-webkit-keyframes dice-movement {

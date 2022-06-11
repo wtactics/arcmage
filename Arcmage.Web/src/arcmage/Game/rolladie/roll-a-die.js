@@ -38,6 +38,7 @@ function removeDieFromDOM(dieId) {
 
 var rollADie = function (options) {
     var delay = options.delay || 3000;
+    var dotColor = options.dotColor || "#000000";
     if (dieInDOM.length) {
         dieInDOM.forEach(die => removeDieFromDOM(die));
         dieInDOM.length = 0; //reset the array
@@ -60,12 +61,12 @@ var rollADie = function (options) {
         dieInDOM.push(dieId);
         var dice = appendDieContainers(dieId, options.element, angle);
         [
-            [{ cx: 16, cy: 16, r: 3 }],
-            [{ cx: 8, cy: 8, r: 3 }, { cx: 24, cy: 24, r: 3 }],
-            [{ cx: 8, cy: 8, r: 3 }, { cx: 16, cy: 16, r: 3 }, { cx: 24, cy: 24, r: 3 }],
-            [{ cx: 8, cy: 8, r: 3 }, { cx: 24, cy: 24, r: 3 }, { cx: 8, cy: 24, r: 3 }, { cx: 24, cy: 8, r: 3 }],
-            [{ cx: 8, cy: 8, r: 3 }, { cx: 16, cy: 16, r: 3 }, { cx: 24, cy: 24, r: 3 }, { cx: 8, cy: 24, r: 3 }, { cx: 24, cy: 8, r: 3 }],
-            [{ cx: 8, cy: 8, r: 3 }, { cx: 24, cy: 24, r: 3 }, { cx: 8, cy: 16, r: 3 }, { cx: 24, cy: 16, r: 3 }, { cx: 8, cy: 24, r: 3 }, { cx: 24, cy: 8, r: 3 }]
+            [{ cx: 16, cy: 16, r: 3, fill: dotColor}],
+            [{ cx: 8, cy: 8, r: 3, fill: dotColor }, { cx: 24, cy: 24, r: 3, fill: dotColor }],
+            [{ cx: 8, cy: 8, r: 3, fill: dotColor }, { cx: 16, cy: 16, r: 3, fill: dotColor }, { cx: 24, cy: 24, r: 3, fill: dotColor }],
+            [{ cx: 8, cy: 8, r: 3, fill: dotColor }, { cx: 24, cy: 24, r: 3, fill: dotColor }, { cx: 8, cy: 24, r: 3, fill: dotColor }, { cx: 24, cy: 8, r: 3, fill: dotColor }],
+            [{ cx: 8, cy: 8, r: 3, fill: dotColor }, { cx: 16, cy: 16, r: 3, fill: dotColor }, { cx: 24, cy: 24, r: 3, fill: dotColor }, { cx: 8, cy: 24, r: 3, fill: dotColor }, { cx: 24, cy: 8, r: 3, fill: dotColor }],
+            [{ cx: 8, cy: 8, r: 3, fill: dotColor }, { cx: 24, cy: 24, r: 3, fill: dotColor }, { cx: 8, cy: 16, r: 3, fill: dotColor }, { cx: 24, cy: 16, r: 3, fill: dotColor }, { cx: 8, cy: 24, r: 3, fill: dotColor }, { cx: 24, cy: 8, r: 3, fill: dotColor }]
         ].map(getFace).forEach(face => dice.appendChild(face));
 
         setTimeout(() => removeDieFromDOM(dieId), delay);
