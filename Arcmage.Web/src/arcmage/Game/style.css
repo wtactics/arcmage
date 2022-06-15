@@ -126,7 +126,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 100;
-  opacity: 0;
+  /* opacity: 0; */
   top: 0;
   left: 0;
 }
@@ -182,10 +182,48 @@ body {
   font-size: 3.5vw;
 }
 
+.curtain_intro_sound {
+  position: absolute;
+  left: 10px;
+  bottom: 5px;
+}
+
+.curtain_artwork {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+}
+
+.cutrain_sound_play{
+ 
+  width: 1em;
+  height: 1em;
+  margin-bottom: -0.2em;
+  display: inline-block;
+  background-image: url("sound.webp");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.curtain_sound_pause {
+  background-image: url("nosound.webp");
+}
+
+.curtain_lic {
+  color: var(--chrome);
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.curtain_attribution, .curtain_license {
+  font-style: italic;
+}
+
 .logo_fade {
   position: absolute;
   right: 20px;
-  bottom: 50px;
+  bottom: 15px;
   display: block;
   max-width:80%;
   max-height:40%;
@@ -570,17 +608,15 @@ body {
 }
 
 .infokey {
-  font-size: x-large;
-  margin: 5px;
+  margin-left: 13px;
+  margin-right: 5px;
 }
 
 .infokey::after {
-  font-size: x-large;
   content: " => ";
 }
 
 .infodescription{
-  font-size: x-large;
   margin: 5px;
 }
 

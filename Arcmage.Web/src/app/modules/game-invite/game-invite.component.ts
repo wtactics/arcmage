@@ -19,6 +19,8 @@ import { ConfigurationService } from "src/app/services/global/config.service";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { Card } from "src/app/models/card";
 
+declare const Howl: any;
+
 @Component({
   selector: "app-game-invite",
   templateUrl: "./game-invite.component.html",
@@ -55,7 +57,10 @@ export class GameInviteComponent implements OnInit, OnDestroy {
 
   deck: Deck;
   selectedCard: Card;
+  
+  soundIntro: any;
 
+  
 
   constructor(private configurationService: ConfigurationService,
               private globalEventsService: GlobalEventsService,
@@ -70,6 +75,15 @@ export class GameInviteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.soundIntro = new Howl({
+      src: ['arcmage/Game/audio/soundIntro2.ogg', 'arcmage/Game/audio/soundIntro2.mp3'],
+      loop: false,
+      volume: 0,
+      autoUnlock : true,
+    });
+
+    
 
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.userName = this.translateService.instant("invite.guest");
@@ -214,6 +228,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
       error => { }
     );
     this.activeIndex = this.gameSetupSteps.length - 1;
+    this.soundIntro.play();
   }
 
   deckCleared(event){
@@ -231,6 +246,7 @@ export class GameInviteComponent implements OnInit, OnDestroy {
       + "playerName=" + playerName;
 
     this.started = true;
+    this.soundIntro.stop();
     window.open(baseUrl, "_blank");
   }
 

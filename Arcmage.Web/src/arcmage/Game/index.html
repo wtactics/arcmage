@@ -15,10 +15,29 @@
 
 <div class="curtain">
 <div class="curtain__wrapper">
-<div class="curtain_opener" v-bind:class="{ 'curtain__opener_hide': !player.showCurtain }" v-on:click="openCurtain()"></div>
+<div class="curtain_opener" v-bind:class="{ 'curtain__opener_hide': !player.showCurtain }" v-on:click="openCurtain()">
+    <div class="curtain_intro_sound">
+        <span class="cutrain_sound_play" 
+              v-on:click.stop="toggleIntroSound()"
+
+              v-bind:class="{ 'curtain_sound_pause': pauseIntroSound  }"></span>
+        
+        <span class="curtain_lic">{{credits.introsound.type}}</span>
+        <a class="curtain_lic curtain_attribution" target="_blank" v-on:click.stop v-bind:href="credits.introsound.bylink">{{credits.introsound.by}}</a>
+        <span class="curtain_lic">{{credits.introsound.under}}</span>
+        <a class="curtain_lic curtain_license" target="_blank" v-on:click.stop v-bind:href="credits.introsound.liclink">{{credits.introsound.lic}}</a>
+    </div>
+    <div class="curtain_artwork">
+        
+        <span class="curtain_lic">{{credits.artwork.type}}</span>
+        <a class="curtain_lic curtain_attribution" target="_blank" v-on:click.stop v-bind:href="credits.artwork.bylink">{{credits.artwork.by}}</a>
+        <span class="curtain_lic">{{credits.artwork.under}}</span>
+        <a class="curtain_lic curtain_license" target="_blank" v-on:click.stop v-bind:href="credits.artwork.liclink">{{credits.artwork.lic}}</a>
+    </div>
+</div>
     
 <div class="curtain__panel curtain__panel--left" v-bind:class="{ 'curtain__closed': player.showCurtain }">
-    <h1 class="curtain__text">{{{curtainLeftText}}}</h1>
+    <h1 class="curtain__text">{{{curtainLeftText}}}</h1>    
 </div>
 
 <!--the entire content -->
@@ -773,7 +792,7 @@
     <modal :show.sync="showHints">
         <!-- Action bar of the card list dialog -->
         <div slot="header">
-            <div class="dialog_header">Shortcuts</div>
+            <div class="dialog_header">Help and info</div>
         </div>
         <div slot="body" id="shortcutsinfo">
             <div class="dialog_body">

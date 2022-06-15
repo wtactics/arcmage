@@ -42,10 +42,20 @@ const sizing = {
 
 
 const soundIntro = new Howl({
-    src: ['audio/soundIntro.ogg', 'audio/soundIntro.mp3'],
+    src: ['audio/soundIntro2.ogg', 'audio/soundIntro2.mp3'],
     loop: true,
-  //  autoplay: true,
-    volume: 0.5,
+    volume: 0.4,
+    autoUnlock : true,
+    autoplay: false,
+    onplayerror: function(id, error) {
+        console.log('Playerror audio ' + error);
+    },
+    onload : function() {
+        console.log('Loaded audio ');
+    },
+    onloaderror: function(id, error) {
+        console.log('Loaderror audio ' + error);
+    },
 });
 
 const sound = new Howl({
@@ -79,7 +89,7 @@ var vue = new Vue({
         keycode: null,
         gameinfo: [
         {
-            title: "Gloabal keyboard shortcuts.",
+            title: "Gloabal keyboard shortcuts",
             items: [
                 { key: "Ctrl+Enter, Ctrl+Spacebar", description: "Unmark all your cards." },
                 { key: "Shift+Enter, Shift+Spacebare", description: "Unmark all opponents cards (in case you'd like to help out)." },
@@ -91,7 +101,7 @@ var vue = new Vue({
             ]
         },
         {
-            title: "Cards operations.",
+            title: "Cards operations",
             items: [
                 { key: "Drag and Drop", description: "Move cards around." },
                 { key: "Double Click, M+Click, X+Click", description: "Mark or unmark card (rotate)." },
@@ -103,8 +113,37 @@ var vue = new Vue({
                 { key: "C+Click", description: "Take ownerschip of card (now it will unmark when you unmark all)." },
 
             ]
+        },
+        {
+            title: "Credits",
+            items: [
+                { key: "Game artwork", description: "from arcmage.org/wtactics.org by Santiago Iborra under CC BY-SA 4.0 " },
+                { key: "Card artwork", description: "by various persons, each card has its own license at https://aminduna.arcmage.org/#/cards" },
+                { key: "Intro sound", description: "by Alexandr Zhelanov under CC BY 3.0" },
+                { key: "Start sound", description: "by Francesco Corrado under CC BY-SA 4.0" },
+                { key: "Other sound effects", description: "by various persons under CC 0 (public domain)" },
+                { key: "Community credits", description: "https://arcmage.org/credits/" },
+            ]
         }
         ],
+        credits: {
+            introsound: {
+                type: "Into sound by",
+                by: "Alexandr Zhelanov",
+                bylink : "https://soundcloud.com/alexandr-zhelanov",
+                under:  "under",
+                lic: "CC BY 3.0",
+                liclink :"https://creativecommons.org/licenses/by/3.0/"
+            },
+            artwork: {
+                type: "Artwork & game desigin by",
+                by: "arcmage.org/wtactics.org",
+                bylink : "https://arcmage.org/credits/",
+                under:  "under",
+                lic: "CC BY-SA 4.0",
+                liclink :"https://creativecommons.org/licenses/by-sa/4.0/"
+            },
+        },
         backgroundImage: 'field11.webp',
         backgrounds: [
           { image: 'field1.webp' },
@@ -122,6 +161,7 @@ var vue = new Vue({
         backgroundChromeImage: 'chrome1.webp',
         useSoundFx: true,
         soundVolume: 5,
+        pauseIntroSound: false,
         sacle: scale,
         useGrid: false,
         showFlat: false,
@@ -517,6 +557,9 @@ var vue = new Vue({
                 if (settings.backgroundImage){
                     this.setBackground(settings.backgroundImage, false);
                 }
+                if (settings.pauseIntroSound){
+                    vue.pauseIntroSound = settings.pauseIntroSound;
+                }
                 this.setSoundFx(settings.useSoundFx, false);
                 this.setSoundVolume(settings.soundVolume, false);
             }
@@ -526,12 +569,14 @@ var vue = new Vue({
                 showFlat: vue.showFlat,
                 backgroundImage: vue.backgroundImage,
                 useSoundFx: vue.useSoundFx,
-                soundVolume: vue.soundVolume
+                soundVolume: vue.soundVolume,
+                pauseIntroSound: vue.pauseIntroSound
             };
             window.localStorage.setItem('settings', JSON.stringify(settings));
         },
         openCurtain: function() {
             vue.player.showCurtain = false;
+            soundIntro.stop();
             if (vue.isStarted) {
                 sendGameAction({
                     gameGuid: vue.gameGuid,
@@ -556,6 +601,16 @@ var vue = new Vue({
                     }
                 });
             }
+        },
+        toggleIntroSound: function(){
+            vue.pauseIntroSound = !vue.pauseIntroSound;
+            if (vue.pauseIntroSound){
+                soundIntro.stop();
+            }
+            else {
+                soundIntro.play();
+            }
+            vue.saveSettings();
         },
         setBackground: function(image, save) {
             vue.backgroundImage = image;
@@ -1461,11 +1516,8 @@ function playSoundFx(gameAction){
 
         switch (gameAction.actionType) {
             case 'joinGame':
-                soundIntro.play();
                 break;
             case 'startGame':
-                soundIntro.stop();
-                // sound.play(gameAction.actionType);
                 break;
             case 'drawCard':
                 sound.play(gameAction.actionType);
@@ -1512,7 +1564,9 @@ function playSoundFx(gameAction){
                     
                     // sound.play(gameAction.actionType);
                     if(curtainState.showCurtain){
-                        soundIntro.play();
+                        if (!vue.pauseIntroSound){
+                            soundIntro.play();
+                        }
                     }
                     else {
                         soundIntro.stop();
@@ -1654,7 +1708,7 @@ function init() {
     vue.jitsi.options.userInfo.displayName = vue.player.name;
     vue.jitsi.options.userInfo.email = 'player.webp'
 
-
+    
 
     setupJitsi();
     
@@ -1690,6 +1744,10 @@ function init() {
     });
 
     vue.restoreSettings();
+
+    if(!vue.pauseIntroSound){
+        soundIntro.play();
+    } 
 
     /* set up the web push api, and send the join game action on completion */
     /* when the join is successful, the processGameAction callback is called every time an action happens in the game */
@@ -1809,6 +1867,9 @@ function processStartGame(game) {
     loadDeck(opponent, vue.opponent);
 
     setTimeout(function () {
+        soundIntro.stop();
+        console.log('Stopping sound intro');
+     
         $("#player").css('background-image', 'url(' + player.avatar + ')');
         $("#opponent").css('background-image', 'url(' + opponent.avatar + ')');
         vue.isStarted = true;
