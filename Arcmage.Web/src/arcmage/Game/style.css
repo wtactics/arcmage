@@ -82,6 +82,7 @@ body {
   --secondary: rgb(204, 204, 204);
   --overlay: rgba(255,255,255,0.5);
   --chrome: rgba(255, 209, 70, 0.7);
+  --tooltip: rgb(242, 208, 92);
   --drop: rgba(255, 209, 70, 0.6);
   --pointed: rgb(241, 104, 25);
   --gropa: rgba(0, 0,0,0.7);
@@ -91,6 +92,213 @@ body {
 }
 
 /* tooltips */
+
+/* 
+  You want a simple and fancy tooltip?
+  Just copy all [data-tooltip] blocks:
+*/
+[data-tooltip] {
+  position: relative;
+  z-index: 100;
+}
+
+/* Positioning and visibility settings of the tooltip */
+[data-tooltip]:before,
+[data-tooltip]:after {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  left: 50%;
+  bottom: calc(100% + 5px); /* 5px is the size of the arrow */
+  pointer-events: none;
+  transition: 0.2s;
+  will-change: transform;
+}
+
+/* The actual tooltip with a dynamic width */
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  padding: calc(20px*var(--scale)) calc(24px*var(--scale));
+  min-width: calc(60px*var(--scale));
+  max-width: calc(400px*var(--scale));
+  width: max-content;
+  width: -moz-max-content;
+  border-radius: calc(10px*var(--scale));
+  font-size: calc(20px*var(--scale));
+  background-color: var(--gropa);
+
+  border-color: var(--highlight);
+  border-width: calc(7px*var(--scale));
+  border-style: ridge;
+
+  box-shadow: 0px 0px calc(24px*var(--scale)) rgba(0, 0, 0, 0.2);
+  color: var(--tooltip);
+  text-align: center;
+  white-space: pre-wrap;
+  transform: translate(-50%, calc(-5px*var(--scale))) scale(0.5);
+}
+
+.tutorial-blink[data-tooltip]:before {
+  content: attr(data-tutorial);
+}
+
+.tutorial-blink[data-tooltip]:before,
+.tutorial-blink[data-tooltip]:after {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tutorial-blink[data-tooltip]:before {
+  transition-delay: 5.3s;
+  transform: translate(-50%, calc(-5px*var(--scale))) scale(1);
+}
+/* 
+  Arrow slide down effect only on mouseenter (NOT on mouseleave)
+*/
+.tutorial-blink[data-tooltip]:after {
+  transition-delay: 5.5s; /* Starting after the grow effect */
+  transition-duration: 0.2s;
+  transform: translateX(-50%) scaleY(1);
+}
+
+/* Tooltip arrow */
+[data-tooltip]:after {
+  content: '';
+  border-style: ridge;
+  border-width: calc(5px*var(--scale)) calc(5px*var(--scale)) 0px calc(5px*var(--scale)); /* CSS triangle */
+  border-color: var(--highlight) transparent transparent transparent;
+  transition-duration: 0s; /* If the mouse leaves the element, 
+                              the transition effects for the 
+                              tooltip arrow are "turned off" */
+  transform-origin: top;   /* Orientation setting for the
+                              slide-down effect */
+  transform: translateX(-50%) scaleY(0);
+}
+
+/* Tooltip becomes visible at hover */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  visibility: visible;
+  opacity: 1;
+}
+/* Scales from 0.5 to 1 -> grow effect */
+[data-tooltip]:hover:before {
+  transition-delay: 0.3s;
+  transform: translate(-50%, calc(-5px*var(--scale))) scale(1);
+}
+/* 
+  Arrow slide down effect only on mouseenter (NOT on mouseleave)
+*/
+[data-tooltip]:hover:after {
+  transition-delay: 0.5s; /* Starting after the grow effect */
+  transition-duration: 0.2s;
+  transform: translateX(-50%) scaleY(1);
+}
+/*
+  That's it for the basic tooltip.
+
+  If you want some adjustability
+  here are some orientation settings you can use:
+*/
+
+/* LEFT */
+/* Tooltip + arrow */
+[data-tooltip-location="left"]:before,
+[data-tooltip-location="left"]:after {
+  left: auto;
+  right: calc(100% + 5px*var(--scale));
+  bottom: 50%;
+}
+
+/* Tooltip */
+[data-tooltip-location="left"]:before {
+  transform: translate(calc(-5px*var(--scale)), 50%) scale(0.5);
+}
+[data-tooltip-location="left"]:hover:before {
+  transform: translate(calc(-5px*var(--scale)), 50%) scale(1);
+}
+
+.tutorial-blink[data-tooltip-location="left"]:before {
+  transform: translate(calc(-5px*var(--scale)), 50%) scale(1);
+}
+
+/* Arrow */
+[data-tooltip-location="left"]:after {
+  border-width: calc(5px*var(--scale)) 0px calc(5px*var(--scale)) calc(5px*var(--scale));
+  border-color: transparent transparent transparent var(--highlight);
+  transform-origin: left;
+  transform: translateY(50%) scaleX(0);
+}
+[data-tooltip-location="left"]:hover:after {
+  transform: translateY(50%) scaleX(1);
+}
+
+.tutorial-blink[data-tooltip-location="left"]:after {
+  transform: translateY(50%) scaleX(1);
+}
+
+
+
+/* RIGHT */
+[data-tooltip-location="right"]:before,
+[data-tooltip-location="right"]:after {
+  left: calc(100% + 5px*var(--scale));
+  bottom: 50%;
+}
+
+[data-tooltip-location="right"]:before {
+  transform: translate(calc(5px*var(--scale)), 50%) scale(0.5);
+}
+[data-tooltip-location="right"]:hover:before {
+  transform: translate(calc(5px*var(--scale)), 50%) scale(1);
+}
+.tutorial-blink[data-tooltip-location="right"]:before {
+  transform: translate(calc(5px*var(--scale)), 50%) scale(1);
+}
+
+[data-tooltip-location="right"]:after {
+  border-width: calc(5px*var(--scale)) calc(5px*var(--scale)) calc(5px*var(--scale))  0px;
+  border-color: transparent var(--highlight) transparent transparent;
+  transform-origin: right;
+  transform: translateY(50%) scaleX(0);
+}
+[data-tooltip-location="right"]:hover:after {
+  transform: translateY(50%) scaleX(1);
+}
+
+.tutorial-blink[data-tooltip-location="right"]:after {
+  transform: translateY(50%) scaleX(1);
+}
+
+
+
+/* BOTTOM */
+[data-tooltip-location="bottom"]:before,
+[data-tooltip-location="bottom"]:after {
+  top: calc(100% + 5px*var(--scale));
+  bottom: auto;
+}
+
+[data-tooltip-location="bottom"]:before {
+  transform: translate(-50%, calc(5px*var(--scale))) scale(0.5);
+}
+[data-tooltip-location="bottom"]:hover:before {
+  transform: translate(-50%, calc(5px*var(--scale))) scale(1);
+}
+.tutorial-blink[data-tooltip-location="bottom"]:before {
+  transform: translate(-50%, calc(5px*var(--scale))) scale(1);
+}
+
+[data-tooltip-location="bottom"]:after {
+  border-width: 0px 5px 5px 5px;
+  border-width: 0px calc(5px*var(--scale)) calc(5px*var(--scale)) calc(5px*var(--scale));
+ 
+  border-color: transparent transparent var(--highlight) transparent;
+  transform-origin: bottom;
+}
+
+
+
 
 .tooltip-content {
   visibility: hidden;
@@ -811,7 +1019,6 @@ body {
     height: calc(var(--scale) * 50px);
     margin: calc(var(--scale) * 6px) 0px 0px 0px;
     background-size: calc(var(--scale) * 50px) calc(var(--scale) * 50px);
-    background-color: var(--ground);
     background-repeat: no-repeat;
     background-position: center center;
 }
