@@ -675,6 +675,7 @@ body {
 
 .chat_message_player:before {
   content: '\25ba';
+  font-size: small;
 }
 
 
@@ -685,6 +686,7 @@ body {
 
 .chat_message_opponent:after {
   content: '\25c4';
+  font-size: small;
 }
 
 #chat_input_box{
@@ -692,7 +694,7 @@ body {
   flex-direction: row-reverse;
   border-width: 0px 0px 2px 0px;
   border-radius: 0px;
-  border-color: var(--chrome); 
+  border-color: var(--tooltip); 
   border-style: solid;
   width: 100%;
 }
