@@ -389,6 +389,10 @@ namespace Arcmage.Game.Api.GameRuntime
 
                         if (c.IsCity)
                         {
+                            if (int.TryParse(deckCard.Card.Defense, out var strength))
+                            {
+                                c.CounterB = strength;
+                            }
                             c.IsFaceDown = false;
                             c.Left = cityLeft;
                             c.Top = cityTop;

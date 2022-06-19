@@ -85,6 +85,8 @@ body {
   --drop: rgba(255, 209, 70, 0.6);
   --pointed: rgb(241, 104, 25);
   --gropa: rgba(0, 0,0,0.7);
+  --tutorial: rgba(255,0,0,1);
+  --tutorialsoft: rgba(0,200,0,1);
   --handoffset: 20;
 }
 
@@ -106,6 +108,149 @@ body {
   color: var(--primary);
   transform: scale(3);
   transform-origin: 100% 50%;
+}
+
+/* tutorial tour */
+.tooltip-tutorial {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  background: var(--tutorial);
+  left: calc(var(--scale) * -300px);
+  top: calc(var(--scale) * 0px);
+  padding: calc(var(--scale) * 15px);
+  font-size: calc(var(--scale) * 15px);
+  width: calc(var(--scale) * 250px);
+  transition: .25s all ease;
+  transition-delay: .25s;
+  z-index: 999999;
+  color: var(--ground);
+  transform: scale(3);
+  transform-origin: 100% 50%;
+}
+
+.tutorial-blink {
+  border-width: calc(var(--scale) * 5px);
+  border-color: var(--tutorial);
+  border-style: solid;
+  animation: blink 2s;
+  animation-iteration-count: infinite;
+}
+
+.tutorial-blink .tooltip-tutorial {
+  visibility: visible;
+  opacity: 1;
+  transition: .25s all ease;
+  transition-delay: 5s;
+  top: calc(var(--scale) * 60px);
+}
+
+.tutorial-blink-soft {
+  border-color: var(--tutorialsoft);
+}
+
+@keyframes blink { 50% { border-color: transparent; }  }
+
+
+.tutorial-city-selection {
+  width: calc(var(--scale) * (106px * 3 + 10px * 3));;
+  height: calc(var(--scale) * (150px + 10px * 1));
+  position: absolute;
+  left: calc(var(--scale) * (136px - 10px));
+  top: calc(var(--scale) * (772px - 10px));
+}
+
+.startup_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.startup_mic_settings{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-top: 2vh;
+}
+
+.startup_mic_info {
+  justify-self: stretch;
+  width: 60%;
+  font-size: 2vh;
+}
+
+.startup_mic_icon {
+  height: 5vh;
+  width: 5vh;
+  margin: 1vh;
+  background-size: 100%;
+  background-color: var(--ground);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.startup_mic_icon:hover {
+  box-shadow: 0px 0px calc(var(--scale) * 5px) calc(var(--scale) * 5px) var(--highlight);
+  background-color: var(--highlight);
+  cursor: pointer;
+}
+
+.select_cities_options{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 60%;
+}
+
+.select_city:hover {
+  transform: scale(1.5);
+  box-shadow: 0px 0px 6px 6px var(--drop);
+  cursor: pointer;
+}
+
+.select_city {
+  width: 20%;
+  margin-top: 10%;
+  transition: all .2s ease-in-out;
+}
+
+.selected_city {
+  box-shadow: 0px 0px 6px 6px var(--drop);
+}
+
+.select_city > img {
+  width: 100%;
+}
+
+.startup_go {
+  font-size: 2vh;
+  margin-top: 2vh;
+}
+
+.startup_select_city_info {
+  color: var(--ground);
+  background: var(--chrome);
+  padding: 1vh;
+  border-radius: 5%;
+  text-align: center;
+}
+
+.startup_ready{
+  color: var(--ground);
+  background: var(--chrome);
+  padding: 1vh;
+  border-radius: 5%;
+  text-align: center;
+}
+
+.startup_ready:hover{
+  background: var(--highlight);
+  box-shadow: 0px 0px 6px 6px var(--drop);
+  cursor: pointer;
 }
 
 /* curtain overlay */
@@ -674,6 +819,7 @@ body {
 .turn:hover {
     box-shadow: 0px 0px calc(var(--scale) * 5px) calc(var(--scale) * 5px) var(--highlight);
     background-color: var(--highlight);
+    cursor: pointer;
 }
 
 .turn:hover .tooltip-content {
@@ -870,6 +1016,7 @@ body {
 .action:hover {
 	box-shadow: 0px 0px calc(var(--scale) * 5px) calc(var(--scale) * 5px) var(--highlight);
   background-color: var(--highlight);
+  cursor: pointer;
 }
 
 .action:hover .tooltip-content {

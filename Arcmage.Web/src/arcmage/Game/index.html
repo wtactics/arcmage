@@ -540,9 +540,12 @@
                     <p>Draw two cards.</p>
                 </div>
             </div>
-            <div class="turn draw7" v-bind:class="{ 'turn_flat_override': showFlat }" @click="moveCardFrom('drawCard', player.playerGuid, 'deck', player.playerGuid, 'hand', false, 7)">
+            <div class="turn draw7" v-bind:class="{ 'turn_flat_override': showFlat, 'tutorial-blink': showTutorialStep('drawSeven') }" @click="moveCardFrom('drawCard', player.playerGuid, 'deck', player.playerGuid, 'hand', false, 7)">
                 <div class="tooltip-content">
                     <p>Draw seven cards.</p>
+                </div>
+                <div class="tooltip-tutorial">
+                    <p>Draw your opening hand of seven cards.</p>
                 </div>
             </div>
             <div class="turn coin" v-on:click="flipCoin()">
@@ -550,9 +553,12 @@
                     <p>Flip a coin.</p>
                 </div>
             </div>
-            <div class="turn rolldice" v-bind:class="{ 'turn_flat_override': showFlat }" v-on:click="rollDice()">
+            <div class="turn rolldice" v-bind:class="{ 'turn_flat_override': showFlat, 'tutorial-blink': showTutorialStep('rollDice') }" v-on:click="rollDice()">
                 <div class="tooltip-content">
                     <p>Throw a dice.</p>
+                </div>
+                <div class="tooltip-tutorial">
+                    <p>Throw a dice to decide who playes first.</p>
                 </div>
             </div>
             <div class="turn hints" v-on:click="openHints()">
@@ -640,7 +646,6 @@
             </div>
         </template>
 
-
         <!--
         Template for a opponent's cards in play. The card can be:
         - dragged, by dragging
@@ -685,6 +690,8 @@
             </div>
         </template>
 
+
+     
 
     </div>
 
@@ -828,6 +835,46 @@
                 <template v-for="(index, item) in backgrounds" track-by="$index">
                     <img :src="item.image" class="backgroundOption" @click="setBackground(item.image, true)" ></img>
                 </template>
+            </div>
+        </div>
+    </modal>
+
+    <modal :show.sync="showSelectStartCities">
+        <div slot="header">
+        </div>
+        <div slot="body" style="height: 100%;">
+            <div class="dialog_body">
+                <div class="startup_container">
+                    <div class="select_cities_options">
+                        <template v-for="card in myCityCards">
+                            <!--cardlist.cards">-->
+            
+                            <div class="select_city"
+                                id="cardlist-{{card.cardId}}"
+                                v-bind:class="{ 'selected_city': card.isSelected }"
+                                v-on:click="this.$parent.selectCityFromCardList(card, $event)">
+
+                                <img v-bind:src="card.imageSrc" />
+
+                            </div>
+            
+                        </template>
+                    </div>
+                    <div class="startup_mic_settings">
+                        <div class="startup_mic_icon mic" v-on:click="toggleAudio()" v-bind:class="{ 'turn_disable_mic': jitsi.isAudioMuted}">
+                        </div>
+                        <div class="startup_mic_info" v-bind:class="{ 'hide': !jitsi.isAudioMuted}">
+                            Voice chat is disabled. Enable voice chat to talk with your opponent. This will triger the browser's permission dialog.
+                        </div>
+                        <div class="startup_mic_info" v-bind:class="{ 'hide': jitsi.isAudioMuted}">
+                            Voice chat is enabled. Say hello to your opponent.
+                        </div>
+                    </div>
+                    <div class="startup_go">
+                        <div v-bind:class="{ 'startup_select_city_info': !startCitySelected, 'hide': startCitySelected}">Select your capital city</div>
+                        <div v-on:click="citySelectionFinished()" v-bind:class="{ 'startup_ready': startCitySelected, 'hide': !startCitySelected}">All set, here we go.</div>
+                    </div>
+                </div>
             </div>
         </div>
     </modal>

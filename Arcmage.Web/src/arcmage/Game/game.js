@@ -31,6 +31,8 @@ const sizing = {
         gapX: 30 * scale,
         gapY: 50 * scale
     },
+    slectedCity: { top: 772* scale, left: 136 * scale },
+    unselectedCity: { top: (1200-150)*scale, left: (380 - 106 - 50) *scale},
     autoResourceGap: 10 * scale,
     playerDeck: { top: 640 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale },
     playerGraveyard: { top: 850 * scale, left: 1774 * scale, width: 106 * scale, height: 150 * scale },
@@ -86,6 +88,13 @@ const sound = new Howl({
 var vue = new Vue({
     el: '#arcmagegame',
     data: {
+        tutorial: {
+            show: true,
+            steps: ['selectCity', 'drawSeven', 'drawReady', 'rollDice'],
+            currentStep: 0
+        },
+        showSelectStartCities: false,
+        startCitySelected: false,
         keycode: null,
         gameinfo: [
         {
@@ -229,6 +238,7 @@ var vue = new Vue({
                 red: { used: 0, available: 0 },
             }
         },
+        cityCards: [],
         cardlist: {
             show: false,
             cards: [],
@@ -544,6 +554,9 @@ var vue = new Vue({
                 return c.name.toLowerCase().indexOf(search) >= 0 ||
                     c.ruleText.toLowerCase().indexOf(search) >= 0;
             });
+        },
+        myCityCards: function(){
+            return this.cityCards;
         }
     },
     methods: {
@@ -573,6 +586,24 @@ var vue = new Vue({
                 pauseIntroSound: vue.pauseIntroSound
             };
             window.localStorage.setItem('settings', JSON.stringify(settings));
+        },
+        showTutorialStep: function(step){
+            return this.tutorial.show && step === this.tutorial.steps[this.tutorial.currentStep];
+        },
+        nextTutorialStep: function(fromStep){
+
+            if( !this.tutorial.show) return;
+
+            // only move further if whe are comming from the fromStep
+            if(fromStep && fromStep !== this.tutorial.steps[this.tutorial.currentStep]) return;
+
+            var nextStep = this.tutorial.currentStep + 1;
+            if (nextStep >= this.tutorial.steps.length){
+                this.tutorial.show = false;
+            }
+            else {
+                this.tutorial.currentStep = nextStep;
+            }
         },
         openCurtain: function() {
             vue.player.showCurtain = false;
@@ -691,6 +722,7 @@ var vue = new Vue({
         rollDice: function() {
 
             if (!vue.diceRoll) {
+                this.nextTutorialStep('rollDice');
                 sendGameAction({
                     gameGuid: vue.gameGuid,
                     playerGuid: vue.player.playerGuid,
@@ -824,6 +856,12 @@ var vue = new Vue({
                         }
                     }
                 });
+            }
+            if (times === 7){
+                this.nextTutorialStep('drawSeven');
+            }
+            if(this.opponent.hand.length === 7){
+                this.nextTutorialStep('drawReady');
             }
         },
         handleGlobalKeyPress: function() {
@@ -1282,6 +1320,73 @@ var vue = new Vue({
                 }
             });
 
+        },
+
+        showCitySelection: function(){
+
+            var list = getList(vue.player.playerGuid, 'play').filter(function(c) {
+                return c.isCity;
+            });
+
+            this.cityCards = [];
+
+            $.each(list, function (index, card) {
+
+                console.log(card.name + " is a city" );
+
+                vue.cityCards.push({
+                    cardId: card.cardId,
+                    name: card.name,
+                    ruleText: card.ruleText,
+                    imageSrc: card.imageSrc,
+                    isFaceDown: false,
+                    isSelected: false,
+                });
+            });
+            this.showSelectStartCities = true;
+
+        },
+        selectCityFromCardList: function(card, event) {
+            if (!event.ctrlKey) {
+                $.each(this.cityCards, function (index, card) {
+                    card.isSelected = false;
+                });
+                card.isSelected = true;
+                vue.startCitySelected = true;
+            }
+        },
+        citySelectionFinished: function(){
+            this.showSelectStartCities = false;
+            var counter = 0;
+            $.each(this.cityCards, function (index, card) {
+                if (card.isSelected){
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'changeCardState',
+                        actionData: {
+                            cardId: card.cardId,
+                            top:  sizing.slectedCity.top,
+                            left: sizing.slectedCity.left
+                        }
+                    });
+                }
+                else{
+                    sendGameAction({
+                        gameGuid: vue.gameGuid,
+                        playerGuid: vue.player.playerGuid,
+                        actionType: 'changeCardState',
+                        actionData: {
+                            cardId: card.cardId,
+                            top: sizing.unselectedCity.top - counter * sizing.autoResourceGap,
+                            left: sizing.unselectedCity.left + counter * sizing.autoResourceGap
+                        }
+                    });
+                    counter++;
+                }
+                card.isSelected = false;
+            });
+            this.nextTutorialStep('selectCity');
         },
 
         showCardList: function (playerGuid, kind) {
@@ -1866,6 +1971,8 @@ function processStartGame(game) {
     vue.opponent.name = opponent.name;
     loadDeck(opponent, vue.opponent);
 
+    
+
     setTimeout(function () {
         soundIntro.stop();
         console.log('Stopping sound intro');
@@ -1877,6 +1984,7 @@ function processStartGame(game) {
         vue.player.showCurtain = false;
         vue.opponent.showCurtain = false;
         sound.play('startGame');
+        setTimeout(()=>vue.showCitySelection(), 350);
     }, 1500);
 
    
@@ -1948,6 +2056,18 @@ function processMoveCard(moveCardParam) {
                 vue.root.style.setProperty("--totalHandCards", Math.max(1, source.length));
             }
         }
+        // when the opponent draws zeven cards, move to the dice roll tutorial
+        if (moveCardParam.toPlayerGuid === vue.opponent.playerGuid ){
+            if (moveCardParam.toKind === 'hand') {
+               if(vue.player.hand.length === 7) {
+                  vue.nextTutorialStep('drawSeven');
+               }
+               if(vue.opponent.hand.length === 7) {
+                 vue.nextTutorialStep('drawReady');
+               }
+            }
+        }
+
        
         if (moveCardParam.cardState !== undefined) {
             moveCardParam.cardState.cardId = card.cardId;
@@ -2599,6 +2719,7 @@ function setupDropRegions() {
             } else {
                 if (dragdata.fromPlayerGuid === vue.player.playerGuid) {
                     Vue.nextTick(function() {
+
                         sendGameAction({
                             gameGuid: vue.gameGuid,
                             playerGuid: vue.player.playerGuid,
