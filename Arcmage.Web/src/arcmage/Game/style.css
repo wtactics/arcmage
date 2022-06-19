@@ -666,14 +666,25 @@ body {
 }
 
 .chat_message {
-  text-align: right;
-  color: var(--highlight);
-  padding: 2px;
-  
-}
-.chat_message_opponent {
   text-align: left;
-  color: #e2cc6d;
+  color: var(--tooltip);
+  padding: 2px;
+  font-size: x-large;
+  user-select: text;  
+}
+
+.chat_message_player:before {
+  content: '\25ba';
+}
+
+
+.chat_message_opponent {
+  text-align: right;
+  color: var(--tooltip);
+}
+
+.chat_message_opponent:after {
+  content: '\25c4';
 }
 
 #chat_input_box{
@@ -689,9 +700,9 @@ body {
 #chat_input{
   border-width: 0px;
   padding: 5px;
-  font-size: 20px;
+  font-size: large;
   background-color: var(--ground);
-  color: var(--highlight);
+  color: var(--tooltip);
   width: 100%;
 }
 

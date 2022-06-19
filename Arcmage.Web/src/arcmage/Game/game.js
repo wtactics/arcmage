@@ -1775,6 +1775,9 @@ function processLeave(gameAction) {
         vue.curtainRightText= 'left the arena...';
         vue.isStarted = false;
         vue.player.showCurtain = true;
+        vue.showCitySelection = false;
+        vue.showModal = false;
+        vue.cardlist.show = false;
     }
 
 }

@@ -666,7 +666,7 @@
                     <template v-for="(index, messageInfo) in chatMessages">
                         
                         <div v-bind:id="'chat_message_' + index"
-                             class="chat_message" v-bind:class="{ 'chat_message_opponent': messageInfo.isOpponent }">
+                             class="chat_message" v-bind:class="{ 'chat_message_opponent': messageInfo.isOpponent, 'chat_message_player': !messageInfo.isOpponent}">
                             {{messageInfo.message}}
                         </div>
         
