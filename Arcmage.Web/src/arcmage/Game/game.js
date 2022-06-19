@@ -137,7 +137,7 @@ var vue = new Vue({
         ],
         credits: {
             introsound: {
-                type: "Into sound by",
+                type: "Intro sound by",
                 by: "Alexandr Zhelanov",
                 bylink : "https://soundcloud.com/alexandr-zhelanov",
                 under:  "under",
