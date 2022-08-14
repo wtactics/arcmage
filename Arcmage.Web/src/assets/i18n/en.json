@@ -6,6 +6,7 @@
   "menu.players": "Players",
   "menu.series": "Series",
   "menu.licenses": "Licenses",
+  "menu.play": "Play",
  
   "menu.login": "Sign in",
   "menu.logout": "Sign out",
@@ -25,6 +26,7 @@
   "global.unauthorized": "Unauthorized",
   "global.last-edit": "Last Edit",
   "global.select-png": "Select png file",
+  
 
   "grids.total": "total",
 
@@ -141,7 +143,14 @@
   "game.field.status.full": "Full",
   "game.join-game": "Join Game",
 
-  "invite.you-have-been-invited": "You've been invited to play a game of Arcmage!",
+  "game.play-now": "Play Now",
+  "game.requirements": "*Game Requirements: A desktop browser, a headset and an opponent or friend. (no registration required)",
+  "game.find-opponent": "Find an opponent on ",
+  "game.find-opponent-or": " or ",
+  "game.find-opponent-or-just": " or just ",
+  "game.find-opponent-friend": "play with a friend.",
+
+  "invite.you-have-been-invited": "You've been invited to play Arcmage!",
   "invite.invited-by": "Invited by :",
   "invite.created-at": "Created at",
   "invite.game-name": "Game",

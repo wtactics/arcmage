@@ -6,6 +6,7 @@
     "menu.players": "Jogadores",
     "menu.series": "Series (pt-br)",
     "menu.licenses": "Licenses (pt-br)",
+    "menu.play": "Play (pt-br)",
    
     "menu.login": "Entrar",
     "menu.logout": "Sair",
@@ -140,6 +141,14 @@
     "game.field.status.open": "Aberto",
     "game.field.status.full": "Lotado",
     "game.join-game": "Juntar-se a Partida",
+
+    
+    "game.play-now": "Play Now (pt-br)",
+    "game.requirements": "A desktop browser, a headset and an opponent or friend. (pt-br)",
+    "game.find-opponent": "Find an opponent on  (pt-br)",
+    "game.find-opponent-or": " or  (pt-br)",
+    "game.find-opponent-or-just": " or just  (pt-br)",
+    "game.find-opponent-friend": "play with a friend. (pt-br)",
   
     "invite.you-have-been-invited": "Você foi convidado para jogar uma partida de Arcmage!",
     "invite.invited-by": "Convidado por :",

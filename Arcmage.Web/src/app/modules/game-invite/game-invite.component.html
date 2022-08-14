@@ -1,13 +1,14 @@
+<!-- application -->
+<div class="container">
+  
 <div class="p-d-flex p-flex-column">
 
-    <h1>{{'invite.you-have-been-invited' | translate}}</h1>
-    <h2 *ngIf="invitedBy">{{'invite.invited-by' | translate}} {{invitedBy}}</h2>
-    <h2 *ngIf="game">{{'invite.created-at' | translate}} {{invitedBy}} {{ game.createTime | date:'yyyy-MM-dd HH:MM:ss'}}</h2>
-    <h2 *ngIf="game">{{'invite.game-name' | translate}} {{invitedBy}} '{{game.name}}'</h2>
+    <h1 class="align-self-center">{{'invite.you-have-been-invited' | translate}}</h1>
+    <h2 class="align-self-center" *ngIf="invitedBy">{{'invite.invited-by' | translate}} {{invitedBy}}</h2>
     
     <h1 *ngIf="gameExpired">{{'invite.expired' | translate}} {{invitedBy}}</h1>
 
-    <p-steps  *ngIf="game?.canJoin && !started" [model]="gameSetupSteps" [activeIndex]="activeIndex" class="gamesetupsteps"></p-steps>
+    <p-steps *ngIf="game?.canJoin && !started" [model]="gameSetupSteps" [activeIndex]="activeIndex" class="gamesetupsteps p-mt-3"></p-steps>
 
     <div class="p-mt-3" *ngIf="game && !started">
         <div class="p-fluid p-grid" *ngIf="game.canJoin">
@@ -112,3 +113,5 @@
 <p-overlayPanel #cardOverlayPanel>
     <img src="{{apiUri + selectedCard.webp}}" *ngIf="selectedCard" height="350px"/>
 </p-overlayPanel>
+
+</div>

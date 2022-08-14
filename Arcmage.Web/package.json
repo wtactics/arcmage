@@ -14,6 +14,8 @@
     "prebuildprod": "del-cli --force ../Arcmage.Server.Api/wwwroot/assets && del-cli --force ../Arcmage.Server.Api/wwwroot/arcmage/Game",
     "buildprod": "ng build --configuration=production",
     "postbuildprod": "cpx ./dist/*.* ../Arcmage.Server.Api/wwwroot/ -C && cpx ./dist/assets/**/*.* ../Arcmage.Server.Api/wwwroot/assets && cpx ./dist/arcmage/Game/**/*.* ../Arcmage.Server.Api/wwwroot/arcmage/Game",
+    "prebuildgame": "del-cli --force ../Arcmage.Server.Api/wwwroot/assets && del-cli --force ../Arcmage.Server.Api/wwwroot/arcmage/Game",
+    "buildgame": "cpx ./dist/*.* ../Arcmage.Server.Api/wwwroot/ -C && cpx ./dist/assets/**/*.* ../Arcmage.Server.Api/wwwroot/assets && cpx ./dist/arcmage/Game/**/*.* ../Arcmage.Server.Api/wwwroot/arcmage/Game",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

@@ -1,3 +1,7 @@
+<!-- application -->
+<div class="container">
+  
+
 <div class="p-fluid" *ngIf="!showEmailValidation">
     <div class="p-field">
         <label for="registration_name">{{'register.name' | translate }}</label>
@@ -40,4 +44,6 @@
 
 <div class="p-fluid" *ngIf="showEmailValidation">
     <h1>{{ 'register.email-sent' | translate}}</h1>
+</div>
+
 </div>

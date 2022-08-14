@@ -93,6 +93,7 @@ import { SettingsComponent } from "./modules/settings/settings.component";
 import { UsersComponent } from "./modules/users/users.component";
 import { SeriesComponent } from "./modules/series/series.component";
 import { LicensesComponent } from './modules/licenses/licenses.component';
+import { CreateGameComponent } from './modules/create-game/create-game.component';
 
 
 
@@ -125,6 +126,7 @@ export function HttpLoaderFactory(http: HttpClient, configService: Configuration
     FooterComponent,
     SeriesComponent,
     LicensesComponent,
+    CreateGameComponent,
   ],
   imports: [
     BrowserModule,

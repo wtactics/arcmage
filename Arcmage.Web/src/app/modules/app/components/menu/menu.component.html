@@ -20,7 +20,7 @@
       </li>
 
       <li class="nav-item" [routerLinkActive]="['link-active']">
-        <a class="btn btn-tertiary" [routerLink]="['/games']">{{ "menu.games" | translate }}</a>
+        <a class="btn btn-tertiary" [routerLink]="['/play']">{{ "menu.play" | translate }}</a>
       </li>
       
       <li class="nav-item dropdown dropdown-user"*ngIf="isAuthenticated && settingsOptions?.isPlayerAdmin">

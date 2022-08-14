@@ -20,6 +20,7 @@ import { LicensesComponent } from "./modules/licenses/licenses.component";
 
 import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { Rights } from "./models/rights";
+import { CreateGameComponent } from "./modules/create-game/create-game.component";
 
 
 
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: "cards/:cardId", component: CardDetailsComponent },
   { path: "decks", component: DecksComponent },
   { path: "decks/:deckId", component: DeckDetailsComponent },
+  { path: "play", component: CreateGameComponent },
   { path: "games", component: GamesComponent },
   { path: "invite/:gameId", component: GameInviteComponent },
   { path: "login", component: LoginComponent },

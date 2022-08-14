@@ -14,7 +14,9 @@ app-root {
 
 .container {
   margin-top: 30px;
+  margin-bottom: 1rem;
   flex: 1;
+  min-height: calc(100vh - 85px - 64px - 16px - 70px);
 }
 
 body a {

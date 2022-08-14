@@ -6,6 +6,7 @@
   "menu.players": "Players (es)",
   "menu.series": "Series (es)",
   "menu.licenses": "Licenses (es)",
+  "menu.play": "Play (es)",
  
   "menu.login": "Sign in (es)",
   "menu.logout": "Sign out (es)",
@@ -140,6 +141,14 @@
   "game.field.status.open": "Open (es)",
   "game.field.status.full": "Full (es)",
   "game.join-game": "Join Game (es)",
+
+  
+  "game.play-now": "Play Now (es)",
+  "game.requirements": "A desktop browser, a headset and an opponent or friend. (es)",
+  "game.find-opponent": "Find an opponent on (es)",
+  "game.find-opponent-or": " or (es)",
+  "game.find-opponent-or-just": " or just (es)",
+  "game.find-opponent-friend": "play with a friend. (es)",
 
   "invite.you-have-been-invited": "You've been invited to play a game of Arcmage! (es)",
   "invite.invited-by": "Invited by : (es)",
