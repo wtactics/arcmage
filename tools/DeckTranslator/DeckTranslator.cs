@@ -28,10 +28,10 @@ namespace DeckTranslator
                 { "french", new Dictionary<string, string>
                 {
                     {"Info", "arcmage.org - rejoignez-nous!"},
-                    {"Event", "Evénement"},
+                    {"Event", "Évènement"},
                     {"Magic", "Magie"},
                     {"Enchantment", "Enchantment"},
-                    {"City", "Ville"},
+                    {"City", "Cité"},
                 }}, 
             };
         }
