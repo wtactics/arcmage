@@ -30,7 +30,7 @@ namespace DeckTranslator
                     {"Info", "arcmage.org - rejoignez-nous!"},
                     {"Event", "Évènement"},
                     {"Magic", "Magie"},
-                    {"Enchantment", "Enchantment"},
+                    {"Enchantment", "Enchantement"},
                     {"City", "Cité"},
                 }}, 
             };
