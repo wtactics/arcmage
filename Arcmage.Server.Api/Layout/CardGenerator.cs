@@ -609,9 +609,10 @@ namespace Arcmage.Server.Api.Layout
         {
             var secondLine = string.Empty;
             var firstLine = line;
-            var wordsSize = MeausureFont.MeasureString(line, FontSize, Styles.NormalFont);
+            var wordsSize = MeausureFont.MeasureString(line.TrimEnd(), FontSize, Styles.NormalFont);
             while (newLineStartX + wordsSize.Width > Template.MaxTextBoxWidth)
             {
+                firstLine = firstLine.TrimEnd();
                 var split = firstLine.LastIndexOf(" ");
                 if (split == -1)
                 {
