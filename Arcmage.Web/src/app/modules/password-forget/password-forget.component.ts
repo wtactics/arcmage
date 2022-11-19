@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 import { User } from "src/app/models/user";
 import { UserApiService } from "src/app/services/api/user-api.service";
 
@@ -16,9 +18,17 @@ export class PasswordForgetComponent implements OnInit {
   loading = false;
   passwordResetEmailSent = false;
 
-  constructor( private userApiService: UserApiService) { }
+  constructor( 
+    private userApiService: UserApiService,
+    private titleService: Title,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Aminduna');
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna');
+    });
   }
 
   requestPasswordReset() {

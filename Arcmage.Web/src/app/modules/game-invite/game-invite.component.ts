@@ -18,6 +18,7 @@ import { OverlayPanel } from "primeng/overlaypanel";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { LangChangeEvent, TranslateService } from "@ngx-translate/core";
 import { Card } from "src/app/models/card";
+import { Title } from "@angular/platform-browser";
 
 declare const Howl: any;
 
@@ -69,7 +70,9 @@ export class GameInviteComponent implements OnInit, OnDestroy {
               private deckApiService: DeckApiService,
               private messageService: MessageService,
               private translateService: TranslateService,
-              private clipboard: Clipboard) {
+              private clipboard: Clipboard,
+              private titleService: Title
+    ) {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.slideConfig = this.configurationService.configuration.slideConfig;
   }
@@ -83,9 +86,10 @@ export class GameInviteComponent implements OnInit, OnDestroy {
       autoUnlock : true,
     });
 
-    
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.game-invite'));
 
     this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.game-invite'));
       this.userName = this.translateService.instant("invite.guest");
       this.enterNameMenuItem.label =  this.translateService.instant("invite.step.enter-name");
       this.copyInviteLinkMenuItem.label = this.translateService.instant("invite.step.invite-friend");

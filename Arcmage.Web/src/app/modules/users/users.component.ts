@@ -9,6 +9,8 @@ import { Table } from "primeng/table";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
 
 import { GlobalEventsService } from "src/app/services/global/global-events.service";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-users",
@@ -29,10 +31,19 @@ export class UsersComponent implements OnInit {
   hideAvancedSearch = true;
   @ViewChild("usersTable") table: Table;
 
-  constructor(private globalEventsService: GlobalEventsService, private userApiService: UserApiService) {
+  constructor(
+    private globalEventsService: GlobalEventsService, 
+    private userApiService: UserApiService,
+    private titleService: Title,
+    private translateService: TranslateService) {
   }
 
   ngOnInit() {
+
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.players'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.players'));
+    });
 
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {

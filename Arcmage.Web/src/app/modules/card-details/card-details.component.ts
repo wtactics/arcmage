@@ -15,6 +15,7 @@ import { Language } from "src/app/models/language";
 import { Ruling } from "src/app/models/ruling";
 import { RulingApiService } from "src/app/services/api/ruling-api.service";
 import { TranslateService } from "@ngx-translate/core";
+import { Title } from "@angular/platform-browser";
 
 
 @Component({
@@ -54,6 +55,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   constructor(private configurationService: ConfigurationService,
               private route: ActivatedRoute,
+              private titleService: Title,
               private translateService: TranslateService,
               private cardApiService: CardApiService,
               private rulingApiService: RulingApiService,
@@ -88,6 +90,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
           this.cardApiService.get$(cardGuid).subscribe(
             card => {
               this.card = card;
+              this.titleService.setTitle('Aminduna - ' + card.name);
               this.cardApiService.getRulings(cardGuid).subscribe(
                 result => {
                   this.rulings = result.items;

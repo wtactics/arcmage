@@ -7,6 +7,8 @@ import { GlobalEventsService } from "src/app/services/global/global-events.servi
 import { LoginApiService } from "src/app/services/api/login-api.service";
 import { UserApiService } from "src/app/services/api/user-api.service";
 import { md5 } from "src/app/services/global/md5";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 
 
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
       private router: Router,
       private globalEventsService: GlobalEventsService,
       private loginApiService: LoginApiService,
-      private userApiService: UserApiService
+      private userApiService: UserApiService,
+      private titleService: Title,
+      private translateService: TranslateService
   ) {
       // redirect to home if already logged in
       if (this.globalEventsService.getUser()) {
@@ -42,6 +46,10 @@ export class LoginComponent implements OnInit {
       // get return url from route parameters or default to '/'
       // tslint:disable-next-line:no-string-literal
       this.returnUrl = this.globalEventsService.getPreviousUrl() || "/";
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.login'));
+      this.translateService.onLangChange.subscribe(() => {
+        this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.login'));
+      });
   }
 
 

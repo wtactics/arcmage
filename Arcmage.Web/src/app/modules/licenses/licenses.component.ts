@@ -6,6 +6,8 @@ import { ResultList } from "src/app/models/result-list";
 import { SearchOptionsBase } from "src/app/models/search-options-base";
 import { License } from "src/app/models/license";
 import { LicenseApiService } from "src/app/services/api/license-api.service";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-licenses",
@@ -29,7 +31,11 @@ export class LicensesComponent implements OnInit {
 
   @ViewChild("licensesTable") table: Table;
 
-  constructor(private licenseApiService: LicenseApiService) { }
+  constructor(
+    private licenseApiService: LicenseApiService,
+    private titleService: Title,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.newLicense = new License();
@@ -41,6 +47,11 @@ export class LicensesComponent implements OnInit {
     this.licenseSearchResult = new ResultList<License>();
     this.licenseSearchResult.items = [];
     this.licenseSearchResult.totalItems = 0;
+
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.licenses'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.licenses'));
+    });
 
   }
 

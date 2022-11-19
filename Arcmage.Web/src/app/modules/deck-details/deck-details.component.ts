@@ -19,6 +19,7 @@ import { startWith, switchMap, delay } from "rxjs/operators";
 import { DeckOptions } from "src/app/models/deck-options ";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { Language } from "src/app/models/language";
+import { Title } from "@angular/platform-browser";
 
 @Component({
   selector: "app-deck-details",
@@ -56,6 +57,7 @@ export class DeckDetailsComponent implements OnInit {
 
   constructor(private configurationService: ConfigurationService,
               private route: ActivatedRoute,
+              private titleService: Title,
               private deckApiService: DeckApiService,
               private deckCardApiService: DeckCardApiService,
               private cardApiService: CardApiService) {
@@ -72,6 +74,7 @@ export class DeckDetailsComponent implements OnInit {
       this.deckApiService.get$(deckGuid).subscribe(
         deck => {
           this.deck = deck;
+          this.titleService.setTitle('Aminduna - ' + deck.name);
           this.loading = false;
         },
         error => { this.loading = false; }

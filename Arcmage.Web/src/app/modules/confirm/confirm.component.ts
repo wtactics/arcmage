@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { localStorageKeys } from "src/app/global/localStorage.keys";
 import { UserApiService } from "src/app/services/api/user-api.service";
 import { GlobalEventsService } from "src/app/services/global/global-events.service";
@@ -15,9 +17,20 @@ export class ConfirmComponent implements OnInit {
   verificationFailed: boolean;
   userName: string;
 
-  constructor(private route: ActivatedRoute, private globalEventsService: GlobalEventsService, private userApiService: UserApiService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private globalEventsService: GlobalEventsService, 
+    private userApiService: UserApiService,
+    private titleService: Title,
+    private translateService: TranslateService) { }
 
   ngOnInit(): void {
+
+    this.titleService.setTitle('Aminduna');
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna');
+    });
+
     const token: string = this.route.snapshot.queryParamMap.get("token");
     if (token) {
 

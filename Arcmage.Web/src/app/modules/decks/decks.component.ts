@@ -12,6 +12,8 @@ import { GlobalEventsService } from "src/app/services/global/global-events.servi
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { DeckOptions } from "src/app/models/deck-options ";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-decks",
@@ -39,7 +41,12 @@ export class DecksComponent implements OnInit {
   hideAvancedSearch = false;
   deckOptions: DeckOptions;
 
-  constructor(private globalEventsService: GlobalEventsService, private deckApiService: DeckApiService, private router: Router) { }
+  constructor(
+    private globalEventsService: GlobalEventsService, 
+    private deckApiService: DeckApiService, 
+    private router: Router,
+    private titleService: Title,
+    private translateService: TranslateService) { }
 
   ngOnInit(): void {
     this.newDeck = new Deck();
@@ -57,7 +64,10 @@ export class DecksComponent implements OnInit {
     this.deckSearchResult.items = [];
     this.deckSearchResult.totalItems = 0;
 
-
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.decks'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.decks'));
+    });
 
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {

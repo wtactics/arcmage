@@ -7,6 +7,8 @@ import { GlobalEventsService } from "src/app/services/global/global-events.servi
 
 import { localStorageKeys } from "../../global/localStorage.keys";
 import { md5 } from "src/app/services/global/md5";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-register",
@@ -28,7 +30,9 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private globalEventsService: GlobalEventsService,
     private loginApiService: LoginApiService,
-    private userApiService: UserApiService) {
+    private userApiService: UserApiService,
+    private titleService: Title,
+    private translateService: TranslateService) {
       // redirect to home if already logged in
       if (this.globalEventsService.getUser()) {
         this.router.navigate(["/"]);
@@ -51,6 +55,10 @@ export class RegisterComponent implements OnInit {
      // get return url from route parameters or default to '/'
     // tslint:disable-next-line:no-string-literal
     this.returnUrl = this.globalEventsService.getPreviousUrl() || "/";
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.register'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.register'));
+    });
   }
 
   submitRegistration() {

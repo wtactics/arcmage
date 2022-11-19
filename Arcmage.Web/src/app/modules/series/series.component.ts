@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 import { LazyLoadEvent } from "primeng/api";
 import { Table } from "primeng/table";
 import { Subscription } from "rxjs";
@@ -29,7 +31,11 @@ export class SeriesComponent implements OnInit {
 
   @ViewChild("seriesTable") table: Table;
 
-  constructor(private serieApiService: SerieApiService) { }
+  constructor(
+    private serieApiService: SerieApiService,
+    private titleService: Title,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.newSerie = new Serie();
@@ -41,6 +47,11 @@ export class SeriesComponent implements OnInit {
     this.serieSearchResult = new ResultList<Serie>();
     this.serieSearchResult.items = [];
     this.serieSearchResult.totalItems = 0;
+
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.series'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.series'));
+    });
 
   }
 

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from "@angular/core";
+import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { MessageService } from "primeng/api";
@@ -28,7 +29,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private globalEventsService: GlobalEventsService,
     private messageService: MessageService,
     private translateService: TranslateService,
-    private userApiService: UserApiService) { }
+    private userApiService: UserApiService,
+    private titleService: Title
+  ) { }
 
   get isSavePlayerDisabled(): boolean{
     if (this.user.name == null || this.user.name === "") { return true; }
@@ -45,6 +48,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           user => {
             this.user = user;
             this.loading = false;
+            this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.settings') + ' - ' + user.name );
           },
           error => {
             this.messageService.add({

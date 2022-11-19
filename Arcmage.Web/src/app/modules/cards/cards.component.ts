@@ -14,6 +14,8 @@ import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { Language } from "src/app/models/language";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-cards",
@@ -58,7 +60,9 @@ export class CardsComponent implements OnInit {
   constructor(private configurationService: ConfigurationService,
               private globalEventsService: GlobalEventsService,
               private cardApiService: CardApiService,
-              private router: Router) {
+              private router: Router,
+              private titleService: Title,
+              private translateService: TranslateService) {
     this.apiUri = this.configurationService.configuration.apiUri;
     this.slideConfig = this.configurationService.configuration.slideConfig;
   }
@@ -76,7 +80,10 @@ export class CardsComponent implements OnInit {
     this.cardSearchResult.items = [];
     this.cardSearchResult.totalItems = 0;
     
-
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.cards'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.cards'));
+    });
 
     this.cardApiService.getOptions().subscribe(cardOptions => {
       this.cardOptions = cardOptions;

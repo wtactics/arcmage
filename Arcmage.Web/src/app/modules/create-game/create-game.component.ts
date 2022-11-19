@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Game } from 'src/app/models/game';
 import { GameApiService } from 'src/app/services/api/game-api.service';
 
@@ -10,7 +12,11 @@ import { GameApiService } from 'src/app/services/api/game-api.service';
 })
 export class CreateGameComponent implements OnInit {
 
-  constructor(private gameApiService: GameApiService, private router: Router) { }
+  constructor(
+    private gameApiService: GameApiService, 
+    private router: Router,
+    private titleService: Title,
+    private translateService: TranslateService) { }
 
   names = [
     'Siege Of Wraz',
@@ -60,6 +66,10 @@ export class CreateGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameName = this.getRandomName();
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.play'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.play'));
+    });
   }
 
   saveGame() {

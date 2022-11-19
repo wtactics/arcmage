@@ -15,6 +15,8 @@ import { User } from "src/app/models/user";
 import { Guid } from "guid-typescript";
 import {StepsModule} from "primeng/steps";
 import {MenuItem} from "primeng/api";
+import { Title } from "@angular/platform-browser";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-games",
@@ -44,7 +46,13 @@ export class GamesComponent implements OnInit, OnDestroy {
 
   @ViewChild("gamesTable") table: Table;
 
-  constructor(private globalEventsService: GlobalEventsService, private gameApiService: GameApiService, private deckApiService: DeckApiService, private router: Router) { }
+  constructor(
+    private globalEventsService: GlobalEventsService, 
+    private gameApiService: GameApiService, 
+    private deckApiService: DeckApiService, 
+    private router: Router,
+    private titleService: Title,
+    private translateService: TranslateService) { }
 
   ngOnInit(): void {
 
@@ -73,6 +81,11 @@ export class GamesComponent implements OnInit, OnDestroy {
     this.deckSearchResult = new ResultList<Deck>();
     this.deckSearchResult.items = [];
     this.deckSearchResult.totalItems = 0;
+
+    this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.games'));
+    this.translateService.onLangChange.subscribe(() => {
+      this.titleService.setTitle('Aminduna - ' + this.translateService.instant('menu.games'));
+    });
 
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {
