@@ -178,7 +178,7 @@
                     [rows]="100"
                     [totalRecords]="deck.totalCards"
                     [showCurrentPageReport]="true"
-                    currentPageReportTemplate="{{'deck.unique-cards' | translate}}: {{deck?.deckCards?.length}}, {{'deck.total-cards' | translate}}: {{deck?.totalCards}}"
+                    currentPageReportTemplate="{{'deck.unique-cards' | translate}}: {{deck?.deckCards?.length}}, {{'deck.total-cards' | translate}}: {{ getTotalCards() }}"
                     [loading]="loading">
 
                 <ng-template pTemplate="header">

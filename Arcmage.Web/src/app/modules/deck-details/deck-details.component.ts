@@ -212,6 +212,13 @@ export class DeckDetailsComponent implements OnInit {
     }
   }
 
+  getTotalCards(): number {
+    if (!this.deck?.deckCards) return 0;
+    let sum: number = 0;
+    this.deck.deckCards.forEach(a => sum += a.quantity);
+    return sum;
+  }
+
   editDeckSettings(){
     this.showDeckSettings = true;
   }
