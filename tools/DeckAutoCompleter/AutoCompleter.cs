@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Arcmage.Client;
+using Arcmage.Layout.InputConvertor;
 using Arcmage.Model;
 
 namespace DeckAutoCompleter
@@ -11,12 +15,15 @@ namespace DeckAutoCompleter
     {
         private ApiClient ApiClient { get; set; }
 
+        private static Dictionary<string, char> LanguageFlavourTextStartDelimiters = new () { { "en", '\"' }, { "fr", '«' } };
+        private static Dictionary<string, char> LanguageFlavourTextEndDelimiters = new () { { "en", '\"' }, { "fr", '»' } };
+
         public AutoCompleter(string api, string login, string password)
         {
             ApiClient = new ApiClient(api, login, password);
         }
 
-        public async Task AutoComplete(string deckGuid)
+        public async Task AutoComplete(string deckGuid, bool dryRun = true)
         {
             await ApiClient.Login();
 
@@ -28,42 +35,60 @@ namespace DeckAutoCompleter
             {
                 var card = await ApiClient.GetByGuid<Card>(deckCard.Card.Guid);
                 await Task.Delay(1000);
-                await AutoComplete(card);
+                await AutoComplete(card, dryRun);
                 await Task.Delay(1000);
        
             }
         }
 
-        private async Task AutoComplete(Card card)
+        private static char GetLanguageFlavourTextStartDelimiter(string language)
         {
-            var layoutText = card.LayoutText;
+            if (language == null || !LanguageFlavourTextStartDelimiters.ContainsKey(language)) return LanguageFlavourTextStartDelimiters["en"];
+            return LanguageFlavourTextStartDelimiters[language];
+        }
+
+        private static char GetLanguageFlavourTextEndDelimiter(string language)
+        {
+            if (language == null || !LanguageFlavourTextEndDelimiters.ContainsKey(language)) return LanguageFlavourTextEndDelimiters["en"];
+            return LanguageFlavourTextEndDelimiters[language];
+        }
+
+        private async Task AutoComplete(Card card, bool dryRun = true)
+        {
+            var markDownText = card.MarkdownText;
+            var layoutText = LayoutInputConvertor.ToXml(card.MarkdownText);
 
             var ruleText = string.Empty;
             var flavourText = string.Empty;
 
+            var languageFlavourTextStartDelimiter =  GetLanguageFlavourTextStartDelimiter(card.Language.LanguageCode);
+            var languageFlavourTextEndDelimiter = GetLanguageFlavourTextEndDelimiter(card.Language.LanguageCode);
 
-            var flavorIndex = layoutText.IndexOf("<p><i>\"", StringComparison.InvariantCulture);
-            if (flavorIndex != -1)
+            var regex = new Regex(@"<p>\s*<i>" + Regex.Escape("" + languageFlavourTextStartDelimiter));
+            var match = regex.Match(layoutText);
+
+            if (match.Success)
             {
-                
-                flavourText = layoutText.Substring(flavorIndex);
-                var flavourDocument = XDocument.Parse($"<root>{flavourText}</root>");
+                var flavorIndex = match.Index;
+
+                flavourText = "<layout>" + layoutText.Substring(flavorIndex);
+                var flavourDocument = XDocument.Parse(flavourText);
                 flavourText = string.Empty;
                 foreach (var xElement in flavourDocument.Root.Elements("p"))
                 {
                     var para = ParseParagraph(xElement).Trim();
                     if (!string.IsNullOrWhiteSpace(para))
                     {
-                        flavourText += para.Trim().Trim('"').Trim() + "\n";
+                        flavourText += para.Trim().Trim(languageFlavourTextStartDelimiter).Trim(languageFlavourTextEndDelimiter).Trim() + "\n";
                     }
                 }
 
-                layoutText = layoutText.Substring(0, flavorIndex);
+                layoutText = layoutText.Substring(0, flavorIndex) + "</layout>";
             }
 
             
 
-            var ruleDocument = XDocument.Parse($"<root>{layoutText}</root>");
+            var ruleDocument = XDocument.Parse(layoutText);
             foreach (var xElement in ruleDocument.Root.Elements("p"))
             {
                 var para = ParseParagraph(xElement).Trim();
@@ -74,16 +99,27 @@ namespace DeckAutoCompleter
                 
             }
 
+            Regex removeDoubleSpaces = new Regex("[ ]{2,}", RegexOptions.None);
+            flavourText = removeDoubleSpaces.Replace(flavourText, " ");
+            ruleText = removeDoubleSpaces.Replace(ruleText, " ");
+
             Console.WriteLine(
                 $"Card  : {card.Name}\n" + 
-                $"Rule  : {ruleText}" +
+                $"Rule  : {ruleText}\n" +
                 $"Flavor: {flavourText}");
             Console.WriteLine("---");
 
             card.RuleText = ruleText;
-            if (!string.IsNullOrWhiteSpace(flavourText)) card.FlavorText = flavourText;
+            if (!string.IsNullOrWhiteSpace(flavourText))
+            {
+                card.FlavorText = flavourText;
+            }
+            else
+            {
+                card.FlavorText = "";
+            }
 
-            await ApiClient.Update(card);
+            if (!dryRun) await ApiClient.Update(card);
 
         }
 
@@ -195,17 +231,17 @@ namespace DeckAutoCompleter
 
                     // normal text
                     case "n":
-                        line = xElement.Value;
+                        line = xElement.Value + " ";
                         break;
                     // normal text
                     case "b":
-                        line = xElement.Value;
+                        line = xElement.Value + " ";
                         break;
                     case "i":
-                        line = xElement.Value;
+                        line = xElement.Value + " ";
                         break;
                     case "bi":
-                        line = xElement.Value;
+                        line = xElement.Value + " ";
                         break;
                     case "br":
                         break;

@@ -13,11 +13,11 @@ namespace MarkdownTest
         static void Main(string[] args)
         {
 
-            PrettyPrintLayoutXml();
-            ToMarkdownLayout();
-            CheckMarkdownRoundTrip();
+            //PrettyPrintLayoutXml();
+            //ToMarkdownLayout();
+            //CheckMarkdownRoundTrip();
 
-            //MarkdownRoundTripTest();
+            MarkdownRoundTripTest();
             //XmlRoundTripTest();
         }
 
@@ -110,8 +110,13 @@ namespace MarkdownTest
             Console.WriteLine("Converting markdown to xml");
             Console.WriteLine();
             Console.WriteLine();
-        
-            var markdown = "***Fatigue - ****I come into play marked.*\\" + "\r\n" +
+
+            var markdown = "\\" + "\r\n" +
+                           "\r\n" +
+                           ":C: herche n'importe quel ***cimetière*** et met la créature de ton choix dans ***ton armée.*** Cette créature acquiert la capacité\\ ***Mort-vivant.***";
+
+
+            var markdown2 = "***Fatigue - ****I come into play marked.*\\" + "\r\n" +
                            "\r\n" + 
                            ":W:hen ***I*** come into play, put two 1/1 ***Addax\\" + "\r\n" +
                            "tokens*** in target ***city*** or\\" + "\r\n" +

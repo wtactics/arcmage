@@ -140,7 +140,7 @@ namespace DeckTranslator
             newCard.Info = GetTranslation("Info");
             newCard.FirstName = card.FirstName;
             newCard.LastName = card.LastName;
-            newCard.LayoutText = card.LayoutText;
+            newCard.MarkdownText = card.MarkdownText;
             newCard.Artist = card.Artist;
 
         }
