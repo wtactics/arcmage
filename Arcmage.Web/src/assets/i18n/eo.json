@@ -133,24 +133,24 @@
   "card.field.artwork-license.info": "La permesilo de la arto. Notu ke nur artoj kongrui al unu de provizitaj permesiloj estas lasatajn. Aliaj permesiloj estas malakcepteblan kun Arcmage.",
   "card.field.artwork-source.info": "La fonto de la arto, ofte la artisto aŭ la homo aŭ aĵo, kiu komisionigis la bildo. Ne faru alŝuti arto, kiu ne estas disponeblajn laŭ unu de lasataj permesiloj.",
 
-  "games.create-new-game": "Create a new game! (eo)",
-  "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (eo)",
+  "games.create-new-game": "Krei novan ludon!",
+  "games.terms-of-service": "Per kreanta aŭ kuniĝanta ludon vi kongruas al nia <a target='_blank' href='https://arcmage.org/terms-of-service/'>termoj de servado</a>, nia <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privateca politiko</a>, nia <a target='_blank' href='https://arcmage.org/fair-play-policy/'>justa ludada politiko</a> kaj nia <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>nediskriminada politiko</a>.",
 
 
-  "game.field.name": "Name (eo)",
-  "game.field.name.required": "The game name is required. (eo)",
-  "game.field.status": "Status (eo)",
-  "game.field.status.open": "Open (eo)",
-  "game.field.status.full": "Full (eo)",
-  "game.join-game": "Join Game (eo)",
+  "game.field.name": "Nomo",
+  "game.field.name.required": "La luda nomo estas bezonatan.",
+  "game.field.status": "Stato",
+  "game.field.status.open": "Malferma",
+  "game.field.status.full": "Plena",
+  "game.join-game": "Kuniĝi Ludo",
 
   
-  "game.play-now": "Play Now (eo)",
-  "game.requirements": "A desktop browser, a headset and an opponent or friend. (eo)",
-  "game.find-opponent": "Find an opponent on (eo)",
-  "game.find-opponent-or": " or (eo)",
-  "game.find-opponent-or-just": " or just (eo)",
-  "game.find-opponent-friend": "play with a friend. (eo)",
+  "game.play-now": "Ludi Nun",
+  "game.requirements": "Surtabla retumilo, aŭdilo, kaj kontraŭulo aŭ amiko",
+  "game.find-opponent": "Trovu kontraŭulo je",
+  "game.find-opponent-or": " aŭ",
+  "game.find-opponent-or-just": " aŭ ĵus",
+  "game.find-opponent-friend": "ludu kun amiko.",
 
   "invite.you-have-been-invited": "You've been invited to play a game of Arcmage! (eo)",
   "invite.invited-by": "Invited by : (eo)",
