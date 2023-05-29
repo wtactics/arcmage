@@ -244,36 +244,19 @@
   "settings.password-forget.email-sent": "Pasvorta ŝanĝa/regajna retpoŝtaĵo sendiĝis al vi.",
   "settings.password-forget.failed": "Ne povis sendi pasvorta ŝanĝa/regajna retpoŝtaĵo",{
 
-  "users.verified": "Verfied (eo)",
-  "users.disabled": "Disabled (eo)",
-  "users.role": "Role (eo)",
+  "users.verified": "Verigita",
+  "users.disabled": "Malŝaltita",
+  "users.role": "Rolo",
 
-  "user.field.name": "Name (eo)",
-  "user.field.role": "Role (eo)",
-  "user.field.is-verified": "Verfied (eo)",
-  "user.field.is-disabled": "Disabled (eo)",
-  "user.field.create-date": "Joined (eo)",
-  "user.field.last-login": "Last Active (eo)",
+  "user.field.name": "Nomo",
+  "user.field.role": "Rolo",
+  "user.field.is-verified": "Verigita",
+  "user.field.is-disabled": "Malŝaltita",
+  "user.field.create-date": "Kunigita",
+  "user.field.last-login": "Lasta aktiva je",
 
-  "footer.policies": "By using this site you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (eo)",
-  "footer.license": "Cards, decks, artwork and software are subjected to the following <a target='_blank' href='https://arcmage.org/license/'>license</a>. (eo)",
-  "footer.copyright": "Copyright"
-
-}
-
-  "users.verified": "Verfied (eo)",
-  "users.disabled": "Disabled (eo)",
-  "users.role": "Role (eo)",
-
-  "user.field.name": "Name (eo)",
-  "user.field.role": "Role (eo)",
-  "user.field.is-verified": "Verfied (eo)",
-  "user.field.is-disabled": "Disabled (eo)",
-  "user.field.create-date": "Joined (eo)",
-  "user.field.last-login": "Last Active (eo)",
-
-  "footer.policies": "By using this site you agree to our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (eo)",
-  "footer.license": "Cards, decks, artwork and software are subjected to the following <a target='_blank' href='https://arcmage.org/license/'>license</a>. (eo)",
-  "footer.copyright": "Copyright"
+  "footer.policies": "Per uzanta ĉi-tiun retejon vi kongruas al nia <a target='_blank' href='https://arcmage.org/terms-of-service/'>termoj de servado</a>, nia <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privateca politiko</a>, nia <a target='_blank' href='https://arcmage.org/fair-play-policy/'>justa ludada politiko</a> kaj nia <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>nediskriminada politiko</a>.",
+  "footer.license": "Kartoj, kartaroj, artoj, kaj programaro estas regitaj de la jena <a target='_blank' href='https://arcmage.org/license/'>permesilo</a>.",
+  "footer.copyright": "Kopirajto"
 
 }
