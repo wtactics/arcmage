@@ -8,27 +8,21 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "lintFix": true,
           "skipTests": true
         },
         "@schematics/angular:directive": {
           "prefix": "app",
-          "lintFix": true,
           "skipTests": true
         },
         "@schematics/angular:pipe": {
-          "lintFix": true,
           "skipTests": true
         },
         "@schematics/angular:class": {
-          "lintFix": true,
           "skipTests": true
         },
         "@schematics/angular:module": {
-          "lintFix": true
         },
         "@schematics/angular:service": {
-          "lintFix": true,
           "skipTests": true
         }
       },
@@ -120,19 +114,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "Arcmage:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         },
         "e2e": {

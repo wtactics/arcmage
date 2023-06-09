@@ -2,7 +2,7 @@
     <div class="logonotag"></div>
     <button type="button" (click)="saveGame()"  class="btn btn-primary playButton">{{ "game.play-now" | translate}}</button>
     <div class="playInfo d-flex align-items-center flex-column">
-        <h2>{{ "game.find-opponent" | translate}}<a href="https://matrix.to/#/#wtactics:matrix.org" target="_blank">Matrix</a>{{ "game.find-opponent-or" | translate}}<a href="https://discord.gg/VqTDwSq" target="_blank">Discord</a>{{ "game.find-opponent-or" | translate}}<a  [routerLink]="" (click)="saveGame()">{{ "game.find-opponent-friend" | translate}}</a></h2>
+        <h2>{{ "game.find-opponent" | translate}}<a href="https://matrix.to/#/#wtactics:matrix.org" target="_blank">Matrix</a>{{ "game.find-opponent-or" | translate}}<a href="https://discord.gg/VqTDwSq" target="_blank">Discord</a>{{ "game.find-opponent-or" | translate}}<a  [routerLink]="[]" (click)="saveGame()">{{ "game.find-opponent-friend" | translate}}</a></h2>
         <div>{{ "game.requirements" | translate}}</div>       
     </div>
 </div>

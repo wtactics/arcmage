@@ -19,7 +19,7 @@
         <div class="p-field p-fluid">
             <label for="settings_email">{{'settings.email' | translate }}</label>
             <input id="settings_email" type="text"  [(ngModel)]="user.email" [disabled]="true" required pInputText> 
-            <small id="settings_email_help"> <a [routerLink]="" queryParamsHandling="preserve" (click)="requestPasswordReset()" >{{ "settings.password-forget" | translate }}</a></small>
+            <small id="settings_email_help"> <a [routerLink]="[]" queryParamsHandling="preserve" (click)="requestPasswordReset()" >{{ "settings.password-forget" | translate }}</a></small>
         </div> 
     </div>
     <p-divider align="left" *ngIf="settingsOptions.isPlayerAdmin"><b>{{'settings.admin' | translate}}</b></p-divider>
