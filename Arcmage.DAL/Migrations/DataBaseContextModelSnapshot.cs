@@ -89,6 +89,9 @@ namespace Arcmage.DAL.Migrations
                     b.Property<string>("MarkdownText")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MasterCardId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -125,6 +128,8 @@ namespace Arcmage.DAL.Migrations
                     b.HasIndex("FactionId");
 
                     b.HasIndex("LastModifiedById");
+
+                    b.HasIndex("MasterCardId");
 
                     b.HasIndex("RuleSetId");
 
@@ -676,6 +681,10 @@ namespace Arcmage.DAL.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Arcmage.DAL.Model.CardModel", "MasterCard")
+                        .WithMany()
+                        .HasForeignKey("MasterCardId");
+
                     b.HasOne("Arcmage.DAL.Model.RuleSetModel", "RuleSet")
                         .WithMany()
                         .HasForeignKey("RuleSetId");
@@ -703,6 +712,8 @@ namespace Arcmage.DAL.Migrations
                     b.Navigation("Faction");
 
                     b.Navigation("LastModifiedBy");
+
+                    b.Navigation("MasterCard");
 
                     b.Navigation("RuleSet");
 

@@ -78,6 +78,7 @@ namespace Arcmage.DAL
             modelBuilder.Entity<CardModel>().HasOne(x => x.Status).WithMany();
             modelBuilder.Entity<CardModel>().HasOne(x => x.Serie).WithMany(x=>x.Cards);
             modelBuilder.Entity<CardModel>().HasOne(x => x.ArtworkLicense).WithMany().IsRequired(false);
+            modelBuilder.Entity<CardModel>().HasOne(x => x.MasterCard).WithMany().HasForeignKey(x=>x.MasterCardId).IsRequired(false);
 
             modelBuilder.Entity<DeckModel>().HasOne(x => x.Status).WithMany().IsRequired(false);
 

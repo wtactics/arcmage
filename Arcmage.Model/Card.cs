@@ -84,5 +84,7 @@
 
         public Language Language { get; set; }
 
+        public Card MasterCard { get; set; }
+
     }
 }

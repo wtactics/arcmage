@@ -39,6 +39,7 @@ namespace Arcmage.Server.Api.Controllers
                     .Include(x=>x.Status)
                     .Include(x=>x.Type)
                     .Include(x => x.ArtworkLicense)
+                    .Include(x => x.MasterCard)
                     .Include(x => x.Creator)
                     .Include(x => x.LastModifiedBy)
                     .AsNoTracking();
@@ -49,7 +50,7 @@ namespace Arcmage.Server.Api.Controllers
                 }
 
                 var query = await cardModels.OrderByDescending(it => it.LastModifiedTime).Take(100).ToListAsync();
-                var result = new ResultList<Card>(query.Select(x => x.FromDal()).ToList());
+                var result = new ResultList<Card>(query.Select(x => x.FromDal(true)).ToList());
                 return Ok(result);
             }
         }
@@ -74,6 +75,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.Entry(result).Reference(x => x.Type).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Status).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.ArtworkLicense).LoadAsync();
+                await repository.Context.Entry(result).Reference(x => x.MasterCard).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.LastModifiedBy).LoadAsync();
 
@@ -267,8 +269,9 @@ namespace Arcmage.Server.Api.Controllers
                 var statusModel = await repository.Context.Statuses.FindByGuidAsync(card.Status?.Guid);
                 var ruleSetModel = await repository.Context.RuleSets.FindByGuidAsync(card.RuleSet?.Guid);
                 var artworkLicenseModel = await repository.Context.Licenses.FindByGuidAsync(card.ArtworkLicense?.Guid);
+                var masterCardModel = await repository.Context.Cards.FindByGuidAsync(card.MasterCard?.Guid);
 
-                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, ruleSetModel, artworkLicenseModel, repository.ServiceUser);
+                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, ruleSetModel, artworkLicenseModel, masterCardModel, repository.ServiceUser);
 
                 await repository.Context.SaveChangesAsync();
 
@@ -329,6 +332,7 @@ namespace Arcmage.Server.Api.Controllers
                 var statusModel = await repository.Context.Statuses.FindByGuidAsync(card.Status.Guid);
                 var ruleSetModel = await repository.Context.RuleSets.FindByGuidAsync(card.RuleSet.Guid);
                 var artworkLicenseModel = await repository.Context.Licenses.FindByGuidAsync(card.ArtworkLicense?.Guid);
+                var masterCardModel = await repository.Context.Cards.FindByGuidAsync(card.MasterCard?.Guid);
 
                 bool hasLayoutChanges = forceGeneration.HasValue && forceGeneration.Value;
 
@@ -350,7 +354,7 @@ namespace Arcmage.Server.Api.Controllers
 
                
 
-                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, ruleSetModel, artworkLicenseModel, repository.ServiceUser);
+                cardModel.Patch(card, serieModel, factionModel, cardTypeModel, statusModel, ruleSetModel, artworkLicenseModel, masterCardModel, repository.ServiceUser);
                 await repository.Context.SaveChangesAsync();
 
                 await repository.Context.Entry(cardTypeModel).Reference(x => x.TemplateInfo).LoadAsync();

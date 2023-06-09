@@ -9,7 +9,7 @@ namespace Arcmage.Server.Api.Assembler
 {
     public static class CardAssembler
     {
-        public static Card FromDal(this CardModel cardModel)
+        public static Card FromDal(this CardModel cardModel, bool includeMasterCard = false)
         {
             if (cardModel == null) return null;
             var result = new Card();
@@ -36,6 +36,7 @@ namespace Arcmage.Server.Api.Assembler
             if (cardModel.RuleSet != null) result.RuleSet = cardModel.RuleSet.FromDal();
             if (cardModel.Status != null) result.Status = cardModel.Status.FromDal();
             if (cardModel.ArtworkLicense != null) result.ArtworkLicense = cardModel.ArtworkLicense.FromDal();
+            if (cardModel.MasterCard != null && includeMasterCard) result.MasterCard = cardModel.MasterCard.FromDal(false);
 
             result.SyncBase(cardModel,true, true);
 
@@ -62,7 +63,7 @@ namespace Arcmage.Server.Api.Assembler
         }
 
         public static void Patch(this CardModel cardModel, Card card, 
-            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, RuleSetModel ruleSetModel, LicenseModel artworkLicense, UserModel user)
+            SerieModel serieModel, FactionModel factionModel, CardTypeModel cardTypeModel, StatusModel statusModel, RuleSetModel ruleSetModel, LicenseModel artworkLicense, CardModel masterCard, UserModel user)
         {
             if (cardModel == null) return;
             if (card == null) return;
@@ -89,6 +90,7 @@ namespace Arcmage.Server.Api.Assembler
             if (statusModel != null) cardModel.Status = statusModel;
             if (ruleSetModel != null) cardModel.RuleSet = ruleSetModel;
             if (artworkLicense != null) cardModel.ArtworkLicense = artworkLicense;
+            if (masterCard != null) cardModel.MasterCard = masterCard;
 
             cardModel.PatchBase(user);
         }

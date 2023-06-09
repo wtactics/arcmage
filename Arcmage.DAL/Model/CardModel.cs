@@ -61,5 +61,9 @@ namespace Arcmage.DAL.Model
 
         public string LanguageCode { get; set; }
 
+        public CardModel MasterCard { get; set; }
+
+        public int? MasterCardId { get; set; }
+
     }
 }
