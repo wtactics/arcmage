@@ -124,7 +124,7 @@
   "card.field.language.info": "La lingvo de la karto",
   "card.field.rule-text.info": "Oficiala reguloj de la karto, ne montras sur karto.",
   "card.field.flavor-text.info": "La opcia gusta teksto, ne montras sur karto.",
-  "card.field.info-text.info": "La piedlinia informo de la karto, montras sur karto. Por oficialaj kartoj, bonvolu uzi «arcmage.org - kuniĝu nin!».",
+  "card.field.info-text.info": "La piedlinia informo de la karto, montras sur karto. Por oficialaj kartoj, bonvolu uzi «arcmage.org - aligu nin!».",
   "card.field.firstname.info": "Unua linio de la karta nomo. Lusu malplena se vi ne volus fendi la nomon.",
   "card.field.lastname.info": "Dua linio de la karta nomo. Lasu malplena se vi ne volus fendi la nomon, aŭ; plenigu se vi satus ĝin apud la subtipo.",
   "card.field.markdown-text.info": "<p>La aranĝa «markdown» teksto, montras sur karto. <br/><br/>Lasus blanka linio komenci novan alineon. <br/><br/>Ampleksu ***grasan kursivan*** tekston kun tri steloj. <br />Ampleksu ***grasan*** tekston kun du steloj. <br />Ampleksu ***kursivan*** tekston kun unu stelo. <br /><br /><b>:br:</b> - devigi linia rompo (aŭ uzu \\ ) <br /><b>:mis:</b> - malgranda marka sago<br /><b>:g0-g9:, :gx:, :gt:</b> - ciferaj simboloj 0-9, x, t<br /><br /><b>Nur valdata ĉe komenco de alineo</b><br /><b>:majusklo de A-Z:</b> - komenci alineon kun majusklo t.e. :M:ajusklo <br /><b>:m:</b> - «mark»<br /><b>:mi:</b> - «mark» sago<br /><b>:m0-m9:, :mx:, :ma:, :mt:</b> - «mark» simboloj 0-9, x, t, a<br /><b>:mc:</b> - «mark», vicigi kolumnon<br /><b>:mic:</b> - markiĝa sago, vicigi kolumnon<br /></p>",
