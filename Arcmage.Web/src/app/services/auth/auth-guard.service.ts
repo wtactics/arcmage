@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { CanActivate } from "@angular/router";
+
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from "@angular/router";
 
 import { Observable } from "rxjs";
 import { GlobalEventsService } from "../global/global-events.service";
 
 @Injectable()
-export class AuthGuardService implements CanActivate {
+export class AuthGuardService  {
 
   constructor(private globalEventsService: GlobalEventsService, private router: Router) { }
 
