@@ -74,7 +74,7 @@
   "card.show-less": "montri malpli",
   "card.artwork-from": "Arto el",
   "card.artwork-used-under": ", uzita per",
-    "card.artwork-modified-match-template": "Aliigis kongrui la kartan ŝablonon.",
+  "card.artwork-modified-match-template": "Aliigis kongrui la kartan ŝablonon.",
 
   "card.field.name": "Nomo",
   "card.field.name.required": "La karta nomo estas bezonatan.",
@@ -110,6 +110,7 @@
   "card.field.create-date": "Krea dato",
   "card.field.last-modified-by": "Lasta redakto far",
   "card.field.last-modified-on": "Lasta redakto",
+  "card.field.master-card": "Original card (en)",
 
   "card.field.name.info": "Montras sur la karton.",
   "card.field.type.info": "La aranĝa tipo de la karto.",
@@ -132,6 +133,7 @@
   "card.field.artwork.info": "Travidebla «png» (1535x1266 @ 600dpi). Opcie uzu 70px maldekstran/dekstran marĝenon taŭgi en la karta skatolo.",
   "card.field.artwork-license.info": "La permesilo de la arto. Notu ke nur artoj kongrui al unu de provizitaj permesiloj estas lasatajn. Aliaj permesiloj estas malakcepteblan kun Arcmage.",
   "card.field.artwork-source.info": "La fonto de la arto, ofte la artisto aŭ la homo aŭ aĵo, kiu komisionigis la bildo. Ne faru alŝuti arto, kiu ne estas disponeblajn laŭ unu de lasataj permesiloj.",
+  "card.field.master-card.info": "The original card in english (en)",
 
   "games.create-new-game": "Krei novan ludon!",
   "games.terms-of-service": "Per kreanta aŭ kuniĝanta ludon vi kongruas al nia <a target='_blank' href='https://arcmage.org/terms-of-service/'>termoj de servado</a>, nia <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privateca politiko</a>, nia <a target='_blank' href='https://arcmage.org/fair-play-policy/'>justa ludada politiko</a> kaj nia <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>nediskriminada politiko</a>.",
@@ -242,7 +244,7 @@
   "settings.settings-options-error": "Agordo ne trovita",
   "settings.password-forget": "Ŝanĝi aŭ regajni pasvorton",
   "settings.password-forget.email-sent": "Pasvorta ŝanĝa/regajna retpoŝtaĵo sendiĝis al vi.",
-  "settings.password-forget.failed": "Ne povis sendi pasvorta ŝanĝa/regajna retpoŝtaĵo",{
+  "settings.password-forget.failed": "Ne povis sendi pasvorta ŝanĝa/regajna retpoŝtaĵo",
 
   "users.verified": "Verigita",
   "users.disabled": "Malŝaltita",
