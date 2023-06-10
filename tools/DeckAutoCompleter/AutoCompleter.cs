@@ -15,8 +15,8 @@ namespace DeckAutoCompleter
     {
         private ApiClient ApiClient { get; set; }
 
-        private static Dictionary<string, char> LanguageFlavourTextStartDelimiters = new () { { "en", '\"' }, { "fr", '«' } };
-        private static Dictionary<string, char> LanguageFlavourTextEndDelimiters = new () { { "en", '\"' }, { "fr", '»' } };
+        private static Dictionary<string, char> LanguageFlavourTextStartDelimiters = new () { { "en", '\"' }, { "fr", '«' }, { "eo", '«' } };
+        private static Dictionary<string, char> LanguageFlavourTextEndDelimiters = new () { { "en", '\"' }, { "fr", '»' }, { "eo", '»' } };
 
         public AutoCompleter(string api, string login, string password)
         {

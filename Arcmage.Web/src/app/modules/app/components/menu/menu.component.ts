@@ -37,7 +37,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.languages = [{ label: "En", value : "en"}, {label: "Nl", value: "nl"}, {label: "Fr", value: "fr"}, {label: "Es", value: "es"}, {label: "Pt-Br", value: "pt-br"}];
+    this.languages = [{ label: "En", value : "en"}, {label: "Eo", value: "eo"}, {label: "Es", value: "es"}, {label: "Fr", value: "fr"}, {label: "Nl", value: "nl"}, {label: "Pt-Br", value: "pt-br"}];
 
     this.subscription.add(
       this.globalEventsService.isAuthenticated$.subscribe((value) => {
