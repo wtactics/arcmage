@@ -32,7 +32,15 @@ namespace DeckTranslator
                     {"Magic", "Magie"},
                     {"Enchantment", "Enchantement"},
                     {"City", "Cité"},
-                }}, 
+                }},
+                { "esperanto", new Dictionary<string, string>
+                {
+                    {"Info", "arcmage.org - aligi nin!"},
+                    {"Event", "Okazaĵo"},
+                    {"Magic", "Magio"},
+                    {"Enchantment", "Ensorĉo"},
+                    {"City", "Urbo"},
+                }},
             };
         }
      
@@ -117,6 +125,8 @@ namespace DeckTranslator
             // fetch the full card type before updating
             var options = await ApiClient.GetByGuid<CardOptions>(newCard.Guid.ToString());
             newCard.Type = options.CardTypes.FirstOrDefault(x => x.Guid == newCard.Type.Guid);
+            // add the link to the original card
+            newCard.MasterCard = card;
             await ApiClient.Update(newCard);
             await Task.Delay(1000);
             return newCard;
