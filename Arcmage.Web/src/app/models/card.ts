@@ -29,6 +29,7 @@ export class Card extends Base {
     artwork: string;
     artworkLicensor: string;
     artworkLicense: License;
+    masterCard: Card;
     layoutText: string;
     markdownText: string;
     svg: string;

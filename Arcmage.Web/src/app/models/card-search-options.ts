@@ -15,4 +15,5 @@ export class CardSearchOptions extends SearchOptionsBase {
    status: Status;
    loyalty: number | null;
    language: Language;
+   searchNameOnly: boolean
 }

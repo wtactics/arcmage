@@ -76,12 +76,24 @@ namespace Arcmage.Server.Api.Controllers
 
                 if (!string.IsNullOrWhiteSpace(searchOptionsBase.Search))
                 {
-                    dbResult = dbResult.Where(
-                        it => it.Name.Contains(searchOptionsBase.Search) || 
-                        it.Creator.Name.Contains(searchOptionsBase.Search) || 
-                        it.SubType.Contains(searchOptionsBase.Search) ||
-                        it.RuleText.Contains(searchOptionsBase.Search)
-                    );
+
+                    if (searchOptionsBase.SearchNameOnly)
+                    {
+                        dbResult = dbResult.Where(
+                            it => it.Name.Contains(searchOptionsBase.Search)
+                        );
+                    }
+                    else
+                    {
+                        dbResult = dbResult.Where(
+                            it => it.Name.Contains(searchOptionsBase.Search) ||
+                                  it.Creator.Name.Contains(searchOptionsBase.Search) ||
+                                  it.SubType.Contains(searchOptionsBase.Search) ||
+                                  it.RuleText.Contains(searchOptionsBase.Search)
+                        );
+                    }
+
+                 
                 }
                 var totalCount = dbResult.Count();
 

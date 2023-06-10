@@ -79,7 +79,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.Entry(result).Reference(x => x.Creator).LoadAsync();
                 await repository.Context.Entry(result).Reference(x => x.LastModifiedBy).LoadAsync();
 
-                return Ok(result.FromDal());
+                return Ok(result.FromDal(true));
             }
         }
 
@@ -276,7 +276,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.SaveChangesAsync();
 
                 await repository.Context.Entry(cardTypeModel).Reference(x => x.TemplateInfo).LoadAsync();
-                card = cardModel.FromDal();
+                card = cardModel.FromDal(true);
                 card.Type = cardModel.Type.FromDal(true);
 
                 var cardGenerator = new CardGenerator(card);
@@ -358,7 +358,7 @@ namespace Arcmage.Server.Api.Controllers
                 await repository.Context.SaveChangesAsync();
 
                 await repository.Context.Entry(cardTypeModel).Reference(x => x.TemplateInfo).LoadAsync();
-                card = cardModel.FromDal();
+                card = cardModel.FromDal(true);
                 card.Type = cardModel.Type.FromDal(true);
                 await repository.Context.SaveChangesAsync();
 
@@ -378,7 +378,7 @@ namespace Arcmage.Server.Api.Controllers
                 }
                 await repository.Context.SaveChangesAsync();
 
-                return Ok(cardModel.FromDal());
+                return Ok(cardModel.FromDal(true));
             }
         }
 

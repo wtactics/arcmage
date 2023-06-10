@@ -136,6 +136,17 @@
             </div>
 
             <div class="p-field p-grid">
+                <label for="card_mastercard" class="p-col-3"> <a class="searchlink"  [routerLink]="['/cards', card?.masterCard?.guid]" target="_blank">{{"card.field.master-card" | translate}}</a></label>
+             
+                <div class="p-col-8">
+                    <p-autoComplete [(ngModel)]="card.masterCard" [suggestions]="masterCardSearchResult.items" (completeMethod)="autoSearchClick($event)"  placeholder="{{'global.select' | translate}}" [forceSelection]=true [dropdown]="true" field="name" dataKey="guid" [disabled]="loading || !cardOptions.isEditable"></p-autoComplete>
+                </div>
+                <div class="p-col-1 p-d-flex p-ai-center">
+                    <a class="card-info-icon" (click)="selectCardInfo($event, 'card_master', infoOverlay)" ><i class="fas fa-info-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="p-field p-grid">
                 <label for="card_status" class="p-col-3">{{"card.field.status" | translate}}</label>
                 <div class="p-col-8">
                     <p-dropdown inputId="card_status" dataKey="guid" [options]="cardOptions?.statuses" [(ngModel)]="card.status" placeholder="{{'global.select' | translate}}" optionLabel="name" [disabled]="loading || !cardOptions.isEditable"></p-dropdown> 
@@ -348,6 +359,10 @@
         <div *ngIf="selectedCardInfo === 'card_name'">
            <p>{{"card.field.name.info" | translate}}</p>
         </div>
+
+        <div *ngIf="selectedCardInfo === 'card_master'">
+            <p>{{"card.field.master-card.info" | translate}}</p>
+         </div>
 
         <div *ngIf="selectedCardInfo === 'card_language'">
             <p>{{"card.field.language.info" | translate}}</p>

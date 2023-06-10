@@ -16,6 +16,8 @@ import { Ruling } from "src/app/models/ruling";
 import { RulingApiService } from "src/app/services/api/ruling-api.service";
 import { TranslateService } from "@ngx-translate/core";
 import { Title } from "@angular/platform-browser";
+import { ResultList } from "src/app/models/result-list";
+import { CardSearchOptions } from "src/app/models/card-search-options";
 
 
 @Component({
@@ -47,6 +49,10 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   showUploadProgress = false;
   uploadProgressValue = 0;
+
+  masterCardSearchResult: ResultList<Card>;
+  masterCardSearchOptions: CardSearchOptions;
+
 
   cardGenerationPoll: Subscription;
 
@@ -80,6 +86,18 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     this.showRuleCreation = false;
 
 
+    this.masterCardSearchOptions = new CardSearchOptions();
+    this.masterCardSearchOptions.pageNumber = 1;
+    this.masterCardSearchOptions.search = "";
+    this.masterCardSearchOptions.pageSize = 50;
+    this.masterCardSearchOptions.language
+   
+    this.masterCardSearchResult = new ResultList<Card>();
+    this.masterCardSearchResult.items = [];
+    this.masterCardSearchResult.totalItems = 0;
+
+
+
     this.route.paramMap.subscribe(params => {
       const cardGuid = params.get("cardId");
 
@@ -90,6 +108,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
           this.cardApiService.get$(cardGuid).subscribe(
             card => {
               this.card = card;
+              this.initMasterCardSearchResults();
               this.titleService.setTitle('Aminduna - ' + card.name);
               this.cardApiService.getRulings(cardGuid).subscribe(
                 result => {
@@ -109,6 +128,34 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  autoSearchClick(event){
+    if (event) {
+      this.masterCardSearchOptions.search = event.query;
+    }
+    this.masterCardSearchOptions.pageNumber = 1;
+    this.searchMasterCards();
+  }
+
+  searchClick(){
+    this.masterCardSearchOptions.pageNumber = 1;
+    this.searchMasterCards();
+  }
+
+  searchMasterCards(): void {
+
+    this.masterCardSearchOptions.language = this.cardOptions.languages.find(x=>x.languageCode === "en");
+    this.masterCardSearchOptions.searchNameOnly = true;
+    this.cardApiService.search$(this.masterCardSearchOptions).subscribe(
+      (result) => {
+        this.masterCardSearchResult.items = result.items;
+        this.masterCardSearchResult.totalItems = result.totalItems;
+      },
+      (error) => {
+        this.loading = false;
+      },
+      () => this.loading = false);
+  }
+
   searchLanguages(event) {
     this.languages = this.cardOptions.languages.filter(x => x.name.startsWith(event.query));
   }
@@ -122,6 +169,17 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     const storedIsEditMode = sessionStorage.getItem(this.isEditModeKey);
     if (storedIsEditMode) {
       this.isEditMode = JSON.parse(storedIsEditMode) as boolean;
+    }
+  }
+
+
+  initMasterCardSearchResults(){
+    this.masterCardSearchResult = new ResultList<Card>();
+    this.masterCardSearchResult.items = [];
+    this.masterCardSearchResult.totalItems = 0;
+    if(this.card.masterCard){
+      this.masterCardSearchResult.items.push(this.card.masterCard);
+      this.masterCardSearchResult.totalItems = 1;
     }
   }
 
@@ -139,6 +197,7 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     this.cardApiService.update$(this.card.guid, this.card, params).pipe(delay(500)).subscribe(
       card => {
         this.card = card;
+        this.initMasterCardSearchResults();
 
         this.cardGenerationPoll = interval(2 * 60 * 1000).pipe(
           startWith(0),

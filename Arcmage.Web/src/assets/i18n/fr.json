@@ -109,6 +109,7 @@
   "card.field.create-date": "Creation date (fr)",
   "card.field.last-modified-by": "Last edit by (fr)",
   "card.field.last-modified-on": "Last edit (fr)",
+  "card.field.master-card": "Original card (fr)",
 
   "card.field.name.info": "Shown on card. (fr)",
   "card.field.type.info": "The layout type of the card. (fr)",
@@ -131,6 +132,7 @@
   "card.field.artwork.info": "Transparent png (1535x1266 @ 600dpi). Optionally use 70px left/right margin to fit in the card box. (fr)",
   "card.field.artwork-license.info": "The artwork license. Note that only artwork matching one of the provided licenses is allowed. Other licenses are not compatible with arcmage. (fr)",
   "card.field.artwork-source.info": "The source of the artwork often the artist or the person or entity who comissioned the piece. Do not upload artwork that isn't available under one of the allowed licenses. (fr)",
+  "card.field.master-card.info": "The original card in english (fr)",
 
   "games.create-new-game": "Create a new game! (fr)",
   "games.terms-of-service": "By creating or joining a game you agree our <a target='_blank' href='https://arcmage.org/terms-of-service/'>terms of service</a>, our <a  target='_blank' href='https://arcmage.org/privacy-policy/'>privacy policy</a>, our <a target='_blank' href='https://arcmage.org/fair-play-policy/'>fair play policy</a> and our <a target='_blank' href='https://arcmage.org/non-discrimination-policy/'>non-discrimination policy</a>. (fr)",

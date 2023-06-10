@@ -19,5 +19,7 @@
 
         public int? Loyalty { get; set; }
 
+        public bool SearchNameOnly { get; set; }
+
     }
 }
