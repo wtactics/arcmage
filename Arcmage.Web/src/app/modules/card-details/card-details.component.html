@@ -135,7 +135,7 @@
                 </div>
             </div>
 
-            <div class="p-field p-grid">
+            <div class="p-field p-grid" *ngIf="card?.language?.languageCode != 'en'">
                 <label for="card_mastercard" class="p-col-3"> <a class="searchlink"  [routerLink]="['/cards', card?.masterCard?.guid]" target="_blank">{{"card.field.master-card" | translate}}</a></label>
              
                 <div class="p-col-8">
