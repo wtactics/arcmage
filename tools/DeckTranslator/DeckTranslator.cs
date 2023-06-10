@@ -115,20 +115,18 @@ namespace DeckTranslator
         {
             await ApiClient.DownloadFile(card.Artwork, TempFile);
             var newCard = new Card() {Name = $"{card.Name} ({language} wip)" };
+            TranslateCardFrench(newCard, card);
+
             newCard = await ApiClient.Create(newCard);
-
-
             await Task.Delay(1000);
             await ApiClient.UploadFile(newCard.Guid.ToString(), TempFile);
             await Task.Delay(1000);
-            TranslateCardFrench(newCard, card);
-            // fetch the full card type before updating
-            var options = await ApiClient.GetByGuid<CardOptions>(newCard.Guid.ToString());
-            newCard.Type = options.CardTypes.FirstOrDefault(x => x.Guid == newCard.Type.Guid);
-            // add the link to the original card
-            newCard.MasterCard = card;
+
+            // copy markdown text and force the update to regenerate the card
+            newCard.MarkdownText = card.MarkdownText;
             await ApiClient.Update(newCard);
             await Task.Delay(1000);
+
             return newCard;
         }
 
@@ -137,7 +135,7 @@ namespace DeckTranslator
             newCard.Serie = card.Serie;
             newCard.RuleSet = card.RuleSet;
             // N.G. Remark: we'll leave the card in draft mode
-            // newCard.Status = card.Status;
+            newCard.Status = new Status() { Guid = PredefinedGuids.Draft };
             newCard.Faction = card.Faction;
             newCard.Type = card.Type;
             newCard.SubType = GetTranslation(card.SubType);
@@ -150,9 +148,12 @@ namespace DeckTranslator
             newCard.Info = GetTranslation("Info");
             newCard.FirstName = card.FirstName;
             newCard.LastName = card.LastName;
-            newCard.MarkdownText = card.MarkdownText;
             newCard.Artist = card.Artist;
-
+            newCard.ArtworkLicense = card.ArtworkLicense;
+            newCard.ArtworkLicensor = card.ArtworkLicensor;
+            // add the link to the original card
+            newCard.MasterCard = card;
+            // we're not copying the markdown text here
         }
 
         private static string GetTranslation(string key)
