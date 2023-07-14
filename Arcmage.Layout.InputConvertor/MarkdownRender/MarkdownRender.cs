@@ -51,33 +51,34 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
 
                 { "br", 50 },
                 { "pa", 51 },
-
-                {"A", 65},
-                {"B", 66},
-                {"C", 67},
-                {"D", 68},
-                {"E", 69},
-                {"F", 70},
-                {"G", 71},
-                {"H", 72},
-                {"I", 73},
-                {"J", 74},
-                {"K", 75},
-                {"L", 76},
-                {"M", 77},
-                {"N", 78},
-                {"O", 79},
-                {"P", 80},
-                {"Q", 81},
-                {"R", 82},
-                {"S", 83},
-                {"T", 84},
-                {"U", 85},
-                {"V", 86},
-                {"W", 87},
-                {"X", 88},
-                {"Y", 89},
-                {"Z", 90},
+                // N.G. Remark: the following dropcap codes are no longer neede.
+                ////      We'll consider any non registered emoji as a dropcap
+                //{"A", 65},
+                //{"B", 66},
+                //{"C", 67},
+                //{"D", 68},
+                //{"E", 69},
+                //{"F", 70},
+                //{"G", 71},
+                //{"H", 72},
+                //{"I", 73},
+                //{"J", 74},
+                //{"K", 75},
+                //{"L", 76},
+                //{"M", 77},
+                //{"N", 78},
+                //{"O", 79},
+                //{"P", 80},
+                //{"Q", 81},
+                //{"R", 82},
+                //{"S", 83},
+                //{"T", 84},
+                //{"U", 85},
+                //{"V", 86},
+                //{"W", 87},
+                //{"X", 88},
+                //{"Y", 89},
+                //{"Z", 90},
             });
         }
 
@@ -217,12 +218,13 @@ namespace Arcmage.Layout.InputConvertor.MarkdownRender
                 return;
             }
 
-            // Drop cap support
-            if (65 <= element.Code && element.Code < 91)
+            // N.G. Remark: consider any non registered name (code -1) as a drop cap
+            if (element.Code == -1)
             {
                 paragraph.Add(new XElement("c", element.Text));
                 return;
             }
+            
 
         }
 

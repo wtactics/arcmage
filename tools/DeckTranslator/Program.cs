@@ -16,19 +16,22 @@ namespace DeckTranslator
         {
             Task.Run(async () =>
             {
+
                 // change api url, login, password and temp folder (to download artwork, and upload from there)
                 var apiUrl = "https://localhost:5000";
                 var login = "";
                 var password = "";
                 var tempFolder = @"c:\temp";
 
-                // deck id
+                // deck id example for: Set 1 - Rebirth 
                 var deckGuid = "2e852216-450b-4b2f-add3-e5126197e149";
-                var language = "french";
+                var language = "eo";
 
                 var deckTranslator = new DeckTranslator(apiUrl, login, password, tempFolder);
 
-                await deckTranslator.TranslateDeck(deckGuid, language, false);
+                // In dryRun mode, we'll not actually create a translated deck nor translated cards,
+                // but just list those who would be created. Change to false to create the cards.
+                await deckTranslator.TranslateDeck(deckGuid, language, dryRun:true);
 
 
             }).GetAwaiter().GetResult();

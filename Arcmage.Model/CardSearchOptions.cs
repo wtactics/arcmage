@@ -17,6 +17,8 @@
 
         public Language Language { get; set; }
 
+        public Card MasterCard { get; set; }
+
         public int? Loyalty { get; set; }
 
         public bool SearchNameOnly { get; set; }

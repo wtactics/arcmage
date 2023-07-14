@@ -27,11 +27,18 @@ namespace Arcmage.Server.Api.Controllers
                 IQueryable<CardModel> dbResult = repository.Context.Cards
                     .Include(x => x.RuleSet)
                     .Include(x => x.Serie)
+                    .Include(x => x.MasterCard)
                     .Include(x => x.Faction)
                     .Include(x => x.Status)
                     .Include(x => x.Type)
                     .Include(x => x.Creator)
                     .Include(x => x.LastModifiedBy).AsNoTracking();
+
+
+                if (searchOptionsBase.MasterCard != null)
+                {
+                    dbResult = dbResult.Where(x => x.MasterCard != null && x.MasterCard.Guid == searchOptionsBase.MasterCard.Guid);
+                }
 
                 if (searchOptionsBase.Cost != null)
                 {
@@ -101,6 +108,11 @@ namespace Arcmage.Server.Api.Controllers
                 if (string.IsNullOrWhiteSpace(searchOptionsBase.OrderBy))
                 {
                     searchOptionsBase.OrderBy = "Name";
+                }
+
+                if("Language" == searchOptionsBase.OrderBy)
+                {
+                    searchOptionsBase.OrderBy = "LanguageCode";
                 }
 
                 var orderByType = QueryHelper.GetPropertyType<CardModel>(searchOptionsBase.OrderBy);

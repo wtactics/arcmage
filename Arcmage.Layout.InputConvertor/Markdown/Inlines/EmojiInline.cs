@@ -76,6 +76,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 var result = new EmojiInline { Text = emojiName, Type = MarkdownInlineType.Emoji, Code = emojiCode };
                 return new InlineParseResult(result, start, innerEnd + 1);
             }
+            else
+            {
+                var result = new EmojiInline { Text = emojiName, Type = MarkdownInlineType.Emoji, Code = -1 };
+                return new InlineParseResult(result, start, innerEnd + 1);
+            }
 
             return null;
         }
