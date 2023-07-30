@@ -6,6 +6,8 @@
 
         public Status Status { get; set; }
 
+        public Language Language { get; set; }
+
         public bool? MyDecks { get; set; }
 
         public bool? ExcludeDrafts { get; set; }

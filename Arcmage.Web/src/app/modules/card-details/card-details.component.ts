@@ -9,7 +9,7 @@ import { Observable, interval, Subscription } from "rxjs";
 import { startWith, switchMap, delay } from "rxjs/operators";
 import { HttpEvent, HttpEventType, HttpParams } from "@angular/common/http";
 import { OverlayPanel } from "primeng/overlaypanel/overlaypanel";
-import { ConfirmationService, SelectItem } from "primeng/api";
+import { ConfirmationService, LazyLoadEvent, SelectItem } from "primeng/api";
 import { ConfigurationService } from "src/app/services/global/config.service";
 import { Language } from "src/app/models/language";
 import { Ruling } from "src/app/models/ruling";
@@ -43,6 +43,10 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
   newruling: Ruling;
 
   languages: Language[];
+  showTranslations: boolean = false;
+  numberOfRows = 30;
+  firstItem = 0;
+  enableLazyLoad = false;
 
   loading: boolean;
   saving: boolean;
@@ -52,6 +56,10 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
 
   masterCardSearchResult: ResultList<Card>;
   masterCardSearchOptions: CardSearchOptions;
+
+  translationsCardSearchResult: ResultList<Card>;
+  translationsCardSearchOptions: CardSearchOptions;
+  
 
 
   cardGenerationPoll: Subscription;
@@ -90,12 +98,21 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
     this.masterCardSearchOptions.pageNumber = 1;
     this.masterCardSearchOptions.search = "";
     this.masterCardSearchOptions.pageSize = 50;
-    this.masterCardSearchOptions.language
+    
    
     this.masterCardSearchResult = new ResultList<Card>();
     this.masterCardSearchResult.items = [];
     this.masterCardSearchResult.totalItems = 0;
 
+
+    this.translationsCardSearchOptions = new CardSearchOptions();
+    this.translationsCardSearchOptions.pageNumber = 1;
+    this.translationsCardSearchOptions.search = "";
+    this.translationsCardSearchOptions.pageSize = 50;
+
+    this.translationsCardSearchResult = new ResultList<Card>();
+    this.translationsCardSearchResult.items = [];
+    this.translationsCardSearchResult.totalItems = 0;    
 
 
     this.route.paramMap.subscribe(params => {
@@ -154,6 +171,51 @@ export class CardDetailsComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       () => this.loading = false);
+  }
+
+  toggleShowTranslations(){
+    this.showTranslations = !this.showTranslations;
+    if (this.showTranslations) {
+      this.searchTranslations();
+    }
+    
+  }
+
+  loadTranslatedCardData(event: LazyLoadEvent) {
+    if (this.enableLazyLoad) {
+      if (event != null) {
+        this.translationsCardSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
+        this.translationsCardSearchOptions.pageSize = event.rows;
+  
+        if (event.sortField) {
+          this.translationsCardSearchOptions.orderBy = event.sortField;
+          this.translationsCardSearchOptions.reverseOrder = event.sortOrder > 0;
+        }
+      }
+      this.searchTranslations();
+    }
+  }
+
+  searchTranslations(){
+    this.enableLazyLoad = false;
+    this.translationsCardSearchOptions.masterCard = this.card?.masterCard ?? this.card;
+    if (this.translationsCardSearchOptions.masterCard){
+      this.loading = true;    
+      this.cardApiService.search$(this.translationsCardSearchOptions).subscribe(
+        (result) => {
+          this.translationsCardSearchResult.items = [this.translationsCardSearchOptions.masterCard, ...result.items];
+          this.translationsCardSearchResult.totalItems = result.totalItems + 1;
+          this.enableLazyLoad = true;
+        },
+        (error) => {
+          this.loading = false;
+        },
+        () => this.loading = false);
+    }
+    else {
+      this.translationsCardSearchResult.items = [];
+      this.translationsCardSearchResult.totalItems = 0;
+    }
   }
 
   searchLanguages(event) {

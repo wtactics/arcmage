@@ -103,3 +103,30 @@ p-table {
     }
   }
 }
+
+
+.translations-table .p-datatable-wrapper .p-datatable-table{
+  width: 100%;
+  table-layout: fixed;
+}
+
+.translations-td-card {
+  width: 10%;
+  white-space: normal !important;
+}
+
+.translations-td-image {
+  width: 100%;
+}
+
+
+.translations-td-rule-text {
+  width: 75%;
+  white-space: normal !important;
+}
+
+.translations-td-info {
+  white-space: normal !important;
+  text-align: center !important;
+  width: 15%;
+}

@@ -76,6 +76,40 @@
             <p><em>{{"card.artwork-from" | translate}} {{card?.artworkLicensor}}{{"card.artwork-used-under" | translate}} <a href="{{card?.artworkLicense?.url}}" target="_blank"> {{card?.artworkLicense?.name}}</a><br/> {{"card.artwork-modified-match-template" | translate}} </em></p>
         </div>
 
+        <p-divider align="left" class="clickable-divider" (click)="toggleShowTranslations()"><b>{{"card.translations" | translate}}</b><i class="elegant-button fas fa-caret-down fa-sm"></i></p-divider>
+        <div class="view-info" *ngIf="showTranslations">
+            <p-table #cardsTable
+            [styleClass]="'translations-table'"
+            [value]="translationsCardSearchResult.items"
+            [resizableColumns]="true"
+            [autoLayout]="true"
+            [rowHover]="true"
+            [lazy]="true"
+            (onLazyLoad)="loadTranslatedCardData($event)"
+            [paginator]="true"
+            paginatorPosition="bottom"
+            [rows]="numberOfRows"
+            [(first)]="firstItem"
+            [totalRecords]="translationsCardSearchResult.totalItems"
+            [showCurrentPageReport]="false"
+            currentPageReportTemplate="{{'grids.total' | translate}}: {{translationsCardSearchResult.totalItems}}"
+            [loading]="loading">
+  
+      <ng-template pTemplate="body" let-translatedcard>
+        <tr>
+          <td class="translations-td-card"><a [routerLink]="['/cards', translatedcard.guid]">
+            <img src="{{apiUri + translatedcard.webp}}" class="translations-td-image" />
+          </a></td>
+          <td class="translations-td-rule-text">{{translatedcard.ruleText}}<br/><br/><em>{{translatedcard.flavorText}}</em></td>
+          <td class="translations-td-info" >{{translatedcard.language.name}}<br/>
+            <em>{{"global.by" | translate}} {{translatedcard.lastModifiedBy?.name ?? translatedcard.creator?.name }}</em></td>
+        </tr>
+      </ng-template>
+      
+    </p-table>
+  
+        </div>
+
         <p-divider align="left"><b>{{"card.rulings" | translate}} </b><i *ngIf="cardOptions?.isEditable && cardOptions?.isRulingEditable" class="elegant-button fas fa-plus fa-sm" (click)="showAddRuling()"></i></p-divider>
         <div *ngIf="!rulings || rulings.length == 0" class="view-info">
             <p>{{"card.no-rulings" | translate}}</p>

@@ -1,5 +1,6 @@
 import { Base } from "./base";
 import { DeckCard } from "./deck-card";
+import { Language } from "./language";
 import { Status } from "./status";
 
 export class Deck extends Base {
@@ -15,4 +16,5 @@ export class Deck extends Base {
   totalCards: number;
   isGenerated: boolean;
   status: Status;
+  language: Language;
 }

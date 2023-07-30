@@ -6,6 +6,7 @@ import { Component, OnInit } from "@angular/core";
 import { Deck } from "src/app/models/deck";
 import { DeckApiService } from "src/app/services/api/deck-api.service";
 import { DeckSearchOptions } from "src/app/models/deck-search-options";
+import { Language } from "src/app/models/language";
 import { ResultList } from "src/app/models/result-list";
 
 import { GlobalEventsService } from "src/app/services/global/global-events.service";
@@ -14,6 +15,7 @@ import { Router } from "@angular/router";
 import { DeckOptions } from "src/app/models/deck-options ";
 import { Title } from "@angular/platform-browser";
 import { TranslateService } from "@ngx-translate/core";
+
 
 @Component({
   selector: "app-decks",
@@ -40,6 +42,7 @@ export class DecksComponent implements OnInit {
   deckSearchOptions: DeckSearchOptions;
   hideAvancedSearch = false;
   deckOptions: DeckOptions;
+  languages: Language[];
 
   constructor(
     private globalEventsService: GlobalEventsService, 
@@ -51,7 +54,12 @@ export class DecksComponent implements OnInit {
   ngOnInit(): void {
     this.newDeck = new Deck();
 
-    this.deckApiService.getOptions().subscribe(deckOptions => this.deckOptions = deckOptions);
+    this.deckApiService.getOptions().subscribe(deckOptions => {
+      this.deckOptions = deckOptions;
+      this.languages = deckOptions.languages;
+      this.deckSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
+     
+    });
 
 
     this.deckSearchOptions = new DeckSearchOptions();
@@ -95,6 +103,20 @@ export class DecksComponent implements OnInit {
       () => this.loading = false);
   }
 
+  searchLanguage($event): void {
+    if ($event) {
+      this.languages = this.deckOptions.languages.filter( language => {
+        if (language && language.name) {
+          return language.name.contains($event.query);
+        }
+        return false;
+      });
+    }
+    else {
+      this.languages = this.deckOptions.languages;
+    }
+  }
+
   loadData(event: LazyLoadEvent) {
     if (this.enableLazyLoad) {
       this.deckSearchOptions.pageNumber = Math.floor(event.first / event.rows) + 1;
@@ -116,6 +138,8 @@ export class DecksComponent implements OnInit {
 
   createDeck() {
     this.newDeck = new Deck();
+    // When creating a new deck take the hint from the deck search options selection.
+    this.newDeck.language = this.deckSearchOptions.language ?? this.languages.find(x=>x.languageCode === "en");
     this.newDeck.status = this.deckOptions.statuses[0];
     this.showDeckCreation = true;
   }

@@ -27,6 +27,7 @@
   "global.unauthorized": "Unauthorized (es)",
   "global.last-edit": "Last Edit (es)",
   "global.select-png": "Select png file (es)",
+  "global.by": "by (es)",
 
   "grids.total": "total (es)",
 
@@ -74,6 +75,7 @@
   "card.artwork-from": "Artwork from (es)",
   "card.artwork-used-under": ", used under (es)",
   "card.artwork-modified-match-template": "Modified to match the card template. (es)",
+  "card.translations": "Translations (es)",
 
   "card.field.name": "Name (es)",
   "card.field.name.required": "The card name is required. (es)",

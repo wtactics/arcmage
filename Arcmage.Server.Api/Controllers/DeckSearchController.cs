@@ -60,6 +60,11 @@ namespace Arcmage.Server.Api.Controllers
                     dbResult = dbResult.Where(x => x.Status != null && x.Status.Guid == deckSearchOptions.Status.Guid);
                 }
 
+                if (deckSearchOptions.Language != null)
+                {
+                    dbResult = dbResult.Where(x => x.LanguageCode == deckSearchOptions.Language.LanguageCode);
+                }
+
                 var totalCount = dbResult.Count();
 
                 // default order by

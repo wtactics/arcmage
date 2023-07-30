@@ -76,18 +76,23 @@ export class DeckDetailsComponent implements OnInit {
           this.deck = deck;
           this.titleService.setTitle('Aminduna - ' + deck.name);
           this.loading = false;
+
+          this.cardApiService.getOptions().subscribe(cardOptions => {
+            this.cardOptions = cardOptions;
+            this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
+            this.languages = cardOptions.languages;
+            this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === this.deck.language?.languageCode?? "en");
+            this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464");
+          });
+
         },
-        error => { this.loading = false; }
+        error => { 
+          this.loading = false; 
+        }
       );
     });
 
-    this.cardApiService.getOptions().subscribe(cardOptions => {
-      this.cardOptions = cardOptions;
-      this.loyalties = cardOptions.loyalties.map( x => ({ label: "" + x, value: x }));
-      this.languages = cardOptions.languages;
-      this.cardSearchOptions.language = this.languages.find(x=>x.languageCode === "en");
-      this.cardSearchOptions.status = this.cardOptions.statuses.find(x=>x.guid === "7dedc883-5dd2-5f17-b2a4-eaf04f7ad464");
-    });
+   
 
     this.cardSearchOptions = new CardSearchOptions();
     this.cardSearchOptions.pageNumber = 1;
@@ -230,6 +235,7 @@ export class DeckDetailsComponent implements OnInit {
     deckUpdate.exportTiles = this.deck.exportTiles;
     deckUpdate.generatePdf = this.deck.generatePdf;
     deckUpdate.status = this.deck.status;
+    deckUpdate.language = this.deck.language;
 
     this.saving = true;
 

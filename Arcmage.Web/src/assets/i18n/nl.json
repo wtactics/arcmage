@@ -29,6 +29,7 @@
   "global.select-png": "Select png file (nl)",
 
   "grids.total": "total (nl)",
+  "global.by": "by (nl)",
 
   "login.username": "Login (email address) (nl)",
   "login.username.required": "The login email adress is required. (nl)",
@@ -74,6 +75,7 @@
   "card.artwork-from": "Artwork from (nl)",
   "card.artwork-used-under": ", used under (nl)",
   "card.artwork-modified-match-template": "Modified to match the card template. (nl)",
+  "card.translations": "Translations (nl)",
 
   "card.field.name": "Name (nl)",
   "card.field.name.required": "The card name is required. (nl)",

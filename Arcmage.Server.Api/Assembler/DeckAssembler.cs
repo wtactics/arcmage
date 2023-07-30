@@ -3,6 +3,7 @@ using System.Linq;
 using Arcmage.DAL;
 using Arcmage.DAL.Model;
 using Arcmage.Model;
+using Arcmage.Server.Api.Utils;
 
 namespace Arcmage.Server.Api.Assembler
 {
@@ -28,6 +29,8 @@ namespace Arcmage.Server.Api.Assembler
             result.IsAvailable = File.Exists(Repository.GetDeckFile(deckModel.Guid));
             result.ExportTiles = deckModel.ExportTiles;
             result.GeneratePdf = deckModel.GeneratePdf;
+            result.Language = Languages.GetLanguage(deckModel.LanguageCode);
+
             if (deckModel.DeckCards != null && deckModel.DeckCards.Any())
             {
                 result.TotalCards =  deckModel.DeckCards.Sum(x => x.Quantity);
@@ -43,6 +46,7 @@ namespace Arcmage.Server.Api.Assembler
         {
             if (deckModel == null) return;
             deckModel.Name = deck.Name;
+            deckModel.LanguageCode = deck.Language?.LanguageCode ?? "en";
             deckModel.ExportTiles = deck.ExportTiles;
             deckModel.GeneratePdf = deck.GeneratePdf;
             

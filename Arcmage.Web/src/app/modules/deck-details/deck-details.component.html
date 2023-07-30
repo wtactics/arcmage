@@ -221,6 +221,11 @@
             </div>
 
             <div class="p-field">
+                <label for="new_deck_language">{{"deck.field.language" | translate}}</label>
+                <p-autoComplete inputId="new_deck_language" [(ngModel)]="deck.language" [suggestions]="languages" (completeMethod)="searchLanguage($event)"  placeholder="{{'global.select' | translate}}" [forceSelection]=true [dropdown]="true" field="name" dataKey="languageCode" [disabled]="loading || !deckOptions.isEditable"></p-autoComplete>
+            </div>
+
+            <div class="p-field">
                 <label for="deck_status">{{"deck.field.status" | translate}}</label>
                 <p-dropdown dataKey="guid" inputId="deck_status" [options]="deckOptions?.statuses" [(ngModel)]="deck.status" placeholder="Select" optionLabel="name" [disabled]="loading || !deckOptions.isStatusChangedAllowed"></p-dropdown> 
             </div>

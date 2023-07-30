@@ -12,5 +12,12 @@ namespace Arcmage.Model
         public bool IsStatusChangedAllowed { get; set; }
 
         public List<Status> Statuses { get; set; }
+
+        public List<Language> Languages { get; set; }
+
+        public DeckOptions()
+        {
+            Languages = new List<Language>();
+        }
     }
 }

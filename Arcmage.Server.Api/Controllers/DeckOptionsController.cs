@@ -9,6 +9,7 @@ using Arcmage.Server.Api.Assembler;
 using Arcmage.Server.Api.Auth;
 using Arcmage.Server.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +42,9 @@ namespace Arcmage.Server.Api.Controllers
                     (!isMyDeck && AuthorizeService.HashRight(repository.ServiceUser?.Role, Rights.AllowDeckStatusChange));
              
                 deckOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
-                
+
+                deckOptions.Languages = Languages.All;
+
                 return Ok(deckOptions);
             }
         }
@@ -56,6 +59,7 @@ namespace Arcmage.Server.Api.Controllers
 
                 var deckOptions = new DeckOptions();
                 deckOptions.Statuses = repository.Context.Statuses.AsNoTracking().ToList().Select(x => x.FromDal()).ToList();
+                deckOptions.Languages = Languages.All;
                 return Ok(deckOptions);
             }
         }

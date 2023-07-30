@@ -84,7 +84,11 @@ namespace DeckTranslator
 
             Console.WriteLine($"Translating deck {deck.Name} to {language}");
 
-            var newDeck = new Deck() { Name = $"{deck.Name} ({language})" };
+            var newDeck = new Deck()
+            {
+                Name = $"{deck.Name} ({language})",
+                Status = new Status() { Guid = PredefinedGuids.Draft }
+            };
             Console.WriteLine($"Creating deck {newDeck.Name}");
             if (!dryRun)
             {
@@ -141,6 +145,104 @@ namespace DeckTranslator
                 }
             }
         }
+
+
+        public async Task ResumeTranslateDeck(string sourceGuid, string destinationGuid, string language, bool dryRun = true)
+        {
+
+            if (dryRun)
+            {
+                Console.WriteLine($"Deck translation runs in dry run mode, no decks or cards will be created.");
+            }
+
+            if (!Languages.ContainsKey(language))
+            {
+                Console.WriteLine($"Language ({language}) not supported");
+                return;
+            }
+
+            await ApiClient.Login();
+
+            CurrentLanguage = Languages[language];
+
+            var sourceDeck = await ApiClient.GetByGuid<Deck>(sourceGuid);
+            if (sourceDeck == null)
+            {
+                Console.WriteLine($"Source deck ({sourceGuid}) not found");
+                return;
+            }
+
+            Console.WriteLine($"Resume translating deck {sourceDeck.Name} to {language}");
+
+            var newDeck = await ApiClient.GetByGuid<Deck>(destinationGuid);
+            if (newDeck == null)
+            {
+                Console.WriteLine($"Destination deck ({destinationGuid}) not found");
+                return;
+            }
+
+            var counter = 1;
+            var total = sourceDeck.DeckCards.Count;
+            foreach (var deckCard in sourceDeck.DeckCards.OrderBy(x => x.Card.Name))
+            {
+                var card = await ApiClient.GetByGuid<Card>(deckCard.Card.Guid);
+
+                // Search of the card has already been translated into the given language
+                var cardSearchOptions = new CardSearchOptions
+                {
+                    PageNumber = 1,
+                    PageSize = 10,
+                    Language = new Language() { LanguageCode = language },
+                    MasterCard = card,
+                };
+                var result = await ApiClient.Search<Card, CardSearchOptions>(cardSearchOptions);
+                var newCard = result.Items?.FirstOrDefault();
+                await Task.Delay(1000);
+
+
+                if (newCard != null)
+                {
+                    Console.WriteLine($"Progress {counter++}/{total} : Card {card.Name} already translated to {language} ");
+                }
+                else
+                {
+                    // We haven't found a translation of the given card in the given language, create it now
+                    Console.WriteLine($"Progress {counter++}/{total} : Creating card {card.Name} ({language} wip)");
+                    if (!dryRun)
+                    {
+                        newCard = await CreateCard(card, language);
+                        await Task.Delay(30 * 1000);
+                    }
+                }
+
+
+                if (newCard != null && !dryRun)
+                {
+
+                    if (newDeck.DeckCards.Exists(x => x.Card.Guid == newCard.Guid))
+                    {
+                        Console.WriteLine("Card already added to the deck");
+                    }
+                    else
+                    {
+                        //  add it to the newly created deck.
+                        var newDeckCard = new DeckCard()
+                        {
+                            Card = newCard,
+                            Deck = newDeck,
+                            Quantity = deckCard.Quantity
+                        };
+                        await ApiClient.Create(newDeckCard);
+                        newDeck.DeckCards.Add(newDeckCard);
+                        await Task.Delay(1000);
+                    }
+
+
+                   
+                }
+            }
+        }
+
 
         private async Task<Card> CreateCard(Card card, string language)
         {

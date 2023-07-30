@@ -8,6 +8,8 @@ namespace Arcmage.Model
 
         public string Name { get; set; }
 
+        public Language Language { get; set; }
+
         public string Zip { get; set; }
 
         public string Txt { get; set; }
@@ -27,6 +29,7 @@ namespace Arcmage.Model
         public List<DeckCard> DeckCards { get; set; }
 
         public int TotalCards { get; set; }
+        
 
         public Deck()
         {

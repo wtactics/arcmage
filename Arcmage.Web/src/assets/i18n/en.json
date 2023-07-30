@@ -27,8 +27,8 @@
   "global.unauthorized": "Unauthorized",
   "global.last-edit": "Last Edit",
   "global.select-png": "Select png file",
+  "global.by": "by",
   
-
   "grids.total": "total",
 
   "login.username": "Login (email address)",
@@ -75,6 +75,8 @@
   "card.artwork-from": "Artwork from",
   "card.artwork-used-under": ", used under",
   "card.artwork-modified-match-template": "Modified to match the card template.",
+  "card.translations": "Translations",
+  
 
   "card.field.name": "Name",
   "card.field.name.required": "The card name is required.",

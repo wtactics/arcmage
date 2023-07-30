@@ -9,6 +9,8 @@ namespace Arcmage.DAL.Model
 
         public string Name { get; set; }
 
+        public string LanguageCode { get; set; }
+
         public string Pdf { get; set; }
 
         public bool ExportTiles { get; set; }

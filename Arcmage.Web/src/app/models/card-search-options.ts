@@ -5,6 +5,7 @@ import { Serie } from "./serie";
 import { RuleSet } from "./rule-set";
 import { Status } from "./status";
 import { Language } from "./language";
+import { Card } from "./card";
 
 export class CardSearchOptions extends SearchOptionsBase {
    cost: string;
@@ -15,5 +16,6 @@ export class CardSearchOptions extends SearchOptionsBase {
    status: Status;
    loyalty: number | null;
    language: Language;
-   searchNameOnly: boolean
+   searchNameOnly: boolean;
+   masterCard: Card;
 }

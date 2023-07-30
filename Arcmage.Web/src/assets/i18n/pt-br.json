@@ -27,6 +27,7 @@
     "global.unauthorized": "Não Autorizado",
     "global.last-edit": "Última Edição",
     "global.select-png": "Selecionar arquivo png",
+    "global.by": "by (pt-br)",
   
     "grids.total": "total",
   
@@ -74,6 +75,7 @@
     "card.artwork-from": "Artwork from (pt-br)",
     "card.artwork-used-under": ", used under (pt-br)",
     "card.artwork-modified-match-template": "Modified to match the card template. (pt-br)",
+    "card.translations": "Translations (pt-br)",
 
     "card.field.name": "Nome",
     "card.field.name.required": "O nome da carta é obrigatório.",

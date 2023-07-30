@@ -27,6 +27,7 @@
   "global.unauthorized": "Nepermesata",
   "global.last-edit": "Antaŭ Redakto",
   "global.select-png": "Elekti «png» dosieron",
+  "global.by": "by (eo)",
   
 
   "grids.total": "total",
@@ -69,12 +70,13 @@
 
   "card.creator-artist": "Kreanto kaj Artisto",
   "card.rulings": "Oficialaj Juĝoj",
-  "card.no-rulings": "Ankoraŭ ne juĝoj. (eo)",
+  "card.no-rulings": "Ankoraŭ ne juĝoj.",
   "card.show-more": "montri pli",
   "card.show-less": "montri malpli",
   "card.artwork-from": "Arto el",
   "card.artwork-used-under": ", uzita per",
   "card.artwork-modified-match-template": "Aliigis kongrui la kartan ŝablonon.",
+  "card.translations": "Tradukoj",
 
   "card.field.name": "Nomo",
   "card.field.name.required": "La karta nomo estas bezonatan.",

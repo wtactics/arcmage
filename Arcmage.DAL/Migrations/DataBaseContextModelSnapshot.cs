@@ -252,6 +252,9 @@ namespace Arcmage.DAL.Migrations
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("LanguageCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LastModifiedById")
                         .HasColumnType("int");
 

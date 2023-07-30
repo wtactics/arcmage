@@ -32,6 +32,10 @@
           <p-checkbox [(ngModel)]="deckSearchOptions.myDecks" binary="true" inputId="search_deck_myown" [disabled]="loading" (onChange)="searchClick()"></p-checkbox>
           <label for="search_deck_myown">{{"decks.only-my-decks" |translate}}</label>
       </div>
+      <div class="p-field p-col">
+        <!-- <label for="search_deck_language">{{ "deck.field.language" | translate }}</label> -->
+        <p-autoComplete [(ngModel)]="deckSearchOptions.language" inputId="search_deck_language" [suggestions]="languages" placeholder="{{ 'global.select' | translate }}" (completeMethod)="searchLanguage($event)" [dropdown]="true" field="name" dataKey="languageCode"></p-autoComplete>
+      </div>
     </div>
   </p-panel>
 
@@ -83,6 +87,10 @@
             <div *ngIf="deck_name.invalid && (deck_name.dirty || deck_name.touched)" class="requried-input-field">
               <div *ngIf="deck_name.errors.required">*{{"deck.field.name.required" |translate}}</div>
             </div>
+        </div>
+        <div class="p-field">
+          <label for="deck_language">{{ "deck.field.language" | translate }}</label>
+          <p-autoComplete [(ngModel)]="newDeck.language" inputId="deck_language" [suggestions]="languages" placeholder="{{ 'global.select' | translate }}" (completeMethod)="searchLanguage($event)" [dropdown]="true" field="name" dataKey="languageCode"></p-autoComplete>
         </div>
         <div class="p-d-flex p-jc-end">
           <button type="button" (click)="saveDeck()" [disabled]="newDeck?.name == null || newDeck.name == '' " class="btn btn-primary float-right">{{"global.save" |translate}}</button>
