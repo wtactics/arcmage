@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Arcmage.Client\Arcmage.Client.csproj" />
     <ProjectReference Include="..\Matrix.Sdk.Api\Matrix.Sdk.Api.csproj" />
   </ItemGroup>
 

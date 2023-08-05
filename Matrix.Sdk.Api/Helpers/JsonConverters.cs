@@ -110,6 +110,8 @@ namespace Matrix.Sdk.Api.Helpers
             {
                 JObject item = JObject.Load(reader);
 
+                if (!item.ContainsKey("msgtype")) return null;
+
                 switch (item["msgtype"].Value<string>())
                 {
                     case "m.image":

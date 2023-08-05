@@ -19,7 +19,9 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Matrix.Sdk.Api.APITypes;
 using Matrix.Sdk.Api.Backends;
+using Matrix.Sdk.Api.Responses.Events.Room;
 
 namespace Matrix.Sdk.Api
 {
@@ -420,6 +422,21 @@ namespace Matrix.Sdk.Api
 
             return false;
         }
+
+
+        public async Task<bool> SendImageToRoom(string roomId, string imageUrl, string description, string mimeType, int width, int height, int fileSize)
+        {
+            Requests.Rooms.Message.MatrixRoomMessageImage req = new Requests.Rooms.Message.MatrixRoomMessageImage()
+            {
+                ImageUrl = imageUrl,
+                Description = description,
+                ImageInfo = new MatrixContentImageInfo(){ Width = width, Height = height, MimeType = mimeType, FileSize = fileSize }
+                
+            };
+
+            return await SendEventToRoom(roomId, "m.room.message", Helpers.JsonHelper.Serialize(req));
+        }
+
         public async Task<bool> SendTextMessageToRoom(string roomId, string message)
         {
             Requests.Rooms.Message.MatrixRoomMessageText req = new Requests.Rooms.Message.MatrixRoomMessageText()

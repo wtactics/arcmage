@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
@@ -72,8 +73,8 @@ namespace Arcmage.Configuration
         // Bot's matrix password
         public string MatrixPassword { get; set; }
 
-        // Matrix room (raw room id) to join and listen to commands
-        public string MatrixRoomId { get; set; }
+        // Matrix rooms (raw room ids) to join and listen to commands
+        public List<string> MatrixRoomIds { get; set; }
 
 
         #endregion matchbot/arcbot hosting

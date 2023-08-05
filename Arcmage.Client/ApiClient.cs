@@ -51,6 +51,11 @@ namespace Arcmage.Client
         
         }
 
+        public ApiClient(string baseAddress)
+        {
+            BaseAddress = baseAddress;
+        }
+
         public ApiClient(string baseAddress, string login, string password)
         {
             _login = login;
@@ -117,23 +122,29 @@ namespace Arcmage.Client
                     BaseAddress = new Uri(BaseAddress),
                     Timeout = new TimeSpan(0, 10, 0)
                 };
-                var login = new Login()
-                {
-                    Email = _login,
-                    Password = _password
-                };
 
-                var response = await _httpClient.PostAsync(RouteMapping[typeof(Login)], login, JsonMediaTypeFormatter);
-                response.EnsureSuccessStatusCode();
-                var token = await response.Content.ReadAsStringAsync();
-                token = token.Trim('"');
-                //_httpClient.DefaultRequestHeaders.Add("Cookie", "Authorization=" + HttpUtility.UrlEncode(token));
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                if (string.IsNullOrWhiteSpace(_login) || string.IsNullOrWhiteSpace(_password))
+                {
+                    // anonymous
+
+                }
+                else
+                {
+                    var login = new Login()
+                    {
+                        Email = _login,
+                        Password = _password
+                    };
+
+                    var response = await _httpClient.PostAsync(RouteMapping[typeof(Login)], login, JsonMediaTypeFormatter);
+                    response.EnsureSuccessStatusCode();
+                    var token = await response.Content.ReadAsStringAsync();
+                    token = token.Trim('"');
+                    //_httpClient.DefaultRequestHeaders.Add("Cookie", "Authorization=" + HttpUtility.UrlEncode(token));
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
 
             }
-
-         
-
 
             return _httpClient;
         }
@@ -270,6 +281,20 @@ namespace Arcmage.Client
 
         #endregion
 
+        public async Task<byte[]> GetContentBytes(string route)
+        {
+            
+            var httpClient = await GetHttpClient();
+
+            HttpResponseMessage response = await httpClient.GetAsync(route);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsByteArrayAsync();
+            }
+
+            return null;
+        }
 
         public async Task DownloadFile(string route, string filename)
         {

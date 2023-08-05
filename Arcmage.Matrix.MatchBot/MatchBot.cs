@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Arcmage.Client;
+using Arcmage.Model;
 using Matrix.Sdk.Api;
 using Matrix.Sdk.Api.Events;
 using Matrix.Sdk.Api.Requests.Session;
@@ -15,8 +20,12 @@ namespace Arcmage.Matrix.MatchBot
     public class MatchBot
     {
         private MatrixAPI MatrixApi { get; }
-     
-      
+
+
+        private ApiClient ApiClient { get; }
+
+
+
         private Storage Storage { get; }
 
         private HttpClient HttpClient { get; }
@@ -33,6 +42,8 @@ namespace Arcmage.Matrix.MatchBot
 
         public MatchBot(MatchBotSettings settings)
         {
+
+            ApiClient = new ApiClient(settings.AmindunaApi);
          
             Settings = settings;
             HttpClient = new HttpClient();
@@ -87,9 +98,14 @@ namespace Arcmage.Matrix.MatchBot
         {
             Task.Run(async () =>
             {
-                await MatrixApi.JoinRoom(Settings.RoomId);
-                // N.G. Remark: say hello after login. Or just be quiet.
-                // await MatrixApi.SendTextMessageToRoom(RoomId, "Hello World, eh.. hello Arcmage players!");
+                // join each room
+                foreach (var roomId in Settings.RoomIds)
+                {
+                    await MatrixApi.JoinRoom(roomId);
+                    // N.G. Remark: say hello after login. Or just be quiet.
+                    // await MatrixApi.SendTextMessageToRoom(roomId, "Hello World, eh.. hello Arcmage players!");
+                }
+
             });
         }
 
@@ -104,7 +120,7 @@ namespace Arcmage.Matrix.MatchBot
         private void RoomMessageHandler(object sender, Events.RoomJoinEventArgs e)
         {
             // We're only parsing messages of the given room
-            if (e.Room == Settings.RoomId)
+            if (Settings.RoomIds.Contains(e.Room))
             {
                 // only room messages (no joins, or other kind of events)
                 var messageList = e.Event?.Timeline?.Events?.Where(x => x.Type == "m.room.message").ToList().Cast<Message>();
@@ -113,10 +129,18 @@ namespace Arcmage.Matrix.MatchBot
                     foreach (var message in messageList)
                     {
                         // Check if the event is an unprocessed arcbot command
-                        if (!ShouldProcess(message)) continue;
+                        if (!ShouldProcess(e.Room, message)) continue;
                         try
                         {
-                            ParseCommand(message.Sender, message.Content.Body);
+                            if (IsInlineCardSearch(message.Content.Body))
+                            {
+                                ParseInlineCommand(e.Room, message.Sender, message.Content.Body);
+                            }
+                            else
+                            {
+                                ParseCommand(e.Room, message.Sender, message.Content.Body);
+                            }
+                            
                         }
                         catch (Exception exception)
                         {
@@ -127,9 +151,28 @@ namespace Arcmage.Matrix.MatchBot
             }
         }
 
-        // Parse and execute command, available commands are: .help, .add, .remove, .list, .match, .play
-        private void ParseCommand(string messageSender, string command)
+        private void ParseInlineCommand(string roomId, string messageSender, string contentBody)
         {
+            if (string.IsNullOrWhiteSpace(contentBody)) return;
+            var matches = Regex.Matches(contentBody, @"\[\[(.*?)\]\]");
+            foreach (Match match in matches)
+            {
+                var command = match.Value?.Trim('[', ']').Trim();
+                if (string.IsNullOrEmpty(command)) continue;
+                var arguments = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                if (arguments.Length > 0)
+                {
+                    CardCommand(roomId, messageSender, arguments);
+                }
+
+            }
+        }
+
+        // Parse and execute command, available commands are: .help, .add, .remove, .list, .match, .play
+        private void ParseCommand(string roomId, string messageSender, string command)
+        {
+            if (string.IsNullOrWhiteSpace(roomId) || !Settings.RoomIds.Contains(roomId)) return;
+
             // not a command (should not happen as ShouldProcess checks it as well.)
             if (string.IsNullOrWhiteSpace(command) || !command.StartsWith(CommandChar)) return;
 
@@ -144,17 +187,17 @@ namespace Arcmage.Matrix.MatchBot
             var arguments = command.Length == 1 ? new string[0] : commandParts[1..];
 
             // execute
-            commandToExecute.Execute(messageSender, arguments);
+            commandToExecute.Execute(roomId, messageSender, arguments);
 
         }
 
         // Check if we should process the message (we keep the last 10 processed message id's)
-        private bool ShouldProcess(Message message)
+        private bool ShouldProcess(string roomId, Message message)
         {
             // only text messages that start whit "." are commands
-            if (message.Content.MessageType != "m.text") return false;
-            var command = message.Content.Body;
-            if (!command.StartsWith(CommandChar)) return false;
+            if (message?.Content?.MessageType != "m.text") return false;
+            var command = message?.Content?.Body;
+            if (!IsInlineCardSearch(command) && !command.StartsWith(CommandChar)) return false;
             // check if we haven't processed it already
             if (Storage.ProcessedMessageIds.Contains(message.EventID)) return false;
 
@@ -166,6 +209,23 @@ namespace Arcmage.Matrix.MatchBot
             return true;
         }
 
+        private bool IsInlineCardSearch(string contentBody)
+        {
+            if (string.IsNullOrWhiteSpace(contentBody)) return false;
+            var matches = Regex.Matches(contentBody, @"\[\[(.*?)\]\]");
+            foreach (Match match in matches)
+            {
+                var command = match.Value?.Trim('[',']').Trim();
+                if (string.IsNullOrEmpty(command)) continue;
+                var arguments = command.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                if (arguments.Length > 0)
+                {
+                    return true;
+                }
+
+            }
+            return false;
+        }
 
         #endregion matrix life cylce
 
@@ -183,12 +243,709 @@ namespace Arcmage.Matrix.MatchBot
                 new Command() { Name = $"{CommandChar}play", Execute = PlayCommand },
                 new Command() { Name = $"{CommandChar}lic", Execute = LicenseCommand },
                 new Command() { Name = $"{CommandChar}timezone", Execute = TimeZoneCommand },
+                new Command() { Name = $"{CommandChar}card", Execute = CardCommand },
+                new Command() { Name = $"{CommandChar}c", Execute = CardCommand },
+                new Command() { Name = $"{CommandChar}full", Execute = FullCardCommand },
+                new Command() { Name = $"{CommandChar}f", Execute = FullCardCommand },
+                new Command() { Name = $"{CommandChar}text", Execute = TextCardCommand },
+                new Command() { Name = $"{CommandChar}t", Execute = TextCardCommand },
+                new Command() { Name = $"{CommandChar}cardlink", Execute = CardLinkCommand },
+                new Command() { Name = $"{CommandChar}cl", Execute = CardLinkCommand },
+                new Command() { Name = $"{CommandChar}deck", Execute = DeckCommand },
+                new Command() { Name = $"{CommandChar}d", Execute = DeckCommand },
+                new Command() { Name = $"{CommandChar}textdeck", Execute = TextDeckCommand },
+                new Command() { Name = $"{CommandChar}td", Execute = TextDeckCommand },
+                new Command() { Name = $"{CommandChar}decklink", Execute = DeckLinkCommand },
+                new Command() { Name = $"{CommandChar}dl", Execute = DeckLinkCommand },
             };
 
             Commands = commandList.ToDictionary(x => x.Name, x => x);
+
+            
         }
 
-        private void TimeZoneCommand(string sender, string[] arguments)
+        private async void TextDeckCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the deck's name.");
+                    }
+                    else
+                    {
+                        // search for a deck (without deckcards)
+                        var deckSearchOptions = new DeckSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                        };
+                        var result = await ApiClient.Search<Deck, DeckSearchOptions>(deckSearchOptions);
+                        var deck = result.Items?.FirstOrDefault();
+                        
+                        if (deck != null)
+                        {
+                            // get deck detailed information including deckcards
+                            deck = await ApiClient.GetByGuid<Deck>(deck.Guid);
+                            var plainDeckInfo = PlainDeckInfo(deck);
+                            await MatrixApi.SendTextMessageToRoom(roomId, plainDeckInfo);
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the deck you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+
+        private async void DeckCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the deck's name.");
+                    }
+                    else
+                    {
+                        // search for a deck (without deckcards)
+                        var deckSearchOptions = new DeckSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                        };
+                        var result = await ApiClient.Search<Deck, DeckSearchOptions>(deckSearchOptions);
+                        var deck = result.Items?.FirstOrDefault();
+
+                        if (deck != null)
+                        {
+                            // get deck detailed information including deckcards
+                            deck = await ApiClient.GetByGuid<Deck>(deck.Guid);
+                            var plainDeckInfo = PlainDeckInfo(deck);
+                            var formattedDeckInfo = FormatDeckInfo(deck);
+                            await MatrixApi.SendTextMessageToRoom(roomId, plainDeckInfo, formattedDeckInfo);
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the deck you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+        private async void DeckLinkCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the deck's name.");
+                    }
+                    else
+                    {
+                        // search for a deck (without deckcards)
+                        var deckSearchOptions = new DeckSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                        };
+                        var result = await ApiClient.Search<Deck, DeckSearchOptions>(deckSearchOptions);
+                        var deck = result.Items?.FirstOrDefault();
+
+                        if (deck != null)
+                        {
+                            var plainDeckInfo = PlainDeckLinkInfo(deck);
+                            var formattedDeckInfo = FormatDeckLinkInfo(deck);
+                            await MatrixApi.SendTextMessageToRoom(roomId, plainDeckInfo, formattedDeckInfo);
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the deck you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+        private static string Aminduna = "https://aminduna.arcmage.org/#";
+
+        private static string GetDeckUrl(Deck deck)
+        {
+            return $"{Aminduna}/decks/{deck.Guid.ToString()}";
+        }
+
+        private static string GetCardUrl(Card card)
+        {
+            return $"{Aminduna}/cards/{card.Guid.ToString()}";
+        }
+
+        private string FormatDeckInfo(Deck deck)
+        {
+            var deckinfo = $"<p><b>{deck.Name}</b></p>";
+
+            var cityGuid = Guid.Parse("c38a9cda-e669-54e2-9c91-db0a4a763460");
+
+            var cities = deck.DeckCards.Where(x => x.Card.Type.Guid == cityGuid).ToList();
+            var cards = deck.DeckCards.Where(x => x.Card.Type.Guid != cityGuid).ToList();
+            var tokens = cards.Where(x => x.Card?.SubType != null && x.Card.SubType.ToLowerInvariant().Contains("token")).ToList();
+            var tokenCardGuids = tokens.Select(x => x.Card.Guid).ToList();
+            cards = cards.Where(x => !tokenCardGuids.Contains(x.Card.Guid)).ToList();
+
+            var cardsInfo = string.Join("<br/>", cards.Select(x => $"{x.Quantity} x {x.Card.Name}"));
+            var citiesInfo = string.Join("<br/>", cities.Select(x => $"{x.Quantity} x {x.Card.Name}"));
+            var tokensInfo = string.Join("<br/>", tokens.Select(x => $"{x.Quantity} x {x.Card.Name}"));
+
+            cardsInfo = $"<p><em>Cards</em></p><p>{cardsInfo}</p>";
+            citiesInfo = $"<p><em>Cities</em></p><p>{citiesInfo}</p>";
+            tokensInfo = $"<p><em>Tokens</em></p><p>{tokensInfo}</p>";
+
+            if (cards.Count == 0) { cardsInfo = ""; }
+            if (cities.Count == 0) { citiesInfo = ""; }
+            if (tokens.Count == 0) { tokensInfo = ""; }
+
+            var info = $"<p></p><p><em><a href=\"{GetDeckUrl(deck)}\">more...</a></em></p>";
+
+            var html = $"<blockquote>{deckinfo}{cardsInfo}{citiesInfo}{tokensInfo}{info}</blockquote>";
+
+            return html;
+        }
+
+        private string PlainDeckInfo(Deck deck)
+        {
+            var deckInfo = new List<string>();
+            deckInfo.Add($"{deck.Name}");
+            deckInfo.Add("");
+            foreach (var deckCard in deck.DeckCards)
+            {
+                deckInfo.Add($"{deckCard.Quantity} x {deckCard.Card.Name}");
+            }
+            return string.Join("\n", deckInfo);
+        }
+
+        private async void TextCardCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the card's name.");
+                    }
+                    else
+                    {
+                        // Search of the card has already been translated into the given language
+                        var cardSearchOptions = new CardSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                            SearchNameOnly = true
+                        };
+                        var result = await ApiClient.Search<Card, CardSearchOptions>(cardSearchOptions);
+                        var card = result.Items?.FirstOrDefault();
+
+                        if (card != null)
+                        {
+                            var data = await ApiClient.GetContentBytes(card.Webp);
+                            if (data != null)
+                            {
+                               
+                                var plainCardInfo = PlainCardTextInfo(card);
+                                var formattedCardInfo = FormatCardTextInfo(card);
+                                await MatrixApi.SendTextMessageToRoom(roomId, plainCardInfo, formattedCardInfo);
+
+                            }
+                            else
+                            {
+                                await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card's image.");
+                            }
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+        private async void CardLinkCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the card's name.");
+                    }
+                    else
+                    {
+                        // Search of the card has already been translated into the given language
+                        var cardSearchOptions = new CardSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                            SearchNameOnly = true
+                        };
+                        var result = await ApiClient.Search<Card, CardSearchOptions>(cardSearchOptions);
+                        var card = result.Items?.FirstOrDefault();
+
+                        if (card != null)
+                        {
+                            var plainCardInfo = PlainCardLinkInfo(card);
+                            var formattedCardInfo = FormatCardLinkInfo(card);
+                            await MatrixApi.SendTextMessageToRoom(roomId, plainCardInfo, formattedCardInfo);
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+
+
+
+        private async void FullCardCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the card's name.");
+                    }
+                    else
+                    {
+                        // Search of the card has already been translated into the given language
+                        var cardSearchOptions = new CardSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                            SearchNameOnly = true
+                        };
+                        var result = await ApiClient.Search<Card, CardSearchOptions>(cardSearchOptions);
+                        var card = result.Items?.FirstOrDefault();
+
+                        if (card != null)
+                        {
+                            var data = await ApiClient.GetContentBytes(card.Webp);
+                            if (data != null)
+                            {
+                                var contentUri = await MatrixApi.MediaUpload("image/webp", data);
+                                await MatrixApi.SendImageToRoom(roomId, contentUri, card.Name, "image/webp", 308, 437, data.Length);
+
+                                var plainCardInfo = PlainCardInfo(card);
+                                var formattedCardInfo = FormatCardTextInfo(card);
+
+                                await MatrixApi.SendTextMessageToRoom(roomId,plainCardInfo, formattedCardInfo);
+
+                            }
+                            else
+                            {
+                                await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card's image.");
+                            }
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+
+        }
+
+
+        private string PlainCardInfo(Card card)
+        {
+            var subtype = card.SubType;
+            // Use the creature guid to identity the type
+            if (card.Type.Guid == Guid.Parse("bc752e51-034a-56fa-a9b6-a4cb86049ec3"))
+            {
+                subtype = $"Creature - {subtype} - {card.Attack}/{card.Defense}";
+            }
+            var info = new List<string>()
+            {
+                $"Name: {card.Name}",
+                $"Type: {subtype}",
+                $"Rule: {card.RuleText}"
+            };
+            if (!string.IsNullOrWhiteSpace(card.FlavorText))
+            {
+                info.Add($"Flavour: {card.FlavorText}");
+            }
+            return string.Join("\n", info) + "\n";
+        }
+
+        private string PlainCardLinkInfo(Card card)
+        {
+            var info = new List<string>()
+            {
+                $"{card.Name}",
+                $"{GetCardUrl(card)}"
+            };
+            return string.Join("\n", info) + "\n";
+        }
+
+
+        private string FormatCardLinkInfo(Card card)
+        {
+            var cardinfo = $"<p><b>{card.Name}<b></p>";
+            cardinfo += $"<p></p><p><a href=\"{GetCardUrl(card)}\"><em>more...</em></a></p>";
+            var html = $"<blockquote>{cardinfo}</blockquote>";
+            return html;
+        }
+
+        private string PlainDeckLinkInfo(Deck deck)
+        {
+            var info = new List<string>()
+            {
+                $"{deck.Name}",
+                $"{GetDeckUrl(deck)}"
+            };
+            return string.Join("\n", info) + "\n";
+        }
+
+        private string FormatDeckLinkInfo(Deck deck)
+        {
+            var cardinfo = $"<p><b>{deck.Name}<b></p>";
+            cardinfo += $"<p></p><p><a href=\"{GetDeckUrl(deck)}\"><em>more...</em></a></p>";
+            var html = $"<blockquote>{cardinfo}</blockquote>";
+            return html;
+        }
+
+        private string FormatCardTextInfo(Card card)
+        {
+            var subtype = card.SubType;
+            // Use the creature guid to identity the type
+            if (card.Type.Guid == Guid.Parse("bc752e51-034a-56fa-a9b6-a4cb86049ec3"))
+            {
+                subtype = $"Creature - {subtype} - {card.Attack}/{card.Defense}";
+            }
+
+          
+
+            var cost = "";
+            if (!string.IsNullOrWhiteSpace(card.Cost))
+            {
+                cost = $" - {card.Cost}";
+            }
+
+            for (int l = 0; l < card.Loyalty; l++)
+            {
+                cost += "L";
+            }
+
+            // Use the city guid to identity the type
+            if (card.Type.Guid == Guid.Parse("c38a9cda-e669-54e2-9c91-db0a4a763460"))
+            {
+                subtype = $"{subtype} - {card.Defense}";
+                cost = "";
+            }
+
+
+            var cardinfo = $"<p><b>{card.Name} - {card.Faction.Name}{cost}" +
+                           $"<br/>{subtype}</b></p>" +
+                           $"<p>{card.RuleText}</p>";
+            if (!string.IsNullOrWhiteSpace(card.FlavorText))
+            {
+                var flavorText = card.FlavorText.Trim();
+                cardinfo += $"<p><em>{flavorText}</em></p>";
+            }
+
+            cardinfo += $"<p><a href=\"{GetCardUrl(card)}\"><em>more...</em></a></p>";
+
+            var html = $"<blockquote>{cardinfo}</blockquote>";
+
+            return html;
+        }
+
+        private string PlainCardTextInfo(Card card)
+        {
+            var subtype = card.SubType;
+            // Use the creature guid to identity the type
+            if (card.Type.Guid == Guid.Parse("bc752e51-034a-56fa-a9b6-a4cb86049ec3"))
+            {
+                subtype = $"Creature - {subtype} - {card.Attack}/{card.Defense}";
+            }
+
+            var cost = "";
+            if (!string.IsNullOrWhiteSpace(card.Cost))
+            {
+                cost = $" - {card.Cost}";
+            }
+
+            var cardinfo = new List<string>()
+            {
+                $"{card.Name}{cost} - {subtype}",
+                $"{card.RuleText}"
+            };
+
+            if (!string.IsNullOrWhiteSpace(card.FlavorText))
+            {
+                cardinfo.Add($"{card.FlavorText}");
+            }
+
+            var html = string.Join("\n", cardinfo);
+
+            return html;
+        }
+
+        private async void CardCommand(string roomId, string sender, string[] arguments)
+        {
+            try
+            {
+                if (arguments.Length > 0)
+                {
+                    string search;
+                    string languageCode = null;
+
+                    if (arguments.Length > 1 && arguments[0].Length == 2)
+                    {
+                        languageCode = arguments[0];
+
+                        search = string.Join(" ", arguments.Skip(1).ToList());
+                    }
+
+                    else
+                    {
+                        search = string.Join(" ", arguments.ToList());
+                    }
+
+                    if (search.Length < 3)
+                    {
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Provide at least three characters of the card's name.");
+                    }
+                    else
+                    {
+                        // Search of the card has already been translated into the given language
+                        var cardSearchOptions = new CardSearchOptions
+                        {
+                            PageNumber = 1,
+                            PageSize = 10,
+                            Language = languageCode != null ? new Language() { LanguageCode = languageCode } : null,
+                            Search = search,
+                            SearchNameOnly = true
+                        };
+                        var result = await ApiClient.Search<Card, CardSearchOptions>(cardSearchOptions);
+                        var card = result.Items?.FirstOrDefault();
+
+                        if (card != null)
+                        {
+                            var data = await ApiClient.GetContentBytes(card.Webp);
+                            if (data != null)
+                            {
+                                var contentUri = await MatrixApi.MediaUpload("image/webp", data);
+                                await MatrixApi.SendImageToRoom(roomId, contentUri, card.Name, "image/webp", 308, 437, data.Length);
+
+                            }
+                            else
+                            {
+                                await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card's image.");
+                            }
+                        }
+                        else
+                        {
+                            await MatrixApi.SendTextMessageToRoom(roomId, $"Unfortunately, I couldn't find the card you were looking for.");
+                        }
+
+                    }
+
+                }
+                else
+                {
+                    await MatrixApi.SendTextMessageToRoom(roomId, $"Tell me what you are looking for and I'll fetch it at once!");
+                }
+            }
+            catch
+            {
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Something went wrong.");
+            }
+          
+        }
+
+        private async void TimeZoneCommand(string roomId, string sender, string[] arguments)
         {
             if (Storage.Players.ContainsKey(sender))
             {
@@ -200,7 +957,7 @@ namespace Arcmage.Matrix.MatchBot
                 {
                     try
                     {
-                        if (!(arguments[0].StartsWith("UTC+") || arguments[0].StartsWith("UTC-"))) throw new Exception("Not a valid UTC offset");
+                        if (!(arguments[0].ToUpper().StartsWith("UTC+") || arguments[0].ToUpper().StartsWith("UTC-"))) throw new Exception("Not a valid UTC offset");
                         var negative = arguments[0][3] == '-';
                         var timezoneString = arguments[0].Substring(4);
 
@@ -226,23 +983,23 @@ namespace Arcmage.Matrix.MatchBot
                     }
                     catch (Exception e)
                     {
-                        MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"Could not parse the timezone. Example usage: {CommandChar}timezone UTC+03:00 or {CommandChar}timezone UTC-11:00");
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Could not parse the timezone. Example usage: {CommandChar}timezone UTC+03:00 or {CommandChar}timezone UTC-11:00");
                         return;
                     }
                 }
 
                 var plain = $"I'm in sync with your timezone ({ player.TimeZone}), my liege.";
                 var formatted = $"I'm in sync with your timezone ({ player.TimeZone}), my liege.";
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
 
             }
             else
             {
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
+                await MatrixApi.SendTextMessageToRoom(roomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
             }
         }
 
-        private void LicenseCommand(string sender, string[] arguments)
+        private async void LicenseCommand(string roomId, string sender, string[] arguments)
         {
             var helpList = new List<string>()
             {
@@ -251,10 +1008,10 @@ namespace Arcmage.Matrix.MatchBot
             };
             var plainHelp = string.Join('\n', helpList);
             var formattedHelp = string.Join("<br/>", helpList);
-            MatrixApi.SendTextMessageToRoom(Settings.RoomId, plainHelp, formattedHelp);
+            await MatrixApi.SendTextMessageToRoom(roomId, plainHelp, formattedHelp);
         }
 
-        private void PlayCommand(string sender, string[] arguments)
+        private async void PlayCommand(string roomId, string sender, string[] arguments)
         {
             try
             {
@@ -271,7 +1028,7 @@ namespace Arcmage.Matrix.MatchBot
                 var chatLinkFormatted = $"<a href=\"https://meet.jit.si/arcmage_{game.guid}\">jit.si voice chat</a>";
                 var formatted = gameInviteFormatted + "<br/>" + chatLinkFormatted;
 
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
             }
             catch (Exception e)
             {
@@ -279,7 +1036,7 @@ namespace Arcmage.Matrix.MatchBot
             }
         }
 
-        private void MatchCommand(string sender, string[] arguments)
+        private async void MatchCommand(string roomId, string sender, string[] arguments)
         {
             if (Storage.Players.ContainsKey(sender))
             {
@@ -312,12 +1069,12 @@ namespace Arcmage.Matrix.MatchBot
 
                         var players = string.Join(",", Storage.Players.Values.Select(x => $"{x.FormattedName} ({ utcMatchDate.ToOffset(x.TimeZoneOffset).ToString("HH:mm", CultureInfo.InvariantCulture) })"));
                         var formatted = $"Hey arc-mages, up for a game at { utcMatchDate.ToUniversalTime().ToString("HH:mm", CultureInfo.InvariantCulture) } UTC? {players}, anyone?";
-                        MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                        await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
 
                     }
                     catch (Exception e)
                     {
-                        MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"Could not parse the match time. Example usage: {CommandChar}match 20:00");
+                        await MatrixApi.SendTextMessageToRoom(roomId, $"Could not parse the match time. Example usage: {CommandChar}match 20:00");
                         return;
                     }
                 }
@@ -329,28 +1086,28 @@ namespace Arcmage.Matrix.MatchBot
                     var players = string.Join(",", Storage.Players.Values.Select(x => x.FormattedName));
                     var formatted = $"Hey arc-mages, up for a game? {players}, anyone?";
 
-                    MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                    await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
                 }
 
             }
             else
             {
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
+                await MatrixApi.SendTextMessageToRoom(roomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
             }
 
         }
 
-        private void ListCommand(string sender, string[] arguments)
+        private async void ListCommand(string roomId, string sender, string[] arguments)
         {
             var plainplayers = string.Join(",", Storage.Players.Values.Select(x=>x.DisplayName));
             var plain = $"Here are your foes, my liege: {plainplayers}";
 
             var players = string.Join(",", Storage.Players.Values.Select(x=>x.FormattedName));
             var formatted = $"Here are your foes, my liege: {players}";
-            MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+            await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
         }
 
-        private void RemoveCommand(string sender, string[] arguments)
+        private async void RemoveCommand(string roomId, string sender, string[] arguments)
         {
             if (Storage.Players.ContainsKey(sender))
             {
@@ -360,15 +1117,15 @@ namespace Arcmage.Matrix.MatchBot
                 
                 var plain = $"Removed {player.DisplayName} from the notification list, as you commanded.";
                 var formatted = $"Removed {player.FormattedName} from the notification list, as you commanded.";
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
             }
             else
             {
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
+                await MatrixApi.SendTextMessageToRoom(roomId, $"According to my ledgers, your benevolence is not in the notification list, my liege.");
             }
         }
 
-        private void HelpCommand(string sender, string[] arguments)
+        private async void HelpCommand(string roomId, string sender, string[] arguments)
         {
             var helpList = new List<string>()
             {
@@ -381,14 +1138,36 @@ namespace Arcmage.Matrix.MatchBot
                 $" {CommandChar}match [hh:mm] =>  let all arcmage players on the notification list know your up for a game [at your local time]. Example usage: {CommandChar}match 18:00",
                 $" {CommandChar}play   =>  create and set up the arcmage game battlefield, the game link shared, and two players can join the game",
                 $" {CommandChar}lic    =>  show the lic information",
-                $" {CommandChar}timezone [offset] => shows or change your timezone setting. Example usage: {CommandChar}timezone UTC+03:00 or {CommandChar}timezone UTC-11:00 "
+                $" {CommandChar}timezone [offset] => shows or change your timezone setting. Example usage: {CommandChar}timezone UTC+03:00 or {CommandChar}timezone UTC-11:00 ",
+                $" {CommandChar}card [isoLanguageCode] [card name search] => Displays the first card matching the fussy name search. " +
+                                                                             $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}c => Shorthand for {CommandChar}card.",
+                $" {CommandChar}full [isoLanguageCode] [card name search] => Displays the full information of first card matching the fussy name search. " +
+                                                                             $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}f => Shorthand for {CommandChar}full.",
+                $" {CommandChar}text [isoLanguageCode] [card name search] => Displays basic information of first card matching the fussy name search. " +
+                                                                             $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}t => Shorthand for {CommandChar}text.",
+                $" {CommandChar}cardlink [isoLanguageCode] [card name search] => Displays the aminduna link to the first card matching the fussy name search. " +
+                                                                             $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}cl => Shorthand for {CommandChar}cardlink.",
+                $" {CommandChar}deck [isoLanguageCode] [deck name search] => Displays the card list of the first deck matching the fussy name search. " +
+                                                                             $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}d => Shorthand for {CommandChar}deck.",
+                $" {CommandChar}textdeck [isoLanguageCode] [deck name search] => Displays the card list of the first deck matching the fussy name search in plain text. " +
+                                                                                 $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}td => Shorthand for {CommandChar}textdeck.",
+                $" {CommandChar}decllink [isoLanguageCode] [card deck search] => Displays the aminduna link to the first deck matching the fussy name search. " +
+                                                                                 $"Use the two digit iso language code to filter on language.",
+                $" {CommandChar}dl => Shorthand for {CommandChar}decklink.",
+
             };
             var plainHelp = string.Join('\n', helpList);
             var formattedHelp = string.Join("<br/>", helpList);
-            MatrixApi.SendTextMessageToRoom(Settings.RoomId, plainHelp, formattedHelp);
+            await MatrixApi.SendTextMessageToRoom(roomId, plainHelp, formattedHelp);
         }
 
-        private void AddCommand(string sender, string[] arguments)
+        private async void AddCommand(string roomId, string sender, string[] arguments)
         {
             if (!Storage.Players.ContainsKey(sender))
             {
@@ -397,11 +1176,11 @@ namespace Arcmage.Matrix.MatchBot
                 Storage.Save(Settings.StorageFile);
                 var plain = $"Added {player.DisplayName} to the notification list, as you commanded.";
                 var formatted = $"Added {player.FormattedName} to the notification list, as you commanded.";
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, plain, formatted);
+                await MatrixApi.SendTextMessageToRoom(roomId, plain, formatted);
             }
             else
             {
-                MatrixApi.SendTextMessageToRoom(Settings.RoomId, $"Your benevolence is already in the notification list, my liege.");
+                await MatrixApi.SendTextMessageToRoom(roomId, $"Your benevolence is already in the notification list, my liege.");
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Arcmage.Matrix.MatchBot.Console
@@ -13,12 +14,13 @@ namespace Arcmage.Matrix.MatchBot.Console
                 HomeServer = "https://matrix.org",
                 User = "",
                 Password = "",
-                RoomId = "",
+                RoomIds = new List<string>(){ },
                 ApplicationID = "org.arcmage.arcbot",
                 ApplicationName = "Arcmage MatchBot",
                 DeviceID = "org.arcmage.aminduna",
                 DeviceName = "Aminduna",
-                StorageFile = "storage.json"
+                StorageFile = "storage.json",
+                AmindunaApi = "https://aminduna.arcmage.org/",
             };
 
 

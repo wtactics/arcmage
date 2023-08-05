@@ -11,6 +11,10 @@ namespace Matrix.Sdk.Api.Requests.Rooms.Message
             base.MessageType = "m.image";
         }
 
+        [DataMember(Name = "info")]
+        public APITypes.MatrixContentImageInfo ImageInfo { get; set; }
+
+
         [DataMember(Name = "body", IsRequired = true)]
         public string Description { get; set; }
 
